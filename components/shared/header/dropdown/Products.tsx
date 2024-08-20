@@ -46,7 +46,7 @@ const productSections = [
 
 const Products = () => {
   return (
-    <section className="pt-10 relative ">
+    <section className="pt-10 relative">
       <main className="bg-white shadow-sm border relative z-10">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 max-w-[70vw] mx-auto w-full">
           {/* First Three Grid Columns - Similar Content */}
@@ -89,6 +89,11 @@ const Products = () => {
           </div>
         </div>
       </main>
+
+      {/* Blur effect at the bottom */}
+      {/* {(openDropdownIndex === 1 || openDropdownIndex === 2) && (
+        <div className="absolute inset-x-0 bottom-0  h-screen bg-white bg-opacity-60  backdrop-blur-lg"></div>
+      )} */}
     </section>
   );
 };

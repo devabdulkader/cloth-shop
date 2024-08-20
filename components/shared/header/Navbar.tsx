@@ -45,8 +45,8 @@ const Navbar = () => {
   );
 
   return (
-    <section className="lg:relative hidden xl:block">
-      <nav className="font-inter mx-auto h-auto w-full lg:top-0">
+    <section className="lg:relative hidden xl:block ">
+      <nav className="font-inter mx-auto h-auto w-full lg:top-0 relative z-0">
         <div className="flex items-center px-6 py-6 lg:px-10 lg:py-4 xl:px-20">
           {/* Logo */}
           <div className="w-40 flex-shrink-0 flex items-center justify-center ">
@@ -85,7 +85,7 @@ const Navbar = () => {
                   )}
                 </button>
                 {openDropdownIndex === index && navItem.dropdown && (
-                  <div className="absolute z-50 w-full rounded-lg  top-10 left-0 ">
+                  <div className="absolute z-50 w-full rounded-lg  top-10 left-0">
                     <MotionTransition>{navItem.dropdown}</MotionTransition>
                   </div>
                 )}
@@ -99,11 +99,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
-      {/* Blur effect at the bottom */}
-      {(openDropdownIndex === 1 || openDropdownIndex === 2) && (
-        <div className="absolute inset-x-0 bottom-0 top-20 h-screen bg-gray-600 bg-opacity-30  backdrop-blur-lg"></div>
-      )}
     </section>
   );
 };

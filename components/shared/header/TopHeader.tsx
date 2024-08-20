@@ -1,4 +1,5 @@
 "use client";
+import MotionHeight from "@/components/motion/MotionHeight";
 import React, { useState } from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi"; // For country flag
@@ -26,7 +27,7 @@ const TopHeader = () => {
   ];
 
   return (
-    <div className="bg-gray-800 text-white py-2 px-6 flex justify-between items-center relative lg:px-28 lg:py-5">
+    <div className="bg-gray-800 text-white py-2 px-6 flex justify-between items-center relative lg:pl-28 lg:pr-20 lg:py-5">
       {/* Left: Social Icons */}
       <div className="flex space-x-4">
         <a href="#" className="hover:text-gray-400 transition">
@@ -49,9 +50,9 @@ const TopHeader = () => {
       </div>
 
       {/* Right: Dropdown Items */}
-      <div className="flex space-x-6">
+      <div className="flex space-x-6 justify-end relative border">
         {/* Country Select */}
-        <div className="relative">
+        <div className="">
           <button
             className="flex items-center text-white bg-gray-700 px-3 py-1 rounded-lg"
             onClick={() =>
@@ -62,25 +63,27 @@ const TopHeader = () => {
             {selectedCountry}
           </button>
           {openDropdown === "country" && (
-            <div className="absolute top-full -left-10 mt-2 w-60 bg-white text-black shadow-lg rounded-lg z-50">
-              {countries.map((country, idx) => (
-                <button
-                  key={idx}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onClick={() => {
-                    setSelectedCountry(country.label);
-                    setOpenDropdown(null); // Close dropdown after selection
-                  }}
-                >
-                  {country.flag} {country.label}
-                </button>
-              ))}
+            <div className="absolute top-16 mt-2  bg-white text-black shadow-lg rounded-lg z-50">
+              <MotionHeight>
+                {countries.map((country, idx) => (
+                  <button
+                    key={idx}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setSelectedCountry(country.label);
+                      setOpenDropdown(null); // Close dropdown after selection
+                    }}
+                  >
+                    {country.flag} {country.label}
+                  </button>
+                ))}
+              </MotionHeight>
             </div>
           )}
         </div>
 
         {/* Language Select */}
-        <div className="relative">
+        <div className="">
           <button
             className="flex items-center text-white bg-gray-700 px-3 py-1 rounded-lg"
             onClick={() =>
@@ -90,20 +93,23 @@ const TopHeader = () => {
             <MdLanguage className="mr-2" />
             {selectedLanguage}
           </button>
+
           {openDropdown === "language" && (
-            <div className="absolute  top-full -left-10 mt-2 w-60 bg-white text-black shadow-lg rounded-lg z-50">
-              {languages.map((language, idx) => (
-                <button
-                  key={idx}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onClick={() => {
-                    setSelectedLanguage(language.label);
-                    setOpenDropdown(null); // Close dropdown after selection
-                  }}
-                >
-                  {language.flag} {language.label}
-                </button>
-              ))}
+            <div className="absolute  top-16 mt-2 left-20    bg-white  text-black shadow-lg rounded-lg z-50 px-20">
+              <MotionHeight>
+                {languages.map((language, idx) => (
+                  <button
+                    key={idx}
+                    className="block w-full text-left  py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setSelectedLanguage(language.label);
+                      setOpenDropdown(null); // Close dropdown after selection
+                    }}
+                  >
+                    {language.flag} {language.label}
+                  </button>
+                ))}
+              </MotionHeight>
             </div>
           )}
         </div>
