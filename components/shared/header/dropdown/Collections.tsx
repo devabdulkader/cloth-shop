@@ -46,20 +46,17 @@ const collectionSections = [
 
 const Collections = () => {
   return (
-    <section className="pt-5">
-      <main className="bg-gray-300">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 max-w-[80vw] mx-auto w-full">
+    <section className="pt-10">
+      <main className="bg-white border shadow-sm">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 max-w-[70vw] mx-auto w-full">
           {collectionSections.map((section, index) => (
             <div key={index} className="flex flex-col space-y-6">
-              <div className="bg-gray-100 p-4 rounded-lg">
+              <div className=" p-4 ">
                 <h2 className="text-xl font-bold">{section.title}</h2>
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {section.items.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-gray-100 p-4 rounded-lg hover:bg-gray-200 transition"
-                  >
+                  <div key={idx} className="p-4   transition">
                     <h3 className="text-lg font-semibold">{item}</h3>
                   </div>
                 ))}

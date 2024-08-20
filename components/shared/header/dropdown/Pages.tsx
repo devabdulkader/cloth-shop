@@ -13,12 +13,12 @@ const pagesSections = [
 
 const Pages = () => {
   return (
-    <section className="">
-      <div className="grid grid-cols-1 gap-5 w-96 bg-gray-300">
+    <section className="pt-7">
+      <div className="grid grid-cols-1 gap-5 w-96 bg-white border shadow-sm p-6">
         {/* Displaying each title with link */}
         {pagesSections.map((section, index) => (
           <div key={index} className="flex flex-col space-y-6">
-            <div className="bg-gray-100 p-4 rounded-lg">
+            <div className="p-4 ">
               <a
                 href={section.href}
                 className="text-lg font-semibold hover:underline"
