@@ -27,7 +27,7 @@ const TopHeader = () => {
   ];
 
   return (
-    <div className="bg-gray-800 text-white py-2 px-6 flex justify-between items-center relative lg:pl-28 lg:pr-20 lg:py-5">
+    <div className="bg-gray-800 text-white py-2 px-6 xl:flex justify-between items-center relative lg:pl-28 lg:pr-20 lg:py-5 hidden">
       {/* Left: Social Icons */}
       <div className="flex space-x-4">
         <a href="#" className="hover:text-gray-400 transition">

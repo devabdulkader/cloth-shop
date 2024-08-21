@@ -6,11 +6,9 @@ import MobileNav from "./MobileNav";
 const Header = () => {
   return (
     <div>
-      {/* <TopHeader /> */}
-      <div>
-        <Navbar />
-      </div>
-      <MobileNav />
+      {/* <TopHeader />
+      <Navbar />
+      <MobileNav /> */}
     </div>
   );
 };
