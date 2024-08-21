@@ -46,8 +46,8 @@ const productSections = [
 
 const Products = () => {
   return (
-    <section className="pt-10 relative">
-      <main className="bg-white shadow-sm border relative z-10">
+    <section className="relative   ">
+      <main className="bg-white border shadow-sm ">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 max-w-[70vw] mx-auto w-full">
           {/* First Three Grid Columns - Similar Content */}
           {productSections.slice(0, 3).map((section, index) => (

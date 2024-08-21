@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div>
       <TopHeader />
-      <div className="py-2 border">
+      <div>
         <Navbar />
       </div>
     </div>

@@ -46,18 +46,22 @@ const Navbar = () => {
 
   return (
     <section className="lg:relative hidden xl:block ">
-      <nav className="font-inter mx-auto h-auto w-full lg:top-0 relative z-0">
-        <div className="flex items-center px-6 py-6 lg:px-10 lg:py-4 xl:px-20">
+      <nav className="font-inter mx-auto h-auto w-full lg:top-0 relative ">
+        <div className="flex items-center px-6  lg:px-10  xl:px-20">
           {/* Logo */}
           <div className="w-40 flex-shrink-0 flex items-center justify-center ">
             <Logo />
           </div>
           {/* NavLinks */}
-          <div className="flex-grow flex items-center justify-center space-x-4 lg:space-x-6 w-full  ">
+          <div className="flex-grow flex items-center justify-center space-x-4 lg:space-x-10 ">
             {navigationData.map((navItem, index) => (
               <div
                 key={index}
-                className={`${index !== 1 && index !== 2 ? "relative" : ""}`}
+                className={`  ${
+                  index !== 1 && index !== 2
+                    ? "relative cursor-pointer "
+                    : "cursor-pointer z-50"
+                }`}
                 onMouseEnter={() =>
                   navItem.dropdown && setOpenDropdownIndex(index)
                 }
@@ -66,7 +70,7 @@ const Navbar = () => {
                 }
               >
                 <button
-                  className={`flex items-center rounded-lg px-4 py-2 text-lg ${
+                  className={`flex items-center rounded-lg py-6 lg:py-8 text-lg   ${
                     openDropdownIndex === index
                       ? "text-black font-bold"
                       : "text-gray-900"
@@ -85,7 +89,7 @@ const Navbar = () => {
                   )}
                 </button>
                 {openDropdownIndex === index && navItem.dropdown && (
-                  <div className="absolute z-50 w-full rounded-lg  top-10 left-0">
+                  <div className="absolute w-full rounded-lg  left-0 z-0">
                     <MotionTransition>{navItem.dropdown}</MotionTransition>
                   </div>
                 )}
@@ -97,6 +101,11 @@ const Navbar = () => {
           <div className="flex-grow flex items-end justify-end space-x-4 lg:space-x-6 w-auto ">
             <NavIcons />
           </div>
+
+          {/* Blur effect behind the dropdown */}
+          {(openDropdownIndex === 1 || openDropdownIndex === 2) && (
+            <div className="absolute inset-0 z-0 h-screen top-24 bg-white bg-opacity-60 backdrop-blur-lg"></div>
+          )}
         </div>
       </nav>
     </section>

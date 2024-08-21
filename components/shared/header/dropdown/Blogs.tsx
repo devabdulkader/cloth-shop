@@ -17,7 +17,7 @@ const blogsSections = [
 
 const Blogs = () => {
   return (
-    <section className="pt-7">
+    <section className="relative top-0">
       <div className="grid grid-cols-1 gap-5 w-96 bg-white border shadow-sm p-6">
         {/* Displaying each title with link */}
         {blogsSections.map((section, index) => (
