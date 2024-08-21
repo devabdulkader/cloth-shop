@@ -68,7 +68,7 @@ const TopHeader = () => {
                 {countries.map((country, idx) => (
                   <button
                     key={idx}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    className="block w-full text-left px-10 py-2 hover:bg-green-300"
                     onClick={() => {
                       setSelectedCountry(country.label);
                       setOpenDropdown(null); // Close dropdown after selection
@@ -95,12 +95,12 @@ const TopHeader = () => {
           </button>
 
           {openDropdown === "language" && (
-            <div className="absolute  top-16 mt-2 left-20    bg-white  text-black shadow-lg rounded-lg z-50 px-20">
+            <div className="absolute  top-16 mt-2 left-20    bg-white  text-black shadow-lg rounded-lg z-50 ">
               <MotionHeight>
                 {languages.map((language, idx) => (
                   <button
                     key={idx}
-                    className="block w-full text-left  py-2 hover:bg-gray-100"
+                    className="block w-full text-left  px-10 py-2 hover:bg-green-300"
                     onClick={() => {
                       setSelectedLanguage(language.label);
                       setOpenDropdown(null); // Close dropdown after selection
