@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card {
+  background: #fbceb1;
+
+  position: relative;
+}
+
+.holder {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 4em;
+  height: 4em;
+  background: #fff;
+}
+.holder::before,
+.holder::after {
+  position: absolute;
+  content: "";
+  width: 1.25em;
+  height: 1.25em;
+  background: transparent;
+}
+.one {
+  inset: calc(100% - 4em) 0 0 calc(100% - 4em);
+  border-top-left-radius: 2.25em;
+  transition: 1s ease 0.5s;
+}
+.one::before {
+  inset: calc(100% - 1.25em) 0 0 -1.25em;
+  border-bottom-right-radius: 1.25em;
+  box-shadow: 0.3em 0.3em 0 0.3em #fff;
+  transition: 1s ease;
+}
+.one::after {
+  inset: -1.25em 0 0 2.75em;
+  border-bottom-right-radius: 1.25em;
+  box-shadow: 0.3em 0.3em 0 0.3em #fff;
+  transition: 1s ease;
+}
+
+/* .card:hover .one {
+  background: green;
+}
+.card:hover .one::before {
+  box-shadow: 0.3em 0.3em 0 0.3em #ffb200;
+}
+.card:hover .one::after {
+  box-shadow: 0.3em 0.3em 0 0.3em #ffb200;
+} */
