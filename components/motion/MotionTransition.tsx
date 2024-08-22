@@ -16,10 +16,10 @@ const MotionTransition: React.FC<MotionTransitionProps> = ({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 20 }} // Start with opacity 0 and 50px below the position
+      initial={{ opacity: 0, y: 10 }} // Start with opacity 0 and 50px below the position
       animate={{ opacity: 1, y: 0 }} // Animate to full opacity and original position
       transition={{
-        opacity: { duration: 1, ease: "easeOut" }, // Opacity transition
+        // opacity: { duration: 1, ease: "easeOut" }, // Opacity transition
         y: { duration: 0.5, ease: "easeOut" }, // Position transition
         delay: delay, // Delay before the animation starts
       }}
