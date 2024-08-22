@@ -68,7 +68,7 @@ const Policy: React.FC = () => {
                 {
                     policyData.map((item, index) => (
                         <div className=' bg-slate-200 p-4 rounded-md' key={index}>
-                            <Image src={item.image} width={10} height={10} alt='' className=' w-10  bg-cover py-2' />
+                            <Image src={item.image} width={50} height={50} alt='' className=' py-2' />
                             <p className=' text-sm font-semibold py-1'>{item.title}</p>
                             <p className=' text-[13px] font-normal py-1'>{item.description}</p>
                             <Link className=' text-[12px] font-normal py-2 flex items-center' href={item.path_link}>

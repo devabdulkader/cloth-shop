@@ -149,7 +149,7 @@ const InstagramSlider: React.FC = () => {
       <div className=" relative">
         <Marquee
           pauseOnHover={true}
-          speed={100}
+          speed={50}
 
         >
           {reviews.map((review, index) => (

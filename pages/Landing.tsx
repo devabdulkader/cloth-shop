@@ -1,4 +1,6 @@
-
+import FashionStatement from "@/components/home/FashionStatement";
+import Hero from "@/components/home/Hero";
+import HotTrend from "@/components/home/HotTrend";
 
 import InstagramSlider from "@/components/home/InstagramSlider";
 import LatestNews from "@/components/home/LatestNews";
@@ -8,11 +10,16 @@ import React from "react";
 
 const Landing = () => {
   return <>
-  <Policy/>
-  <LatestNews/>
- <Testimonials/>
-<InstagramSlider/>
+    <Hero />
+    <FashionStatement />
+    <HotTrend />
+    <Policy />
+    <LatestNews />
+    <Testimonials />
+    <InstagramSlider />
   </>;
-};
+
+
+}
 
 export default Landing;

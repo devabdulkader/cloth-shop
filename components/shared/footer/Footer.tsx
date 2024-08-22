@@ -66,6 +66,8 @@ const Icons = [
 
 const Footer = () => {
 
+
+
   return (
     <>
       <div className=" bg-[#132842] text-white">
@@ -76,7 +78,7 @@ const Footer = () => {
               <Image src={Logo2} className=" w-44" alt="Logo 2" />
               <p className=" text-lg font-bold">Get exclusive our offers and updates</p>
               <Form className=" relative ">
-                <FormInput name="" placeholder="Enter your email" className=" rounded-full px-4 h-14 text-sm" />
+                <FormInput name="" placeholder="Enter your email" type="text" className=" rounded-full px-4 h-14 text-sm outline-none" />
                 <div className=" absolute top-2 right-1 bg-[#132842] hover:bg-[#263d5c] rounded-full h-12 w-40 flex justify-center items-center ">Submit</div>
               </Form>
 

@@ -1,8 +1,8 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -58,7 +58,7 @@ const Testimonials: React.FC = () => {
         }
     ]
 
-    const swiperRef = useRef(null);
+    const swiperRef: React.MutableRefObject<SwiperType | null> = useRef<SwiperType | null>(null);
     return (
         <>
             <div className=' container py-10'>
@@ -99,7 +99,7 @@ const Testimonials: React.FC = () => {
                         testimonialData.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className=' bg-slate-50 px-6 md:px-8 py-6 md:py-8 rounded-xl'>
-                                    <h2 className='text-base font-semibold'>"{item.title}"</h2>
+                                    <h2 className='text-base font-semibold'>&quot;{item.title}&quot;</h2>
                                     <p className='text-[14px] font-normal py-2'>{item.description}</p>
                                     <div className="flex justify-start items-center gap-4 py-4">
                                         <Image
