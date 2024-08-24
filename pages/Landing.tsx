@@ -10,6 +10,7 @@ import LatestNews from "@/components/home/LatestNews";
 import Policy from "@/components/home/Policy";
 import Testimonials from "@/components/home/Testimonials";
 import React from "react";
+import NewestProduct from "@/components/home/NewestProduct";
 
 const Landing = () => {
   return (
@@ -20,6 +21,7 @@ const Landing = () => {
       <FashionFusion />
       <LimitedOffer />
       <NewArrival />
+      <NewestProduct />
       <Policy />
       <LatestNews />
       <Testimonials />
