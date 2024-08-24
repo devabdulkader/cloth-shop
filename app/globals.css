@@ -73,3 +73,12 @@
 .card:hover .one::after {
   box-shadow: 0.3em 0.3em 0 0.3em #ffb200;
 } */
+@keyframes textRotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-textRotation {
+  animation: textRotation 8s linear infinite;
+}

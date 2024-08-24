@@ -2,32 +2,46 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import nike from "@/public/hero/nike-1.jpg";
+import { GoArrowUpRight } from "react-icons/go";
+
+// Define the type for the data items
+interface HotTrendItem {
+  image: StaticImageData;
+  title: string;
+  description: string;
+  buttonText: string;
+  href: string;
+}
 
 // Sample Data
-const data = [
+const data: HotTrendItem[] = [
   {
     image: nike,
-    title: "Hot Trend 1",
+    title: "Running Shoes",
     description: "Explore the latest trends in style and fashion.",
-    buttonText: "Learn More",
+    buttonText: "Explore Category",
+    href: "#",
   },
   {
     image: nike,
-    title: "Hot Trend 2",
+    title: "Basketball Shoes",
     description: "Discover the best in trendy outfits and accessories.",
-    buttonText: "Shop Now",
+    buttonText: "Explore Category",
+    href: "#",
   },
   {
     image: nike,
-    title: "Hot Trend 3",
+    title: "Training Shoes",
     description: "Find out what's new in the fashion world.",
-    buttonText: "Explore",
+    buttonText: "Explore Category",
+    href: "#",
   },
   {
     image: nike,
-    title: "Hot Trend 4",
+    title: "Outdoor Shoes",
     description: "Get ahead with the latest fashion trends.",
-    buttonText: "Discover",
+    buttonText: "Explore Category",
+    href: "#",
   },
 ];
 
@@ -39,7 +53,7 @@ const HotTrend = () => {
 
   return (
     <section className="w-full py-10">
-      <div className="grid md:grid-cols-2 lg:flex lg:flex-row gap-4 lg:px-32">
+      <div className="grid sm:grid-cols-2 lg:flex lg:flex-row gap-4 px-5 xl:px-10 2xl:px-20">
         {data.map((item, index) => (
           <div
             key={index}
@@ -54,7 +68,7 @@ const HotTrend = () => {
                 setCurrentHoveredIndex(null);
               }
             }}
-            className={`relative rounded-2xl lg:h-[90vh] overflow-hidden  w-full flex-1 bg-gray-200 h-80 transition-all duration-500 ease-in-out ${
+            className={`relative rounded-2xl h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden  w-full flex-1 bg-gray-200  transition-all duration-500 ease-in-out group ${
               lastHoveredIndex === index ? "flex-[1.5]" : ""
             }`}
           >
@@ -65,13 +79,14 @@ const HotTrend = () => {
               objectFit="cover"
               className="absolute inset-0"
             />
-            <div className="absolute inset-0 flex flex-col justify-center items-center p-6 bg-black bg-opacity-30 text-white">
-              <h2 className="text-xl md:text-2xl font-bold mb-2">
+            <div className="absolute inset-0 flex flex-col justify-end p-6 bg-black bg-opacity-30 text-white gap-3">
+              <h2 className="text-2xl md:text-4xl font-bold mb-2 max-w-40 leading-normal">
                 {item.title}
               </h2>
               <p className="text-sm md:text-base mb-4">{item.description}</p>
-              <button className="bg-white text-black py-2 px-4 rounded-full">
-                {item.buttonText}
+              <button className="bg-white text-black py-3 px-5  rounded-full flex justify-between items-center uppercase  group hover:bg-black hover:text-white transition-colors duration-200 ease-in-out">
+                <span className="text-sm xl:text-lg ">{item.buttonText}</span>
+                <GoArrowUpRight className="text-2xl transform transition-transform group-hover:rotate-45" />
               </button>
             </div>
           </div>
