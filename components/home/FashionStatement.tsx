@@ -2,68 +2,107 @@
 import React from "react";
 import Image from "next/image";
 import fashion from "@/public/hero/nike-1.jpg";
+import fashion_1 from "@/public/fashion_statement/fashion_1.jpg";
+import fashion_2 from "@/public/fashion_statement/fashion_2.jpg";
+import fashion_3 from "@/public/fashion_statement/fashion_3.jpg";
+
+import { IoIosArrowRoundForward } from "react-icons/io";
+import AnimatedCircleText from "../common/AnimatedCircleText";
+import AnimatedSection from "../motion/AnimatedSection";
 const FashionStatement = () => {
   return (
-    <section className="w-full flex 2xl:h-screen flex-col p-6 xl:p-32">
-      <div className="grid 2xl:grid-cols-2 gap-4 2xl:w-full 2xl:h-full">
-        {/* First Section (3 Cards) */}
-        <section className="grid gap-5 2xl:grid-rows-2">
-          {/* Top Card (Full Width, Half Height) */}
-          <div className="relative rounded-2xl overflow-hidden h-80 2xl:h-auto">
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-black bg-opacity-30 text-white">
-              <h2 className="text-2xl font-bold mb-2">Top Card Title</h2>
-              <p className="text-lg">Top Card Description</p>
-            </div>
-          </div>
+    <section className="py-20">
+      <div className="w-full flex flex-col relative">
+        <div className="grid xl:grid-cols-2 gap-4   px-5 xl:px-10 2xl:px-20   ">
+          {/* First Section (3 Cards) */}
+          <section className="grid  lg:grid-rows-2 lg:h-[90vh] ">
+            {/* Top Card (Full Width, Half Height) */}
 
-          {/* Bottom Two Cards (Side by Side, Half Width and Half Height Each) */}
-          <div className="grid lg:grid-cols-2 gap-5 2xl:h-full">
-            <div className="relative rounded-2xl overflow-hidden h-80 2xl:h-auto ">
-              <Image
-                src={fashion}
-                alt="Bottom Left Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
+            <div className="pb-5">
+              <AnimatedSection
+                title="Sports Shoes For An Active Lifestyle"
+                description="Curating a shoe wardrobe for an active lifestyle"
+                buttonText="Shop Now"
+                alt="First Card"
+                containerClassName="relative rounded-2xl overflow-hidden h-[350px] md:h-[500px] lg:h-full w-full lg:col-span-3 my-5 lg:my-0 bg-[#F4F7FD]" // Custom container class
+                titleClassName="text-black" // Custom title class
+                descriptionClassName="text-black" // Custom description class
+                buttonClassName="bg-black text-white text-base lg:text-lg font-semibold py-2 lg:py-4 px-4 md:px-6 lg:px-10 rounded-full transition-colors duration-300 hover:bg-white hover:text-black" // Custom button class
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-black bg-opacity-30 text-white">
-                <h2 className="text-xl font-bold mb-2">Bottom Left Title</h2>
-                <p className="text-base">Bottom Left Description</p>
+            </div>
+
+            {/* Bottom Two Cards (Side by Side, Half Width and Half Height Each) */}
+            <div className="grid lg:grid-cols-2 gap-5 xl:h-full">
+              <div className="relative rounded-2xl overflow-hidden h-[400px]  lg:h-full">
+                <Image
+                  src={fashion_2}
+                  alt="Bottom Left Card"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-2xl "
+                />
+
+                <div className="absolute inset-0 flex justify-center items-center">
+                  <AnimatedCircleText />
+                </div>
+              </div>
+
+              <div className="relative rounded-2xl overflow-hidden h-[400px]  lg:h-full">
+                <Image
+                  src={fashion_1}
+                  alt="Second Card"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-2xl"
+                />
+                <div className="absolute inset-0 flex p-7  ">
+                  <h2
+                    className=" text-white text-2xl md:text-4xl 2xl:text-5xl font-bold lg:text-3xl"
+                    style={{ lineHeight: "1.3" }}
+                  >
+                    Premium Sports Shoes
+                  </h2>
+                </div>
+                <svg
+                  className="absolute bottom-0 right-0"
+                  width="104"
+                  height="105"
+                  viewBox="0 0 84 85"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M77 18C83.603 11.397 84 3 84 0V85H0C2.5 85 11.7833 84.2528 18 77C23.5714 70.5 24 63.5 24 62C24 60.5 23.5 48 33 37C40.4317 28.3948 52.5 25 58 25C62 25 70.5 24.5 77 18Z"
+                    fill="white"
+                  />
+                </svg>
+                <div className="absolute bottom-0 right-0 size-16 rounded-full bg-black flex justify-center items-center">
+                  <IoIosArrowRoundForward className="text-white text-5xl" />
+                </div>
               </div>
             </div>
-            <div className="relative rounded-2xl overflow-hidden h-80 2xl:h-auto">
-              <Image
-                src={fashion}
-                alt="Bottom Right Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-black bg-opacity-30 text-white">
-                <h2 className="text-xl font-bold mb-2">Bottom Right Title</h2>
-                <p className="text-base">Bottom Right Description</p>
-              </div>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Second Section (Single Large Card) */}
-        <section className="relative rounded-2xl overflow-hidden h-80 mt-5 2xl:mt-0 2xl:h-full">
-          <Image
-            src={fashion}
-            alt="Large Card"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-2xl"
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-black bg-opacity-30 text-white">
-            <h2 className="text-3xl font-bold mb-4">Large Card Title</h2>
-            <p className="text-lg mb-6">Large Card Description</p>
-            <button className="px-6 py-3 bg-white text-black rounded-full">
-              Learn More
-            </button>
-          </div>
-        </section>
+          {/* Second Section (Single Large Card) */}
+          <section className="relative rounded-2xl overflow-hidden h-[500px] mt-5 xl:mt-0 xl:h-full">
+            <Image
+              src={fashion_3}
+              alt="Large Card"
+              layout="fill"
+              objectFit="cover"
+              className="rounded-2xl"
+            />
+            <div className="absolute inset-0 flex flex-col justify-center p-10 bg-black bg-opacity-30 text-white">
+              <p className="text-lg  uppercase">New Design</p>
+              <div className="my-3">
+                <button className="px-5 py-3 bg-white text-2xl lg:text-4xl rounded-full uppercase text-orange-300 ">
+                  collection
+                </button>
+              </div>
+              <p className="text-lg mb-6">Where style meets fashion</p>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
   );
