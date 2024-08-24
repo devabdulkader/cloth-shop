@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import React from "react";
 import Logo2 from '@/public/common/Logo_2.webp'
@@ -66,19 +67,21 @@ const Icons = [
 
 const Footer = () => {
 
-
+  const submitHandler = async (data: any) => {
+    console.log("hello")
+  }
 
   return (
     <>
       <div className=" bg-[#132842] text-white">
         <div className="container">
-       
+
           <div className=" hidden md:flex md:flex-col">
             <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-between items-center pt-20">
               <Image src={Logo2} className=" w-44" alt="Logo 2" />
               <p className=" text-lg font-bold">Get exclusive our offers and updates</p>
-              <Form className=" relative ">
-                <FormInput name="" placeholder="Enter your email" type="text" className=" rounded-full px-4 h-14 text-sm outline-none" />
+              <Form className=" relative " submitHandler={submitHandler}>
+                <FormInput name="" placeholder="Enter your email" className=" rounded-full px-4 h-14 text-sm outline-none" />
                 <div className=" absolute top-2 right-1 bg-[#132842] hover:bg-[#263d5c] rounded-full h-12 w-40 flex justify-center items-center ">Submit</div>
               </Form>
 
@@ -124,7 +127,7 @@ const Footer = () => {
           </div>
 
           <div className=" w-full flex md:hidden">
-          <MobileFooter />
+            <MobileFooter />
           </div>
 
 
@@ -137,7 +140,7 @@ const Footer = () => {
             <div className=" flex flex-row gap-2 justify-center md:justify-end">
               {
                 CardImag.map((item, index) => (
-                  <Image src={item.image} alt="Card Image" title={item.title} key={index} className=" h-6 w-10 bg-cover bg-current rounded-sm" />
+                  <Image src={item.image} alt="Card Image" title={item.title} key={index} className=" h-7 w-12 bg-cover bg-current rounded-sm" />
                 ))
               }
 

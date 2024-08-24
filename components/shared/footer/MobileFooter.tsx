@@ -67,7 +67,9 @@ const MobileFooter: React.FC = () => {
     });
   };
 
-
+  const submitHandler = async (data: any) => {
+    console.log("hello")
+}  
 
   return (
     <div className='w-full flex flex-col gap-4 py-10'>
@@ -81,7 +83,7 @@ const MobileFooter: React.FC = () => {
               <div>{open ? <FaMinus /> : <FaPlus />}</div>
             </DisclosureButton>
             <DisclosurePanel as="ul" className="text-gray-500">
-              <Form className="relative">
+              <Form className="relative" submitHandler={submitHandler}>
                 <FormInput name="" placeholder="Enter your email" className="rounded-full px-4 h-14 text-sm outline-none" />
                 <div className="absolute top-1 right-1 bg-[#132842] hover:bg-[#263d5c] rounded-full h-12 w-40 flex justify-center items-center">Submit</div>
               </Form>
