@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React from "react";
 
 const productSections = [
@@ -76,9 +77,11 @@ const Products = () => {
                   key={idx}
                   className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition"
                 >
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
+                    height={30}
+                    width={50}
                     className="w-full h-32 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg font-semibold">{product.name}</h3>
