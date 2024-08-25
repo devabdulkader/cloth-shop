@@ -9,7 +9,12 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FaClock, FaClockRotateLeft, FaQuestion } from "react-icons/fa6";
+import {
+  FaClock,
+  FaClockRotateLeft,
+  FaQuestion,
+  FaStar,
+} from "react-icons/fa6";
 import PaymentCards from "../common/PaymentCards";
 
 const productData = [
@@ -59,21 +64,25 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]); // Initialize with the first size
 
   return (
-    <div className="p-5 flex flex-col space-y-5">
+    <div className="flex flex-col space-y-8 py-10">
       {/* Header section with product name and review link */}
       <div>
-        <h1 className="text-3xl font-bold mb-5">{product.name}</h1>
-        <div className="flex items-center space-x-3 space-y-5">
+        <h1 className="text-3xl font-bold mt-5 md:mt-0 mb-5">{product.name}</h1>
+        <div className="flex items-center space-x-3">
           {/* Star rating for reviews */}
-          <div className="text-yellow-500 text-lg">
-            <span>★★★★★</span> {/* Add star characters or icons */}
-          </div>
-          {/* Review count and link */}
-          <div>
-            <span className="text-gray-600">(0)</span>
-            <a href="#reviews" className="text-blue-500 hover:underline ml-2">
-              VIEW ALL REVIEWS
-            </a>
+          <div className="text-yellow-500 text-lg flex items-center justify-center py-5 gap-5">
+            {" "}
+            <div className="flex justify-center items-center">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <FaStar key={index} className="text-2xl" />
+              ))}
+            </div>
+            <div className="flex justify-center items-center pt-1">
+              <span className="text-gray-600">(0)</span>
+              <a href="#reviews" className="text-blue-500 hover:underline">
+                VIEW ALL REVIEWS
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -85,33 +94,32 @@ const ProductDetails = () => {
 
       {/* Product description */}
       <div className="mb-4">
-        <p className="text-gray-700 mb-2">{product.description}</p>
-        <p className="text-gray-600">Lorem ipsum...</p>
+        <p className="text-gray-700 mb-2 text-xl">{product.description}</p>
       </div>
 
       {/* Product tags */}
       <div className="mb-4">
-        <strong className="text-gray-800">Tags:</strong>{" "}
+        <strong className="text-gray-800 text-xl">Tags:</strong>{" "}
         {product.tags.join(", ")}
       </div>
 
       {/* Product SKU */}
       <div className="mb-4">
-        <strong className="text-gray-800">SKU:</strong> {product.sku}
+        <strong className="text-gray-800 text-xl">SKU:</strong> {product.sku}
       </div>
 
       {/* Product category */}
       <div className="mb-4">
-        <strong className="text-gray-800">Category:</strong>{" "}
+        <strong className="text-gray-800 text-xl">Category:</strong>{" "}
         {product.category.join(", ")}
       </div>
 
       {/* Product size selection */}
       <div className="mb-4">
-        <strong className="text-gray-800">
+        <strong className="text-gray-800 text-xl ">
           Size: {selectedSize || "Select a size"}
         </strong>
-        <div className="flex space-x-2 mt-2">
+        <div className="flex space-x-2 mt-5">
           {product.sizes.map((size) => (
             <button
               key={size}
@@ -128,7 +136,7 @@ const ProductDetails = () => {
 
       <section>
         <p className="mb-5">
-          <strong className="text-gray-800">Quantity:</strong>
+          <strong className="text-gray-800 text-xl">Quantity:</strong>
         </p>
         <div className="flex gap-5">
           <div className="flex items-center mb-4 space-x-2 border rounded-full quantity">
@@ -194,16 +202,18 @@ const ProductDetails = () => {
       </div>
 
       {/* Payment cards */}
-      <PaymentCards />
+      <div>
+        <PaymentCards />
+      </div>
 
       {/* Product guarantee and shipping information */}
       <div className="mb-5">
         <ul className="list-disc list-inside text-gray-600 space-y-2">
-          <li className="flex items-center">
+          <li className="flex items-center text-xl">
             <FaClockRotateLeft className="text-gray-600 mr-2" />
             Orders ship within 5 to 10 business days.
           </li>
-          <li className="flex items-center">
+          <li className="flex items-center text-xl">
             <FaShippingFast className="text-gray-600 mr-2" />
             Hooray! This item ships free to the US.
           </li>

@@ -39,15 +39,15 @@ const PaymentCards = () => {
   ];
 
   return (
-    <div className="border p-8 relative my-10">
-      <p className="absolute left-1/2 transform -translate-x-1/2 -top-5 bg-white p-2 text-center font-semibold text-gray-800">
+    <div className="border relative my-10 px-4">
+      <p className="absolute left-1/2 transform -translate-x-1/2 -top-5 text-nowrap bg-white p-2 text-center font-semibold text-gray-800">
         Guaranteed safe checkout
       </p>{" "}
-      <div className=" flex gap-5">
+      <div className=" flex justify-evenly  gap-2 py-8">
         {CardImag.map((item, index) => (
           <div
             key={index}
-            className="h-20 w-32 rounded-xl overflow-hidden border"
+            className="h-10 w-16 md:h-20 md:w-24 rounded-xl overflow-hidden border"
           >
             <Image
               src={item.image}

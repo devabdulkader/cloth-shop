@@ -6,9 +6,10 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs, A11y } from "swiper/modules";
 import ZoomedImage from "./ZoomedImage";
 import { FaTimes } from "react-icons/fa";
+import SwiperNavButtons from "./SwiperNavButtons";
 
 // Sample product data
 const product = {
@@ -45,11 +46,7 @@ export default function ImageSlider() {
   }, []);
 
   const openFullscreen = () => {
-    if (window.innerWidth >= 768) {
-      setIsFullscreen(true);
-    } else {
-      return null;
-    }
+    setIsFullscreen(true);
   };
 
   // Function to close fullscreen mode
@@ -62,51 +59,64 @@ export default function ImageSlider() {
       className={`w-full md:w-w-full 
          ${isFullscreen ? " bg-white  left-0 h-screen z-10 fixed top-0" : ""}`}
     >
-      {/* Main Swiper */}
-      <Swiper
-        loop={true}
-        spaceBetween={10}
-        navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className={`mySwiper2 w-full ${
-          isFullscreen ? "fixed inset-0 z-50 bg-white" : ""
-        }`} // Apply fullscreen styles if isFullscreen is true
-        style={{
-          height: isFullscreen ? "100vh" : `${height}px`,
-          width: isFullscreen ? "50vw" : "100%",
-        }} // Adjust height and width in fullscreen mode
-        onClick={openFullscreen} // Trigger fullscreen on click
-      >
-        {product.imageVariants.map((image, index) => (
-          <SwiperSlide key={index}>
-            {isFullscreen ? (
-              <Image
-                src={image}
-                alt={`Variant Thumbnail ${index}`}
-                layout="fill"
-                objectFit="cover"
-                className="w-full h-full"
-              />
-            ) : (
-              <ZoomedImage src={image} />
-            )}
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="relative group">
+        {/* Main Swiper */}
+        <Swiper
+          loop={true}
+          spaceBetween={10}
+          thumbs={{ swiper: thumbsSwiper }}
+          modules={[FreeMode, Navigation, Thumbs, A11y]}
+          className={`mySwiper2 relative w-full ${
+            isFullscreen ? "fixed inset-0 z-50 bg-white" : ""
+          }`} // Apply fullscreen styles if isFullscreen is true
+          style={{
+            height: isFullscreen ? "100vh" : `${height}px`,
+            width: isFullscreen ? "50vw" : "100%",
+          }} // Adjust height and width in fullscreen mode
+          onClick={openFullscreen} // Trigger fullscreen on click
+        >
+          {product.imageVariants.map((image, index) => (
+            <SwiperSlide key={index}>
+              {isFullscreen ? (
+                <Image
+                  src={image}
+                  alt={`Variant Thumbnail ${index}`}
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              ) : (
+                <ZoomedImage src={image} />
+              )}
+            </SwiperSlide>
+          ))}
+          {/* Navigation Buttons */}
+          <div className="swiper-nav-btns hidden group-hover:block ">
+            <SwiperNavButtons />
+          </div>
+        </Swiper>
+
+        {/* Fullscreen Close Button */}
+        {isFullscreen && (
+          <button
+            className="absolute top-1/2 left-1/2 z-50 size-20 bg-white rounded-full flex justify-center items-center transform -translate-x-1/2 -translate-y-1/2"
+            onClick={closeFullscreen}
+          >
+            <FaTimes className="text-2xl" />
+          </button>
+        )}
+      </div>
 
       {/* Thumbnails Swiper */}
-
       <Swiper
         onSwiper={setThumbsSwiper}
         loop={true}
-        navigation={true}
         spaceBetween={10}
         slidesPerView={2}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper h-32 sm:h-60 mt-2 w-full"
+        className="mySwiper h-32 sm:h-60 mt-2 w-full relative group"
       >
         {product.imageVariants.map((image, index) => (
           <SwiperSlide key={index}>
@@ -120,17 +130,11 @@ export default function ImageSlider() {
             />
           </SwiperSlide>
         ))}
+        {/* Navigation Buttons */}
+        <div className="swiper-nav-btns hidden group-hover:block  ">
+          <SwiperNavButtons />
+        </div>
       </Swiper>
-
-      {/* Close Button for Fullscreen Mode */}
-      {isFullscreen && (
-        <button
-          className="absolute top-1/2 left-1/2  z-50 size-20 bg-white rounded-full flex justify-center items-center"
-          onClick={closeFullscreen}
-        >
-          <FaTimes className="text-2xl" />
-        </button>
-      )}
     </div>
   );
 }
