@@ -1,12 +1,12 @@
 "use client";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image"; // Import StaticImageData from next/image
 import React, { useState } from "react";
-import nike from "@/public/hero/nike-1.jpg";
+import nike from "@/public/hero/nike-1.jpg"; // Ensure the image is imported correctly
 import { GoArrowUpRight } from "react-icons/go";
 
 // Define the type for the data items
 interface HotTrendItem {
-  image: StaticImageData;
+  image: StaticImageData; // Use StaticImageData for the image type
   title: string;
   description: string;
   buttonText: string;
@@ -45,11 +45,11 @@ const data: HotTrendItem[] = [
   },
 ];
 
-const HotTrend = () => {
-  const [lastHoveredIndex, setLastHoveredIndex] = useState<number | null>(null);
+const HotTrend: React.FC = () => {
+  const [lastHoveredIndex, setLastHoveredIndex] = useState<number | null>(null); // Type state with number or null
   const [currentHoveredIndex, setCurrentHoveredIndex] = useState<number | null>(
     null
-  );
+  ); // Type state with number or null
 
   return (
     <section className="w-full py-10">

@@ -21,10 +21,10 @@ const product = {
   ],
 };
 
-export default function ImageSlider() {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [height, setHeight] = useState(200); // Initial height in pixels
-  const [isFullscreen, setIsFullscreen] = useState(false); // State to handle fullscreen mode
+const ImageSlider: React.FC = () => {
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [height, setHeight] = useState<number>(200); // Initial height in pixels
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false); // State to handle fullscreen mode
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,7 +57,7 @@ export default function ImageSlider() {
   return (
     <div
       className={`w-full md:w-w-full 
-         ${isFullscreen ? " bg-white  left-0 h-screen z-10 fixed top-0" : ""}`}
+         ${isFullscreen ? "bg-white left-0 h-screen z-10 fixed top-0" : ""}`}
     >
       <div className="relative group">
         {/* Main Swiper */}
@@ -81,8 +81,8 @@ export default function ImageSlider() {
                 <Image
                   src={image}
                   alt={`Variant Thumbnail ${index}`}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: "cover" }}
                   className="w-full h-full"
                 />
               ) : (
@@ -123,8 +123,8 @@ export default function ImageSlider() {
             <Image
               src={image}
               alt={`Variant Thumbnail ${index}`}
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: "cover" }}
               quality={100}
               className="w-full h-full"
             />
@@ -137,4 +137,6 @@ export default function ImageSlider() {
       </Swiper>
     </div>
   );
-}
+};
+
+export default ImageSlider;

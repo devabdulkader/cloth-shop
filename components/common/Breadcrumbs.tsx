@@ -1,9 +1,19 @@
-// Breadcrumbs.js
+// Breadcrumbs.tsx
 import React from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
 
-const Breadcrumbs = ({ items }) => {
+// Define the type for each breadcrumb item
+interface BreadcrumbItem {
+  name: string;
+}
+
+// Define the props type for the Breadcrumbs component
+interface BreadcrumbsProps {
+  items: BreadcrumbItem[];
+}
+
+const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
   return (
     <nav
       aria-label="breadcrumb"
