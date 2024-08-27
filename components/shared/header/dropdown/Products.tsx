@@ -52,7 +52,7 @@ const productSections: ProductSection[] = [
       {
         name: "Product 1",
         price: "$29.99",
-        image: "https://via.placeholder.com/150",
+        image: "/hero/shoe-1.jpg",
       },
     ],
   },

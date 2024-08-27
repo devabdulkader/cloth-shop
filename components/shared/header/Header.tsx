@@ -6,9 +6,13 @@ import MobileNav from "./MobileNav";
 const Header = () => {
   return (
     <div>
-      {/* <TopHeader />
-      <Navbar />
-      <MobileNav /> */}
+      {/* <TopHeader /> */}
+      <div className="hidden xl:block relative z-50">
+        <Navbar />
+      </div>
+      <div className="xl:hidden">
+        <MobileNav />
+      </div>
     </div>
   );
 };

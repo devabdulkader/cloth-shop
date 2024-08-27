@@ -8,11 +8,12 @@ import NavIcons from "./NavIcons";
 import Pages from "./dropdown/Pages";
 import Blogs from "./dropdown/Blogs";
 import MotionTransition from "@/components/motion/MotionTransition";
+import Link from "next/link";
 
 const navigationData = [
   {
     buttonText: "Home",
-    href: "#",
+    href: "/",
   },
   {
     buttonText: "Collections",
@@ -45,7 +46,7 @@ const Navbar = () => {
   );
 
   return (
-    <section className="lg:relative hidden xl:block ">
+    <section className=" ">
       <nav className="font-inter mx-auto h-auto w-full lg:top-0 relative ">
         <div className="flex items-center px-6  lg:px-10  xl:px-20">
           {/* Logo */}
@@ -76,7 +77,7 @@ const Navbar = () => {
                       : "text-gray-900"
                   }`}
                 >
-                  {navItem.buttonText}
+                  <Link href={`${navItem.href}`}>{navItem.buttonText}</Link>
                   {navItem.dropdown && (
                     <svg
                       className={`w-6 h-6 fill-current ml-2 transition-transform duration-300 ${
