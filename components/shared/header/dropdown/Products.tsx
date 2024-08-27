@@ -2,7 +2,20 @@
 import Image from "next/image";
 import React from "react";
 
-const productSections = [
+// Define types for product sections and items
+interface ProductSection {
+  title: string;
+  items: (string | ProductItem)[];
+}
+
+interface ProductItem {
+  name: string;
+  price: string;
+  image: string;
+}
+
+// Define the productSections array with type annotations
+const productSections: ProductSection[] = [
   {
     title: "First Grid Column",
     items: [
@@ -47,8 +60,8 @@ const productSections = [
 
 const Products = () => {
   return (
-    <section className="relative   ">
-      <main className="bg-white border shadow-sm ">
+    <section className="relative">
+      <main className="bg-white border shadow-sm">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 max-w-[70vw] mx-auto w-full">
           {/* First Three Grid Columns - Similar Content */}
           {productSections.slice(0, 3).map((section, index) => (
@@ -59,7 +72,10 @@ const Products = () => {
               <div className="grid grid-cols-1 gap-4">
                 {section.items.map((item, idx) => (
                   <div key={idx} className="p-4 hover:bg-gray-200 transition">
-                    <h3 className="text-lg font-semibold">{item}</h3>
+                    {/* Render items as text if they are strings */}
+                    {typeof item === "string" ? (
+                      <h3 className="text-lg font-semibold">{item}</h3>
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -72,31 +88,29 @@ const Products = () => {
               <h2 className="text-xl font-bold">Fourth Grid Column</h2>
             </div>
             <div className="flex flex-col space-y-4">
-              {productSections[3].items.map((product, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition"
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    height={30}
-                    width={50}
-                    className="w-full h-32 object-cover rounded-md mb-2"
-                  />
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="text-gray-600">{product.price}</p>
-                </div>
-              ))}
+              {/* Render items as products if they are ProductItem */}
+              {productSections[3].items.map((product, idx) =>
+                typeof product !== "string" ? (
+                  <div
+                    key={idx}
+                    className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition"
+                  >
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      height={30}
+                      width={50}
+                      className="w-full h-32 object-cover rounded-md mb-2"
+                    />
+                    <h3 className="text-lg font-semibold">{product.name}</h3>
+                    <p className="text-gray-600">{product.price}</p>
+                  </div>
+                ) : null
+              )}
             </div>
           </div>
         </div>
       </main>
-
-      {/* Blur effect at the bottom */}
-      {/* {(openDropdownIndex === 1 || openDropdownIndex === 2) && (
-        <div className="absolute inset-x-0 bottom-0  h-screen bg-white bg-opacity-60  backdrop-blur-lg"></div>
-      )} */}
     </section>
   );
 };

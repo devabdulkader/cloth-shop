@@ -4,7 +4,20 @@ import { motion } from "framer-motion";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { IoIosArrowForward } from "react-icons/io";
 
-const navigationData = [
+// Define TypeScript interfaces for navigation data
+interface SubMenuItem {
+  title?: string;
+  href?: string;
+  buttonText?: string;
+  subMenu?: SubMenuItem[];
+}
+
+interface MenuStackItem {
+  items: SubMenuItem[];
+  title: string;
+}
+
+const navigationData: SubMenuItem[] = [
   {
     title: "Home",
     href: "#",
@@ -81,15 +94,15 @@ const navigationData = [
   },
 ];
 
-const MobileNav = () => {
-  const [menuStack, setMenuStack] = useState([
+const MobileNav: React.FC = () => {
+  const [menuStack, setMenuStack] = useState<MenuStackItem[]>([
     { items: navigationData, title: "" },
   ]);
-  const [isNavigatingForward, setIsNavigatingForward] = useState(true);
+  const [isNavigatingForward, setIsNavigatingForward] = useState<boolean>(true);
 
   const currentMenu = menuStack[menuStack.length - 1];
 
-  const navigateToSubMenu = (subMenu, title) => {
+  const navigateToSubMenu = (subMenu: SubMenuItem[], title: string) => {
     setIsNavigatingForward(true);
     setMenuStack([...menuStack, { items: subMenu, title }]);
   };
@@ -147,7 +160,7 @@ const MobileNav = () => {
                     <button
                       className="w-full text-left flex justify-between items-center"
                       onClick={() =>
-                        navigateToSubMenu(item.subMenu, item.buttonText)
+                        navigateToSubMenu(item.subMenu!, item.buttonText!)
                       }
                     >
                       {item.buttonText} <IoIosArrowForward className="ml-4" />
