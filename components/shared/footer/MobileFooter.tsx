@@ -1,16 +1,17 @@
+"use client";
 
-
-
-'use client'
-
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
-import Link from 'next/link';
-import { useState } from 'react';
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
+import Link from "next/link";
+import { useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import Image from "next/image";
-import Logo2 from '@/public/common/Logo_2.webp';
-import Form from '@/components/forms/Form';
-import FormInput from '@/components/forms/FormInput';
+import Logo2 from "@/public/common/Logo_2.webp";
+import Form from "@/components/forms/Form";
+import FormInput from "@/components/forms/FormInput";
 
 interface SubItem {
   tilte: string; // Note: "tilte" should probably be "title". Adjust if necessary.
@@ -18,9 +19,9 @@ interface SubItem {
 }
 
 interface MainItem {
-  id: number,
-  title: string,
-  items: SubItem[]
+  id: number;
+  title: string;
+  items: SubItem[];
 }
 
 const MobileFooter: React.FC = () => {
@@ -36,7 +37,7 @@ const MobileFooter: React.FC = () => {
         { tilte: "Track My Order", path: "/" },
         { tilte: "Cancel My Order", path: "/" },
         { tilte: "Return My Order", path: "/" },
-      ]
+      ],
     },
     {
       id: 2,
@@ -46,7 +47,7 @@ const MobileFooter: React.FC = () => {
         { tilte: "Pants", path: "/" },
         { tilte: "T-Shirt", path: "/" },
         { tilte: "Bag & Shoes", path: "/" },
-      ]
+      ],
     },
     {
       id: 3,
@@ -56,23 +57,24 @@ const MobileFooter: React.FC = () => {
         { tilte: "Returns, Refunds & Cancellations", path: "/" },
         { tilte: "Terms & Conditions", path: "/" },
         { tilte: "Privacy Policy", path: "/" },
-      ]
-    }
+      ],
+    },
   ];
-
 
   const toggleDropdown = (index: number) => {
     setOpenDropdowns((prevState) => {
-      return prevState.includes(index) ? prevState.filter(i => i !== index) : [index];
+      return prevState.includes(index)
+        ? prevState.filter((i) => i !== index)
+        : [index];
     });
   };
 
   const submitHandler = async (data: any) => {
-    console.log("hello")
-}  
+    console.log("hello");
+  };
 
   return (
-    <div className='w-full flex flex-col gap-4 py-10'>
+    <div className="w-full flex flex-col gap-4 py-10">
       <Image src={Logo2} className="w-44" alt="Logo 2" />
 
       <Disclosure>
@@ -83,10 +85,10 @@ const MobileFooter: React.FC = () => {
               <div>{open ? <FaMinus /> : <FaPlus />}</div>
             </DisclosureButton>
             <DisclosurePanel as="ul" className="text-gray-500">
-              <Form className="relative" submitHandler={submitHandler}>
+              {/* <Form className="relative">
                 <FormInput name="" placeholder="Enter your email" className="rounded-full px-4 h-14 text-sm outline-none" />
                 <div className="absolute top-1 right-1 bg-[#132842] hover:bg-[#263d5c] rounded-full h-12 w-40 flex justify-center items-center">Submit</div>
-              </Form>
+              </Form> */}
             </DisclosurePanel>
           </>
         )}
@@ -101,37 +103,28 @@ const MobileFooter: React.FC = () => {
                 onClick={() => toggleDropdown(index)}
               >
                 <div>{item.title}</div>
-                <div>{openDropdowns.includes(index) ? <FaMinus /> : <FaPlus />}</div>
+                <div>
+                  {openDropdowns.includes(index) ? <FaMinus /> : <FaPlus />}
+                </div>
               </DisclosureButton>
 
-              <DisclosurePanel as="ul" className="flex flex-col gap-4 text-sm font-normal">
-                {item?.items && item.items.map((subItem, subIndex) => (
-                  <li key={subIndex}
-
-
-                  >
-                    <Link href={subItem.path}>{subItem.tilte}</Link>
-                  </li>
-                ))}
+              <DisclosurePanel
+                as="ul"
+                className="flex flex-col gap-4 text-sm font-normal"
+              >
+                {item?.items &&
+                  item.items.map((subItem, subIndex) => (
+                    <li key={subIndex}>
+                      <Link href={subItem.path}>{subItem.tilte}</Link>
+                    </li>
+                  ))}
               </DisclosurePanel>
-
             </>
           )}
         </Disclosure>
       ))}
     </div>
   );
-}
+};
 
 export default MobileFooter;
-
-
-
-
-
-
-
-
-
-
-

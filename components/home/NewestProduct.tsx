@@ -185,7 +185,7 @@ const NewestProduct: React.FC = () => {
                 {product.colorVariants.map((variant, i) => (
                   <span
                     key={i}
-                    className={`w-6 h-6 rounded-full inline-block mr-2 border ${
+                    className={`h-6 w-10 inline-block mr-2 border ${
                       variant.isSelected ? "border-black" : "border-gray-300"
                     }`}
                     style={{ backgroundColor: variant.color }}
@@ -193,7 +193,11 @@ const NewestProduct: React.FC = () => {
                 ))}
               </div>
 
-              <div className="absolute top-4 right-4 flex flex-col gap-2">
+              <div
+                className={`absolute top-4 right-4 flex flex-col gap-2 ${
+                  hoveredProductIndex === index ? "opacity-100" : "opacity-0"
+                }`}
+              >
                 {product.actions.map((action, i) => (
                   <IconButton
                     key={i}

@@ -1,3 +1,4 @@
+"use client";
 import FashionFusion from "@/components/home/FashionFusion";
 import FashionStatement from "@/components/home/FashionStatement";
 import Hero from "@/components/home/Hero";
@@ -11,10 +12,11 @@ import Policy from "@/components/home/Policy";
 import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
-
+import ProductPage from "@/components/home/ProductPage";
 const Landing = () => {
   return (
     <>
+      <ProductPage />
       <Hero />
       <FashionStatement />
       <HotTrend />

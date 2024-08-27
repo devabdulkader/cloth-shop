@@ -2,12 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .slide {
   height: 100%;
   width: 100%;
 }
-
 
 @keyframes draw {
   0% {
@@ -81,4 +79,52 @@
 
 .animate-textRotation {
   animation: textRotation 8s linear infinite;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: #000; /* Adjust color as needed */
+  width: 30px;
+  height: 30px;
+}
+/* Hide the spinner arrows in WebKit-based browsers (Chrome, Safari) */
+.quantity > input[type="number"] {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+/* Remove padding from input for Firefox */
+.quantity > input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.swiper-nav-btns button {
+  outline: none;
+
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 0.5s;
+}
+
+.prev-btn,
+.next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* Centers the button vertically */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prev-btn {
+  left: 10px; /* Position from the left */
+}
+
+.next-btn {
+  right: 10px; /* Position from the right */
 }
