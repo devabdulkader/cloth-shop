@@ -45,14 +45,13 @@ const PaymentCards = () => {
       </p>{" "}
       <div className=" flex justify-evenly  gap-2 py-8">
         {CardImag.map((item, index) => (
-          <div
-            key={index}
-            className="h-10 w-16 md:h-20 md:w-24 rounded-xl overflow-hidden border"
-          >
+          <div key={index} className="h-10  md:h-14  rounded-xl  border">
             <Image
               src={item.image}
               alt="Card Image"
               title={item.title}
+              width={300}
+              height={300}
               className=" w-full h-full"
             />
           </div>
