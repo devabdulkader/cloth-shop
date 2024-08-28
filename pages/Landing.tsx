@@ -12,11 +12,9 @@ import Policy from "@/components/home/Policy";
 import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
-import ProductPage from "@/components/home/ProductPage";
 const Landing = () => {
   return (
     <>
-      <ProductPage />
       <Hero />
       <FashionStatement />
       <HotTrend />

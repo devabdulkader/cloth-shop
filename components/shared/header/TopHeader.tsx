@@ -50,7 +50,7 @@ const TopHeader = () => {
       </div>
 
       {/* Right: Dropdown Items */}
-      <div className="flex space-x-6 justify-end relative border">
+      <div className="flex space-x-6 justify-end relative ">
         {/* Country Select */}
         <div className="">
           <button
@@ -68,7 +68,7 @@ const TopHeader = () => {
                 {countries.map((country, idx) => (
                   <button
                     key={idx}
-                    className="block w-full text-left px-10 py-2 hover:bg-green-300"
+                    className="block w-full text-left px-10 py-2 "
                     onClick={() => {
                       setSelectedCountry(country.label);
                       setOpenDropdown(null); // Close dropdown after selection
