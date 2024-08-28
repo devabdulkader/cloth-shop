@@ -148,7 +148,7 @@ const MobileNav: React.FC = () => {
       />
 
       <main
-        className={`h-screen fixed top-0 w-[80%] sm:w-[60vw] md:w-[40vw] left-0 z-10 bg-white border transition-transform duration-300 ${
+        className={`h-screen fixed top-0 w-[80%] sm:w-[60vw] md:w-[40vw] left-0 z-layer-1 bg-white border transition-transform duration-300 ${
           isNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

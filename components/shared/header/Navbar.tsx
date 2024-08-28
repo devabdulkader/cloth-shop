@@ -9,6 +9,7 @@ import Pages from "./dropdown/Pages";
 import Blogs from "./dropdown/Blogs";
 import MotionTransition from "@/components/motion/MotionTransition";
 import Link from "next/link";
+import UserAccountSidebar from "../user-account-sidebar/UserAccountSidebar";
 
 const navigationData = [
   {
@@ -46,7 +47,7 @@ const Navbar = () => {
   );
 
   return (
-    <section className=" ">
+    <section className="relative">
       <nav className="font-inter mx-auto h-auto w-full lg:top-0 relative ">
         <div className="flex items-center px-6  lg:px-10  xl:px-20">
           {/* Logo */}

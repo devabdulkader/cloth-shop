@@ -128,3 +128,17 @@ input[type="number"]::-webkit-outer-spin-button {
 .next-btn {
   right: 10px; /* Position from the right */
 }
+
+/* Base z-index levels for different components */
+/* Example of stacking contexts */
+.z-layer-1 {
+  z-index: 2000; /* Custom layering if needed */
+}
+
+.z-layer-2 {
+  z-index: 3000; /* Custom layering for specific needs */
+}
+
+.z-dropdown {
+  z-index: 1000; /* Custom layering for specific needs */
+}
