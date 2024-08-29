@@ -14,7 +14,7 @@ import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
 const Landing = () => {
   return (
-    <>
+    <div className="flex flex-col gap-10">
       <Hero />
       <FashionStatement />
       <HotTrend />
@@ -26,7 +26,7 @@ const Landing = () => {
       <LatestNews />
       <Testimonials />
       <InstagramSlider />
-    </>
+    </div>
   );
 };
 

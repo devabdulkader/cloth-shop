@@ -15,7 +15,7 @@ const UserSidebarToggler: React.FC = () => {
       className="flex items-center justify-center cursor-pointer"
       onClick={handleToggleSidebar}
     >
-      <AiOutlineUser className="text-3xl" />
+      <AiOutlineUser className="text-2xl" />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import UserAccountSidebar from "../user-account-sidebar/UserAccountSidebar";
 
 const Header = () => {
   return (
-    <div>
+    <div className="">
       {/* <TopHeader /> */}
       <UserAccountSidebar />
       <div className="hidden xl:block relative z-50">

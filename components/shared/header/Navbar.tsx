@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaDownLong } from "react-icons/fa6";
 import Collections from "./dropdown/Collections";
 import Products from "./dropdown/Products";
@@ -9,7 +9,7 @@ import Pages from "./dropdown/Pages";
 import Blogs from "./dropdown/Blogs";
 import MotionTransition from "@/components/motion/MotionTransition";
 import Link from "next/link";
-import UserAccountSidebar from "../user-account-sidebar/UserAccountSidebar";
+import { motion, useAnimation } from "framer-motion";
 
 const navigationData = [
   {
@@ -30,13 +30,13 @@ const navigationData = [
   {
     buttonText: "Pages",
     icon: FaDownLong,
-    dropdown: <Pages />, // Dropdown component for Products
+    dropdown: <Pages />, // Dropdown component for Pages
     href: "#",
   },
   {
     buttonText: "Blog",
     icon: FaDownLong,
-    dropdown: <Blogs />, // Dropdown component for Products
+    dropdown: <Blogs />, // Dropdown component for Blogs
     href: "#",
   },
 ];
@@ -45,23 +45,50 @@ const Navbar = () => {
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
     null
   );
+  const [isScrolledUp, setIsScrolledUp] = useState<boolean>(true); // Initialize to true
+  const [lastScrollTop, setLastScrollTop] = useState<number>(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+
+      if (scrollTop > lastScrollTop) {
+        // Scrolling down
+        setIsScrolledUp(false);
+      } else if (scrollTop < lastScrollTop) {
+        // Scrolling up
+        setIsScrolledUp(true);
+      }
+
+      setLastScrollTop(scrollTop <= 0 ? 0 : scrollTop);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollTop]);
 
   return (
-    <section className="relative">
-      <nav className="font-inter mx-auto h-auto w-full lg:top-0 relative ">
-        <div className="flex items-center px-6  lg:px-10  xl:px-20">
+    <section
+      className={`w-full h-auto fixed top-0 transition-transform duration-300 ease-in-out ${
+        isScrolledUp ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
+      <nav className="w-full h-auto bg-white px-5 xl:px-10 2xl:px-20">
+        <div className="flex items-center justify-between ">
           {/* Logo */}
-          <div className="w-40 flex-shrink-0 flex items-center justify-center ">
+          <div>
             <Logo />
           </div>
           {/* NavLinks */}
-          <div className="flex-grow flex items-center justify-center space-x-4 lg:space-x-10 ">
+          <div className="flex space-x-10 h-full justify-center items-center">
             {navigationData.map((navItem, index) => (
               <div
                 key={index}
-                className={`  ${
+                className={`${
                   index !== 1 && index !== 2
-                    ? "relative cursor-pointer "
+                    ? "relative cursor-pointer"
                     : "cursor-pointer z-50"
                 }`}
                 onMouseEnter={() =>
@@ -72,7 +99,7 @@ const Navbar = () => {
                 }
               >
                 <button
-                  className={`flex items-center rounded-lg py-6 lg:py-8 text-lg   ${
+                  className={`flex items-center rounded-lg py-6 lg:py-8 text-lg ${
                     openDropdownIndex === index
                       ? "text-black font-bold"
                       : "text-gray-900"
@@ -91,7 +118,7 @@ const Navbar = () => {
                   )}
                 </button>
                 {openDropdownIndex === index && navItem.dropdown && (
-                  <div className="absolute w-full rounded-lg  left-0 z-0">
+                  <div className="absolute w-full rounded-lg left-0 z-0">
                     <MotionTransition>{navItem.dropdown}</MotionTransition>
                   </div>
                 )}
@@ -100,7 +127,7 @@ const Navbar = () => {
           </div>
 
           {/* NavIcons */}
-          <div className="flex-grow flex items-end justify-end space-x-4 lg:space-x-6 w-auto ">
+          <div className="flex justify-center items-center space-x-4 lg:space-x-6 w-auto">
             <NavIcons />
           </div>
 

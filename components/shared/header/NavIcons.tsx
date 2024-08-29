@@ -1,5 +1,4 @@
 // components/NavIcons.tsx
-"use client";
 import React from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaSearch, FaUserCog, FaHeart, FaShoppingCart } from "react-icons/fa";
@@ -10,17 +9,12 @@ import UserSidebarToggler from "../user-account-sidebar/UserSidebarToggler";
 
 const NavIcons = () => {
   return (
-    <div className="space-x-8 md:flex hidden">
-      <a href="#">
-        <IoMdSearch className="text-3xl" />
-      </a>
+    <div className="space-x-8 flex justify-center items-center">
+      <IoMdSearch className="text-2xl" />
+
       <UserSidebarToggler />
-      <a href="#">
-        <IoStarOutline className="text-3xl" />
-      </a>
-      <a href="#" className="text-3xl">
-        <MdOutlineShoppingBag />
-      </a>
+
+      <IoStarOutline className="text-2xl" />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import fashion from "@/public/hero/nike-1.jpg";
 
 const LimitedOffer: React.FC = () => {
   return (
-    <section className="w-full flex 2xl:h-[90vh] flex-col p-6 px-5 xl:px-10 2xl:px-20">
+    <section className="w-full flex 2xl:h-[90vh] flex-col p-6 ">
       <div className="grid 2xl:grid-cols-3 gap-4 2xl:w-full 2xl:h-full">
         {/* First Section (Single Large Card, 1/3 Width) */}
         <section className="relative rounded-2xl overflow-hidden h-[50vh] mt-5 2xl:mt-0 2xl:h-full 2xl:col-span-1">
