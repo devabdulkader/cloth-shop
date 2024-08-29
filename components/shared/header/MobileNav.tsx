@@ -15,11 +15,22 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store/store";
 import { toggleNav } from "@/lib/store/features/nav/navSlice";
-import { FaSearch, FaShoppingBag } from "react-icons/fa";
+import { FaSearch, FaShoppingBag, FaTimes } from "react-icons/fa";
 import Contact from "./Contact";
 import CustomFabars from "./CustomFabars";
 import { RiLuggageCartFill } from "react-icons/ri";
-import SearchBar from "./SearchBar";
+import MobileSearchBar from "./searchBar/MobileSearchBar";
+import {
+  closeButton,
+  openButton,
+  toggleButtonClick,
+} from "@/lib/store/features/buttonToggle/buttonToggleSlice";
+import {
+  closeMobileSearchBar,
+  toggleMobileSearchBar,
+} from "@/lib/store/features/searchBar/mobileSearchBarSlice";
+import { RxCross2 } from "react-icons/rx";
+import MobileSideBarSearch from "./searchBar/MobileSideBarSearch";
 
 // Define TypeScript interfaces for navigation data
 interface SubMenuItem {
@@ -113,6 +124,9 @@ const navigationData: SubMenuItem[] = [
 const MobileNav: React.FC = () => {
   const dispatch = useDispatch();
   const isNavOpen = useSelector((state: RootState) => state.nav.isOpen);
+  const isMobileSearchbarOpen = useSelector(
+    (state: any) => state.mobileSearchBar.isMobileSearchbarOpen
+  );
 
   const [menuStack, setMenuStack] = useState<MenuStackItem[]>([
     { items: navigationData, title: "" },
@@ -161,22 +175,35 @@ const MobileNav: React.FC = () => {
 
   return (
     <section
-      className={`w-full xl:hidden fixed top-0 left-0 h-[60px] flex bg-white z-20 px-5 xl:px-10 2xl:px-20 transition-transform duration-300 ease-in-out ${
+      className={`w-full xl:hidden fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white  px-5 xl:px-10 2xl:px-20 transition-transform duration-300 ease-in-out ${
         isScrolledUp ? "md:translate-y-0" : "md:-translate-y-full"
       }`}
     >
       {/* Conditionally rendered search input */}
-      {showSearchInput && <SearchBar />}
+      <MobileSearchBar />
       <div className="flex justify-between items-center space-x-5 w-full">
         <div className="flex justify-center items-center space-x-5">
-          <div onClick={() => dispatch(toggleNav())}>
+          <div
+            onClick={() => {
+              dispatch(toggleNav());
+              dispatch(closeMobileSearchBar());
+            }}
+          >
             <CustomFabars />
           </div>
           {/* Search icon for small nav */}
-          <IoMdSearch
-            className="text-2xl md:hidden cursor-pointer"
-            onClick={() => setShowSearchInput(!showSearchInput)}
-          />
+          {!isMobileSearchbarOpen && (
+            <IoMdSearch
+              className="text-2xl md:hidden cursor-pointer"
+              onClick={() => dispatch(toggleMobileSearchBar())}
+            />
+          )}
+          {isMobileSearchbarOpen && (
+            <RxCross2
+              className="text-2xl md:hidden cursor-pointer"
+              onClick={() => dispatch(toggleMobileSearchBar())}
+            />
+          )}
         </div>
 
         <div>
@@ -211,6 +238,8 @@ const MobileNav: React.FC = () => {
               key={menuStack.length}
               className="w-full h-full text-sm flex flex-col"
             >
+              {/* search input */}
+              <MobileSideBarSearch />
               {/* navItems */}
               <section className="flex-grow flex flex-col justify-between">
                 <motion.ul

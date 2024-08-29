@@ -9,6 +9,7 @@ import fashion_3 from "@/public/fashion_statement/fashion_3.jpg";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import AnimatedCircleText from "../common/AnimatedCircleText";
 import AnimatedSection from "../motion/AnimatedSection";
+import CustomCrossBar from "../common/CustomCrossBar";
 const Hero = () => {
   return (
     <section className="">

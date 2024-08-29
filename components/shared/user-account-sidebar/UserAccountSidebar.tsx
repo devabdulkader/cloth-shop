@@ -7,6 +7,7 @@ import { RootState } from "@/lib/store/store";
 import Logo from "../header/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import UserDropdown from "./UserDropdown";
+import CustomCrossBar from "@/components/common/CustomCrossBar";
 
 // Define the interface for a single sidebar item
 interface SidebarItem {
@@ -82,12 +83,10 @@ const UserAccountSidebar: React.FC = () => {
         <main className="relative z-20  h-full">
           <div className="flex justify-between items-center py-8  border-b">
             <Logo />
-            <button
-              onClick={() => dispatch(closeSidebar())}
-              className="text-lg"
-            >
-              <FaTimes size={24} />
-            </button>
+
+            <div onClick={() => dispatch(closeSidebar())}>
+              <CustomCrossBar />
+            </div>
           </div>
 
           {/* Sidebar Items */}

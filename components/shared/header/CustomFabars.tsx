@@ -7,7 +7,7 @@ const CustomFabars = () => {
 
   return (
     <div
-      className="flex flex-col items-start space-y-[5px] w-12 relative cursor-pointer group"
+      className="flex flex-col items-start space-y-[5px] w-12 p-2 relative cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
