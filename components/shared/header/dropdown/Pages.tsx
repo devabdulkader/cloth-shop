@@ -3,9 +3,11 @@ import React from "react";
 
 const pagesSections = [
   { title: "404 Error", href: "#404-error" },
-  { title: "About Us", href: "#about-us" },
-  { title: "Contact Us", href: "#contact-us" },
-  { title: "FAQs Page", href: "#faqs-page" },
+  { title: "About Us", href: "/about-us" },
+  { title: "Contact Us", href: "/contact-us" },
+  { title: "Blogs", href: "/blogs" },
+
+  { title: "FAQs Page", href: "/frequently-asked-questions" },
   { title: "Store Direction Page", href: "#store-direction-page" },
   { title: "Store Locations Page", href: "#store-locations-page" },
   { title: "Testimonials Page", href: "#testimonials-page" },
