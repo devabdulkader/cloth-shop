@@ -1,12 +1,13 @@
 "use client";
-import Image, { StaticImageData } from "next/image"; // Import StaticImageData from next/image
+import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
-import nike from "@/public/hero/nike-1.jpg"; // Ensure the image is imported correctly
+import nike from "@/public/hero/nike-1.jpg";
 import { GoArrowUpRight } from "react-icons/go";
+import ResponsiveHeightWrapper from "../common/ResponsiveHeightWrapper";
 
 // Define the type for the data items
 interface HotTrendItem {
-  image: StaticImageData; // Use StaticImageData for the image type
+  image: StaticImageData;
   title: string;
   description: string;
   buttonText: string;
@@ -46,14 +47,32 @@ const data: HotTrendItem[] = [
 ];
 
 const HotTrend: React.FC = () => {
-  const [lastHoveredIndex, setLastHoveredIndex] = useState<number | null>(null); // Type state with number or null
+  const breakpoints = {
+    minWidthSmall: 375,
+    maxWidthSmall: 768,
+    minWidthMedium: 768,
+    maxWidthMedium: 1024,
+    minWidthLarge: 1024,
+    maxWidthLarge: 1440,
+  };
+
+  const heights = {
+    heightSmallStart: 500,
+    heightSmallEnd: 600,
+    heightMediumStart: 600,
+    heightMediumEnd: 700,
+    heightLargeStart: 600,
+    heightLargeEnd: 800,
+  };
+
+  const [lastHoveredIndex, setLastHoveredIndex] = useState<number | null>(null);
   const [currentHoveredIndex, setCurrentHoveredIndex] = useState<number | null>(
     null
-  ); // Type state with number or null
+  );
 
   return (
     <section className="w-full py-10">
-      <div className="grid sm:grid-cols-2 lg:flex lg:flex-row gap-4 px-5 xl:px-10 2xl:px-20">
+      <div className="grid md:grid-cols-2 lg:flex lg:flex-row gap-4 ">
         {data.map((item, index) => (
           <div
             key={index}
@@ -68,27 +87,34 @@ const HotTrend: React.FC = () => {
                 setCurrentHoveredIndex(null);
               }
             }}
-            className={`relative rounded-2xl h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden  w-full flex-1 bg-gray-200  transition-all duration-500 ease-in-out group ${
+            className={`relative rounded-2xl overflow-hidden w-full flex-1 bg-gray-200 transition-all duration-500 ease-in-out group ${
               lastHoveredIndex === index ? "flex-[1.5]" : ""
             }`}
           >
-            <Image
-              src={item.image}
-              alt={item.title}
-              layout="fill"
-              objectFit="cover"
-              className="absolute inset-0"
-            />
-            <div className="absolute inset-0 flex flex-col justify-end p-6 bg-black bg-opacity-30 text-white gap-3">
-              <h2 className="text-2xl md:text-4xl font-bold mb-2 max-w-40 leading-normal">
-                {item.title}
-              </h2>
-              <p className="text-sm md:text-base mb-4">{item.description}</p>
-              <button className="bg-white text-black py-3 px-5  rounded-full flex justify-between items-center uppercase  group hover:bg-black hover:text-white transition-colors duration-200 ease-in-out">
-                <span className="text-sm xl:text-lg ">{item.buttonText}</span>
-                <GoArrowUpRight className="text-2xl transform transition-transform group-hover:rotate-45" />
-              </button>
-            </div>
+            <ResponsiveHeightWrapper
+              breakpoints={breakpoints}
+              heights={heights}
+            >
+              <Image
+                src={item.image}
+                alt={item.title}
+                layout="fill"
+                objectFit="cover"
+                className="absolute inset-0"
+              />
+              <div className="absolute inset-0 flex flex-col justify-end p-6 bg-black bg-opacity-30 text-white gap-3">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 max-w-40 leading-normal lg:leading-relaxed">
+                  {item.title}
+                </h2>
+                <p className="text-sm md:text-base mb-4">{item.description}</p>
+                <button className="bg-white text-black py-3 px-5 rounded-full flex justify-between items-center uppercase group hover:bg-black hover:text-white transition-colors duration-200 ease-in-out">
+                  <span className="text-sm xl:text-md  ">
+                    {item.buttonText}
+                  </span>
+                  <GoArrowUpRight className="text-2xl transform transition-transform group-hover:rotate-45" />
+                </button>
+              </div>
+            </ResponsiveHeightWrapper>
           </div>
         ))}
       </div>

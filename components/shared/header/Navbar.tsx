@@ -11,33 +11,55 @@ import MotionTransition from "@/components/motion/MotionTransition";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 
+// const navigationData = [
+//   {
+//     buttonText: "Home",
+//     href: "/",
+//   },
+//   {
+//     buttonText: "Collections",
+//     icon: FaDownLong,
+//     dropdown: <Collections />,
+//   },
+//   {
+//     buttonText: "Products",
+//     icon: FaDownLong,
+//     dropdown: <Products />,
+//     href: "#",
+//   },
+//   {
+//     buttonText: "Pages",
+//     icon: FaDownLong,
+//     dropdown: <Pages />,
+//     href: "#",
+//   },
+//   {
+//     buttonText: "Blog",
+//     icon: FaDownLong,
+//     dropdown: <Blogs />,
+//     href: "#",
+//   },
+// ];
+
 const navigationData = [
   {
     buttonText: "Home",
     href: "/",
   },
   {
-    buttonText: "Collections",
-    icon: FaDownLong,
-    dropdown: <Collections />, // Dropdown component for Collections
+    buttonText: "Product",
+    href: "/products",
   },
+
   {
-    buttonText: "Products",
-    icon: FaDownLong,
-    dropdown: <Products />, // Dropdown component for Products
-    href: "#",
-  },
-  {
-    buttonText: "Pages",
+    buttonText: "About Us",
     icon: FaDownLong,
     dropdown: <Pages />, // Dropdown component for Pages
     href: "#",
   },
   {
-    buttonText: "Blog",
-    icon: FaDownLong,
-    dropdown: <Blogs />, // Dropdown component for Blogs
-    href: "#",
+    buttonText: "Contact Us",
+    href: "/contact-us",
   },
 ];
 
@@ -86,7 +108,7 @@ const Navbar = () => {
             {navigationData.map((navItem, index) => (
               <div
                 key={index}
-                className={`${
+                className={`relative ${
                   index !== 1 && index !== 2
                     ? "relative cursor-pointer"
                     : "cursor-pointer z-50"
@@ -132,9 +154,9 @@ const Navbar = () => {
           </div>
 
           {/* Blur effect behind the dropdown */}
-          {(openDropdownIndex === 1 || openDropdownIndex === 2) && (
+          {/* {(openDropdownIndex === 1 || openDropdownIndex === 2) && (
             <div className="absolute inset-0 z-0 h-screen top-24 bg-white bg-opacity-60 backdrop-blur-lg"></div>
-          )}
+          )} */}
         </div>
       </nav>
     </section>
