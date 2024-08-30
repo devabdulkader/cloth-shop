@@ -18,8 +18,9 @@ const Landing = () => {
     <div className="flex flex-col gap-10">
       <DesktopSearchBar />
       <Hero />
-      <FashionStatement />
       <HotTrend />
+      <FashionStatement />
+
       <FashionFusion />
       <LimitedOffer />
       <NewArrival />

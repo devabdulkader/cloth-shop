@@ -52,16 +52,16 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
           <Image
             src={imageSrc}
             alt={alt}
+            width={300}
+            height={300}
             className="object-cover rounded-2xl w-full h-full"
-            layout="fill"
-            objectFit="cover"
           />
         ) : null}
       </motion.div>
-      <div className="absolute inset-0 flex flex-col p-7 md:p-10 lg:p-20">
+      <div className="absolute inset-0 flex flex-col p-7 md:p-10 lg:p-20 justify-center gap-3 ">
         <motion.h2
           style={{ lineHeight: "1.3" }}
-          className={`text-2xl md:text-4xl xl:text-5xl font-bold max-w-60 md:max-w-lg ${titleClassName}`}
+          className={`text-2xl xl:text-5xl font-bold  md:max-w-lg ${titleClassName}`}
           variants={titleVariants}
           initial="hidden"
           animate="visible"
@@ -69,7 +69,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
           {title}
         </motion.h2>
         <motion.p
-          className={`text-sm md:text-lg py-2 lg:py-5 ${descriptionClassName}`}
+          className={`text-sm md:text-lg  ${descriptionClassName}`}
           variants={descriptionVariants}
           initial="hidden"
           animate="visible"

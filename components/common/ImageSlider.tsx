@@ -81,9 +81,7 @@ const ImageSlider: React.FC = () => {
                 <Image
                   src={image}
                   alt={`Variant Thumbnail ${index}`}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  className="w-full h-full"
+                  className="object-cover w-full h-full"
                 />
               ) : (
                 <ZoomedImage src={image} />
@@ -123,10 +121,7 @@ const ImageSlider: React.FC = () => {
             <Image
               src={image}
               alt={`Variant Thumbnail ${index}`}
-              fill
-              style={{ objectFit: "cover" }}
-              quality={100}
-              className="w-full h-full"
+              className="object-cover w-full h-full"
             />
           </SwiperSlide>
         ))}

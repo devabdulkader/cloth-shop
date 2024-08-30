@@ -15,9 +15,7 @@ const NewArrival = () => {
             <Image
               src={fashion}
               alt="New Arrival 1"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-2xl"
+              className="rounded-2xl object-cover w-full h-full"
             />
             <div className="absolute inset-0 flex flex-col items-center  p-4 bg-black bg-opacity-30 text-white gap-5 pt-10">
               <p className="text-base text-center uppercase">New Arrivals </p>
@@ -35,9 +33,7 @@ const NewArrival = () => {
             <Image
               src={fashion}
               alt="New Arrival 2"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-2xl"
+              className="rounded-2xl object-cover w-full h-full"
             />
             <div className="absolute inset-0 flex   items-end p-4 bg-black bg-opacity-30 text-white">
               <div className="flex justify-between items-center w-full">
@@ -79,9 +75,7 @@ const NewArrival = () => {
             <Image
               src={fashion}
               alt="New Arrival 4"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-2xl"
+              className="rounded-2xl object-cover w-full h-full"
             />
           </div>
         </div>
