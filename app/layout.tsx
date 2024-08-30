@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import StoreProvider from "./StoreProvider";
+import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <StoreProvider>
           <Header />
           <main className="pt-20 lg:pt-24  px-5 xl:px-10 2xl:px-20">
+          
             {children}
           </main>
           <Footer />

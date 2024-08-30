@@ -1,27 +1,88 @@
-import React from "react";
+"use client";
 import Image from "next/image";
 import fashion from "@/public/hero/nike-1.jpg";
+import React, { useEffect, useState } from "react";
+import fashion_1 from "@/public/fashion_statement/fashion_1.jpg";
+import fashion_2 from "@/public/fashion_statement/fashion_2.jpg";
+import fashion_3 from "@/public/fashion_statement/fashion_3.jpg";
 
-const LimitedOffer: React.FC = () => {
+import { IoIosArrowRoundForward } from "react-icons/io";
+import AnimatedCircleText from "../common/AnimatedCircleText";
+import AnimatedSection from "../motion/AnimatedSection";
+
+const LimitedOffer = () => {
+  const [height, setHeight] = useState<any>("auto"); // Initial height in pixels
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 768 && screenWidth <= 1024) {
+        // Apply dynamic height calculation for screens wider than 768px
+        const newHeight =
+          500 + ((screenWidth - 768) / (1280 - 768)) * (1000 - 200); // Adjust height dynamically from 200px to 1000px between 768px and 1280px
+        setHeight(newHeight);
+      } else if (screenWidth >= 1024) {
+        setHeight(820);
+      } else {
+        // Set fixed height for screens smaller than 768px
+        setHeight("auto");
+      }
+    };
+
+    // Set the initial height
+    handleResize();
+
+    // Update height on window resize
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <section className="w-full flex 2xl:h-[90vh] flex-col p-6 ">
-      <div className="grid 2xl:grid-cols-3 gap-4 2xl:w-full 2xl:h-full">
-        {/* First Section (Single Large Card, 1/3 Width) */}
-        <section className="relative rounded-2xl overflow-hidden h-[50vh] mt-5 2xl:mt-0 2xl:h-full 2xl:col-span-1">
-          <Image
-            src={fashion}
-            alt="Large Card"
-            height={300}
-            width={300}
-            className="rounded-2xl h-full w-full object-cover"
-          />
+    <section className="">
+      <div
+        className="flex flex-col md:flex-row  gap-5"
+        style={{ height: height === "auto" ? "auto" : `${height}px` }} // Conditional height style
+      >
+        {/* Second Section (Single Large Card) */}
+        <section className="relative rounded-2xl md:w-[40%] overflow-hidden h-[500px] md:h-full group">
+          <div className="relative rounded-2xl w-full overflow-hidden h-full">
+            <Image
+              src={fashion}
+              alt="Large Card"
+              height={300}
+              width={300}
+              className="rounded-2xl h-full w-full object-cover"
+            />
+          </div>
         </section>
-
-        {/* Second Section (3 Cards, 2/3 Width) */}
-        <section className="grid gap-5 2xl:grid-rows-2 2xl:col-span-2">
+        {/* First Section (3 Cards) */}
+        <section className="flex flex-col  md:w-[60%] h-full gap-5">
           {/* Bottom Two Cards (Side by Side, Half Width and Half Height Each) */}
-          <div className="grid md:grid-cols-2 gap-5 2xl:h-full">
-            <div className="relative rounded-2xl overflow-hidden h-[50vh] 2xl:h-auto ">
+          <div className="grid md:grid-cols-2 gap-5 md:h-[55%]">
+            <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
+              <Image
+                src={fashion}
+                alt="Full Width Top Card"
+                height={300}
+                width={300}
+                className="rounded-2xl object-cover w-full h-full"
+              />
+              <div className="absolute inset-0 flex flex-col p-10 bg-black bg-opacity-30 text-white gap-2">
+                <p className="text-lg uppercase">Limited Time Only</p>
+                <h2 className="text-2xl font-bold mb-2">Sale Upto 40% Off</h2>
+                <p className="text-lg max-w-80">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Fugit, consectetur.
+                </p>
+                <div>
+                  <button className="bg-white text-black py-3 px-5 rounded-full flex justify-between items-center uppercase hover:bg-black hover:text-white transition-colors duration-200 ease-in-out">
+                    Shop Now
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
               <Image
                 src={fashion}
                 alt="Bottom Left Card"
@@ -29,53 +90,32 @@ const LimitedOffer: React.FC = () => {
                 width={300}
                 className="rounded-2xl object-cover w-full h-full"
               />
-              <div className="absolute inset-0 flex flex-col  p-4 bg-black bg-opacity-30 text-white">
-                <h2 className="text-xl font-bold mb-2">Personality Style</h2>
+              <div className="absolute inset-0 flex flex-col p-4 bg-black bg-opacity-30 text-white">
+                <h2 className="text-xl font-bold mb-2">
+                  Personality Style Visit
+                </h2>
                 <p className="text-base max-w-60">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                   Quam, aliquam.
                 </p>
               </div>
             </div>
-            <div className="relative rounded-2xl overflow-hidden h-[50vh] 2xl:h-auto ">
-              <Image
-                src={fashion}
-                alt="Bottom Right Card"
-                height={300}
-                width={300}
-                className="rounded-2xl object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 flex flex-col  p-4 bg-black bg-opacity-30 text-white">
-                <h2 className="text-xl font-bold mb-2">Modern Fashion</h2>
-                <p className="text-base max-w-60">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Tenetur, ex?
-                </p>
-              </div>
-            </div>
           </div>
-
-          {/* Top Card (Full Width, Half Height) */}
-          <div className="relative rounded-2xl overflow-hidden h-[50vh] 2xl:h-auto ">
+          {/* Top One Card */}
+          <div className="md:h-[45%] relative rounded-2xl overflow-hidden">
             <Image
               src={fashion}
               alt="Bottom Right Card"
               height={300}
               width={300}
-              className="rounded-2xl object-cover w-full h-full"
+              className="object-cover w-full h-full"
             />
-            <div className="absolute inset-0 flex flex-col  p-10 bg-black bg-opacity-30 text-white gap-2 ">
-              <p className="text-lg uppercase">Limited Time Only</p>
-              <h2 className="text-2xl font-bold mb-2">Sale Upto 40% Off</h2>
-              <p className="text-lg max-w-80">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit,
-                consectetur.
+            <div className="absolute inset-0 flex flex-col p-4 bg-black bg-opacity-30 text-white">
+              <h2 className="text-xl font-bold mb-2">Modern Fashion</h2>
+              <p className="text-base max-w-60">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tenetur, ex?
               </p>
-              <div>
-                <button className="bg-white text-black py-3 px-5  rounded-full flex justify-between items-center uppercase   hover:bg-black hover:text-white transition-colors duration-200 ease-in-out">
-                  Shop Now
-                </button>
-              </div>
             </div>
           </div>
         </section>

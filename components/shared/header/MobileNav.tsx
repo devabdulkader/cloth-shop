@@ -1,3 +1,80 @@
+// const navigationData: SubMenuItem[] = [
+//   {
+//     title: "Home",
+//     href: "#",
+//   },
+//   {
+//     buttonText: "Collections",
+//     subMenu: [
+//       {
+//         buttonText: "Spring Collection",
+//         subMenu: [
+//           { title: "T-Shirts", href: "#" },
+//           { title: "Hoodies", href: "#" },
+//         ],
+//       },
+//       {
+//         buttonText: "Summer Collection",
+//         subMenu: [
+//           { title: "Shorts", href: "#" },
+//           { title: "Swimwear", href: "#" },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     buttonText: "Products",
+//     subMenu: [
+//       {
+//         buttonText: "Electronics",
+//         subMenu: [
+//           { title: "Laptops", href: "#" },
+//           { title: "Mobile Phones", href: "#" },
+//         ],
+//       },
+//       {
+//         buttonText: "Home Appliances",
+//         subMenu: [
+//           { title: "Refrigerators", href: "#" },
+//           { title: "Microwaves", href: "#" },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     buttonText: "Pages",
+//     subMenu: [
+//       {
+//         title: "About Us",
+//         href: "#",
+//       },
+//       {
+//         title: "Contact Us",
+//         href: "#",
+//       },
+//     ],
+//   },
+//   {
+//     buttonText: "Blog",
+//     subMenu: [
+//       {
+//         buttonText: "Tech",
+//         subMenu: [
+//           { title: "AI", href: "#" },
+//           { title: "Blockchain", href: "#" },
+//         ],
+//       },
+//       {
+//         buttonText: "Lifestyle",
+//         subMenu: [
+//           { title: "Travel", href: "#" },
+//           { title: "Food", href: "#" },
+//         ],
+//       },
+//     ],
+//   },
+// ];
+
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -14,7 +91,7 @@ import {
 } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store/store";
-import { toggleNav } from "@/lib/store/features/nav/navSlice";
+import { closeNav, toggleNav } from "@/lib/store/features/nav/navSlice";
 import { FaSearch, FaShoppingBag, FaTimes } from "react-icons/fa";
 import Contact from "./Contact";
 import CustomFabars from "./CustomFabars";
@@ -30,14 +107,20 @@ import {
   toggleMobileSearchBar,
 } from "@/lib/store/features/searchBar/mobileSearchBarSlice";
 import { RxCross2 } from "react-icons/rx";
+
 import MobileSideBarSearch from "./searchBar/MobileSideBarSearch";
+import CustomLink from "@/components/custom/CustomLink";
+import CustomIcon from "@/components/custom/CustomIcon";
+import CustomSearchIcon from "@/components/custom/CustomSearchIcon";
+import CustomBackDrop from "@/components/custom/CustomBackDrop";
+import BottomNav from "./BottomNav";
 
 // Define TypeScript interfaces for navigation data
 interface SubMenuItem {
   title?: string;
   href?: string;
   buttonText?: string;
-  subMenu?: SubMenuItem[];
+  subMenu?: SubMenuItem[]; // Ensuring that subMenu is always of type SubMenuItem[] or undefined
 }
 
 interface MenuStackItem {
@@ -48,79 +131,29 @@ interface MenuStackItem {
 const navigationData: SubMenuItem[] = [
   {
     title: "Home",
-    href: "#",
+    href: "",
   },
   {
-    buttonText: "Collections",
+    title: "Product",
+    href: "products",
+  },
+  {
+    buttonText: "About Us",
     subMenu: [
-      {
-        buttonText: "Spring Collection",
-        subMenu: [
-          { title: "T-Shirts", href: "#" },
-          { title: "Hoodies", href: "#" },
-        ],
-      },
-      {
-        buttonText: "Summer Collection",
-        subMenu: [
-          { title: "Shorts", href: "#" },
-          { title: "Swimwear", href: "#" },
-        ],
-      },
+      { title: "Articles", href: "blogs" },
+      { title: "Privacy Policy", href: "privacy-policy" },
+      { title: "Deliver", href: "deliver" },
+      { title: "Return and Refund", href: "return-and-refund" },
+      { title: "FAQs", href: "frequently-asked-questions" },
+      { title: "Testimonial", href: "testimonials" },
     ],
   },
   {
-    buttonText: "Products",
-    subMenu: [
-      {
-        buttonText: "Electronics",
-        subMenu: [
-          { title: "Laptops", href: "#" },
-          { title: "Mobile Phones", href: "#" },
-        ],
-      },
-      {
-        buttonText: "Home Appliances",
-        subMenu: [
-          { title: "Refrigerators", href: "#" },
-          { title: "Microwaves", href: "#" },
-        ],
-      },
-    ],
-  },
-  {
-    buttonText: "Pages",
-    subMenu: [
-      {
-        title: "About Us",
-        href: "#",
-      },
-      {
-        title: "Contact Us",
-        href: "#",
-      },
-    ],
-  },
-  {
-    buttonText: "Blog",
-    subMenu: [
-      {
-        buttonText: "Tech",
-        subMenu: [
-          { title: "AI", href: "#" },
-          { title: "Blockchain", href: "#" },
-        ],
-      },
-      {
-        buttonText: "Lifestyle",
-        subMenu: [
-          { title: "Travel", href: "#" },
-          { title: "Food", href: "#" },
-        ],
-      },
-    ],
+    title: "Contact Us",
+    href: "contact-us",
   },
 ];
+
 const MobileNav: React.FC = () => {
   const dispatch = useDispatch();
   const isNavOpen = useSelector((state: RootState) => state.nav.isOpen);
@@ -148,6 +181,7 @@ const MobileNav: React.FC = () => {
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
     null
   );
+
   const [isScrolledUp, setIsScrolledUp] = useState<boolean>(true); // Initialize to true
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
 
@@ -172,17 +206,20 @@ const MobileNav: React.FC = () => {
     };
   }, [lastScrollTop]);
   const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
-
+  const handleClose = () => {
+    dispatch(closeNav());
+  };
   return (
     <section
-      className={`w-full xl:hidden fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white  px-5 xl:px-10 2xl:px-20 transition-transform duration-300 ease-in-out ${
-        isScrolledUp ? "md:translate-y-0" : "md:-translate-y-full"
+      className={`w-full fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white  px-5 xl:px-10 2xl:px-20 transition-transform duration-300 ease-in-out ${
+        isScrolledUp ? "xl:translate-y-0" : "xl:-translate-y-full"
       }`}
     >
+      <BottomNav />
       {/* Conditionally rendered search input */}
       <MobileSearchBar />
       <div className="flex justify-between items-center space-x-5 w-full">
-        <div className="flex justify-center items-center space-x-5">
+        <div className="flex justify-center items-center space-x-2">
           <div
             onClick={() => {
               dispatch(toggleNav());
@@ -193,10 +230,12 @@ const MobileNav: React.FC = () => {
           </div>
           {/* Search icon for small nav */}
           {!isMobileSearchbarOpen && (
-            <IoMdSearch
-              className="text-2xl md:hidden cursor-pointer"
+            <button
+              className="md:hidden cursor-pointer"
               onClick={() => dispatch(toggleMobileSearchBar())}
-            />
+            >
+              <CustomSearchIcon />
+            </button>
           )}
           {isMobileSearchbarOpen && (
             <RxCross2
@@ -213,21 +252,17 @@ const MobileNav: React.FC = () => {
           <NavIcons />
         </div>
         <div className="md:hidden relative">
-          <RiLuggageCartFill className="text-2xl md:hidden" />
-          <span className="absolute text-xs -top-4 bg-black text-white size-5 rounded-full flex justify-center items-center">
-            0
-          </span>
+          <CustomIcon
+            Icon={RiLuggageCartFill}
+            iconClassName="text-2xl"
+            quantity={2}
+          />
         </div>
       </div>
 
-      <div
-        className={`absolute inset-0 bg-white bg-opacity-30 backdrop-blur-md z-10 h-screen transition-opacity duration-300 ${
-          isNavOpen ? "opacity-80 cursor-crosshair block" : "opacity-0 hidden"
-        }`}
-        onClick={() => dispatch(toggleNav())}
-      />
+      {isNavOpen && <CustomBackDrop onClose={handleClose} />}
       <main
-        className={`h-screen fixed top-0 w-[80%] sm:w-[60vw] md:w-[40vw] left-0 z-layer-1 bg-white border transition-transform duration-300 ${
+        className={`h-screen fixed top-0 w-[80%] sm:w-[60vw] md:w-[40vw] left-0 z-layer-2 bg-white border transition-transform duration-300 ${
           isNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -291,9 +326,13 @@ const MobileNav: React.FC = () => {
                           <IoIosArrowForward className="ml-4" />
                         </button>
                       ) : (
-                        <a href={item.href} className="block w-full">
+                        <CustomLink
+                          href={`${item.href}`}
+                          className="block w-full"
+                          onClose={handleClose} // Pass a function that dispatches the action
+                        >
                           {item.title}
-                        </a>
+                        </CustomLink>
                       )}
                     </motion.li>
                   ))}

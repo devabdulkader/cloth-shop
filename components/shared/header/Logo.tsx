@@ -8,7 +8,7 @@ const Logo = () => {
   return (
     <div className="flex items-center justify-center">
       <Link href="/">
-        <Image src={Logo2} className="w-28 md:w-32 lg:w-36" alt="Logo 2" />
+        <Image src={Logo2} className="w-28" alt="Logo 2" />
       </Link>
     </div>
   );

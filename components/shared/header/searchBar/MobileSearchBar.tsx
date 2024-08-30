@@ -9,7 +9,7 @@ import {
   openMobileSearchBar,
   toggleMobileSearchBar,
 } from "@/lib/store/features/searchBar/mobileSearchBarSlice";
-
+import CustomBackDrop from '../../../custom/CustomBackDrop'
 const MobileSearchBar: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -35,16 +35,7 @@ const MobileSearchBar: React.FC = () => {
       {isMobileSearchBarOpen && (
         <>
           {/* Background blur overlay */}
-          {isInputFocused && (
-            <motion.div
-              className="fixed inset-0 bg-black cursor-pointer bg-opacity-30 z-10 top-60 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              onClick={closeSearchBar}
-            />
-          )}
+          {isInputFocused &&  <CustomBackDrop onClose={closeSearchBar} top="top-60" zIndex="z-10" />}
           <motion.div
             className="border bg-white z-20 py-20 absolute top-full w-full left-0"
             initial={{ y: "20%" }} // Adjust this value for shorter slide-in

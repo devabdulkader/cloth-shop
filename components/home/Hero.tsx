@@ -8,6 +8,7 @@ import fashion_3 from "@/public/fashion_statement/fashion_3.jpg";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import AnimatedCircleText from "../common/AnimatedCircleText";
 import AnimatedSection from "../motion/AnimatedSection";
+import CustomImage from "../custom/CustomImage";
 
 const Hero = () => {
   const [height, setHeight] = useState<any>("auto"); // Initial height in pixels
@@ -61,11 +62,7 @@ const Hero = () => {
           {/* Bottom Two Cards (Side by Side, Half Width and Half Height Each) */}
           <div className="grid md:grid-cols-2 gap-5 md:h-2/5">
             <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
-              <Image
-                src={fashion_2}
-                alt="Bottom Left Card"
-                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
-              />
+              <CustomImage src={fashion_2} alt="Bottom Left Card" />
 
               <div className="absolute inset-0 flex justify-center items-center">
                 <AnimatedCircleText />
@@ -73,11 +70,8 @@ const Hero = () => {
             </div>
 
             <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
-              <Image
-                src={fashion_1}
-                alt="Second Card"
-                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
-              />
+              <CustomImage src={fashion_1} alt="Second Card" />
+
               <div className="absolute inset-0 flex flex-col gap-2 px-5 py-10">
                 <h2
                   className="  text-xl 
@@ -112,11 +106,8 @@ const Hero = () => {
 
         {/* Second Section (Single Large Card) */}
         <section className="relative rounded-2xl overflow-hidden h-[500px] mt-5 md:mt-0 md:h-full group">
-          <Image
-            src={fashion_3}
-            alt="Large Card"
-            className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
-          />
+          <CustomImage src={fashion_3} alt="Large Card" />
+
           <div className="absolute inset-0 flex flex-col justify-center p-10 bg-black bg-opacity-30 text-white">
             <p className="text-lg uppercase">New Design</p>
             <div className="my-3">

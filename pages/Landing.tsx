@@ -13,18 +13,20 @@ import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
 import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
+import Statement from "@/components/home/Statement";
 const Landing = () => {
   return (
     <div className="flex flex-col gap-10">
-      <DesktopSearchBar />
       <Hero />
       <HotTrend />
-      <FashionStatement />
-
-      <FashionFusion />
-      <LimitedOffer />
+      <Statement />
       <NewArrival />
+      <FashionFusion />
       <NewestProduct />
+      {/* <FashionStatement /> */}
+
+      <LimitedOffer />
+
       <Policy />
       <LatestNews />
       <Testimonials />

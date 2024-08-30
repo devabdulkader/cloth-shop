@@ -12,8 +12,8 @@ interface CustomButtonProps {
 const CustomButton: React.FC<CustomButtonProps> = ({
   href,
   buttonText,
-  buttonClassName = "", // Default to an empty string if not provided
-  buttonAnimation = "", // Default to an empty string if not provided
+  buttonClassName = "",
+  buttonAnimation = "", 
 }) => {
   return (
     <div>
