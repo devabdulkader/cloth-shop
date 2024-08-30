@@ -52,9 +52,9 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
           <Image
             src={imageSrc}
             alt={alt}
+            width={300}
+            height={300}
             className="object-cover rounded-2xl w-full h-full"
-            layout="fill"
-            objectFit="cover"
           />
         ) : null}
       </motion.div>

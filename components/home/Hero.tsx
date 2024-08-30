@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import fashion from "@/public/hero/nike-1.jpg";
 import fashion_1 from "@/public/fashion_statement/fashion_1.jpg";
 import fashion_2 from "@/public/fashion_statement/fashion_2.jpg";
 import fashion_3 from "@/public/fashion_statement/fashion_3.jpg";
@@ -65,9 +64,7 @@ const Hero = () => {
               <Image
                 src={fashion_2}
                 alt="Bottom Left Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110"
+                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
               />
 
               <div className="absolute inset-0 flex justify-center items-center">
@@ -79,9 +76,7 @@ const Hero = () => {
               <Image
                 src={fashion_1}
                 alt="Second Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110"
+                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
               />
               <div className="absolute inset-0 flex flex-col gap-2 px-5 py-10">
                 <h2
@@ -120,9 +115,7 @@ const Hero = () => {
           <Image
             src={fashion_3}
             alt="Large Card"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110"
+            className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
           />
           <div className="absolute inset-0 flex flex-col justify-center p-10 bg-black bg-opacity-30 text-white">
             <p className="text-lg uppercase">New Design</p>

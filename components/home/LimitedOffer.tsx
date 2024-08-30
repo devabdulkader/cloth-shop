@@ -11,9 +11,9 @@ const LimitedOffer: React.FC = () => {
           <Image
             src={fashion}
             alt="Large Card"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-2xl"
+            height={300}
+            width={300}
+            className="rounded-2xl h-full w-full object-cover"
           />
         </section>
 
@@ -25,9 +25,9 @@ const LimitedOffer: React.FC = () => {
               <Image
                 src={fashion}
                 alt="Bottom Left Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
+                height={300}
+                width={300}
+                className="rounded-2xl object-cover w-full h-full"
               />
               <div className="absolute inset-0 flex flex-col  p-4 bg-black bg-opacity-30 text-white">
                 <h2 className="text-xl font-bold mb-2">Personality Style</h2>
@@ -41,9 +41,9 @@ const LimitedOffer: React.FC = () => {
               <Image
                 src={fashion}
                 alt="Bottom Right Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
+                height={300}
+                width={300}
+                className="rounded-2xl object-cover w-full h-full"
               />
               <div className="absolute inset-0 flex flex-col  p-4 bg-black bg-opacity-30 text-white">
                 <h2 className="text-xl font-bold mb-2">Modern Fashion</h2>
@@ -60,9 +60,9 @@ const LimitedOffer: React.FC = () => {
             <Image
               src={fashion}
               alt="Bottom Right Card"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-2xl"
+              height={300}
+              width={300}
+              className="rounded-2xl object-cover w-full h-full"
             />
             <div className="absolute inset-0 flex flex-col  p-10 bg-black bg-opacity-30 text-white gap-2 ">
               <p className="text-lg uppercase">Limited Time Only</p>

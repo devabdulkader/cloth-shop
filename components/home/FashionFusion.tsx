@@ -26,6 +26,8 @@ const FashionFusion: React.FC = () => {
           <Image
             src={fashion}
             alt="Fashion"
+            height={300}
+            width={300}
             className="object-cover w-full h-full"
           />
           <div className="absolute inset-x-0 bottom-0 text-center p-4  text-white">

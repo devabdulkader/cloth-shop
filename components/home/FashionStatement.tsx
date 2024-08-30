@@ -29,9 +29,9 @@ const FashionStatement = () => {
               <Image
                 src={shoe_2}
                 alt="Second Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
+                width={300}
+                height={300}
+                className="rounded-2xl object-cover w-full h-full"
               />
               <div className="absolute inset-0 flex p-7">
                 <h2

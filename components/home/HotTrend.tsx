@@ -7,7 +7,7 @@ import ResponsiveHeightWrapper from "../common/ResponsiveHeightWrapper";
 
 // Define the type for the data items
 interface HotTrendItem {
-  image: StaticImageData;
+  image: string;
   title: string;
   description: string;
   buttonText: string;
@@ -17,28 +17,28 @@ interface HotTrendItem {
 // Sample Data
 const data: HotTrendItem[] = [
   {
-    image: nike,
+    image: "/hero/nike-1.jpg",
     title: "Running Shoes",
     description: "Explore the latest trends in style and fashion.",
     buttonText: "Explore Category",
     href: "#",
   },
   {
-    image: nike,
+    image: "/hero/nike-1.jpg",
     title: "Basketball Shoes",
     description: "Discover the best in trendy outfits and accessories.",
     buttonText: "Explore Category",
     href: "#",
   },
   {
-    image: nike,
+    image: "/hero/nike-1.jpg",
     title: "Training Shoes",
     description: "Find out what's new in the fashion world.",
     buttonText: "Explore Category",
     href: "#",
   },
   {
-    image: nike,
+    image: "/hero/nike-1.jpg",
     title: "Outdoor Shoes",
     description: "Get ahead with the latest fashion trends.",
     buttonText: "Explore Category",
@@ -98,9 +98,9 @@ const HotTrend: React.FC = () => {
               <Image
                 src={item.image}
                 alt={item.title}
-                layout="fill"
-                objectFit="cover"
-                className="absolute inset-0"
+                width={300}
+                height={300}
+                className="absolute inset-0 object-cover w-full h-full"
               />
               <div className="absolute inset-0 flex flex-col justify-end p-6 bg-black bg-opacity-30 text-white gap-3">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 max-w-40 leading-normal lg:leading-relaxed">
