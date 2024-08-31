@@ -9,6 +9,7 @@ import CustomBackDrop from "@/components/custom/CustomBackDrop";
 import { useDispatch, useSelector } from "react-redux";
 import { closeNav } from "@/lib/store/features/nav/navSlice";
 import { RootState } from "@/lib/store/store";
+import CartSideBar from "./CartSideBar";
 
 const Header = () => {
   return (
@@ -17,6 +18,7 @@ const Header = () => {
       <DesktopSearchBar />
       <UserAccountSidebar />
       <SideBarMobile />
+      <CartSideBar />
 
       <div className="hidden xl:block relative z-50">
         <Navbar />

@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Define the initial state interface for the user sidebar
 interface UserSidebarState {
-  isSidebarOpen: boolean;
+  isUserSidebarOpen: boolean;
 }
 
 // Set the initial state for the user sidebar
 const initialState: UserSidebarState = {
-  isSidebarOpen: false,
+  isUserSidebarOpen: false,
 };
 
 // Create the userSidebar slice with actions to manage the state
@@ -16,22 +16,22 @@ const userSidebarSlice = createSlice({
   initialState,
   reducers: {
     // Toggle the user sidebar state
-    toggleSidebar(state) {
-      state.isSidebarOpen = !state.isSidebarOpen;
+    toggleUserSidebar(state) {
+      state.isUserSidebarOpen = !state.isUserSidebarOpen;
     },
     // Set the user sidebar state to open
-    openSidebar(state) {
-      state.isSidebarOpen = true;
+    openUserSidebar(state) {
+      state.isUserSidebarOpen = true;
     },
     // Set the user sidebar state to closed
-    closeSidebar(state) {
-      state.isSidebarOpen = false;
+    closeUserSidebar(state) {
+      state.isUserSidebarOpen = false;
     },
   },
 });
 
 // Export actions
-export const { toggleSidebar, openSidebar, closeSidebar } =
+export const { toggleUserSidebar, openUserSidebar, closeUserSidebar } =
   userSidebarSlice.actions;
 
 // Export reducer

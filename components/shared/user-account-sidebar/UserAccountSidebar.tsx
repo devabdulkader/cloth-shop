@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaTimes } from "react-icons/fa";
-import { closeSidebar } from "@/lib/store/features/userSidebar/userSidebarSlice";
+import { closeUserSidebar } from "@/lib/store/features/userSidebar/userSidebarSlice";
 import { RootState } from "@/lib/store/store";
 import Logo from "../header/Logo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -48,8 +48,8 @@ const languages = ["English", "German", "French"];
 
 const UserAccountSidebar: React.FC = () => {
   const dispatch = useDispatch();
-  const isSidebarOpen = useSelector(
-    (state: RootState) => state.userSidebar.isSidebarOpen
+  const isUserSidebarOpen = useSelector(
+    (state: RootState) => state.userSidebar.isUserSidebarOpen
   );
 
   const [showCurrencyOptions, setShowCurrencyOptions] = useState(false);
@@ -65,24 +65,24 @@ const UserAccountSidebar: React.FC = () => {
     if (showCurrencyOptions) setShowCurrencyOptions(false);
   };
   const handleClose = () => {
-    dispatch(closeSidebar());
+    dispatch(closeUserSidebar());
   };
   return (
     <>
       {/* Background Overlay */}
-      {isSidebarOpen && <CustomBackDrop onClose={handleClose} />}
+      {isUserSidebarOpen && <CustomBackDrop onClose={handleClose} />}
 
       {/* Sidebar */}
       <div
         className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 py-4 px-8 shadow-lgtransform transition-transform duration-500 ${
-          isSidebarOpen ? "translate-x-0" : "translate-x-full"
+          isUserSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <main className="relative z-20  h-full">
           <div className="flex justify-between items-center py-8  border-b">
             <Logo />
 
-            <div onClick={() => dispatch(closeSidebar())}>
+            <div onClick={handleClose}>
               <CustomCrossBar />
             </div>
           </div>
