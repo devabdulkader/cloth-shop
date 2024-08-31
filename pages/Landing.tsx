@@ -2,7 +2,7 @@
 import FashionFusion from "@/components/home/FashionFusion";
 import FashionStatement from "@/components/home/FashionStatement";
 import Hero from "@/components/home/Hero";
-import HotTrend from "@/components/home/HotTrend";
+import ExploreCategory from "@/components/home/ExploreCategory";
 import LimitedOffer from "@/components/home/LimitedOffer";
 import NewArrival from "@/components/home/NewArrival";
 
@@ -18,7 +18,7 @@ const Landing = () => {
   return (
     <div className="flex flex-col gap-10">
       <Hero />
-      <HotTrend />
+      <ExploreCategory />
       <Statement />
       <NewArrival />
       <FashionFusion />

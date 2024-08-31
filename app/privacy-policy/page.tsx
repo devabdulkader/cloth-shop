@@ -110,7 +110,7 @@ const page = () => {
                         The Company shall not be liable for any direct,
                         indirect, incidental, or consequential damages arising
                         out of the use or inability to use the services
-                        provided. The Client acknowledges that the Company's
+                        provided. The Client acknowledges that the Company
                         liability is limited to the amount paid for the services
                         rendered.
                       </p>

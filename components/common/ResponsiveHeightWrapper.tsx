@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 interface Breakpoints {
-  minWidthSmall?: number;
-  maxWidthSmall?: number;
   minWidthMedium?: number;
   maxWidthMedium?: number;
   minWidthLarge?: number;
@@ -10,8 +8,6 @@ interface Breakpoints {
 }
 
 interface Heights {
-  heightSmallStart?: number;
-  heightSmallEnd?: number;
   heightMediumStart?: number;
   heightMediumEnd?: number;
   heightLargeStart?: number;
@@ -19,14 +15,14 @@ interface Heights {
 }
 
 interface ResponsiveHeightWrapperProps {
-  breakpoints?: Breakpoints; // Made optional
-  heights?: Heights; // Made optional
+  breakpoints?: Breakpoints;
+  heights?: Heights;
   children: React.ReactNode;
 }
 
 const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
-  breakpoints = {}, // Default empty object
-  heights = {}, // Default empty object
+  breakpoints = {},
+  heights = {},
   children,
 }) => {
   const [height, setHeight] = useState<number | string>("auto");
@@ -37,8 +33,6 @@ const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
 
       // Destructuring with default values for optional properties
       const {
-        minWidthSmall = 0,
-        maxWidthSmall = 0,
         minWidthMedium = 768,
         maxWidthMedium = 1024,
         minWidthLarge = 1024,
@@ -46,31 +40,14 @@ const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
       } = breakpoints;
 
       const {
-        heightSmallStart = 0,
-        heightSmallEnd = 0,
         heightMediumStart = 0,
         heightMediumEnd = 0,
         heightLargeStart = 0,
         heightLargeEnd = 0,
       } = heights;
 
-      // Responsive height calculation with safe default values
-      if (viewportWidth < minWidthSmall) {
-        setHeight(heightSmallStart);
-      } else if (
-        viewportWidth >= minWidthSmall &&
-        viewportWidth < maxWidthSmall
-      ) {
-        setHeight(
-          heightSmallStart +
-            ((viewportWidth - minWidthSmall) /
-              (maxWidthSmall - minWidthSmall)) *
-              (heightSmallEnd - heightSmallStart)
-        );
-      } else if (
-        viewportWidth >= minWidthMedium &&
-        viewportWidth < maxWidthMedium
-      ) {
+      // Responsive height calculation
+      if (viewportWidth >= minWidthMedium && viewportWidth < maxWidthMedium) {
         setHeight(
           heightMediumStart +
             ((viewportWidth - minWidthMedium) /
@@ -89,6 +66,8 @@ const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
         );
       } else if (viewportWidth >= maxWidthLarge) {
         setHeight(heightLargeEnd);
+      } else {
+        setHeight("auto"); // For small screens or outside of defined ranges
       }
     };
 

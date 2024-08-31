@@ -20,7 +20,7 @@ const page = () => {
             </div>
             <p className="mb-4 text-sm text-gray-500">
               “Lorem ipsum dolor sit amet, &nbsp;elit ut aliquam, purus sit amet
-              luctus venenatis elit ut aliquam, purus sit amet luctus venenatis"
+              luctus venenatis elit ut aliquam, purus sit amet luctus
             </p>
             <div className="flex"></div>
           </div>
@@ -34,7 +34,7 @@ const page = () => {
             </div>
             <p className="mb-4 text-sm text-gray-500">
               “Lorem ipsum dolor sit amet, &nbsp;elit ut aliquam, purus sit amet
-              luctus venenatis elit ut aliquam, purus sit amet luctus venenatis"
+              luctus venenatis elit ut aliquam, purus sit amet luctus
             </p>
           </div>
           {/* Item */}
@@ -50,7 +50,7 @@ const page = () => {
               vitae egestas cursus iaculis sed sit parturient. Arcu eget
               fermentum cursus pretium duis auctor gravida nulla.“Lorem ipsum
               dolor sit amet, &nbsp;elit ut aliquam, purus sit amet luctus
-              venenatis elit ut aliquam, purus sit amet luctus venenatis"
+              venenatis elit ut aliquam, purus sit amet luctus
             </p>
           </div>
           {/* Item */}
@@ -63,7 +63,7 @@ const page = () => {
             </div>
             <p className="mb-4 text-sm text-gray-500">
               “Lorem ipsum dolor sit amet, &nbsp;elit ut aliquam, purus sit amet
-              luctus venenatis elit ut aliquam, purus sit amet luctus venenatis"
+              luctus venenatis elit ut aliquam, purus sit amet luctus
             </p>
           </div>
           {/* Item */}
@@ -89,7 +89,7 @@ const page = () => {
             </div>
             <p className="mb-4 text-sm text-gray-500">
               “Lorem ipsum dolor sit amet, &nbsp;elit ut aliquam, purus sit amet
-              luctus venenatis elit ut aliquam, purus sit amet luctus venenatis"
+              luctus venenatis elit ut aliquam, purus sit amet luctus
             </p>
           </div>
         </div>

@@ -47,7 +47,7 @@ const LimitedOffer = () => {
         <section className="relative rounded-2xl md:w-[40%] overflow-hidden h-[500px] md:h-full group">
           <div className="relative rounded-2xl w-full overflow-hidden h-full">
             <Image
-              src={fashion}
+              src="/limited-offer/offer-1.webp"
               alt="Large Card"
               height={300}
               width={300}
@@ -61,13 +61,13 @@ const LimitedOffer = () => {
           <div className="grid md:grid-cols-2 gap-5 md:h-[55%]">
             <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
               <Image
-                src={fashion}
+                src="/limited-offer/offer-2.webp"
                 alt="Full Width Top Card"
                 height={300}
                 width={300}
                 className="rounded-2xl object-cover w-full h-full"
               />
-              <div className="absolute inset-0 flex flex-col p-10 bg-black bg-opacity-30 text-white gap-2">
+              <div className="absolute inset-0 flex flex-col p-10  text-white gap-2">
                 <p className="text-lg uppercase">Limited Time Only</p>
                 <h2 className="text-2xl font-bold mb-2">Sale Upto 40% Off</h2>
                 <p className="text-lg max-w-80">
@@ -84,13 +84,13 @@ const LimitedOffer = () => {
 
             <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
               <Image
-                src={fashion}
+                src="/limited-offer/offer-3.webp"
                 alt="Bottom Left Card"
                 height={300}
                 width={300}
                 className="rounded-2xl object-cover w-full h-full"
               />
-              <div className="absolute inset-0 flex flex-col p-4 bg-black bg-opacity-30 text-white">
+              <div className="absolute inset-0 flex flex-col p-4  text-white">
                 <h2 className="text-xl font-bold mb-2">
                   Personality Style Visit
                 </h2>
@@ -104,13 +104,13 @@ const LimitedOffer = () => {
           {/* Top One Card */}
           <div className="md:h-[45%] relative rounded-2xl overflow-hidden">
             <Image
-              src={fashion}
+              src="/limited-offer/offer-4.webp"
               alt="Bottom Right Card"
               height={300}
               width={300}
               className="object-cover w-full h-full"
             />
-            <div className="absolute inset-0 flex flex-col p-4 bg-black bg-opacity-30 text-white">
+            <div className="absolute inset-0 flex flex-col p-4  text-white">
               <h2 className="text-xl font-bold mb-2">Modern Fashion</h2>
               <p className="text-base max-w-60">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.

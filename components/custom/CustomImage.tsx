@@ -17,7 +17,12 @@ const CustomImage: React.FC<CustomImageProps> = ({
     <Image
       src={src}
       alt={alt}
-      className={`transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full ${className}`}
+      // layout="responsive"
+      width={300}
+      height={300}
+      // priority
+      // quality={80}
+      className={` transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full ${className}`}
       {...rest}
     />
   );

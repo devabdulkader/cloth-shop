@@ -34,7 +34,7 @@ const Icons = [
 // Sample Data
 const products = [
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-1.webp",
     title: "Product 1",
     price: "$29.99",
     rating: 4,
@@ -45,7 +45,7 @@ const products = [
     ],
   },
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-2.webp",
     title: "Product 2",
     price: "$39.99",
     rating: 5,
@@ -56,7 +56,7 @@ const products = [
     ],
   },
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-3.webp",
     title: "Product 3",
     price: "$49.99",
     rating: 3,
@@ -67,7 +67,40 @@ const products = [
     ],
   },
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-4.webp",
+    title: "Product 4",
+    price: "$59.99",
+    rating: 4,
+    colorVariants: [
+      { color: "#ff0000", isSelected: false },
+      { color: "#00ff00", isSelected: true },
+      { color: "#0000ff", isSelected: false },
+    ],
+  },
+  {
+    imageSrc: "/products/product-5.webp",
+    title: "Product 4",
+    price: "$59.99",
+    rating: 4,
+    colorVariants: [
+      { color: "#ff0000", isSelected: false },
+      { color: "#00ff00", isSelected: true },
+      { color: "#0000ff", isSelected: false },
+    ],
+  },
+  {
+    imageSrc: "/products/product-6.webp",
+    title: "Product 4",
+    price: "$59.99",
+    rating: 4,
+    colorVariants: [
+      { color: "#ff0000", isSelected: false },
+      { color: "#00ff00", isSelected: true },
+      { color: "#0000ff", isSelected: false },
+    ],
+  },
+  {
+    imageSrc: "/products/product-7.webp",
     title: "Product 4",
     price: "$59.99",
     rating: 4,
