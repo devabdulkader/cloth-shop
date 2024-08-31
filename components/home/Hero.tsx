@@ -1,13 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import fashion_1 from "@/public/fashion_statement/fashion_1.jpg";
-import fashion_2 from "@/public/fashion_statement/fashion_2.jpg";
-import fashion_3 from "@/public/fashion_statement/fashion_3.jpg";
+import hero_1 from "@/public/hero/hero-1.webp";
+import hero_2 from "@/public/hero/hero-2.webp";
+import hero_3 from "@/public/hero/hero-3.webp";
 
 import { IoIosArrowRoundForward } from "react-icons/io";
 import AnimatedCircleText from "../common/AnimatedCircleText";
 import AnimatedSection from "../motion/AnimatedSection";
+import CustomImage from "../custom/CustomImage";
 
 const Hero = () => {
   const [height, setHeight] = useState<any>("auto"); // Initial height in pixels
@@ -61,11 +62,7 @@ const Hero = () => {
           {/* Bottom Two Cards (Side by Side, Half Width and Half Height Each) */}
           <div className="grid md:grid-cols-2 gap-5 md:h-2/5">
             <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
-              <Image
-                src={fashion_2}
-                alt="Bottom Left Card"
-                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
-              />
+              <CustomImage src={hero_2} alt="Bottom Left Card" />
 
               <div className="absolute inset-0 flex justify-center items-center">
                 <AnimatedCircleText />
@@ -73,11 +70,8 @@ const Hero = () => {
             </div>
 
             <div className="relative rounded-2xl overflow-hidden h-[400px]  md:h-full group">
-              <Image
-                src={fashion_1}
-                alt="Second Card"
-                className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
-              />
+              <CustomImage src={hero_3} alt="Second Card" />
+
               <div className="absolute inset-0 flex flex-col gap-2 px-5 py-10">
                 <h2
                   className="  text-xl 
@@ -103,8 +97,8 @@ const Hero = () => {
                   fill="white"
                 />
               </svg>
-              <div className="absolute bottom-0 right-0 size-14 rounded-full bg-black flex justify-center items-center">
-                <IoIosArrowRoundForward className="text-white text-4xl" />
+              <div className="absolute bottom-0 right-0 size-14 rounded-full bg-black flex justify-center items-center group cursor-pointer hover:opacity-80">
+                <IoIosArrowRoundForward className="text-white text-4xl group-hover:-rotate-45 transition transform duration-300 ease-in-out" />
               </div>
             </div>
           </div>
@@ -112,15 +106,12 @@ const Hero = () => {
 
         {/* Second Section (Single Large Card) */}
         <section className="relative rounded-2xl overflow-hidden h-[500px] mt-5 md:mt-0 md:h-full group">
-          <Image
-            src={fashion_3}
-            alt="Large Card"
-            className="rounded-2xl transition-transform duration-[3s] ease-in-out group-hover:scale-110 object-cover w-full h-full"
-          />
-          <div className="absolute inset-0 flex flex-col justify-center p-10 bg-black bg-opacity-30 text-white">
+          <CustomImage src={hero_1} alt="Large Card" />
+
+          <div className="absolute inset-0 flex flex-col justify-center p-10 text-white">
             <p className="text-lg uppercase">New Design</p>
             <div className="my-3">
-              <button className="px-5 py-3 md:px-8 bg-white text-2xl lg:text-4xl rounded-full uppercase text-orange-300">
+              <button className="py-1 sm:py-2 md:py-4 px-8 tracking-widest text-lg bg-white sm:text-2xl lg:text-4xl rounded-full uppercase text-[#bfa489]">
                 collection
               </button>
             </div>

@@ -81,6 +81,8 @@ const ImageSlider: React.FC = () => {
                 <Image
                   src={image}
                   alt={`Variant Thumbnail ${index}`}
+                  height={300}
+                  width={300}
                   className="object-cover w-full h-full"
                 />
               ) : (
@@ -121,6 +123,8 @@ const ImageSlider: React.FC = () => {
             <Image
               src={image}
               alt={`Variant Thumbnail ${index}`}
+              height={300}
+              width={300}
               className="object-cover w-full h-full"
             />
           </SwiperSlide>

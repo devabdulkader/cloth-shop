@@ -10,6 +10,7 @@ import Blogs from "./dropdown/Blogs";
 import MotionTransition from "@/components/motion/MotionTransition";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
+import DesktopSearchBar from "./searchBar/DesktopSearchBar";
 
 // const navigationData = [
 //   {

@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaHeart, FaShoppingCart, FaEye } from "react-icons/fa";
 import IconButton from "../common/IconButton";
+import { FaRegStar } from "react-icons/fa6";
+import { MdOutlineShoppingBag } from "react-icons/md";
+import { FiEye } from "react-icons/fi";
 
 interface ColorVariant {
   color: string;
@@ -17,10 +20,21 @@ interface Product {
   colorVariants: ColorVariant[];
 }
 
+interface Icons {
+  icon: React.ReactNode;
+  tooltip: string;
+  href: string;
+}
+
+const Icons = [
+  { icon: <FaRegStar />, tooltip: "Add to Wishlist" },
+  { icon: <MdOutlineShoppingBag />, tooltip: "Add to Cart" },
+  { icon: <FiEye />, tooltip: "Quick View" },
+];
 // Sample Data
 const products = [
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-1.webp",
     title: "Product 1",
     price: "$29.99",
     rating: 4,
@@ -29,14 +43,9 @@ const products = [
       { color: "#00ff00", isSelected: false },
       { color: "#0000ff", isSelected: false },
     ],
-    actions: [
-      { icon: <FaHeart />, tooltip: "Add to Wishlist" },
-      { icon: <FaShoppingCart />, tooltip: "Add to Cart" },
-      { icon: <FaEye />, tooltip: "Quick View" },
-    ],
   },
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-2.webp",
     title: "Product 2",
     price: "$39.99",
     rating: 5,
@@ -45,14 +54,9 @@ const products = [
       { color: "#00ff00", isSelected: true },
       { color: "#0000ff", isSelected: false },
     ],
-    actions: [
-      { icon: <FaHeart />, tooltip: "Add to Wishlist" },
-      { icon: <FaShoppingCart />, tooltip: "Add to Cart" },
-      { icon: <FaEye />, tooltip: "Quick View" },
-    ],
   },
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-3.webp",
     title: "Product 3",
     price: "$49.99",
     rating: 3,
@@ -61,14 +65,9 @@ const products = [
       { color: "#00ff00", isSelected: false },
       { color: "#0000ff", isSelected: true },
     ],
-    actions: [
-      { icon: <FaHeart />, tooltip: "Add to Wishlist" },
-      { icon: <FaShoppingCart />, tooltip: "Add to Cart" },
-      { icon: <FaEye />, tooltip: "Quick View" },
-    ],
   },
   {
-    imageSrc: "/hero/nike-2.jpg",
+    imageSrc: "/products/product-4.webp",
     title: "Product 4",
     price: "$59.99",
     rating: 4,
@@ -77,10 +76,38 @@ const products = [
       { color: "#00ff00", isSelected: true },
       { color: "#0000ff", isSelected: false },
     ],
-    actions: [
-      { icon: <FaHeart />, tooltip: "Add to Wishlist" },
-      { icon: <FaShoppingCart />, tooltip: "Add to Cart" },
-      { icon: <FaEye />, tooltip: "Quick View" },
+  },
+  {
+    imageSrc: "/products/product-5.webp",
+    title: "Product 4",
+    price: "$59.99",
+    rating: 4,
+    colorVariants: [
+      { color: "#ff0000", isSelected: false },
+      { color: "#00ff00", isSelected: true },
+      { color: "#0000ff", isSelected: false },
+    ],
+  },
+  {
+    imageSrc: "/products/product-6.webp",
+    title: "Product 4",
+    price: "$59.99",
+    rating: 4,
+    colorVariants: [
+      { color: "#ff0000", isSelected: false },
+      { color: "#00ff00", isSelected: true },
+      { color: "#0000ff", isSelected: false },
+    ],
+  },
+  {
+    imageSrc: "/products/product-7.webp",
+    title: "Product 4",
+    price: "$59.99",
+    rating: 4,
+    colorVariants: [
+      { color: "#ff0000", isSelected: false },
+      { color: "#00ff00", isSelected: true },
+      { color: "#0000ff", isSelected: false },
     ],
   },
 ];
@@ -128,7 +155,7 @@ const NewestProduct: React.FC = () => {
   };
 
   return (
-    <section className="w-full py-10 px-5 xl:px-10 2xl:px-20">
+    <section className="w-full">
       <div className="flex flex-col items-center justify-center text-center py-10">
         <p className="uppercase mb-2">Product</p>
         <h2 className="capitalize text-3xl lg:text-5xl">
@@ -198,12 +225,8 @@ const NewestProduct: React.FC = () => {
                   hoveredProductIndex === index ? "opacity-100" : "opacity-0"
                 }`}
               >
-                {product.actions.map((action, i) => (
-                  <IconButton
-                    key={i}
-                    icon={action.icon}
-                    tooltip={action.tooltip}
-                  />
+                {Icons.map((icon, i) => (
+                  <IconButton key={i} icon={icon.icon} tooltip={icon.tooltip} />
                 ))}
               </div>
             </div>

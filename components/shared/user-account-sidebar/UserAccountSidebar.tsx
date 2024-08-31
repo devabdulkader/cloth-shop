@@ -7,7 +7,8 @@ import { RootState } from "@/lib/store/store";
 import Logo from "../header/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import UserDropdown from "./UserDropdown";
-import CustomCrossBar from "@/components/common/CustomCrossBar";
+import CustomCrossBar from "@/components/custom/CustomCrossBar";
+import CustomBackDrop from "@/components/custom/CustomBackDrop";
 
 // Define the interface for a single sidebar item
 interface SidebarItem {
@@ -63,20 +64,17 @@ const UserAccountSidebar: React.FC = () => {
     setShowLanguageOptions(!showLanguageOptions);
     if (showCurrencyOptions) setShowCurrencyOptions(false);
   };
-
+  const handleClose = () => {
+    dispatch(closeSidebar());
+  };
   return (
     <>
       {/* Background Overlay */}
-      <div
-        className={`fixed inset-0 z-40 transition-opacity duration-300 cursor-crosshair ${
-          isSidebarOpen ? "opacity-80 backdrop-blur-md" : "opacity-0"
-        } ${isSidebarOpen ? "pointer-events-auto" : "pointer-events-none"}`}
-        onClick={() => dispatch(closeSidebar())}
-      />
+      {isSidebarOpen && <CustomBackDrop onClose={handleClose} />}
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-layer-1 h-full w-96 py-4 px-8 shadow-lg bg-white transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 py-4 px-8 shadow-lgtransform transition-transform duration-500 ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

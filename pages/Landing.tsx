@@ -2,7 +2,7 @@
 import FashionFusion from "@/components/home/FashionFusion";
 import FashionStatement from "@/components/home/FashionStatement";
 import Hero from "@/components/home/Hero";
-import HotTrend from "@/components/home/HotTrend";
+import ExploreCategory from "@/components/home/ExploreCategory";
 import LimitedOffer from "@/components/home/LimitedOffer";
 import NewArrival from "@/components/home/NewArrival";
 
@@ -13,18 +13,20 @@ import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
 import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
+import Statement from "@/components/home/Statement";
 const Landing = () => {
   return (
     <div className="flex flex-col gap-10">
-      <DesktopSearchBar />
       <Hero />
-      <HotTrend />
-      <FashionStatement />
-
-      <FashionFusion />
-      <LimitedOffer />
+      <ExploreCategory />
+      <Statement />
       <NewArrival />
+      <FashionFusion />
       <NewestProduct />
+      {/* <FashionStatement /> */}
+
+      <LimitedOffer />
+
       <Policy />
       <LatestNews />
       <Testimonials />

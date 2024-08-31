@@ -1,34 +1,28 @@
-// components/ResponsiveHeightWrapper.tsx
-
 import React, { useEffect, useState } from "react";
 
 interface Breakpoints {
-  minWidthSmall: number;
-  maxWidthSmall: number;
-  minWidthMedium: number;
-  maxWidthMedium: number;
-  minWidthLarge: number;
-  maxWidthLarge: number;
+  minWidthMedium?: number;
+  maxWidthMedium?: number;
+  minWidthLarge?: number;
+  maxWidthLarge?: number;
 }
 
 interface Heights {
-  heightSmallStart: number;
-  heightSmallEnd: number;
-  heightMediumStart: number;
-  heightMediumEnd: number;
-  heightLargeStart: number;
-  heightLargeEnd: number;
+  heightMediumStart?: number;
+  heightMediumEnd?: number;
+  heightLargeStart?: number;
+  heightLargeEnd?: number;
 }
 
 interface ResponsiveHeightWrapperProps {
-  breakpoints: Breakpoints;
-  heights: Heights;
+  breakpoints?: Breakpoints;
+  heights?: Heights;
   children: React.ReactNode;
 }
 
 const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
-  breakpoints,
-  heights,
+  breakpoints = {},
+  heights = {},
   children,
 }) => {
   const [height, setHeight] = useState<number | string>("auto");
@@ -36,40 +30,24 @@ const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
   useEffect(() => {
     const handleResize = () => {
       const viewportWidth = window.innerWidth;
+
+      // Destructuring with default values for optional properties
       const {
-        minWidthSmall,
-        maxWidthSmall,
-        minWidthMedium,
-        maxWidthMedium,
-        minWidthLarge,
-        maxWidthLarge,
+        minWidthMedium = 768,
+        maxWidthMedium = 1024,
+        minWidthLarge = 1024,
+        maxWidthLarge = 1440,
       } = breakpoints;
 
       const {
-        heightSmallStart,
-        heightSmallEnd,
-        heightMediumStart,
-        heightMediumEnd,
-        heightLargeStart,
-        heightLargeEnd,
+        heightMediumStart = 0,
+        heightMediumEnd = 0,
+        heightLargeStart = 0,
+        heightLargeEnd = 0,
       } = heights;
 
-      if (viewportWidth < minWidthSmall) {
-        setHeight(heightSmallStart);
-      } else if (
-        viewportWidth >= minWidthSmall &&
-        viewportWidth < maxWidthSmall
-      ) {
-        setHeight(
-          heightSmallStart +
-            ((viewportWidth - minWidthSmall) /
-              (maxWidthSmall - minWidthSmall)) *
-              (heightSmallEnd - heightSmallStart)
-        );
-      } else if (
-        viewportWidth >= minWidthMedium &&
-        viewportWidth < maxWidthMedium
-      ) {
+      // Responsive height calculation
+      if (viewportWidth >= minWidthMedium && viewportWidth < maxWidthMedium) {
         setHeight(
           heightMediumStart +
             ((viewportWidth - minWidthMedium) /
@@ -88,6 +66,8 @@ const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
         );
       } else if (viewportWidth >= maxWidthLarge) {
         setHeight(heightLargeEnd);
+      } else {
+        setHeight("auto"); // For small screens or outside of defined ranges
       }
     };
 

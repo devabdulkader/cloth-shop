@@ -2,9 +2,9 @@ import React from "react";
 
 const Statement = () => {
   return (
-    <section className="bg-gray-100 p-8 md:p-12 rounded-lg shadow-lg">
+    <section className="bg-gray-100 p-8 md:p-12 rounded-lg shadow-sm">
       <div className="max-w-3xl mx-auto text-center">
-        <blockquote className="text-lg md:text-xl font-serif italic text-gray-800">
+        <blockquote className="text-lg md:text-xl xl:text-2xl font-serif italic text-gray-800">
           “Fashion is not simply the clothes we wear but also the stories they
           tell, the emotions they evoke and the confidence they instill. They
           are vivid expressions of our personality, aspirations and connection
