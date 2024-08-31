@@ -4,16 +4,16 @@ import fashion from "@/public/hero/nike-1.jpg";
 
 const LimitedOffer: React.FC = () => {
   return (
-    <section className="w-full flex 2xl:h-[90vh] flex-col p-6 px-5 xl:px-10 2xl:px-20">
+    <section className="w-full flex 2xl:h-[90vh] flex-col p-6 ">
       <div className="grid 2xl:grid-cols-3 gap-4 2xl:w-full 2xl:h-full">
         {/* First Section (Single Large Card, 1/3 Width) */}
         <section className="relative rounded-2xl overflow-hidden h-[50vh] mt-5 2xl:mt-0 2xl:h-full 2xl:col-span-1">
           <Image
             src={fashion}
             alt="Large Card"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-2xl"
+            height={300}
+            width={300}
+            className="rounded-2xl h-full w-full object-cover"
           />
         </section>
 
@@ -25,9 +25,9 @@ const LimitedOffer: React.FC = () => {
               <Image
                 src={fashion}
                 alt="Bottom Left Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
+                height={300}
+                width={300}
+                className="rounded-2xl object-cover w-full h-full"
               />
               <div className="absolute inset-0 flex flex-col  p-4 bg-black bg-opacity-30 text-white">
                 <h2 className="text-xl font-bold mb-2">Personality Style</h2>
@@ -41,9 +41,9 @@ const LimitedOffer: React.FC = () => {
               <Image
                 src={fashion}
                 alt="Bottom Right Card"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
+                height={300}
+                width={300}
+                className="rounded-2xl object-cover w-full h-full"
               />
               <div className="absolute inset-0 flex flex-col  p-4 bg-black bg-opacity-30 text-white">
                 <h2 className="text-xl font-bold mb-2">Modern Fashion</h2>
@@ -60,9 +60,9 @@ const LimitedOffer: React.FC = () => {
             <Image
               src={fashion}
               alt="Bottom Right Card"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-2xl"
+              height={300}
+              width={300}
+              className="rounded-2xl object-cover w-full h-full"
             />
             <div className="absolute inset-0 flex flex-col  p-10 bg-black bg-opacity-30 text-white gap-2 ">
               <p className="text-lg uppercase">Limited Time Only</p>

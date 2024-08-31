@@ -1,27 +1,29 @@
 // components/NavIcons.tsx
-"use client";
 import React from "react";
-import { AiOutlineUser } from "react-icons/ai";
-import { FaSearch, FaUserCog, FaHeart, FaShoppingCart } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { IoStarOutline } from "react-icons/io5";
-import { MdOutlineShop, MdOutlineShoppingBag } from "react-icons/md";
+import UserSidebarToggler from "../user-account-sidebar/UserSidebarToggler";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleDesktopSearchBar } from "@/lib/store/features/searchBar/desktopSearchBarSlice";
 
-const NavIcons = () => {
+const NavIcons: React.FC = () => {
+  const dispatch = useDispatch();
+
+  // Access the correct part of the state
+  const isDesktopSearchBarOpen = useSelector(
+    (state: any) => state.desktopSearchBar.isDesktopSearchBarOpen
+  );
+
   return (
-    <div className="flex space-x-8 ">
-      <a href="#">
-        <IoMdSearch className="text-3xl" />
-      </a>
-      <a href="#">
-        <AiOutlineUser className="text-3xl" />
-      </a>
-      <a href="#">
-        <IoStarOutline className="text-3xl" />
-      </a>
-      <a href="#" className="text-3xl">
-        <MdOutlineShoppingBag />
-      </a>
+    <div className="space-x-8 flex justify-center items-center">
+      <IoMdSearch
+        className="text-2xl cursor-pointer"
+        onClick={() => dispatch(toggleDesktopSearchBar())}
+      />
+
+      <UserSidebarToggler />
+
+      <IoStarOutline className="text-2xl" />
     </div>
   );
 };

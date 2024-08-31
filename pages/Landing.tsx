@@ -12,12 +12,15 @@ import Policy from "@/components/home/Policy";
 import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
+import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
 const Landing = () => {
   return (
-    <>
+    <div className="flex flex-col gap-10">
+      <DesktopSearchBar />
       <Hero />
-      <FashionStatement />
       <HotTrend />
+      <FashionStatement />
+
       <FashionFusion />
       <LimitedOffer />
       <NewArrival />
@@ -26,7 +29,7 @@ const Landing = () => {
       <LatestNews />
       <Testimonials />
       <InstagramSlider />
-    </>
+    </div>
   );
 };
 

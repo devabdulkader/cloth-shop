@@ -148,9 +148,9 @@ const NewestProduct: React.FC = () => {
               <Image
                 src={product.imageSrc}
                 alt={product.title}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl transition-transform duration-300"
+                height={300}
+                width={300}
+                className="rounded-2xl transition-transform duration-300 h-full w-full object-cover"
               />
               {/* White opacity blink effect */}
               <div
