@@ -10,7 +10,7 @@ const pagesSections = [
   { title: "Return and Refund", href: "/return-and-refund" },
   { title: "FAQs", href: "/frequently-asked-questions" },
 
-  { title: "Testimonial", href: "/page-testimonial" },
+  { title: "Testimonials", href: "/testimonials" },
 ];
 
 const Pages = () => {
