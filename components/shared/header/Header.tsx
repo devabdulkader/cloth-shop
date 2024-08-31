@@ -15,7 +15,7 @@ const Header = () => {
       <div className="hidden xl:block relative z-50">
         <Navbar />
       </div>
-      <div className="xl:hidden">
+      <div className="xl:hidden z-50 bg-white">
         <MobileNav />
       </div>
     </div>

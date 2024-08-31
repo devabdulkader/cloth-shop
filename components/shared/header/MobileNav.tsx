@@ -211,14 +211,14 @@ const MobileNav: React.FC = () => {
   };
   return (
     <section
-      className={`w-full fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white  px-5 xl:px-10 2xl:px-20 transition-transform duration-300 ease-in-out ${
+      className={`w-full fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white z-50  transition-transform duration-300 ease-in-out ${
         isScrolledUp ? "xl:translate-y-0" : "xl:-translate-y-full"
       }`}
     >
       <BottomNav />
       {/* Conditionally rendered search input */}
       <MobileSearchBar />
-      <div className="flex justify-between items-center space-x-5 w-full">
+      <div className="flex justify-between items-center space-x-5 w-full z-50 bg-white px-5 xl:px-10 2xl:px-20">
         <div className="flex justify-center items-center space-x-2">
           <div
             onClick={() => {
