@@ -10,3 +10,62 @@ export interface AnimatedSectionProps {
   buttonClassName?: string; // Optional class for the button
   imageContainerClassName?: string; // Optional class for the image container
 }
+
+
+
+
+// PRODUCTS INTERFACE 
+
+
+export interface ReturnPolicy {
+  policyTitle: string;
+  days: number;
+}
+
+export interface ProductAttribute {
+  attributeName: string;
+  attributeValue: string;
+}
+
+export interface ProductSEO {
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
+  searchEngineListings: string;
+}
+
+export interface ProductVariant {
+  tags: string[];
+  size: string[];
+  quantity: number;
+  sellingPrice: number;
+  status: boolean;
+}
+
+export interface ProductBrand {
+  name: string;
+  description: string;
+  logoURL: string;
+}
+
+export interface Product {
+  id: number;
+  title: string;
+  description: string;
+  gender: string;
+  basePrice: number;
+  buyPrice: number;
+  otherCost: number;
+  discountPrice: number;
+  sku: string;
+  totalQuantity: number;
+  lowStockQuantity: number;
+  productImgs: string[];
+  deliveryMethods: string[];
+  returnPolicy: ReturnPolicy[];
+  productCategory: string[];
+  productAttributes: ProductAttribute[];
+  productSEO: ProductSEO[];
+  productVariants: ProductVariant[];
+  productBrand: ProductBrand[];
+}
