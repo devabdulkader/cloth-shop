@@ -26,7 +26,7 @@ const RagisterPage = () => {
                    
                             <FormInput name='password' id='password' placeholder='PASSWORD' type={isPasswordVisible ? "password" : "text"} className='  min-w-full border hover:border-black rounded-full px-4 py-4  text-sm' />
                       <div className='flex items-center gap-1 text-sm'> <FormInput name="check" type="checkbox"/><p>Sign up for our newsletter</p></div>
-                      <p className=' text-sm font-normal'>If you don't have an account, please<Link href="/login" className=' text-sm font-semibold text-blue-500'> Login Here</Link></p>
+                      <p className=' text-sm font-normal'>If you don&apos;t have an account, please<Link href="/login" className=' text-sm font-semibold text-blue-500'> Login Here</Link></p>
                         <button className='  min-w-full bg-[#132842]  py-4 text-white rounded-full text-base'>
                            Submit
                         </button>
