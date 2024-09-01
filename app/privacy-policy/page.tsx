@@ -1,6 +1,6 @@
 import React from "react";
 
-const page = () => {
+const PrivacyPolicyPage = () => {
   return (
     <div>
       <section>
@@ -161,4 +161,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PrivacyPolicyPage;
