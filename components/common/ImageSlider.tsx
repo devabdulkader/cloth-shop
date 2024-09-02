@@ -116,6 +116,7 @@ const ImageSlider: React.FC = () => {
                   className="object-cover w-full h-full rounded-md"
                   width={300}
                   height={300}
+
                 />
               ) : (
                 <ZoomedImage src={image} />
@@ -136,6 +137,34 @@ const ImageSlider: React.FC = () => {
           </button>
         )}
       </div>
+
+      {/* Thumbnails Swiper */}
+      <Swiper
+        onSwiper={setThumbsSwiper}
+        loop={true}
+        spaceBetween={10}
+        slidesPerView={2}
+        freeMode={true}
+        watchSlidesProgress={true}
+        modules={[FreeMode, Navigation, Thumbs]}
+        className="mySwiper h-32 sm:h-60 mt-2 w-full relative group"
+      >
+        {product.imageVariants.map((image, index) => (
+          <SwiperSlide key={index}>
+            <Image
+              src={image}
+              alt={`Variant Thumbnail ${index}`}
+              height={300}
+              width={300}
+              className="object-cover w-full h-full"
+            />
+          </SwiperSlide>
+        ))}
+        {/* Navigation Buttons */}
+        <div className="swiper-nav-btns hidden group-hover:block  ">
+          <SwiperNavButtons />
+        </div>
+      </Swiper>
     </div>
   );
 };

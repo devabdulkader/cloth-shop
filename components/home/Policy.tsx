@@ -6,6 +6,12 @@ import p4 from "@/public/policy/p-4.webp";
 import React from "react";
 import Link from "next/link";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+
+import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { useState } from "react";
+import { IoClose } from "react-icons/io5";
+import CartModalSlider from "../common/CartModalSlider";
+import { RiDeleteBin5Line } from "react-icons/ri";
 interface policy {
   id: number;
   image: string;

@@ -59,14 +59,14 @@ const FormInput = ({
                 required={required}
                 className={`${className} py-2 pr-8 w-full`}
               />
-              <span className="absolute right-0 top-0 h-full pr-2 flex items-center">
+              <span className="absolute right-2 top-0 h-full pr-2 flex items-center">
                 {isPasswordShow ? (
-                  <FaEye
+                  <FaEye size={20}
                     className="text-lg cursor-pointer text-gray-500"
                     onClick={() => setIsPasswordShow(!isPasswordShow)}
                   />
                 ) : (
-                  <FaEyeSlash
+                  <FaEyeSlash size={20}
                     className="text-lg cursor-pointer text-gray-500"
                     onClick={() => setIsPasswordShow(!isPasswordShow)}
                   />

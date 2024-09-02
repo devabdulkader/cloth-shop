@@ -39,11 +39,11 @@ const ZoomedImage: React.FC<ZoomedImageProps> = ({ src }) => {
       {/* Base Image */}
       <Image
         src={src}
-        layout="fill"
-        objectFit="cover"
         alt="Zoomed Image"
         placeholder="empty"
-        quality={100}
+        height={300}
+        width={300}
+        className="object-cover h-full w-full"
       />
 
       {/* Zoom Effect */}
