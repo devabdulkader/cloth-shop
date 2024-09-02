@@ -6,10 +6,12 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { FreeMode, Navigation, Thumbs, A11y, Pagination } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import ZoomedImage from "./ZoomedImage";
 import { FaTimes } from "react-icons/fa";
-import SwiperNavButtons from "./SwiperNavButtons";
+import ArrowButton from "../button/ArrowButton";
+import { IoIosArrowUp } from "react-icons/io";
+import { IoChevronDownOutline } from "react-icons/io5";
 
 // Sample product data
 const product = {
@@ -32,6 +34,7 @@ const product = {
 
 const ImageSlider: React.FC = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [mainSwiper, setMainSwiper] = useState<any>(null); // State to hold main Swiper instance
   const [height, setHeight] = useState<number>(200); // Initial height in pixels
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false); // State to handle fullscreen mode
 
@@ -63,52 +66,66 @@ const ImageSlider: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full h-[700px] space-x-5 sticky top-0">
+    <div className="flex w-full h-[700px] space-x-5 sticky top-0 ">
       <Swiper
         direction={"vertical"}
-        spaceBetween={5}
+        spaceBetween={10} // Adjust the space between slides
         slidesPerView={6} // Adjust as needed
-        pagination={{
-          clickable: true,
-        }}
+        pagination={{ clickable: true }}
         onSwiper={setThumbsSwiper}
         loop={true}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper w-full h-full"
+        className="mySwiper w-full h-full relative"
       >
         {product.imageVariants.map((image, index) => (
-          <SwiperSlide key={index} className="grid">
+          <SwiperSlide
+            key={index}
+            className="border rounded-md overflow-hidden border-black cursor-pointer"
+          >
             <Image
               src={image}
               alt={`Variant Thumbnail ${index}`}
-              className="object-cover w-full rounded-md"
               height={300}
               width={300}
+              className="object-cover h-full w-full rounded-md"
             />
           </SwiperSlide>
         ))}
+        <div
+          className="absolute z-50 bottom-16 left-1/2 transform -translate-x-1/2"
+          onClick={() => thumbsSwiper?.slideNext()}
+        >
+          <ArrowButton direction="top" />
+        </div>
+        <div
+          className="absolute z-50 bottom-0 left-1/2 transform -translate-x-1/2"
+          onClick={() => thumbsSwiper?.slidePrev()}
+        >
+          <ArrowButton direction="bottom" />
+        </div>
       </Swiper>
 
       {/* Main Swiper */}
       <div
         className={`relative group w-4/5 ${
-          isFullscreen ? "bg-white left-0  z-10 fixed top-0" : ""
+          isFullscreen ? "bg-white left-0 z-10 fixed top-0" : ""
         }`}
       >
         <Swiper
           loop={true}
           spaceBetween={10}
           thumbs={{ swiper: thumbsSwiper }}
-          modules={[FreeMode, Navigation, Thumbs, A11y]}
-          className={`mySwiper2 relative w-full h-full ${
-            isFullscreen ? "fixed inset-0 z-50 bg-white" : ""
-          }`} // Apply fullscreen styles if isFullscreen is true
+          modules={[FreeMode, Navigation, Thumbs]}
+          className={`mySwiper2  w-full h-full ${
+            isFullscreen ? "fixed inset-0 z-50 bg-white" : "relative"
+          }`}
+          onSwiper={setMainSwiper}
           onClick={openFullscreen}
         >
           {product.imageVariants.map((image, index) => (
-            <SwiperSlide key={index} className="">
+            <SwiperSlide key={index} className="rounded-md overflow-hidden">
               {isFullscreen ? (
                 <Image
                   src={image}
@@ -116,15 +133,24 @@ const ImageSlider: React.FC = () => {
                   className="object-cover w-full h-full rounded-md"
                   width={300}
                   height={300}
-
                 />
               ) : (
                 <ZoomedImage src={image} />
               )}
             </SwiperSlide>
           ))}
-          {/* Navigation Buttons */}
-          <SwiperNavButtons className="flex items-center justify-between px-4" />
+          <div
+            className="absolute z-50 left-0 top-1/2 transform -translate-y-1/2"
+            onClick={() => mainSwiper?.slidePrev()}
+          >
+            <ArrowButton direction="left" />
+          </div>
+          <div
+            className="absolute z-50 right-0 top-1/2 transform -translate-y-1/2"
+            onClick={() => mainSwiper?.slideNext()}
+          >
+            <ArrowButton direction="right" />
+          </div>
         </Swiper>
 
         {/* Fullscreen Close Button */}
@@ -137,34 +163,6 @@ const ImageSlider: React.FC = () => {
           </button>
         )}
       </div>
-
-      {/* Thumbnails Swiper */}
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        loop={true}
-        spaceBetween={10}
-        slidesPerView={2}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper h-32 sm:h-60 mt-2 w-full relative group"
-      >
-        {product.imageVariants.map((image, index) => (
-          <SwiperSlide key={index}>
-            <Image
-              src={image}
-              alt={`Variant Thumbnail ${index}`}
-              height={300}
-              width={300}
-              className="object-cover w-full h-full"
-            />
-          </SwiperSlide>
-        ))}
-        {/* Navigation Buttons */}
-        <div className="swiper-nav-btns hidden group-hover:block  ">
-          <SwiperNavButtons />
-        </div>
-      </Swiper>
     </div>
   );
 };
