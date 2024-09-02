@@ -9,11 +9,11 @@ interface BreadcrumbItem {
 }
 
 // Define the props type for the Breadcrumbs component
-interface BreadcrumbsProps {
+interface BreadcrumbProps {
   items: BreadcrumbItem[];
 }
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
     <nav
       aria-label="breadcrumb"
@@ -29,4 +29,4 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
   );
 };
 
-export default Breadcrumbs;
+export default Breadcrumb;

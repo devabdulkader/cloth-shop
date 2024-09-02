@@ -1,40 +1,36 @@
-import Image from "next/image";
+import FilterSidebar from "@/components/product/FilterSidebar";
+import FilterToggler from "@/components/product/FilterToggler";
+import ProductList from "@/components/product/ProductList";
+
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-        Customers also purchased
-      </h2>
+    <section className="relative">
+      <div className="flex h-auto w-full flex-col items-center justify-center bg-gray-100 py-6 md:h-64 mb-10">
+        <div className="flex flex-col items-center gap-y-4 py-5">
+          <h1 className="text-4xl font-bold md:text-6xl">Fashion</h1>
+          <p className="text-sm text-gray-500 sm:text-base">Home | Fashion</p>
+        </div>
+      </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <div className="group relative">
-          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-            <Image
-              src="/products/product-1-varient-1.webp"
-              alt="Front of men&#039;s Basic Tee in black."
-              width={300}
-              height={300}
-              className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-            />
-          </div>
-          <div className="mt-4 flex justify-between">
-            <div>
-              <h3 className="text-sm text-gray-700">
-                <a href="#">
-                  <span aria-hidden="true" className="absolute inset-0"></span>
-                  Basic Tee
-                </a>
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">Black</p>
-            </div>
-            <p className="text-sm font-medium text-gray-900">$35</p>
+      {/* Container */}
+      <div className="mx-auto container w-full ">
+        {/* Component */}
+        <div className="lg:flex relative lg:space-x-20">
+          {/* Sidebar  */}
+          <FilterSidebar />
+
+          {/* Main Content */}
+          <div className="w-full flex flex-col  border-gray-300 gap-5">
+            {/* Add enough content to make the page scrollable */}
+            <FilterToggler />
+            <ProductList />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default page;
+export default Page;

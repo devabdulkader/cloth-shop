@@ -9,38 +9,8 @@ import Pages from "./dropdown/Pages";
 import Blogs from "./dropdown/Blogs";
 import MotionTransition from "@/components/motion/MotionTransition";
 import Link from "next/link";
-import { motion, useAnimation } from "framer-motion";
 import DesktopSearchBar from "./searchBar/DesktopSearchBar";
-
-// const navigationData = [
-//   {
-//     buttonText: "Home",
-//     href: "/",
-//   },
-//   {
-//     buttonText: "Collections",
-//     icon: FaDownLong,
-//     dropdown: <Collections />,
-//   },
-//   {
-//     buttonText: "Products",
-//     icon: FaDownLong,
-//     dropdown: <Products />,
-//     href: "#",
-//   },
-//   {
-//     buttonText: "Pages",
-//     icon: FaDownLong,
-//     dropdown: <Pages />,
-//     href: "#",
-//   },
-//   {
-//     buttonText: "Blog",
-//     icon: FaDownLong,
-//     dropdown: <Blogs />,
-//     href: "#",
-//   },
-// ];
+import Nav from "./Nav";
 
 const navigationData = [
   {
@@ -51,7 +21,6 @@ const navigationData = [
     buttonText: "Product",
     href: "/products",
   },
-
   {
     buttonText: "About Us",
     icon: FaDownLong,
@@ -65,25 +34,30 @@ const navigationData = [
 ];
 
 const Navbar = () => {
-  const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
-    null
-  );
-  const [isScrolledUp, setIsScrolledUp] = useState<boolean>(true); // Initialize to true
+  const [isScrolledUp, setIsScrolledUp] = useState<boolean>(false);
+  const [isSticky, setIsSticky] = useState<boolean>(false); // Track if the nav should be sticky
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-
-      if (scrollTop > lastScrollTop) {
-        // Scrolling down
-        setIsScrolledUp(false);
-      } else if (scrollTop < lastScrollTop) {
-        // Scrolling up
-        setIsScrolledUp(true);
+      // Log the scroll position
+      console.log("Current scroll position:", scrollTop);
+      // Check if scrolled down more than 300px to activate sticky
+      if (scrollTop > 130) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
       }
 
-      setLastScrollTop(scrollTop <= 0 ? 0 : scrollTop);
+      // Determine if scrolling up or down
+      if (scrollTop > lastScrollTop) {
+        setIsScrolledUp(false); // Hide fixed navbar on scroll down
+      } else {
+        setIsScrolledUp(true); // Show fixed navbar on scroll up
+      }
+
+      setLastScrollTop(scrollTop <= 0 ? 0 : scrollTop); // Reset at the top
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -93,74 +67,23 @@ const Navbar = () => {
   }, [lastScrollTop]);
 
   return (
-    <section
-      className={`w-full h-auto fixed top-0 transition-transform duration-300 ease-in-out ${
-        isScrolledUp ? "translate-y-0" : "-translate-y-full"
-      }`}
-    >
-      <nav className="w-full h-auto bg-white px-5 xl:px-10 2xl:px-20">
-        <div className="flex items-center justify-between ">
-          {/* Logo */}
-          <div>
-            <Logo />
-          </div>
-          {/* NavLinks */}
-          <div className="flex space-x-10 h-full justify-center items-center">
-            {navigationData.map((navItem, index) => (
-              <div
-                key={index}
-                className={`relative ${
-                  index !== 1 && index !== 2
-                    ? "relative cursor-pointer"
-                    : "cursor-pointer z-50"
-                }`}
-                onMouseEnter={() =>
-                  navItem.dropdown && setOpenDropdownIndex(index)
-                }
-                onMouseLeave={() =>
-                  navItem.dropdown && setOpenDropdownIndex(null)
-                }
-              >
-                <button
-                  className={`flex items-center rounded-lg py-6 lg:py-8 text-lg ${
-                    openDropdownIndex === index
-                      ? "text-black font-bold"
-                      : "text-gray-900"
-                  }`}
-                >
-                  <Link href={`${navItem.href}`}>{navItem.buttonText}</Link>
-                  {navItem.dropdown && (
-                    <svg
-                      className={`w-6 h-6 fill-current ml-2 transition-transform duration-300 ${
-                        openDropdownIndex === index ? "rotate-180" : "rotate-0"
-                      }`}
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"></path>
-                    </svg>
-                  )}
-                </button>
-                {openDropdownIndex === index && navItem.dropdown && (
-                  <div className="absolute w-full rounded-lg left-0 z-0">
-                    <MotionTransition>{navItem.dropdown}</MotionTransition>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+    <div>
+      {/* Regular Nav (relative) */}
+      <div className="relative w-full">
+        <Nav />
+      </div>
 
-          {/* NavIcons */}
-          <div className="flex justify-center items-center space-x-4 lg:space-x-6 w-auto">
-            <NavIcons />
-          </div>
-
-          {/* Blur effect behind the dropdown */}
-          {/* {(openDropdownIndex === 1 || openDropdownIndex === 2) && (
-            <div className="absolute inset-0 z-0 h-screen top-24 bg-white bg-opacity-60 backdrop-blur-lg"></div>
-          )} */}
+      {/* Fixed Nav (appears on scroll up if sticky is true) */}
+      {isSticky && (
+        <div
+          className={`fixed top-0 w-full z-50 transition-transform duration-300 ease-in-out ${
+            isScrolledUp ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
+          <Nav />
         </div>
-      </nav>
-    </section>
+      )}
+    </div>
   );
 };
 
