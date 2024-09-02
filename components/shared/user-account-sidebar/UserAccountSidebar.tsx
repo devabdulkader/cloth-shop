@@ -51,7 +51,9 @@ const UserAccountSidebar: React.FC = () => {
   const isUserSidebarOpen = useSelector(
     (state: RootState) => state.userSidebar.isUserSidebarOpen
   );
-
+  const handleClose = () => {
+    dispatch(closeUserSidebar());
+  };
   const [showCurrencyOptions, setShowCurrencyOptions] = useState(false);
   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
 
@@ -64,9 +66,7 @@ const UserAccountSidebar: React.FC = () => {
     setShowLanguageOptions(!showLanguageOptions);
     if (showCurrencyOptions) setShowCurrencyOptions(false);
   };
-  const handleClose = () => {
-    dispatch(closeUserSidebar());
-  };
+
   return (
     <>
       {/* Background Overlay */}
@@ -74,7 +74,7 @@ const UserAccountSidebar: React.FC = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 py-4 px-8 shadow-lgtransform transition-transform duration-500 ${
+        className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 py-4 px-8 shadow-lg transform transition-transform duration-500 ${
           isUserSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

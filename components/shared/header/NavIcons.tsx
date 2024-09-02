@@ -2,7 +2,6 @@
 import React from "react";
 import { IoMdSearch } from "react-icons/io";
 import { IoStarOutline } from "react-icons/io5";
-import UserSidebarToggler from "../user-account-sidebar/UserSidebarToggler";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDesktopSearchBar } from "@/lib/store/features/searchBar/desktopSearchBarSlice";
 import CustomIcon from "@/components/custom/CustomIcon";
