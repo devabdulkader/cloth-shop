@@ -1,3 +1,4 @@
+'use client'
 import Image, { StaticImageData } from "next/image";
 import React from "react";
 import Logo2 from "@/public/common/Logo_2.webp";
@@ -79,6 +80,11 @@ const Icons: IconItem[] = [
 ];
 
 const Footer = () => {
+
+  
+  const submitHandler = async (data: any) => {
+    console.log("hello");
+};
   return (
     <>
       <div className="bg-[#132842] text-white">
@@ -89,17 +95,18 @@ const Footer = () => {
               <p className="text-lg font-bold">
                 Get exclusive our offers and updates
               </p>
-              {/* <Form className="relative">
+              <Form submitHandler={ submitHandler} className="relative">
                 <FormInput
-                  name=""
+                  name="email"
+                  id="email"
                   placeholder="Enter your email"
-                  type="text"
-                  className="rounded-full px-4 h-14 text-sm outline-none"
+                  type="email"
+                  className="rounded-full px-4 h-14 text-sm outline-none text-black"
                 />
                 <div className="absolute top-2 right-1 bg-[#132842] hover:bg-[#263d5c] rounded-full h-12 w-40 flex justify-center items-center">
                   Submit
                 </div>
-              </Form> */}
+              </Form>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-4 justify-between text-sm md:text-base font-normal py-14">
@@ -166,7 +173,7 @@ const Footer = () => {
                   <Link href="/">Returns, Refunds & Cancellations</Link>
                 </li>
                 <li>
-                  <Link href="/">Terms & Conditions</Link>
+                  <Link href="/terms-and-condition">Terms & Conditions</Link>
                 </li>
                 <li>
                   <Link href="/">Privacy Policy</Link>

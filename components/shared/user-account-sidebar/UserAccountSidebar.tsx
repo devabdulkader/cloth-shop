@@ -25,8 +25,8 @@ const sidebarItems: SidebarCategory[] = [
   {
     category: "Customer Account",
     items: [
-      { title: "Login", link: "#" },
-      { title: "Register", link: "#" },
+      { title: "Login", link: "/account/login" },
+      { title: "Register", link: "/account/register" },
       { title: "Wishlist", link: "#" },
       { title: "Check out", link: "#" },
     ],
