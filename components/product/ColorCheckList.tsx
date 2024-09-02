@@ -20,11 +20,11 @@ const colors = [
 
 const ColorCheckList: React.FC<ColorCheckListProps> = ({ title, onReset }) => {
   // Set default selected color to white
-  const [selectedColor, setSelectedColor] = useState<string>("#ffffff");
+  const [selectedColor, setSelectedColor] = useState<string | null>("#ffffff");
 
   const handleColorSelect = (color: string) => {
     setSelectedColor((prevColor) => (prevColor === color ? null : color));
-  };
+};
 
   return (
     <div className="space-y-4">
