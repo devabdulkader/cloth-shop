@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { FreeMode, Navigation, Thumbs, A11y } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs, A11y, Pagination } from "swiper/modules";
 import ZoomedImage from "./ZoomedImage";
 import { FaTimes } from "react-icons/fa";
 import SwiperNavButtons from "./SwiperNavButtons";
@@ -14,6 +14,15 @@ import SwiperNavButtons from "./SwiperNavButtons";
 // Sample product data
 const product = {
   imageVariants: [
+    "/products/product-1-varient-1.webp",
+    "/products/product-1-varient-2.webp",
+    "/products/product-1-varient-3.webp",
+    "/products/product-1-varient-1.webp",
+    "/products/product-1-varient-2.webp",
+    "/products/product-1-varient-3.webp",
+    "/products/product-1-varient-1.webp",
+    "/products/product-1-varient-2.webp",
+    "/products/product-1-varient-3.webp",
     "/products/product-1-varient-1.webp",
     "/products/product-1-varient-2.webp",
     "/products/product-1-varient-3.webp",
@@ -49,41 +58,65 @@ const ImageSlider: React.FC = () => {
     setIsFullscreen(true);
   };
 
-  // Function to close fullscreen mode
   const closeFullscreen = () => {
     setIsFullscreen(false);
   };
 
   return (
-    <div
-      className={`w-full md:w-w-full 
-         ${isFullscreen ? "bg-white left-0 h-screen z-10 fixed top-0" : ""}`}
-    >
-      <div className="relative group">
-        {/* Main Swiper */}
+    <div className="flex w-full h-[700px] space-x-5 sticky top-0">
+      <Swiper
+        direction={"vertical"}
+        spaceBetween={5}
+        slidesPerView={6} // Adjust as needed
+        pagination={{
+          clickable: true,
+        }}
+        onSwiper={setThumbsSwiper}
+        loop={true}
+        freeMode={true}
+        watchSlidesProgress={true}
+        modules={[FreeMode, Navigation, Thumbs]}
+        className="mySwiper w-full h-full"
+      >
+        {product.imageVariants.map((image, index) => (
+          <SwiperSlide key={index} className="grid">
+            <Image
+              src={image}
+              alt={`Variant Thumbnail ${index}`}
+              className="object-cover w-full rounded-md"
+              height={300}
+              width={300}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Main Swiper */}
+      <div
+        className={`relative group w-4/5 ${
+          isFullscreen ? "bg-white left-0  z-10 fixed top-0" : ""
+        }`}
+      >
         <Swiper
           loop={true}
           spaceBetween={10}
           thumbs={{ swiper: thumbsSwiper }}
           modules={[FreeMode, Navigation, Thumbs, A11y]}
-          className={`mySwiper2 relative w-full ${
+          className={`mySwiper2 relative w-full h-full ${
             isFullscreen ? "fixed inset-0 z-50 bg-white" : ""
           }`} // Apply fullscreen styles if isFullscreen is true
-          style={{
-            height: isFullscreen ? "100vh" : `${height}px`,
-            width: isFullscreen ? "50vw" : "100%",
-          }} // Adjust height and width in fullscreen mode
-          onClick={openFullscreen} // Trigger fullscreen on click
+          onClick={openFullscreen}
         >
           {product.imageVariants.map((image, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} className="">
               {isFullscreen ? (
                 <Image
                   src={image}
                   alt={`Variant Thumbnail ${index}`}
-                  height={300}
+                  className="object-cover w-full h-full rounded-md"
                   width={300}
-                  className="object-cover w-full h-full"
+                  height={300}
+
                 />
               ) : (
                 <ZoomedImage src={image} />
@@ -91,15 +124,13 @@ const ImageSlider: React.FC = () => {
             </SwiperSlide>
           ))}
           {/* Navigation Buttons */}
-          <div className="swiper-nav-btns hidden group-hover:block ">
-            <SwiperNavButtons />
-          </div>
+          <SwiperNavButtons className="flex items-center justify-between px-4" />
         </Swiper>
 
         {/* Fullscreen Close Button */}
         {isFullscreen && (
           <button
-            className="absolute top-1/2 left-1/2 z-50 size-20 bg-white rounded-full flex justify-center items-center transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute top-4 right-4 z-50 p-2 bg-white rounded-full flex justify-center items-center"
             onClick={closeFullscreen}
           >
             <FaTimes className="text-2xl" />

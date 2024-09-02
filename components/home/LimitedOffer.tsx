@@ -67,7 +67,7 @@ const LimitedOffer = () => {
                 width={300}
                 className="rounded-2xl object-cover w-full h-full"
               />
-              <div className="absolute inset-0 flex flex-col p-10  text-white gap-2">
+              <div className="absolute inset-0 flex flex-col p-10  gap-2">
                 <p className="text-lg uppercase">Limited Time Only</p>
                 <h2 className="text-2xl font-bold mb-2">Sale Upto 40% Off</h2>
                 <p className="text-lg max-w-80">
@@ -90,7 +90,7 @@ const LimitedOffer = () => {
                 width={300}
                 className="rounded-2xl object-cover w-full h-full"
               />
-              <div className="absolute inset-0 flex flex-col p-4  text-white">
+              <div className="absolute inset-0 flex flex-col p-4  ">
                 <h2 className="text-xl font-bold mb-2">
                   Personality Style Visit
                 </h2>

@@ -16,7 +16,7 @@ import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearch
 import Statement from "@/components/home/Statement";
 const Landing = () => {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 pt-20 lg:pt-24  px-5 xl:px-10 2xl:px-20">
       <Hero />
       <ExploreCategory />
       <Statement />
