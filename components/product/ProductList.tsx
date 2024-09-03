@@ -1,18 +1,23 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { FaHeart, FaShoppingCart, FaEye } from "react-icons/fa";
-import IconButton from "../common/IconButton";
+import React, { useState } from "react";
 import { FaRegStar } from "react-icons/fa6";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
 import ProductCard from "../product/ProductCard";
+import ProductProgress from "./ProductProgress";
 
+// Define the prop type for the ProductList component
+interface ProductListProps {
+  layoutClass?: string;
+}
+
+// Define the structure of a color variant
 interface ColorVariant {
   color: string;
   isSelected: boolean;
 }
 
+// Define the structure of a product
 interface Product {
   imageSrc: string;
   title: string;
@@ -21,18 +26,14 @@ interface Product {
   colorVariants: ColorVariant[];
 }
 
-interface Icons {
-  icon: React.ReactNode;
-  tooltip: string;
-  href: string;
-}
-
-const Icons = [
+// Sample icons data
+const icons = [
   { icon: <FaRegStar />, tooltip: "Add to Wishlist" },
   { icon: <MdOutlineShoppingBag />, tooltip: "Add to Cart" },
   { icon: <FiEye />, tooltip: "Quick View" },
 ];
-// Sample Data
+
+// Sample product data
 const products = [
   {
     imageSrc: "/products/product-1.webp",
@@ -112,13 +113,30 @@ const products = [
     ],
   },
 ];
+const ProductList: React.FC<ProductListProps> = ({ layoutClass = "" }) => {
+  const [currentCount, setCurrentCount] = useState(12); // Initial count of products displayed
+  const totalCount = 23; // Total number of products
 
-const ProductList: React.FC = () => {
+  const handleLoadMore = () => {
+    // Simulate loading more items
+    setCurrentCount((prevCount) => Math.min(prevCount + 12, totalCount));
+  };
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 place-items-center">
-      {products.map((product, index) => (
-        <ProductCard product={product} key={index} index={index} />
-      ))}
+    <div>
+      <div className={` ${layoutClass} gap-5 place-items-center`}>
+        {products.map((product, index) => (
+          <ProductCard product={product} key={index} index={index} />
+        ))}
+      </div>
+      <div className="p-4">
+        <ProductProgress
+          currentCount={currentCount}
+          totalCount={totalCount}
+          onLoadMore={handleLoadMore}
+        />
+        {/* Other content */}
+      </div>
     </div>
   );
 };

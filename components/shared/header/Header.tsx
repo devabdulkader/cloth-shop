@@ -20,7 +20,7 @@ const Header = () => {
       <CartSideBar />
 
       <div className="hidden  lg:block z-50">
-      <TopNav />
+        <TopNav />
         <Navbar />
       </div>
       <div className="lg:hidden relative z-50 bg-white">
