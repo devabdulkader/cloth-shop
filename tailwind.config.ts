@@ -21,7 +21,15 @@ const config: Config = {
       // => @media (min-width: 1536px) { ... }
     },
 
-    extend: {},
+    extend: {
+      container: {
+        center: true,
+        padding: "1rem",
+        screens: {
+          "2xl": "1350px",
+        },
+      },
+    },
   },
   plugins: [],
 };
