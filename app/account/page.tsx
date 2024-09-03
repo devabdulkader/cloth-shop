@@ -73,7 +73,7 @@ const AccountPage:React.FC = () => {
             <div className='py-4'>
                 <div>
                     <h2 className='text-4xl font-semibold'>Order History</h2>
-                    <p className='text-sm font-normal'>You haven't placed any orders yet.</p>
+                    <p className='text-sm font-normal'>You haven&lsquo;t placed any orders yet.</p>
                 </div>
                 <div className=' grid grid-cols-1 md:grid-cols-2 gap-4 py-4 '>
                 {OrderData.map((item, index) => (
