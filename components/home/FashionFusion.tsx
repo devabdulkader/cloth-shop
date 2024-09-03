@@ -1,12 +1,13 @@
 import React from "react";
 import { GoArrowUpRight } from "react-icons/go";
+import MotionTransition from "../motion/MotionTransition";
 
 const FashionFusion: React.FC = () => {
   return (
-    <section className="relative">
+    <MotionTransition initialY={50} duration={3}>
       <div className="flex flex-col sm:flex-row gap-5">
         {/* First Div - 2/5 Width */}
-        <div className="w-full h-[500px] sm:h-auto sm:w-2/5 p-6 bg-gray-100 rounded-2xl flex flex-col justify-center">
+        <div className="w-full h-[400px] sm:h-auto sm:w-2/5 p-6 bg-gray-100 rounded-2xl flex flex-col justify-center">
           <p className="text-lg">Fashion Fusion</p>
           <h2 className="text-3xl xl:text-4xl font-bold max-w-80 capitalize leading-normal xl:leading-relaxed">
             Where creativity meets style
@@ -21,7 +22,7 @@ const FashionFusion: React.FC = () => {
         </div>
 
         {/* Second Div - 3/5 Width */}
-        <div className="w-full sm:w-3/5 relative rounded-2xl overflow-hidden group">
+        <div className="w-full sm:h-auto sm:w-3/5 relative rounded-2xl overflow-hidden group h-[300px]">
           <video
             className="w-full h-full object-cover"
             autoPlay
@@ -38,7 +39,7 @@ const FashionFusion: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
+    </MotionTransition>
   );
 };
 

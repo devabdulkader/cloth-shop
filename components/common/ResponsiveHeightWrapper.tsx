@@ -98,7 +98,7 @@ interface Breakpoints {
 }
 
 interface Heights {
-  initialHeight?: number; // New prop for initial height before first breakpoint
+  initialHeight?: number | string; // New prop for initial height before first breakpoint
   heightMediumStart?: number;
   heightMediumEnd?: number;
   heightLargeStart?: number;
@@ -113,7 +113,7 @@ interface ResponsiveHeightWrapperProps {
 
 const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
   breakpoints = {},
-  heights = {},
+  heights = { initialHeight: "auto" }, // Default initial height if not provided
   children,
 }) => {
   const [height, setHeight] = useState<number | string>("auto");
@@ -131,7 +131,7 @@ const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
       } = breakpoints;
 
       const {
-        initialHeight = 500, // Default initial height before first breakpoint
+        initialHeight = "auto", // Default initial height if not provided in heights
         heightMediumStart = 0,
         heightMediumEnd = 0,
         heightLargeStart = 0,
@@ -140,7 +140,7 @@ const ResponsiveHeightWrapper: React.FC<ResponsiveHeightWrapperProps> = ({
 
       // Responsive height calculation
       if (viewportWidth < minWidthMedium) {
-        setHeight(initialHeight);
+        setHeight(initialHeight); // Use initialHeight from heights prop
       } else if (
         viewportWidth >= minWidthMedium &&
         viewportWidth < maxWidthMedium
