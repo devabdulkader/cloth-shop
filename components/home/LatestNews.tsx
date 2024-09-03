@@ -14,6 +14,7 @@ import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import Link from "next/link";
+import ArrowButton from "../button/ArrowButton";
 interface Testimonial {
   id: string;
   title: string;
@@ -27,80 +28,95 @@ const LatestNews: React.FC = () => {
   const testimonialData: Testimonial[] = [
     {
       id: "1",
-      title: "Unlocking NEw Levels of Speed and Endurance",
-      date: "July 10,2024",
-      author: "Abdur Rouf Jibon",
+      title: "Unlocking New Levels of Speed and Endurance",
+      date: "July 10, 2024",
+      author: "Elsa Marine",
       link: "/",
-      image: Slider01.src,
+      image: "/latest-news/slider01.webp",
     },
     {
       id: "2",
-      title: "Unlocking NEw Levels of Speed and Endurance",
-      date: "July 10,2024",
-      author: "Abdur Rouf Jibon",
+      title: "Breaking Boundaries in Athletic Performance",
+      date: "August 15, 2024",
+      author: "Samantha Khan",
       link: "/",
-      image: Slider01.src,
+      image: "/latest-news/slider02.webp",
     },
     {
       id: "3",
-      title: "Unlocking NEw Levels of Speed and Endurance",
-      date: "July 10,2024",
-      author: "Abdur Rouf Jibon",
+      title: "Revolutionizing Sports Training Techniques",
+      date: "September 5, 2024",
+      author: "Michael Smith",
       link: "/",
-      image: Slider01.src,
+      image: "/latest-news/slider03.webp",
     },
     {
       id: "4",
-      title: "Unlocking NEw Levels of Speed and Endurance",
-      date: "July 10,2024",
-      author: "Abdur Rouf Jibon",
+      title: "Advancements in Exercise Science and Wellness",
+      date: "October 20, 2024",
+      author: "Jessica Lee",
       link: "/",
-      image: Slider01.src,
+      image: "/latest-news/slider04.webp",
     },
     {
       id: "5",
-      title: "Unlocking NEw Levels of Speed and Endurance",
-      date: "July 10,2024",
-      author: "Abdur Rouf Jibon",
+      title: "Transforming the Future of Fitness",
+      date: "November 12, 2024",
+      author: "Robert Brown",
       link: "/",
-      image: Slider01.src,
+      image: "/latest-news/slider05.webp",
     },
     {
       id: "6",
-      title: "Unlocking NEw Levels of Speed and Endurance",
-      date: "July 10,2024",
-      author: "Abdur Rouf Jibon",
+      title: "Innovations in Sports Nutrition",
+      date: "December 8, 2024",
+      author: "Emily Johnson",
       link: "/",
-      image: Slider01.src,
+      image: "/latest-news/slider06.webp",
+    },
+    {
+      id: "7",
+      title: "Enhancing Athletic Recovery and Performance",
+      date: "January 15, 2025",
+      author: "David Wilson",
+      link: "/",
+      image: "/latest-news/slider07.webp",
+    },
+    {
+      id: "8",
+      title: "Pushing the Limits of Endurance Training",
+      date: "February 22, 2025",
+      author: "Olivia Martinez",
+      link: "/",
+      image: "/latest-news/slider08.webp",
     },
   ];
-
   const swiperRef: React.MutableRefObject<SwiperType | null> =
     useRef<SwiperType | null>(null);
   return (
     <>
       <div className="w-full h-full flex flex-col lg:flex-row   gap-4">
-        <div className=" w-full md:min-w-[25%] px-8 py-8 flex flex-col justify-between bg-[#132742] text-white rounded-xl">
-          <div className="flex flex-col gap-2">
-            <p className="text-[12px] font-normal">LATEST NEWS</p>
-            <h1 className="text-xl font-bold ">From Our Blog</h1>
-            <p className="text-[12px] font-normal">
+        <div className=" w-full md:min-w-[25%] px-8 py-10 flex flex-col justify-between bg-[#132742] text-white rounded-xl">
+          <div className="flex flex-col gap-5 mb-5">
+            <p className="text-xl font-normal">LATEST NEWS</p>
+            <h1 className="text-3xl font-bold ">From Our Blog</h1>
+            <p className="text-md font-normal">
               Welcome to our blog, where we delve into the captivating world of
               fashion, lifestyle, and all things inspiring.
             </p>
           </div>
           <div className="swiper-nav-btns  flex gap-2 py-2">
-            <button
+            <div
               onClick={() => swiperRef.current?.slidePrev()}
-              className=" bg-slate-50 shadow-lg h-8 w-8 rounded-full flex justify-center items-center"
+              className=" flex justify-center items-center"
             >
-              <SlArrowLeft size={14} className=" text-black" />
-            </button>
+              <ArrowButton direction="left" />
+            </div>
             <button
               onClick={() => swiperRef.current?.slideNext()}
-              className=" bg-slate-50 shadow-lg h-8 w-8 rounded-full flex justify-center items-center"
+              className="  flex justify-center items-center"
             >
-              <SlArrowRight size={14} className=" text-black" />
+              <ArrowButton direction="right" />
             </button>
           </div>
         </div>
@@ -129,7 +145,7 @@ const LatestNews: React.FC = () => {
         >
           {testimonialData.map((item, index) => (
             <SwiperSlide key={index}>
-              <div className=" relative w-full h-full overflow-hidden group rounded-xl">
+              <div className=" relative w-full h-[500px] sm:h-full overflow-hidden group rounded-xl">
                 <div className=" w-full h-full relative group-hover:scale-105 duration-500">
                   <Image
                     className=" w-full h-full bg-cover"

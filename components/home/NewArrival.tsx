@@ -91,6 +91,9 @@ const NewArrival = () => {
             <div className="relative rounded-2xl overflow-hidden h-full">
               <CustomImage src={new_arrival_3} alt="New Arrival 3" />
             </div>
+            <div className="absolute bottom-5 right-4">
+              <ArrowRight />
+            </div>
           </div>
         </div>
       </ResponsiveHeightWrapper>
