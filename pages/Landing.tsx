@@ -16,20 +16,23 @@ import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearch
 import Statement from "@/components/home/Statement";
 const Landing = () => {
   return (
-    <div className="flex flex-col gap-6 lg:gap-10 xl:gap-16 pt-16 md:pt-20 lg:pt-0 px-5 xl:px-10 2xl:px-20">
-      <Hero />
-      <ExploreCategory />
-      <Statement />
-      <NewArrival />
-      <FashionFusion />
-      <NewestProduct />
-      {/* <FashionStatement /> */}
+    <div>
+      <div className="flex flex-col gap-6 lg:gap-10 xl:gap-16 pt-16 md:pt-20 lg:pt-0 px-5 xl:px-10 2xl:px-20 pb-10">
+        <Hero />
+        <ExploreCategory />
+        <Statement />
+        <NewArrival />
+        <FashionFusion />
+        <NewestProduct />
+        {/* <FashionStatement /> */}
 
-      <LimitedOffer />
+        <LimitedOffer />
 
-      <Policy />
-      <LatestNews />
-      <Testimonials />
+        <Policy />
+        <LatestNews />
+        <Testimonials />
+      </div>
+
       <InstagramSlider />
     </div>
   );
