@@ -68,8 +68,8 @@ const Nav = () => {
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
     null
   );
-//   const [isVisible, setIsVisible] = useState<boolean>(true); // Track visibility instead
-//   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
+  //   const [isVisible, setIsVisible] = useState<boolean>(true); // Track visibility instead
+  //   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
 
   //   useEffect(() => {
   //     const handleScroll = () => {
@@ -117,7 +117,7 @@ const Nav = () => {
                 }
               >
                 <button
-                  className={`flex items-center rounded-lg py-6 lg:py-8 text-lg ${
+                  className={`flex items-center rounded-lg py-6 lg:py-8 text-md ${
                     openDropdownIndex === index
                       ? "text-black font-bold"
                       : "text-gray-900"

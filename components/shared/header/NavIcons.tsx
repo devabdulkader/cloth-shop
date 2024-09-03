@@ -40,7 +40,12 @@ const NavIcons: React.FC = () => {
         onClick={handleUserClick}
       />
 
-      <CustomIcon Icon={IoStarOutline} iconClassName="text-2xl" quantity={3} />
+      <CustomIcon
+        Icon={IoStarOutline}
+        iconClassName="text-2xl"
+        quantity={3}
+        href="/wishlist"
+      />
 
       <CustomIcon
         Icon={MdOutlineShoppingBag}

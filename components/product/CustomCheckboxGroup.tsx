@@ -48,7 +48,7 @@ const CustomCheckboxGroup: React.FC<CustomCheckboxGroupProps> = ({
         )}
       </div>
 
-      <div className="overflow-y-auto max-h-52 flex flex-col space-y-3">
+      <div className="overflow-y-auto max-h-52 custom-scrollbar flex flex-col space-y-3 pr-3  ">
         {items.map((item, index) => (
           <label
             key={index}

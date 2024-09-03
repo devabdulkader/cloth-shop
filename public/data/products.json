@@ -1,0 +1,155 @@
+[
+    {
+        "id": 1,
+        "titlle": "Accessory Boutiques",
+        "description": "IronCaptivate with this shirt’s versatile urban look that works as well at happy hour as it does in the back yard. The real mother of pearl buttons and embroidered crocodile complete its elegant appeal",
+        "gender": "Man",
+        "basePrice": 200,
+        "buyPrice": 150,
+        "otherCost": 50,
+        "discountPrice": 10,
+        "sku": "a-123",
+        "totalQuantity": 20,
+        "lowStockQuantity": 1,
+        "productImgs": [
+            "/products/product-1-varient-1.webp",
+            "/products/product-1-varient-2.webp",
+            "/products/product-1-varient-3.webp"
+        ],
+        "deliveryMethods": [
+            "Street Fast",
+            "Sundarban Courier Service",
+            "Sheba Delivery"
+        ],
+        "returnPolicy": [
+            {
+                "policyTitle": "policy Title",
+                "days": 7
+            }
+        ],
+        "productCategory": [
+            "Fashion",
+            "T-shirt",
+            "Women"
+        ],
+        "productAttributes": [
+            {
+                "attributeName": "attribute Name",
+                "attributeValue": "attribute Value"
+            }
+        ],
+        "productSEO": [
+            {
+                "metaTitle": "metaTitle",
+                "metaDescription": "metaDescription",
+                "metaKeywords": "metaKeywords",
+                "searchEngineListings": "searchEngineListings"
+            }
+        ],
+        "productVariants":[
+            {
+                "tags": [
+                    "Brown",
+                    "Pants",
+                    "Summer",
+                    "Women"
+                ],
+                "size": [
+                    "S",
+                    "M",
+                    "L",
+                    "XL"
+                ],
+                "quantity":2,
+                "sellingPrice":200,
+                "status":true
+
+            }
+        ],
+        "productBrand":[
+            {
+                "name":"adidas",
+                "description":"this is adidas description",
+                "logoURL":"products/brand-logo-1.webp"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "titlle": "Accessory Boutiques",
+        "description": "IronCaptivate with this shirt’s versatile urban look that works as well at happy hour as it does in the back yard. The real mother of pearl buttons and embroidered crocodile complete its elegant appeal",
+        "gender": "Man",
+        "basePrice": 200,
+        "buyPrice": 150,
+        "otherCost": 50,
+        "discountPrice": 10,
+        "sku": "a-123",
+        "totalQuantity": 20,
+        "lowStockQuantity": 1,
+        "productImgs": [
+            "/products/product-2-varient-1.webp",
+            "/products/product-2-varient-2.webp",
+            "/products/product-3-varient-3.webp",
+            "/products/product-2-varient-4.webp",
+            "/products/product-2-varient-5.webp",
+            "/products/product-2-varient-7.webp"
+        ],
+        "deliveryMethods": [
+            "Street Fast",
+            "Sundarban Courier Service",
+            "Sheba Delivery"
+        ],
+        "returnPolicy": [
+            {
+                "policyTitle": "policy Title",
+                "days": 7
+            }
+        ],
+        "productCategory": [
+            "Fashion",
+            "T-shirt",
+            "Women"
+        ],
+        "productAttributes": [
+            {
+                "attributeName": "attribute Name",
+                "attributeValue": "attribute Value"
+            }
+        ],
+        "productSEO": [
+            {
+                "metaTitle": "metaTitle",
+                "metaDescription": "metaDescription",
+                "metaKeywords": "metaKeywords",
+                "searchEngineListings": "searchEngineListings"
+            }
+        ],
+        "productVariants":[
+            {
+                "tags": [
+                    "Brown",
+                    "Pants",
+                    "Summer",
+                    "Women"
+                ],
+                "size": [
+                    "S",
+                    "M",
+                    "L",
+                    "XL"
+                ],
+                "quantity":2,
+                "sellingPrice":200,
+                "status":true
+
+            }
+        ],
+        "productBrand":[
+            {
+                "name":"adidas",
+                "description":"this is adidas description",
+                "logoURL":"/products/brand-logo-1.webp"
+            }
+        ]
+    }
+]

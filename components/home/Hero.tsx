@@ -9,6 +9,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import AnimatedCircleText from "../common/AnimatedCircleText";
 import AnimatedSection from "../motion/AnimatedSection";
 import CustomImage from "../custom/CustomImage";
+import MotionTransition from "../motion/MotionTransition";
 
 const Hero = () => {
   const [height, setHeight] = useState<any>("auto"); // Initial height in pixels
@@ -38,7 +39,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="">
+    <MotionTransition initialY={50} duration={2}>
       <div
         className="md:grid md:grid-cols-2  gap-5"
         style={{ height: height === "auto" ? "auto" : `${height}px` }} // Conditional height style
@@ -46,15 +47,15 @@ const Hero = () => {
         {/* First Section (3 Cards) */}
         <section className="md:flex flex-col  w-full h-full">
           {/* Top One Card */}
-          <div className="pb-5 md:h-3/5">
+          <div className="lg:pb-5 md:h-3/5">
             <AnimatedSection
               title="Making a Statement Through Fashion"
               description="Curating a shoe wardrobe for an active lifestyle"
               buttonText="Shop The Collection"
               alt="First Card"
-              containerClassName="relative rounded-2xl overflow-hidden h-[350px] md:h-[500px] md:h-full w-full md:col-span-3 my-5 md:my-0 bg-[#F4F7FD]" // Custom container class
-              titleClassName="text-black" // Custom title class
-              descriptionClassName="text-black" // Custom description class
+              containerClassName="relative rounded-2xl overflow-hidden h-[350px]  md:h-[500px] md:h-full w-full  md:col-span-3 my-5 md:my-0 bg-[#F4F7FD]" // Custom container class
+              titleClassName="text-slate-800  text-3xl sm:text-4xl sm:max-w-sm md:max-w-full md:text-3xl lg:text-4xl  xl:text-5xl 2xl:text-6xl 2xl:max-w-full font-bold  " // Custom title class
+              descriptionClassName="text-black lg:mb-4" // Custom description class
               buttonClassName="bg-black text-white text-sm font-semibold py-2 md:py-3 lg:py-4 px-4 md:px-6 md:px-8 rounded-full transition-colors duration-300 hover:bg-white hover:text-black" // Custom button class
             />
           </div>
@@ -111,7 +112,7 @@ const Hero = () => {
           <div className="absolute inset-0 flex flex-col justify-center p-10 text-white">
             <p className="text-lg uppercase">New Design</p>
             <div className="my-3">
-              <button className="py-1 sm:py-2 md:py-4 px-8 tracking-widest text-lg bg-white sm:text-2xl lg:text-4xl rounded-full uppercase text-[#bfa489]">
+              <button className="py-1 sm:py-2 md:py-3.5 px-8 tracking-wider sm:tracking-[.6rem] font-semibold text-xl bg-white sm:text-2xl lg:text-4xl xl:text-5xl rounded-full uppercase text-[#bfa489]">
                 collection
               </button>
             </div>
@@ -119,7 +120,7 @@ const Hero = () => {
           </div>
         </section>
       </div>
-    </section>
+    </MotionTransition>
   );
 };
 

@@ -87,7 +87,7 @@ const ExploreCategory: React.FC = () => {
                 setCurrentHoveredIndex(null);
               }
             }}
-            className={`relative rounded-2xl overflow-hidden w-full flex-1 bg-gray-200 transition-all duration-500 ease-in-out group ${
+            className={`relative h-[500px] sm:h-auto rounded-2xl overflow-hidden w-full flex-1 bg-gray-200 transition-all duration-500 ease-in-out group ${
               lastHoveredIndex === index ? "flex-[1.5]" : ""
             }`}
           >
@@ -107,8 +107,8 @@ const ExploreCategory: React.FC = () => {
                   {item.title}
                 </h2>
                 <p className="text-sm md:text-base mb-4">{item.description}</p>
-                <button className="bg-white text-black py-3 px-5 rounded-full flex justify-between items-center uppercase group hover:bg-black hover:text-white transition-colors duration-200 ease-in-out">
-                  <span className="text-sm xl:text-md  ">
+                <button className="bg-white text-black py-3 px-5 lg:px-2 xl:px-5 rounded-full flex justify-between items-center uppercase group hover:bg-slate-800 hover:text-white transition-colors duration-300 ease-in-out">
+                  <span className="text-sm lg:text-xs xl:text-[1rem]  ">
                     {item.buttonText}
                   </span>
                   <GoArrowUpRight className="text-2xl transform transition-transform group-hover:rotate-45" />

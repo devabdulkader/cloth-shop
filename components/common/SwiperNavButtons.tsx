@@ -1,31 +1,38 @@
 import React from "react";
 import { useSwiper } from "swiper/react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import ArrowButton from "../button/ArrowButton";
 
 interface SwiperNavButtonsProps {
-  className?: string;
+  prevLeftPosition?: string;
+  prevRightPosition?: string;
+  LeftIcon?: React.ElementType;
+  RightIcon?: React.ElementType;
 }
 
 const SwiperNavButtons: React.FC<SwiperNavButtonsProps> = ({
-  className = "",
+  prevLeftPosition,
+  prevRightPosition,
+  LeftIcon = FiChevronLeft, // Default icon
+  RightIcon = FiChevronRight, // Default icon
 }) => {
   const swiper = useSwiper();
 
   return (
-    <div className={` px-4 z-10 ${className}`}>
-      <button
-        className="prev-btn rounded-full bg-white hover:bg-black text-black hover:text-white flex items-center justify-center p-3 transition-colors duration-300 ease-in-out"
+    <>
+      <div
+        className={`${prevLeftPosition} `}
         onClick={() => swiper.slidePrev()}
       >
-        <FiChevronLeft className="text-2xl" />
-      </button>
-      <button
-        className="next-btn rounded-full bg-white hover:bg-black text-black hover:text-white flex items-center justify-center p-3 transition-colors duration-300 ease-in-out"
+        <ArrowButton direction="right" />
+      </div>
+      <div
+        className={`${prevRightPosition}`}
         onClick={() => swiper.slideNext()}
       >
-        <FiChevronRight className="text-2xl" />
-      </button>
-    </div>
+        <ArrowButton direction="left" />
+      </div>
+    </>
   );
 };
 
