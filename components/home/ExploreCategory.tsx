@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import nike from "@/public/hero/nike-1.jpg";
 import { GoArrowUpRight } from "react-icons/go";
 import ResponsiveHeightWrapper from "../common/ResponsiveHeightWrapper";
+import MotionTransition from "../motion/MotionTransition";
 
 // Define the type for the data items
 interface CategoryItem {
@@ -57,6 +58,7 @@ const ExploreCategory: React.FC = () => {
   };
 
   const heights = {
+    initialHeight: 500,
     heightSmallStart: 500,
     heightSmallEnd: 600,
     heightMediumStart: 600,
@@ -71,8 +73,8 @@ const ExploreCategory: React.FC = () => {
   );
 
   return (
-    <section className="w-full py-10">
-      <div className="grid md:grid-cols-2 lg:flex lg:flex-row gap-4 ">
+    <MotionTransition initialY={50} duration={3}>
+      <div className="grid md:grid-cols-2 lg:flex lg:flex-row gap-6 ">
         {data.map((item, index) => (
           <div
             key={index}
@@ -118,7 +120,7 @@ const ExploreCategory: React.FC = () => {
           </div>
         ))}
       </div>
-    </section>
+    </MotionTransition>
   );
 };
 
