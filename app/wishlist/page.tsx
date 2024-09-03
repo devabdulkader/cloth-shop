@@ -88,7 +88,7 @@ const WishlistPage = () => {
                                     <p className='flex gap-2 items-center'><RiCalendarTodoFill size={14} /><span >{item.date}</span></p>
                                 </div>
                             </div>
-                            <button onClick={() => handleModalOpen(item)} className='w-48  py-4 text-center hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
+                           <button onClick={() => handleModalOpen(item)} className='w-48  py-4 text-center hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                 Quick View
                             </button>
                         </div>

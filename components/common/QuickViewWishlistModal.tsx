@@ -6,6 +6,7 @@
 import React, { useState } from 'react'
 import { MdOutlineClose } from "react-icons/md";
 import WishlistModalSlider from './WishlistModalSlider';
+import Link from 'next/link';
 
 interface Wishlist {
   id: number,
@@ -104,9 +105,11 @@ const QuickViewWishlistModal: React.FC<QuickViewWishlistModalProps> = ({ onClose
               </div>
                 </div>
                
+                <Link href="/checkouts">
               <button className='w-full py-4 border shadow hover:bg-[#132842] text-black hover:text-white rounded-full text-sm font-semibold'>
                BUY IT NOW
               </button>
+              </Link>
             </div>
 
           </div>

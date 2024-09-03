@@ -20,6 +20,7 @@ interface Cart {
 }
 
 const CartPage: React.FC = () => {
+    const [selectedCountry, setSelectedCountry] = useState<string>('Bangaldesh');
     const [cartData, setCartData] = useState<Cart[]>([
         {
             id: 1,
@@ -98,7 +99,9 @@ const CartPage: React.FC = () => {
             prevCartData.filter(item => item.id !== id)
         );
     };
-    
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCountry(event.target.value);
+    };
 
     return (
         <div className='container'>
@@ -170,9 +173,11 @@ const CartPage: React.FC = () => {
                     </div>
 
                     <div className=' w-full flex flex-row justify-center items-center text-center gap-4 md:gap-8  py-4'>
+                        <Link href='/checkouts' className='w-full'>
                         <button className='w-full py-4 bg-slate-200 hover:bg-[#132842] text-black hover:text-white rounded-full text-sm font-semibold'>
                             Proceed To Checkout
                         </button>
+                        </Link>
                         <Link href='/products' className='w-full  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                             Continue Shopping
                         </Link>
@@ -192,24 +197,29 @@ const CartPage: React.FC = () => {
                     </div>
                     </div>
 
-                    <div className="">
-                        <Select
-                            className={clsx(
-                                'mt-3 block w-full appearance-none border-none bg-slate-200 py-1.5 px-3 text-sm/6 text-black',
-                                'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-black',
-                               
-                            )}
-                        >
-                            <option value="Bangladesh" >Bangladesh</option>
-                            <option value="Uk">Uk</option>
-                            <option value="Canada">Canada</option>
-                            <option value="Rassia">Rassia</option>
-                        </Select>
-                        <IoIosArrowDown
-                            className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-black"
-                            aria-hidden="true"
-                        />
-                    </div>
+                    <Field>
+                        <div className="relative">
+                            <Select
+                                value={selectedCountry}
+                                onChange={handleChange}
+                                className={clsx(
+                                    'mt-3 block w-full appearance-none rounded-lg border py-3 px-3 text-sm/6 text-black',
+                                    'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
+                                    // Make the text of each option black on Windows
+                                    '*:text-black'
+                                )}
+                            >
+                                <option>Bangaldesh</option>
+                                <option>Canada</option>
+                                <option>Mexico</option>
+                                <option>United States</option>
+                            </Select>
+                            <IoIosArrowDown
+                                className="group pointer-events-none absolute top-4 right-2.5 size-4 fill-black"
+                                aria-hidden="true"
+                            />
+                        </div>
+                    </Field>
 
                 </div>
             </div>

@@ -29,7 +29,7 @@ const sidebarItems: SidebarCategory[] = [
       { title: "Login", link: "/login" },
       { title: "Register", link: "/register" },
       { title: "Wishlist", link: "#" },
-      { title: "Check out", link: "#" },
+      { title: "Check out", link: "/checkouts" },
     ],
   },
   {
