@@ -11,7 +11,8 @@ import Review01 from "@/public/testimonials/testi01jpg.jpg";
 // import required modules
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
-import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
+import ArrowButton from "../button/ArrowButton";
+
 interface Testimonial {
   id: string;
   title: string;
@@ -25,64 +26,123 @@ const Testimonials: React.FC = () => {
   const testimonialData: Testimonial[] = [
     {
       id: "1",
-      title: "Unlocking NEw Levels of Speed and Endurance",
+      title: "Unlocking New Levels of Speed and Endurance",
       description:
-        "Our Product Return Policy Exclusively Designed to Exceed Your Expectations.",
+        "Our Product Return Policy Exclusively Designed to Exceed Your Expectations and Ensure Your Utmost Satisfaction.",
       name: "Abdur Rouf Jibon",
       position: "Managing Director",
-      image: Review01.src,
+      image: "/latest-news/slider01.webp",
     },
     {
       id: "2",
-      title: "Unlocking NEw Levels of Speed and Endurance",
+      title: "Innovative Solutions for Modern Challenges",
       description:
-        "Our Product Return Policy Exclusively Designed to Exceed Your Expectations and Ensure Your Utmost Satisfaction",
-      name: "Abdur Rouf Jibon",
-      position: "Managing Director",
-      image: Review01.src,
+        "Experience cutting-edge technology with our tailored solutions designed to meet contemporary demands.",
+      name: "Sara Khan",
+      position: "Chief Technology Officer",
+      image: "/latest-news/slider02.webp",
     },
     {
       id: "3",
-      title: "Unlocking NEw Levels of Speed and Endurance",
+      title: "Exceptional Quality and Outstanding Support",
       description:
-        "Exclusively Designed to Exceed Your Expectations and Ensure ",
-      name: "Abdur Rouf Jibon",
-      position: "Managing Director",
-      image: Review01.src,
+        "Our commitment to quality ensures exceptional results and unparalleled support for our clients.",
+      name: "Ali Raza",
+      position: "Product Manager",
+      image: "/latest-news/slider03.webp",
     },
     {
       id: "4",
-      title: "Unlocking NEw Levels of Speed and Endurance",
+      title: "Transforming Ideas into Reality",
       description:
-        "Our Product Return Policy Exclusively Designed to Exceed Your Expectations and Ensure Your Utmost Satisfaction",
-      name: "Abdur Rouf Jibon",
-      position: "Managing Director",
-      image: Review01.src,
+        "From concept to execution, we transform your ideas into innovative solutions that drive success.",
+      name: "Fatima Ali",
+      position: "Creative Director",
+      image: "/latest-news/slider04.webp",
+    },
+    {
+      id: "5",
+      title: "Driving Efficiency and Innovation",
+      description:
+        "Maximize your potential with our solutions that blend efficiency with groundbreaking innovation.",
+      name: "Omar Faruk",
+      position: "Operations Manager",
+      image: "/latest-news/slider05.webp",
+    },
+    {
+      id: "6",
+      title: "Enhancing User Experience with Design",
+      description:
+        "We design with your users in mind, ensuring an intuitive and engaging experience across all platforms.",
+      name: "Nadia Hassan",
+      position: "UI/UX Designer",
+      image: "/latest-news/slider06.webp",
+    },
+    {
+      id: "7",
+      title: "Building the Future with Technology",
+      description:
+        "Leveraging technology to build the future, our solutions are designed to stay ahead of the curve.",
+      name: "Imran Ahmed",
+      position: "Software Engineer",
+      image: "/latest-news/slider07.webp",
+    },
+    {
+      id: "8",
+      title: "Unmatched Expertise in Digital Solutions",
+      description:
+        "Our team of experts brings unmatched knowledge and experience to solve your digital challenges.",
+      name: "Ayesha Siddiqui",
+      position: "Digital Marketing Specialist",
+      image: "/latest-news/slider08.webp",
+    },
+    {
+      id: "9",
+      title: "Innovative Strategies for Business Growth",
+      description:
+        "We provide innovative strategies that drive growth and help your business reach new heights.",
+      name: "Rashedul Islam",
+      position: "Business Analyst",
+      image: "/latest-news/slider04.webp",
+    },
+    {
+      id: "10",
+      title: "Empowering Businesses with Data Insights",
+      description:
+        "Utilize data insights to make informed decisions and empower your business with actionable intelligence.",
+      name: "Mariam Noor",
+      position: "Data Analyst",
+      image: "/latest-news/slider05.webp",
     },
   ];
 
   const swiperRef: React.MutableRefObject<SwiperType | null> =
     useRef<SwiperType | null>(null);
+
   return (
     <>
-      <div className="">
-        <div className=" flex flex-row justify-between items-center">
+      <div className="p-4">
+        <div className="flex flex-row justify-between items-center mb-4">
           <div className="py-4">
-            <p className=" text-[10px] font-normal">TESTIMONIALS</p>
-            <p className="text-md font-semibold">Customers Reviews</p>
+            <p className="text-md font-medium md:text-xl uppercase text-gray-600 lg:mb-3">
+              TESTIMONIALS
+            </p>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold">
+              Customers Reviews
+            </h2>
           </div>
-          <div className="swiper-nav-btns  flex gap-2">
+          <div className="swiper-nav-btns flex gap-2">
             <button
               onClick={() => swiperRef.current?.slidePrev()}
-              className=" bg-slate-50 shadow-lg h-8 w-8 rounded-full flex justify-center items-center"
+              className="flex justify-center items-center"
             >
-              <MdArrowBackIosNew size={15} />
+              <ArrowButton direction="left" />
             </button>
             <button
               onClick={() => swiperRef.current?.slideNext()}
-              className=" bg-slate-50 shadow-lg h-8 w-8 rounded-full flex justify-center items-center"
+              className="flex justify-center items-center"
             >
-              <MdArrowForwardIos size={15} />
+              <ArrowButton direction="right" />
             </button>
           </div>
         </div>
@@ -109,27 +169,34 @@ const Testimonials: React.FC = () => {
             swiperRef.current = swiper;
           }}
         >
-          {testimonialData.map((item, index) => (
-            <SwiperSlide key={index}>
-              <div className=" bg-slate-50 px-6 md:px-8 py-6 md:py-8 rounded-xl">
-                <h2 className="text-base font-semibold">
-                  &quot;{item.title}&quot;
-                </h2>
-                <p className="text-[14px] font-normal py-2">
-                  {item.description}
-                </p>
-                <div className="flex justify-start items-center gap-4 py-4">
-                  <Image
-                    src={item.image}
-                    width={40}
-                    height={40}
-                    alt=""
-                    className=" w-12 h-12 rounded-full"
-                  />
-                  <div>
-                    <p className="text-base font-semibold ">{item.name}</p>
-                    <p className="text-[10px] font-normal">{item.position}</p>
-                  </div>
+          {testimonialData.map((item) => (
+            <SwiperSlide
+              key={item.id}
+              className="bg-slate-100 px-8 py-10 rounded-md grid gap-5"
+              style={{ minHeight: "300px" }} // Adjust minHeight as needed
+            >
+              <h2 className="text-sm font-semibold py-1 sm:text-3xl text-slate-900">
+                &quot;{item.title}&quot;
+              </h2>
+              <p className="text-sm font-normal py-1 sm:text-md flex-grow">
+                {item.description}
+              </p>
+
+              <div className="flex justify-start h-20 items-center gap-4 py-4">
+                <Image
+                  src={item.image}
+                  width={40}
+                  height={40}
+                  alt={item.name}
+                  className="w-12 h-12 rounded-full"
+                />
+                <div className="flex flex-col">
+                  <p className="text-xl font-bold py-1 sm:text-md">
+                    {item.name}
+                  </p>
+                  <p className="text-sm font-normal py-1 sm:text-md">
+                    {item.position}
+                  </p>
                 </div>
               </div>
             </SwiperSlide>

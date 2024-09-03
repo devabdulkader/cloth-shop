@@ -36,7 +36,7 @@ const Policy: React.FC = () => {
     {
       id: 2,
       image: p2.src,
-      title: "return policy is for you",
+      title: "Return policy is for you",
       description:
         "Our Product Return Policy Exclusively Designed to Exceed Your Expectations and Ensure Your Utmost Satisfaction",
       path_title: "See more about the service",
@@ -64,12 +64,19 @@ const Policy: React.FC = () => {
   return (
     <div className="">
       <div className=" text-center">
-        <p className="text-md font-medium text-gray-600">Policy</p>
-        <p className="text-2xl font-semibold">Excellence and reliability</p>
+        <p className="text-md font-medium md:text-xl uppercase text-gray-600 lg:mb-3">
+          Policy
+        </p>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold">
+          Excellence and reliability
+        </h2>
       </div>
-      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 py-10">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 py-10 ">
         {policyData.map((item, index) => (
-          <div className=" bg-slate-200 px-6 py-10 rounded-md" key={index}>
+          <div
+            className=" bg-slate-100 grid  xl:gap-5 px-6 py-10 xl:px-10 rounded-md"
+            key={index}
+          >
             <Image
               src={item.image}
               width={50}
@@ -77,10 +84,14 @@ const Policy: React.FC = () => {
               alt=""
               className=" py-2"
             />
-            <p className=" text-sm font-semibold py-1">{item.title}</p>
-            <p className=" text-[13px] font-normal py-1">{item.description}</p>
+            <p className=" text-sm font-semibold py-1 sm:text-2xl text-slate-900">
+              {item.title}
+            </p>
+            <p className=" text-sm font-normal py-1 sm:text-md">
+              {item.description}
+            </p>
             <Link
-              className=" text-[12px] font-normal py-2 flex items-center"
+              className=" text-sm py-1 sm:text-md flex gap-2 items-center font-semibold"
               href={item.path_link}
             >
               <span>{item.path_title}</span>

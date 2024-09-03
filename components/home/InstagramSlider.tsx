@@ -1,6 +1,3 @@
-
-
-
 "use client";
 import React, { useState } from "react";
 import person1 from "@/public/instagram/insta01.jpeg";
@@ -11,88 +8,81 @@ import Image from "next/image";
 import { FaInstagram } from "react-icons/fa6";
 interface Review {
   image: string;
-  id: number,
+  id: number;
 }
 
 const InstagramSlider: React.FC = () => {
   const [pause, setPause] = useState(0);
 
-
-
-
   const reviews: Review[] = [
     {
       id: 1,
-      image: person1.src
+      image: "/latest-news/slider01.webp",
     },
     {
       id: 2,
-      image: person2.src,
+      image: "/latest-news/slider02.webp",
     },
     {
       id: 3,
-      image: person1.src
+      image: "/latest-news/slider03.webp",
     },
     {
       id: 4,
-      image: person2.src,
+      image: "/latest-news/slider04.webp",
     },
     {
       id: 5,
-      image: person1.src
+      image: "/latest-news/slider05.webp",
     },
     {
       id: 6,
-      image: person2.src,
+      image: "/latest-news/slider06.webp",
     },
     {
       id: 7,
-      image: person1.src
+      image: "/latest-news/slider07.webp",
     },
     {
       id: 8,
-      image: person2.src,
+      image: "/latest-news/slider08.webp",
     },
     {
       id: 9,
-      image: person1.src,
+      image: "/latest-news/slider04.webp",
     },
     {
       id: 10,
-      image: person2.src,
+      image: "/latest-news/slider05.webp",
     },
-
   ];
 
   return (
     <>
-      <div className=" relative">
-        <Marquee
-          pauseOnHover={true}
-          speed={50}
-
-        >
+      <div className=" relative w-full">
+        <Marquee pauseOnHover={true} speed={50}>
           {reviews.map((review, index) => (
-            <div key={index} className="slide relative group" onMouseEnter={() => setPause(review.id)} onMouseLeave={() => setPause(0)}>
+            <div
+              key={index}
+              className="slide relative group "
+              onMouseEnter={() => setPause(review.id)}
+              onMouseLeave={() => setPause(0)}
+            >
               <Image
                 src={review.image}
                 width={800}
                 height={800}
                 alt="our client"
-                className=" h-[300px] w-[280px] bg-contain "
+                className="h-[350px] sm:h-[400px] w-[300px] bg-contain "
               />
               {pause === review.id && (
                 <div className=" w-full h-full">
                   <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-black opacity-60 text-white min-w-full min-h-full flex justify-center items-center ">
                     <FaInstagram size={40} />
-
                   </div>
                 </div>
-              )
-
-              }
+              )}
             </div>
-
           ))}
         </Marquee>
         <div className=" hidden md:flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 ">
@@ -103,7 +93,6 @@ const InstagramSlider: React.FC = () => {
           </div>
         </div>
       </div>
-
     </>
   );
 };
