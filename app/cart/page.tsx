@@ -16,6 +16,7 @@ interface Cart {
     quantity: number,
     price: number,
     image: string,
+    sizes:string[],
 }
 
 const CartPage: React.FC = () => {
@@ -26,7 +27,8 @@ const CartPage: React.FC = () => {
             size: "S",
             quantity: 2,
             price: 350,
-            image: Img.src
+            image: Img.src,
+            sizes: ["S", "M", "L", "XL"],
         },
         {
             id: 2,
@@ -34,7 +36,8 @@ const CartPage: React.FC = () => {
             size: "L",
             quantity: 5,
             price: 500,
-            image: Img.src
+            image: Img.src,
+            sizes: ["S", "M", "L", "XL"],
         }
     ]);
 

@@ -13,6 +13,9 @@ interface Wishlist {
     quantity: number,
     price: number,
     image: string,
+    category: string[],
+    sku:string,
+    sizes:string[],
 }
 
 
@@ -25,7 +28,10 @@ const WishlistPage = () => {
             date: "SEP 02, 2024",
             quantity: 2,
             price: 350,
-            image: Img.src
+            image: Img.src,
+            category:["T-Shirt","Shoes"],
+            sku:"s-10",
+            sizes: ["S", "M", "L", "XL"],
         },
         {
             id: 2,
@@ -33,9 +39,14 @@ const WishlistPage = () => {
             date: "SEP 02, 2024",
             quantity: 5,
             price: 500,
-            image: Img.src
+            image: Img.src,
+            category:["T-Shirt","Shoes"],
+            sku:"s-10",
+            sizes: ["S", "M", "L", "XL"],
         }
     ]);
+    const [wishlistModal, setWishlistModal] = useState<Wishlist | undefined>(undefined);
+
 
     //remove wishlist cart data
     const removeWishLIstItem = (id: number) => {
@@ -43,16 +54,23 @@ const WishlistPage = () => {
             prevWishlistData.filter(item => item.id !== id)
         );
     };
+    const handleModalOpen = (item: Wishlist) => {
+        setWishlistModal(item);
+        setShowModal(true);
+    };
     const handleModalClose = () => {
         setShowModal(false);
+        setWishlistModal(undefined)
     };
     return (
         <div className='container'>
-            {showModal && (
+            {showModal && wishlistModal && (
                 <QuickViewWishlistModal
                     onClose={handleModalClose}
-                />)
-            }
+                    wishlistItem={wishlistModal} // Pass the selected wishlist item
+                />
+            )}
+
             <div className=' text-center py-20 md:py-40'>
                 <h1 className=' text-2xl md:text-4xl font-semibold md:font-medium uppercase'>Page Wishlist</h1>
                 <p className='text-sm font-normal py-2'><Link href="/" >Home</Link> &#x2022; <span>Page Wishlist</span></p>
@@ -70,7 +88,7 @@ const WishlistPage = () => {
                                     <p className='flex gap-2 items-center'><RiCalendarTodoFill size={14} /><span >{item.date}</span></p>
                                 </div>
                             </div>
-                            <button className='w-48  py-4 text-center hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
+                            <button onClick={() => handleModalOpen(item)} className='w-48  py-4 text-center hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                 Quick View
                             </button>
                         </div>
