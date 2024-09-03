@@ -60,8 +60,8 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       </motion.div>
       <div className="absolute inset-0 flex flex-col p-7 md:p-10 lg:p-20 justify-center gap-3 ">
         <motion.h2
-          style={{ lineHeight: "1.3" }}
-          className={`text-2xl xl:text-5xl font-bold  md:max-w-lg ${titleClassName}`}
+          style={{ lineHeight: "1.5" }}
+          className={` ${titleClassName}`}
           variants={titleVariants}
           initial="hidden"
           animate="visible"

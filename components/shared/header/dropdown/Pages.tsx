@@ -21,7 +21,7 @@ const Pages = () => {
         {pagesSections.map((section, index) => (
           <div key={index} className="flex flex-col">
             <div className="p-x py-1 ">
-              <Link href={section.href} className="text-lg  hover:underline">
+              <Link href={section.href} className="text-md  hover:underline">
                 {section.title}
               </Link>
             </div>

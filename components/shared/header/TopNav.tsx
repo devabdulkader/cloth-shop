@@ -1,10 +1,18 @@
 "use client";
 import MotionHeight from "@/components/motion/MotionHeight";
+import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
+import { BsTwitterX } from "react-icons/bs";
 import { FaFacebookF, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi"; // For country flag
 import { MdLanguage } from "react-icons/md"; // For language flag
-
+// Define the type for social media links with icon component and className
+type IconType = {
+  href: string;
+  icon: React.ElementType; // Change to React.ElementType to hold the icon component
+  className?: string;
+};
 const TopNav = () => {
   const [openDropdown, setOpenDropdown] = useState<
     "country" | "language" | null
@@ -12,36 +20,53 @@ const TopNav = () => {
   const [selectedCountry, setSelectedCountry] = useState(
     "USD $ | United States"
   );
+  const [selectedCountryImg, setSelectedCountryImg] =
+    useState("/flags/usa.svg");
   const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [selectedLanguageImg, setSelectedLanguageImg] =
+    useState("flags/uk.svg"); // State for language image
 
+  // Social media links with icon component and className
+  const socialLinks: IconType[] = [
+    {
+      href: "#",
+      icon: FaFacebookF,
+    },
+    {
+      href: "#",
+      icon: FaInstagram,
+    },
+    {
+      href: "#",
+      icon: BsTwitterX,
+    },
+    { href: "#", icon: FaTiktok },
+  ];
   const countries = [
-    { flag: "🇺🇸", label: "USD $ | United States" },
-    { flag: "🇫🇷", label: "EUR € | France" },
-    { flag: "🇩🇪", label: "EUR € | Germany" },
+    { flagImg: "/flags/usa.svg", label: "USD $ | United States" },
+    { flagImg: "/flags/france.svg", label: "EUR € | France" },
+    { flagImg: "/flags/germany.svg", label: "EUR € | Germany" },
   ];
 
   const languages = [
-    { flag: "🇬🇧", label: "English" },
-    { flag: "🇩🇪", label: "Deutsch" },
-    { flag: "🇫🇷", label: "Français" },
+    { flagImg: "flags/uk.svg", label: "English" },
+    { flagImg: "flags/germany.svg", label: "Deutsch" },
+    { flagImg: "flags/france.svg", label: "Français" },
   ];
 
   return (
-    <div className="bg-gray-800 text-white py-2 px-6 flex justify-between items-center relative lg:pl-28 lg:pr-20 lg:py-5">
+    <div className="bg-gray-800 text-white py-3 px-5 xl:px-10 2xl:px-20 flex justify-between items-center relative ">
       {/* Left: Social Icons */}
       <div className="flex space-x-4">
-        <a href="#" className="hover:text-gray-400 transition">
-          <FaFacebookF />
-        </a>
-        <a href="#" className="hover:text-gray-400 transition">
-          <FaInstagram />
-        </a>
-        <a href="#" className="hover:text-gray-400 transition">
-          <FaTwitter />
-        </a>
-        <a href="#" className="hover:text-gray-400 transition">
-          <FaTiktok />
-        </a>
+        {socialLinks.map((item, index) => (
+          <Link
+            key={index}
+            href={item.href}
+            className="text-gray-100 hover:text-blue-600"
+          >
+            <item.icon className="text-sm" />{" "}
+          </Link>
+        ))}
       </div>
 
       {/* Center: Free Shipping Text */}
@@ -50,30 +75,43 @@ const TopNav = () => {
       </div>
 
       {/* Right: Dropdown Items */}
-      <div className="flex space-x-6 justify-end relative">
+      <div className="flex space-x-6 justify-end items-center relative">
         {/* Country Select */}
         <div>
           <button
-            className="flex items-center text-white px-3 py-1 rounded-lg"
+            className="flex items-center text-white px-3 py-1 gap-3"
             onClick={() =>
               setOpenDropdown(openDropdown === "country" ? null : "country")
             }
           >
-            <GiWorld className="mr-2" />
-            {selectedCountry}
+            <Image
+              src={selectedCountryImg}
+              alt="Selected Country Flag"
+              height={300}
+              width={300}
+              className="w-[14px] h-[11px]"
+            />
+            <span className="uppercase text-[10px]">{selectedCountry}</span>
           </button>
-          <div className="absolute top-12 mt-1 bg-white text-black shadow-lg rounded-lg z-50">
+          <div className="absolute top-8 mt-1 bg-white text-black shadow-sm border-t border-r border-l border-[#e5e5e5]  z-50">
             <MotionHeight isVisible={openDropdown === "country"}>
               {countries.map((country, idx) => (
                 <button
                   key={idx}
-                  className="block w-full text-left px-10 py-2 border"
+                  className="w-full text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white  items-center"
                   onClick={() => {
                     setSelectedCountry(country.label);
                     setOpenDropdown(null); // Close dropdown after selection
                   }}
                 >
-                  {country.flag} {country.label}
+                  <Image
+                    src={country.flagImg}
+                    alt=""
+                    height={300}
+                    width={300}
+                    className="w-[15px] h-[11px]"
+                  />
+                  <span className="uppercase text-[10px]">{country.label}</span>
                 </button>
               ))}
             </MotionHeight>
@@ -83,27 +121,42 @@ const TopNav = () => {
         {/* Language Select */}
         <div>
           <button
-            className="flex items-center text-white px-3 py-1 rounded-lg"
+            className="flex items-center text-white px-3 py-1 gap-3"
             onClick={() =>
               setOpenDropdown(openDropdown === "language" ? null : "language")
             }
           >
-            <MdLanguage className="mr-2" />
-            {selectedLanguage}
+            <Image
+              src={selectedLanguageImg}
+              alt="Selected Language Flag"
+              height={300}
+              width={300}
+              className="w-[14px] h-[11px]"
+            />
+            <span className="uppercase text-[10px]">{selectedLanguage}</span>
           </button>
 
-          <div className="absolute top-12 mt-1 right-0 bg-white text-black shadow-lg rounded-lg z-50">
+          <div className="absolute top-8 mt-1 right-0 bg-white text-black shadow-sm  z-50   border-t border-r border-l border-[#e5e5e5]">
             <MotionHeight isVisible={openDropdown === "language"}>
               {languages.map((language, idx) => (
                 <button
                   key={idx}
-                  className="block w-full text-left px-10 py-2 border"
+                  className="w-full text-left py-3 px-4 pr-10 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white  items-center"
                   onClick={() => {
                     setSelectedLanguage(language.label);
                     setOpenDropdown(null); // Close dropdown after selection
                   }}
                 >
-                  {language.flag} {language.label}
+                  <Image
+                    src={language.flagImg}
+                    alt=""
+                    height={300}
+                    width={300}
+                    className="w-[14px] h-[11px]"
+                  />
+                  <span className="uppercase text-[10px]">
+                    {language.label}
+                  </span>
                 </button>
               ))}
             </MotionHeight>

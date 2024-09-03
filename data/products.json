@@ -1,155 +1,794 @@
 [
-    {
-        "id": 1,
-        "titlle": "Accessory Boutiques",
-        "description": "IronCaptivate with this shirt’s versatile urban look that works as well at happy hour as it does in the back yard. The real mother of pearl buttons and embroidered crocodile complete its elegant appeal",
-        "gender": "Man",
-        "basePrice": 200,
-        "buyPrice": 150,
-        "otherCost": 50,
-        "discountPrice": 10,
-        "sku": "a-123",
-        "totalQuantity": 20,
-        "lowStockQuantity": 1,
-        "productImgs": [
-            "/products/product-1-varient-1.webp",
-            "/products/product-1-varient-2.webp",
-            "/products/product-1-varient-3.webp"
-        ],
-        "deliveryMethods": [
-            "Street Fast",
-            "Sundarban Courier Service",
-            "Sheba Delivery"
-        ],
-        "returnPolicy": [
-            {
-                "policyTitle": "policy Title",
-                "days": 7
-            }
-        ],
-        "productCategory": [
-            "Fashion",
-            "T-shirt",
-            "Women"
-        ],
-        "productAttributes": [
-            {
-                "attributeName": "attribute Name",
-                "attributeValue": "attribute Value"
-            }
-        ],
-        "productSEO": [
-            {
-                "metaTitle": "metaTitle",
-                "metaDescription": "metaDescription",
-                "metaKeywords": "metaKeywords",
-                "searchEngineListings": "searchEngineListings"
-            }
-        ],
-        "productVariants":[
-            {
-                "tags": [
-                    "Brown",
-                    "Pants",
-                    "Summer",
-                    "Women"
-                ],
-                "size": [
-                    "S",
-                    "M",
-                    "L",
-                    "XL"
-                ],
-                "quantity":2,
-                "sellingPrice":200,
-                "status":true
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1b7",
+    "title": "Elegant Silk Blouse",
+    "description": "A luxurious silk blouse perfect for both office wear and casual outings. Its smooth texture and classic cut ensure a timeless appeal.",
+    "gender": "Women",
+    "basePrice": 120,
+    "buyPrice": 80,
+    "otherCost": 30,
+    "discountPrice": 15,
+    "sku": "w-101",
+    "totalQuantity": 50,
+    "lowStockQuantity": 5,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bc",
+        "url": "/products/product-1-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bd",
+        "url": "/products/product-1-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["DHL Express", "FedEx", "Local Post"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1be",
+        "policyTitle": "7-Day Return Policy",
+        "days": 7
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bf",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c0",
+        "name": "Blouse"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c1",
+        "name": "Women"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c2",
+        "attributeName": "Material",
+        "attributeValue": "Silk"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "metaTitle": "Elegant Silk Blouse",
+        "metaDescription": "A luxurious silk blouse perfect for various occasions.",
+        "metaKeywords": "silk blouse, women's clothing, fashion",
+        "searchEngineListings": "Elegant Silk Blouse for Women"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c4",
+        "tags": ["Silk", "Blouse", "Women"],
+        "size": ["S", "M", "L"],
+        "quantity": 15,
+        "sellingPrice": 110,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c5",
+        "name": "Gucci",
+        "description": "Luxury brand known for high-end fashion.",
+        "logoURL": "/products/brand-logo-gucci.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1c6",
+    "title": "Men's Denim Jacket",
+    "description": "A rugged and stylish denim jacket that adds an edge to any casual outfit. Perfect for layering and built to last.",
+    "gender": "Men",
+    "basePrice": 150,
+    "buyPrice": 100,
+    "otherCost": 20,
+    "discountPrice": 10,
+    "sku": "m-102",
+    "totalQuantity": 30,
+    "lowStockQuantity": 3,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c7",
+        "url": "/products/product-2-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "url": "/products/product-2-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["UPS", "Blue Dart", "Courier Service"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c9",
+        "policyTitle": "10-Day Return Policy",
+        "days": 10
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ca",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cb",
+        "name": "Jacket"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cc",
+        "name": "Men"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cd",
+        "attributeName": "Material",
+        "attributeValue": "Denim"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ce",
+        "metaTitle": "Men's Denim Jacket",
+        "metaDescription": "A rugged and stylish denim jacket for men.",
+        "metaKeywords": "denim jacket, men's clothing, casual wear",
+        "searchEngineListings": "Stylish Men's Denim Jacket"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cf",
+        "tags": ["Denim", "Jacket", "Men"],
+        "size": ["M", "L", "XL"],
+        "quantity": 10,
+        "sellingPrice": 140,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d0",
+        "name": "Levi's",
+        "description": "Iconic brand known for denim and casual wear.",
+        "logoURL": "/products/brand-logo-levis.webp"
+      }
+    ]
+  },
 
-            }
-        ],
-        "productBrand":[
-            {
-                "name":"adidas",
-                "description":"this is adidas description",
-                "logoURL":"products/brand-logo-1.webp"
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "titlle": "Accessory Boutiques",
-        "description": "IronCaptivate with this shirt’s versatile urban look that works as well at happy hour as it does in the back yard. The real mother of pearl buttons and embroidered crocodile complete its elegant appeal",
-        "gender": "Man",
-        "basePrice": 200,
-        "buyPrice": 150,
-        "otherCost": 50,
-        "discountPrice": 10,
-        "sku": "a-123",
-        "totalQuantity": 20,
-        "lowStockQuantity": 1,
-        "productImgs": [
-            "/products/product-2-varient-1.webp",
-            "/products/product-2-varient-2.webp",
-            "/products/product-3-varient-3.webp",
-            "/products/product-2-varient-4.webp",
-            "/products/product-2-varient-5.webp",
-            "/products/product-2-varient-7.webp"
-        ],
-        "deliveryMethods": [
-            "Street Fast",
-            "Sundarban Courier Service",
-            "Sheba Delivery"
-        ],
-        "returnPolicy": [
-            {
-                "policyTitle": "policy Title",
-                "days": 7
-            }
-        ],
-        "productCategory": [
-            "Fashion",
-            "T-shirt",
-            "Women"
-        ],
-        "productAttributes": [
-            {
-                "attributeName": "attribute Name",
-                "attributeValue": "attribute Value"
-            }
-        ],
-        "productSEO": [
-            {
-                "metaTitle": "metaTitle",
-                "metaDescription": "metaDescription",
-                "metaKeywords": "metaKeywords",
-                "searchEngineListings": "searchEngineListings"
-            }
-        ],
-        "productVariants":[
-            {
-                "tags": [
-                    "Brown",
-                    "Pants",
-                    "Summer",
-                    "Women"
-                ],
-                "size": [
-                    "S",
-                    "M",
-                    "L",
-                    "XL"
-                ],
-                "quantity":2,
-                "sellingPrice":200,
-                "status":true
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1d1",
+    "title": "Floral Summer Dress",
+    "description": "A light and breezy summer dress with a vibrant floral print. Ideal for beach outings and casual gatherings.",
+    "gender": "Women",
+    "basePrice": 80,
+    "buyPrice": 50,
+    "otherCost": 15,
+    "discountPrice": 5,
+    "sku": "w-103",
+    "totalQuantity": 40,
+    "lowStockQuantity": 4,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d2",
+        "url": "/products/product-3-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d3",
+        "url": "/products/product-3-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["DHL", "FedEx", "Local Courier"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d4",
+        "policyTitle": "5-Day Return Policy",
+        "days": 5
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d5",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d6",
+        "name": "Dress"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d7",
+        "name": "Women"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d8",
+        "attributeName": "Material",
+        "attributeValue": "Cotton"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d9",
+        "metaTitle": "Floral Summer Dress",
+        "metaDescription": "A light and breezy summer dress for women.",
+        "metaKeywords": "summer dress, floral print, women's clothing",
+        "searchEngineListings": "Floral Summer Dress for Women"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1da",
+        "tags": ["Floral", "Dress", "Summer", "Women"],
+        "size": ["S", "M", "L", "XL"],
+        "quantity": 20,
+        "sellingPrice": 75,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1db",
+        "name": "H&M",
+        "description": "Affordable fashion for everyone.",
+        "logoURL": "/products/brand-logo-hm.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1dc",
+    "title": "Classic White Shirt",
+    "description": "A must-have in every wardrobe, this classic white shirt is perfect for formal occasions and business meetings.",
+    "gender": "Unisex",
+    "basePrice": 70,
+    "buyPrice": 45,
+    "otherCost": 10,
+    "discountPrice": 5,
+    "sku": "u-104",
+    "totalQuantity": 60,
+    "lowStockQuantity": 6,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1dd",
+        "url": "/products/product-4-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1de",
+        "url": "/products/product-4-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["UPS", "DHL", "Local Post"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1df",
+        "policyTitle": "7-Day Return Policy",
+        "days": 7
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e0",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e1",
+        "name": "Shirt"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e2",
+        "name": "Unisex"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e3",
+        "attributeName": "Material",
+        "attributeValue": "Cotton"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e4",
+        "metaTitle": "Classic White Shirt",
+        "metaDescription": "A classic white shirt for both men and women.",
+        "metaKeywords": "white shirt, unisex clothing, formal wear",
+        "searchEngineListings": "Classic White Shirt for Men and Women"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e5",
+        "tags": ["White", "Shirt", "Unisex"],
+        "size": ["XS", "S", "M", "L", "XL"],
+        "quantity": 25,
+        "sellingPrice": 65,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e6",
+        "name": "Zara",
+        "description": "Contemporary fashion brand for stylish individuals.",
+        "logoURL": "/products/brand-logo-zara.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1e7",
+    "title": "Kids' Hoodie",
+    "description": "A comfortable and warm hoodie for kids, perfect for chilly weather and everyday wear.",
+    "gender": "Kids",
+    "basePrice": 50,
+    "buyPrice": 30,
+    "otherCost": 5,
+    "discountPrice": 3,
+    "sku": "k-105",
+    "totalQuantity": 70,
+    "lowStockQuantity": 7,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e8",
+        "url": "/products/product-5-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e9",
+        "url": "/products/product-5-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["DHL", "Local Courier"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ea",
+        "policyTitle": "15-Day Return Policy",
+        "days": 15
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1eb",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ec",
+        "name": "Hoodie"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ed",
+        "name": "Kids"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ee",
+        "attributeName": "Material",
+        "attributeValue": "Fleece"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ef",
+        "metaTitle": "Kids' Hoodie",
+        "metaDescription": "A comfortable and warm hoodie for kids.",
+        "metaKeywords": "kids hoodie, children's clothing, winter wear",
+        "searchEngineListings": "Warm and Cozy Kids' Hoodie"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f0",
+        "tags": ["Hoodie", "Kids", "Warm"],
+        "size": ["S", "M", "L"],
+        "quantity": 25,
+        "sellingPrice": 45,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f1",
+        "name": "Gap Kids",
+        "description": "Comfortable and trendy clothing for kids.",
+        "logoURL": "/products/brand-logo-gap-kids.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1f2",
+    "title": "Men's Chinos",
+    "description": "Stylish and versatile men's chinos that can be dressed up or down for any occasion. Made from high-quality fabric for ultimate comfort.",
+    "gender": "Men",
+    "basePrice": 60,
+    "buyPrice": 35,
+    "otherCost": 10,
+    "discountPrice": 5,
+    "sku": "m-106",
+    "totalQuantity": 80,
+    "lowStockQuantity": 8,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f3",
+        "url": "/products/product-6-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f4",
+        "url": "/products/product-6-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["UPS", "FedEx"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f5",
+        "policyTitle": "30-Day Return Policy",
+        "days": 30
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f6",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f7",
+        "name": "Pants"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f8",
+        "name": "Men"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f9",
+        "attributeName": "Material",
+        "attributeValue": "Cotton"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1fa",
+        "metaTitle": "Men's Chinos",
+        "metaDescription": "Stylish and versatile men's chinos.",
+        "metaKeywords": "men's chinos, pants, casual wear",
+        "searchEngineListings": "Versatile Men's Chinos for All Occasions"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1fb",
+        "tags": ["Chinos", "Men", "Casual"],
+        "size": ["30", "32", "34", "36"],
+        "quantity": 30,
+        "sellingPrice": 55,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1fc",
+        "name": "Uniqlo",
+        "description": "Affordable and stylish clothing for everyday wear.",
+        "logoURL": "/products/brand-logo-uniqlo.webp"
+      }
+    ]
+  },
 
-            }
-        ],
-        "productBrand":[
-            {
-                "name":"adidas",
-                "description":"this is adidas description",
-                "logoURL":"/products/brand-logo-1.webp"
-            }
-        ]
-    }
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1b8",
+    "title": "Women's Yoga Pants",
+    "description": "Comfortable and stretchy yoga pants designed for maximum flexibility and movement. Ideal for workouts or casual wear.",
+    "gender": "Women",
+    "basePrice": 40,
+    "buyPrice": 20,
+    "otherCost": 5,
+    "discountPrice": 2,
+    "sku": "w-107",
+    "totalQuantity": 100,
+    "lowStockQuantity": 10,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c6",
+        "url": "/products/product-7-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c7",
+        "url": "/products/product-7-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["FedEx", "DHL"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "policyTitle": "20-Day Return Policy",
+        "days": 20
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c9",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ca",
+        "name": "Activewear"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cb",
+        "name": "Women"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cc",
+        "attributeName": "Material",
+        "attributeValue": "Spandex"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cd",
+        "metaTitle": "Women's Yoga Pants",
+        "metaDescription": "Comfortable yoga pants for women.",
+        "metaKeywords": "yoga pants, women's activewear, workout clothing",
+        "searchEngineListings": "Comfortable Women's Yoga Pants for Workout"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ce",
+        "tags": ["Yoga Pants", "Women", "Activewear"],
+        "size": ["XS", "S", "M", "L"],
+        "quantity": 50,
+        "sellingPrice": 38,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cf",
+        "name": "Lululemon",
+        "description": "Premium athletic wear brand known for quality and comfort.",
+        "logoURL": "/products/brand-logo-lululemon.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1d0",
+    "title": "Men's Formal Suit",
+    "description": "A classic men's formal suit made from high-quality wool. Perfect for business meetings and formal events.",
+    "gender": "Men",
+    "basePrice": 300,
+    "buyPrice": 200,
+    "otherCost": 50,
+    "discountPrice": 20,
+    "sku": "m-108",
+    "totalQuantity": 20,
+    "lowStockQuantity": 2,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d1",
+        "url": "/products/product-8-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d2",
+        "url": "/products/product-8-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["UPS", "FedEx", "DHL"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d3",
+        "policyTitle": "15-Day Return Policy",
+        "days": 15
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d4",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d5",
+        "name": "Suit"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d6",
+        "name": "Men"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d7",
+        "attributeName": "Material",
+        "attributeValue": "Wool"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d8",
+        "metaTitle": "Men's Formal Suit",
+        "metaDescription": "A classic men's formal suit for business and events.",
+        "metaKeywords": "men's suit, formal wear, business attire",
+        "searchEngineListings": "High-Quality Men's Formal Suit"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1d9",
+        "tags": ["Formal", "Suit", "Men"],
+        "size": ["38", "40", "42"],
+        "quantity": 10,
+        "sellingPrice": 280,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1da",
+        "name": "Armani",
+        "description": "Luxury fashion house specializing in high-quality suits and formal wear.",
+        "logoURL": "/products/brand-logo-armani.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1db",
+    "title": "Women's Wool Coat",
+    "description": "A stylish and warm wool coat for women, perfect for cold weather. It features a modern cut and elegant design.",
+    "gender": "Women",
+    "basePrice": 200,
+    "buyPrice": 150,
+    "otherCost": 30,
+    "discountPrice": 15,
+    "sku": "w-109",
+    "totalQuantity": 35,
+    "lowStockQuantity": 4,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1dc",
+        "url": "/products/product-9-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1dd",
+        "url": "/products/product-9-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["DHL", "FedEx"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1de",
+        "policyTitle": "10-Day Return Policy",
+        "days": 10
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1df",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e0",
+        "name": "Coat"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e1",
+        "name": "Women"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e2",
+        "attributeName": "Material",
+        "attributeValue": "Wool"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e3",
+        "metaTitle": "Women's Wool Coat",
+        "metaDescription": "A stylish and warm wool coat for cold weather.",
+        "metaKeywords": "wool coat, women's outerwear, winter fashion",
+        "searchEngineListings": "Stylish Women's Wool Coat for Winter"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e4",
+        "tags": ["Coat", "Wool", "Women"],
+        "size": ["S", "M", "L"],
+        "quantity": 25,
+        "sellingPrice": 190,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e5",
+        "name": "Burberry",
+        "description": "Iconic British brand known for its classic outerwear.",
+        "logoURL": "/products/brand-logo-burberry.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1e6",
+    "title": "Men's Casual Sneakers",
+    "description": "Comfortable and trendy casual sneakers for men. Perfect for everyday wear and available in multiple colors.",
+    "gender": "Men",
+    "basePrice": 80,
+    "buyPrice": 50,
+    "otherCost": 15,
+    "discountPrice": 10,
+    "sku": "m-110",
+    "totalQuantity": 75,
+    "lowStockQuantity": 8,
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e7",
+        "url": "/products/product-10-varient-1.webp"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e8",
+        "url": "/products/product-10-varient-2.webp"
+      }
+    ],
+    "deliveryMethods": ["UPS", "FedEx", "Local Post"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1e9",
+        "policyTitle": "30-Day Return Policy",
+        "days": 30
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ea",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1eb",
+        "name": "Sneakers"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ec",
+        "name": "Men"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ed",
+        "attributeName": "Material",
+        "attributeValue": "Canvas"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ee",
+        "metaTitle": "Men's Casual Sneakers",
+        "metaDescription": "Comfortable and trendy casual sneakers for everyday wear.",
+        "metaKeywords": "casual sneakers, men's footwear, trendy shoes",
+        "searchEngineListings": "Stylish Men's Casual Sneakers for Everyday Wear"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ef",
+        "tags": ["Sneakers", "Casual", "Men"],
+        "size": ["8", "9", "10"],
+        "quantity": 50,
+        "sellingPrice": 75,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1f0",
+        "name": "Nike",
+        "description": "Leading brand in athletic and casual footwear.",
+        "logoURL": "/products/brand-logo-nike.webp"
+      }
+    ]
+  }
 ]
