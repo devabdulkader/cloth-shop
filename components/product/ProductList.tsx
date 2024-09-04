@@ -16,12 +16,10 @@ const ProductList: React.FC<ProductListProps> = async ({
 
   // Return component JSX
   return (
-    <div>
-      <div className={`  gap-5 grid grid-cols-1 items-center`}>
-        {products.map((product, index) => (
-          <ProductCard product={product} key={index} />
-        ))}
-      </div>
+    <div className={`  gap-5 grid grid-cols-1 items-center`}>
+      {products.map((product, index) => (
+        <ProductCard product={product} key={index} />
+      ))}
     </div>
   );
 };

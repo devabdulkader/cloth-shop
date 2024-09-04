@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+
 
 const Loader: React.FC = () => {
   return (
-    <div className="h-screen w-full bg-slate-800">
-        <div className="loader">
-      <div className="box1"></div>
-      <div className="box2"></div>
-      <div className="box3"></div>
-    </div>
+    <div className="flex justify-center items-center h-screen">
+      <div className="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
     </div>
   );
 };

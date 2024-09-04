@@ -5,14 +5,6 @@ interface ProductImage {
   alt: string;
   color: string;
 }
-interface IImage {
-  _id: string;
-  url: string;
-  alt: string;
-}
-
-// Define type for delivery methods
-type DeliveryMethod = "DHL Express" | "FedEx" | "Local Post";
 
 // Define type for return policy
 interface ReturnPolicy {
@@ -66,7 +58,7 @@ export interface IProduct {
   _id: string;
   title: string;
   description: string;
-  gender: "Unisex" | "Male" | "Female";
+  gender: string; // Any string value
   basePrice: number;
   buyPrice: number;
   otherCost: number;
@@ -74,9 +66,11 @@ export interface IProduct {
   sku: string;
   totalQuantity: number;
   lowStockQuantity: number;
-  displayImage: IImage;
+  deliveryPolicy: string;
+  shippingReturnPolicy: string;
+  displayImage: ProductImage;
   productImgs: ProductImage[];
-  deliveryMethods: DeliveryMethod[];
+  deliveryMethods: string; // Any string value
   returnPolicy: ReturnPolicy[];
   productCategory: ProductCategory[];
   productAttributes: ProductAttribute[];
