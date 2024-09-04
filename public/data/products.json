@@ -1,155 +1,121 @@
 [
-    {
-        "id": 1,
-        "titlle": "Accessory Boutiques",
-        "description": "IronCaptivate with this shirt’s versatile urban look that works as well at happy hour as it does in the back yard. The real mother of pearl buttons and embroidered crocodile complete its elegant appeal",
-        "gender": "Man",
-        "basePrice": 200,
-        "buyPrice": 150,
-        "otherCost": 50,
-        "discountPrice": 10,
-        "sku": "a-123",
-        "totalQuantity": 20,
-        "lowStockQuantity": 1,
-        "productImgs": [
-            "/products/product-1-varient-1.webp",
-            "/products/product-1-varient-2.webp",
-            "/products/product-1-varient-3.webp"
-        ],
-        "deliveryMethods": [
-            "Street Fast",
-            "Sundarban Courier Service",
-            "Sheba Delivery"
-        ],
-        "returnPolicy": [
-            {
-                "policyTitle": "policy Title",
-                "days": 7
-            }
-        ],
-        "productCategory": [
-            "Fashion",
-            "T-shirt",
-            "Women"
-        ],
-        "productAttributes": [
-            {
-                "attributeName": "attribute Name",
-                "attributeValue": "attribute Value"
-            }
-        ],
-        "productSEO": [
-            {
-                "metaTitle": "metaTitle",
-                "metaDescription": "metaDescription",
-                "metaKeywords": "metaKeywords",
-                "searchEngineListings": "searchEngineListings"
-            }
-        ],
-        "productVariants":[
-            {
-                "tags": [
-                    "Brown",
-                    "Pants",
-                    "Summer",
-                    "Women"
-                ],
-                "size": [
-                    "S",
-                    "M",
-                    "L",
-                    "XL"
-                ],
-                "quantity":2,
-                "sellingPrice":200,
-                "status":true
-
-            }
-        ],
-        "productBrand":[
-            {
-                "name":"adidas",
-                "description":"this is adidas description",
-                "logoURL":"products/brand-logo-1.webp"
-            }
-        ]
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1b7",
+    "title": "Classic Cotton T-Shirt",
+    "description": "A comfortable and versatile cotton t-shirt, perfect for everyday wear. Available in various colors and sizes.",
+    "gender": "Unisex",
+    "basePrice": 50,
+    "buyPrice": 30,
+    "otherCost": 10,
+    "discountPrice": 5,
+    "sku": "u-101",
+    "totalQuantity": 100,
+    "lowStockQuantity": 10,
+    "displayImage": {
+      "_id": "64d89b2c4f5e0c5a91e1a1bc",
+      "url": "/products/product-1.webp",
+      "alt": "Classic Cotton T-Shirt Front View",
+      "color": "LightBlue"
     },
-    {
-        "id": 2,
-        "titlle": "Accessory Boutiques",
-        "description": "IronCaptivate with this shirt’s versatile urban look that works as well at happy hour as it does in the back yard. The real mother of pearl buttons and embroidered crocodile complete its elegant appeal",
-        "gender": "Man",
-        "basePrice": 200,
-        "buyPrice": 150,
-        "otherCost": 50,
-        "discountPrice": 10,
-        "sku": "a-123",
-        "totalQuantity": 20,
-        "lowStockQuantity": 1,
-        "productImgs": [
-            "/products/product-2-varient-1.webp",
-            "/products/product-2-varient-2.webp",
-            "/products/product-3-varient-3.webp",
-            "/products/product-2-varient-4.webp",
-            "/products/product-2-varient-5.webp",
-            "/products/product-2-varient-7.webp"
-        ],
-        "deliveryMethods": [
-            "Street Fast",
-            "Sundarban Courier Service",
-            "Sheba Delivery"
-        ],
-        "returnPolicy": [
-            {
-                "policyTitle": "policy Title",
-                "days": 7
-            }
-        ],
-        "productCategory": [
-            "Fashion",
-            "T-shirt",
-            "Women"
-        ],
-        "productAttributes": [
-            {
-                "attributeName": "attribute Name",
-                "attributeValue": "attribute Value"
-            }
-        ],
-        "productSEO": [
-            {
-                "metaTitle": "metaTitle",
-                "metaDescription": "metaDescription",
-                "metaKeywords": "metaKeywords",
-                "searchEngineListings": "searchEngineListings"
-            }
-        ],
-        "productVariants":[
-            {
-                "tags": [
-                    "Brown",
-                    "Pants",
-                    "Summer",
-                    "Women"
-                ],
-                "size": [
-                    "S",
-                    "M",
-                    "L",
-                    "XL"
-                ],
-                "quantity":2,
-                "sellingPrice":200,
-                "status":true
-
-            }
-        ],
-        "productBrand":[
-            {
-                "name":"adidas",
-                "description":"this is adidas description",
-                "logoURL":"/products/brand-logo-1.webp"
-            }
-        ]
-    }
+    "productImgs": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bc",
+        "url": "/products/product-1.webp",
+        "alt": "Classic Cotton T-Shirt Front View",
+        "color": "LightBlue"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bd",
+        "url": "/products/product-2.webp",
+        "alt": "Classic Cotton T-Shirt Back View",
+        "color": "LightCoral"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1be",
+        "url": "/products/product-3.webp",
+        "alt": "Classic Cotton T-Shirt Side View",
+        "color": "LightGoldenRodYellow"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bf",
+        "url": "/products/product-4.webp",
+        "alt": "Classic Cotton T-Shirt Detailed View",
+        "color": "LightGreen"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c0",
+        "url": "/products/product-5.webp",
+        "alt": "Classic Cotton T-Shirt Label Close-up",
+        "color": "LightPink"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c1",
+        "url": "/products/product-6.webp",
+        "alt": "Classic Cotton T-Shirt in Packaging",
+        "color": "LightSalmon"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c2",
+        "url": "/products/product-7.webp",
+        "alt": "Classic Cotton T-Shirt Folded View",
+        "color": "LightSteelBlue"
+      }
+    ],
+    "deliveryMethods": ["DHL Express", "FedEx", "Local Post"],
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1be",
+        "policyTitle": "7-Day Return Policy",
+        "days": 7
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bf",
+        "name": "Fashion"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c0",
+        "name": "T-Shirt"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c1",
+        "name": "Unisex"
+      }
+    ],
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c2",
+        "attributeName": "Material",
+        "attributeValue": "Cotton"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "metaTitle": "Classic Cotton T-Shirt",
+        "metaDescription": "A comfortable and versatile cotton t-shirt for all occasions.",
+        "metaKeywords": "cotton t-shirt, unisex clothing, fashion",
+        "searchEngineListings": "Classic Cotton T-Shirt for Unisex"
+      }
+    ],
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c4",
+        "tags": ["Cotton", "T-Shirt", "Unisex"],
+        "size": ["S", "M", "L", "XL"],
+        "quantity": 50,
+        "sellingPrice": 45,
+        "status": true
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c5",
+        "name": "Nike",
+        "description": "Global brand known for high-quality athletic wear.",
+        "logoURL": "/products/brand-logo-nike.webp"
+      }
+    ]
+  }
 ]

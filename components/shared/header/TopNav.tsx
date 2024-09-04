@@ -7,12 +7,14 @@ import { BsTwitterX } from "react-icons/bs";
 import { FaFacebookF, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi"; // For country flag
 import { MdLanguage } from "react-icons/md"; // For language flag
+
 // Define the type for social media links with icon component and className
 type IconType = {
   href: string;
   icon: React.ElementType; // Change to React.ElementType to hold the icon component
   className?: string;
 };
+
 const TopNav = () => {
   const [openDropdown, setOpenDropdown] = useState<
     "country" | "language" | null
@@ -24,24 +26,16 @@ const TopNav = () => {
     useState("/flags/usa.svg");
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [selectedLanguageImg, setSelectedLanguageImg] =
-    useState("flags/uk.svg"); // State for language image
+    useState("/flags/uk.svg"); // Corrected the path with leading slash
 
   // Social media links with icon component and className
   const socialLinks: IconType[] = [
-    {
-      href: "#",
-      icon: FaFacebookF,
-    },
-    {
-      href: "#",
-      icon: FaInstagram,
-    },
-    {
-      href: "#",
-      icon: BsTwitterX,
-    },
+    { href: "#", icon: FaFacebookF },
+    { href: "#", icon: FaInstagram },
+    { href: "#", icon: BsTwitterX },
     { href: "#", icon: FaTiktok },
   ];
+
   const countries = [
     { flagImg: "/flags/usa.svg", label: "USD $ | United States" },
     { flagImg: "/flags/france.svg", label: "EUR € | France" },
@@ -49,9 +43,9 @@ const TopNav = () => {
   ];
 
   const languages = [
-    { flagImg: "flags/uk.svg", label: "English" },
-    { flagImg: "flags/germany.svg", label: "Deutsch" },
-    { flagImg: "flags/france.svg", label: "Français" },
+    { flagImg: "/flags/uk.svg", label: "English" },
+    { flagImg: "/flags/germany.svg", label: "Deutsch" },
+    { flagImg: "/flags/france.svg", label: "Français" },
   ];
 
   return (
@@ -93,14 +87,15 @@ const TopNav = () => {
             />
             <span className="uppercase text-[10px]">{selectedCountry}</span>
           </button>
-          <div className="absolute top-8 mt-1 bg-white text-black shadow-sm border-t border-r border-l border-[#e5e5e5]  z-50">
+          <div className="absolute top-8 mt-1 bg-white text-black shadow-sm border-t border-r border-l border-[#e5e5e5] z-50">
             <MotionHeight isVisible={openDropdown === "country"}>
               {countries.map((country, idx) => (
                 <button
                   key={idx}
-                  className="w-full text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white  items-center"
+                  className="w-full text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center"
                   onClick={() => {
                     setSelectedCountry(country.label);
+                    setSelectedCountryImg(country.flagImg); // Update country flag image
                     setOpenDropdown(null); // Close dropdown after selection
                   }}
                 >
@@ -136,14 +131,15 @@ const TopNav = () => {
             <span className="uppercase text-[10px]">{selectedLanguage}</span>
           </button>
 
-          <div className="absolute top-8 mt-1 right-0 bg-white text-black shadow-sm  z-50   border-t border-r border-l border-[#e5e5e5]">
+          <div className="absolute top-8 mt-1 right-0 bg-white text-black shadow-sm z-50 border-t border-r border-l border-[#e5e5e5]">
             <MotionHeight isVisible={openDropdown === "language"}>
               {languages.map((language, idx) => (
                 <button
                   key={idx}
-                  className="w-full text-left py-3 px-4 pr-10 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white  items-center"
+                  className="w-full text-left py-3 px-4 pr-10 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center"
                   onClick={() => {
                     setSelectedLanguage(language.label);
+                    setSelectedLanguageImg(language.flagImg); // Update language flag image
                     setOpenDropdown(null); // Close dropdown after selection
                   }}
                 >

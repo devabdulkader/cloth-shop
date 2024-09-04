@@ -1,12 +1,7 @@
 import ProductPage from "@/pages/ProductPage";
 
-
 const Page = () => {
-  return (
- 
-      <ProductPage />
- 
-  );
+  return <ProductPage />;
 };
 
 export default Page;
