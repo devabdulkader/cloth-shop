@@ -4,7 +4,6 @@ import React from "react";
 const PrivacyPolicyPage = () => {
   return (
     <div>
-    
       <section>
         {/* Title Container */}
         <div className="flex h-auto w-full flex-col items-center justify-center bg-gray-100 py-6 md:h-64">
@@ -158,7 +157,6 @@ const PrivacyPolicyPage = () => {
             </div>
           </div>
         </div>
-        <ArrowButton/>
       </section>
     </div>
   );

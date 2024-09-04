@@ -27,7 +27,7 @@ const ProductPage = () => {
           <div className="w-full flex flex-col  border-gray-300 gap-5">
             {/* Add enough content to make the page scrollable */}
             <FilterToggler />
-            <ProductList layoutClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" />
+            <ProductList />
           </div>
         </div>
       </div>
