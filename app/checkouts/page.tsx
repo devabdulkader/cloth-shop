@@ -23,7 +23,8 @@ interface Order {
 
 const CheckoutPage = () => {
     const [selectedCountry, setSelectedCountry] = useState<string>('Bangaldesh');
-    const [selectedDeliveryLocaiton, setSelectedDeliveryLocaiton] = useState<string>('Insite-Dhaka');
+    const [selectedDeliveryLocaiton, setSelectedDeliveryLocaiton] = useState<string>('insite-dhaka');
+    const [selectedPayment, setSelectedPayment] = useState<string>('cash-on-delivery');
     const OrderData: Order[] = [
         {
             id: 1,
@@ -91,8 +92,8 @@ const CheckoutPage = () => {
                     {
                         selectedCountry === "Bangaldesh" && (
                             <div className=' flex flex-row gap-4 text-center'>
-                                <button onClick={() => setSelectedDeliveryLocaiton("Insite-Dhaka")} className={` py-4 w-48  px-2 ${selectedDeliveryLocaiton === 'Insite-Dhaka'? 'bg-[#132842] text-white':'bg-slate-200'} `}>Inside dhaka 70 tk,</button>
-                                <button onClick={() => setSelectedDeliveryLocaiton("Onsite-Dhaka")}  className={` py-4 w-48  px-2 ${selectedDeliveryLocaiton === 'Onsite-Dhaka'? 'bg-[#132842] text-white':'bg-slate-200'} `}>Onside dhaka 130 tk</button>
+                                <button onClick={() => setSelectedDeliveryLocaiton("insite-dhaka")} className={` py-4 w-48  px-2 ${selectedDeliveryLocaiton === 'insite-dhaka' ? 'bg-[#132842] text-white' : 'bg-slate-200'} `}>Inside dhaka 70 tk,</button>
+                                <button onClick={() => setSelectedDeliveryLocaiton("Onsite-Dhaka")} className={` py-4 w-48  px-2 ${selectedDeliveryLocaiton === 'Onsite-Dhaka' ? 'bg-[#132842] text-white' : 'bg-slate-200'} `}>Onside dhaka 130 tk</button>
                             </div>
                         )
                     }
@@ -101,15 +102,18 @@ const CheckoutPage = () => {
                     <FormInput name='email' id='email' placeholder='ENTER YOUR EMAIL' type='email' className='min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none' />
                     <FormInput name='phone' id='phone' placeholder='ENTER YOUR PHONE' type='text' className='min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none' />
                     <FormInput name='address' id='address' placeholder='FULL ADDRESS' type='text' className='min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none' />
-                    <div className=' flex flex-row gap-4 text-center'>
-                        <div className=' py-8 w-48 bg-slate-200'>Cash On Delivery</div>
-                        <div className=' py-8 w-48 bg-slate-200'>Bkash</div>
-                    </div>
-                  <Link href="/confirmation" >
-                  <button className='  min-w-full bg-[#132842]  py-4 text-white rounded-full text-base'>
-                        Pay Now
-                    </button>
-                  </Link>
+                    {
+                        selectedCountry === "Bangaldesh" && (
+                            <div className=' flex flex-row gap-4 text-center'>
+                                <button onClick={() => setSelectedPayment("cash-on-delivery")} className={` py-8 w-48  px-2 ${selectedPayment === 'cash-on-delivery' ? 'bg-[#132842] text-white' : 'bg-slate-200'} `}>Cash On Delivery</button>
+                                <button onClick={() => setSelectedPayment("bkash")} disabled className={` py-8 w-48  px-2 ${selectedPayment === 'bkash' ? 'bg-[#132842] text-white' : 'bg-slate-200'} `}>Bkash</button>
+                            </div>
+                        )}
+                    <Link href="/confirmation" >
+                        <button className='  min-w-full bg-[#132842]  py-4 text-white rounded-full text-base'>
+                            Pay Now
+                        </button>
+                    </Link>
 
                 </Form>
 
@@ -142,10 +146,10 @@ const CheckoutPage = () => {
                     ))
 
                 }
-                <div className='flex flex-row justify-between items-center text-sm font-normal'><span>Sub-total</span><span>${830 + selectedDeliveryLocaiton === "Insite-Dhaka" ? 70 : 130}</span></div>
+                <div className='flex flex-row justify-between items-center text-sm font-normal'><span>Sub-total</span><span>${830 + (selectedDeliveryLocaiton === "insite-dhaka" && selectedCountry === "Bangladesh" ? 70 : 130)}</span></div>
                 <div className='flex flex-row justify-between items-center text-sm font-normal'><span>Shipping</span><span>uttara-11, Dhaka</span></div>
-                {selectedCountry === "Bangaldesh" && <div className='flex flex-row justify-between items-center text-sm font-normal'><span>Delivery Cost</span><span>${selectedDeliveryLocaiton === "Insite-Dhaka" ? 70 : 130}</span></div>}
-                <div className='flex flex-row justify-between items-center text-2xl font-semibold'><span>Total</span><span>${830 +( selectedDeliveryLocaiton === "Insite-Dhaka" ? 70 : 130)}</span></div>
+                {selectedCountry === "Bangaldesh" && <div className='flex flex-row justify-between items-center text-sm font-normal'><span>Delivery Cost</span><span>${selectedDeliveryLocaiton === "insite-dhaka" ? 70 : 130}</span></div>}
+                <div className='flex flex-row justify-between items-center text-2xl font-semibold'><span>Total</span><span>${830 + (selectedDeliveryLocaiton === "insite-dhaka" || selectedCountry === "Bangladesh" ? 70 : 130)}</span></div>
             </div>
 
         </div>

@@ -144,29 +144,44 @@ const CartModalSlider: React.FC = () => {
   return (
     <div className=''>
       <h1 className='text-sm font-semibold py-2'>You may also like these products</h1>
+      <div className=' bg-stone-100 px-2 py-1 rounded-md'>
       <Swiper
-        slidesPerView={1}
-        spaceBetween={10}
+        // slidesPerView={1}
+        // spaceBetween={10}
         pagination={{
           el: '.swiper-pagination',
           clickable: true,
         }}
+        // breakpoints={{
+        //   '@0.00': {
+        //     slidesPerView: 1,
+        //     spaceBetween: 0,
+        //   },
+        //   '@0.75': {
+        //     slidesPerView: 2,
+        //     spaceBetween: 20,
+        //   },
+        //   '@1.00': {
+        //     slidesPerView: 3,
+        //     spaceBetween: 10,
+        //   },
+        // }}
         breakpoints={{
-          '@0.00': {
+          640: {
             slidesPerView: 1,
             spaceBetween: 10,
           },
-          '@0.75': {
+          768: {
             slidesPerView: 2,
             spaceBetween: 20,
           },
-          '@1.00': {
+          1024: {
             slidesPerView: 3,
-            spaceBetween: 10,
+            spaceBetween: 20,
           },
         }}
         modules={[Pagination]}
-        className="mySwiper"
+        className="mySwiper "
       >
         {fashionData.map((item, index) => (
             <SwiperSlide key={index} className='border rounded-md shadow-lg p-2 bg-white'>
@@ -185,6 +200,7 @@ const CartModalSlider: React.FC = () => {
         ))}
        
       </Swiper>
+      </div>
       <div className=' flex justify-center items-center pt-2'>
       <div className='swiper-pagination flex justify-center items-center gap-2' />
       </div>

@@ -16,6 +16,8 @@ import {
   FaStar,
 } from "react-icons/fa6";
 import PaymentCards from "../common/PaymentCards";
+import Link from "next/link";
+import CartModal from "../common/CartModal";
 
 const productData = [
   {
@@ -62,9 +64,23 @@ const ProductDetails = () => {
   };
 
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]); // Initialize with the first size
-
+  const [showCartModal, setShowCartModal] = useState(false);
+  const handleModalOpen = () => {
+    setShowCartModal(true);
+};
+const handleModalClose = () => {
+  setShowCartModal(false);
+};
   return (
-    <div className="flex flex-col space-y-8 py-10">
+ <>{
+  showCartModal && (
+    <CartModal
+    onClose={handleModalClose}
+    />
+  )
+ }
+ 
+ <div className="flex flex-col space-y-8 py-10">
       {/* Header section with product name and review link */}
       <div>
         <h1 className="text-3xl font-bold mt-5 md:mt-0 mb-5">{product.name}</h1>
@@ -163,7 +179,7 @@ const ProductDetails = () => {
 
           {/* Add to Bag and Heart buttons */}
           <div className="flex items-center space-x-4 mb-4 w-full">
-            <button className="flex items-center justify-center w-full p-4 border rounded-full">
+            <button onClick={handleModalOpen} className="flex items-center justify-center w-full p-4 border rounded-full">
               Add to Bag
             </button>
             <button className="flex items-center p-4 justify-center border rounded-full">
@@ -174,9 +190,9 @@ const ProductDetails = () => {
       </section>
 
       {/* Buy Now button */}
-      <div className="mb-4">
+      <Link href='/checkouts' className="mb-4">
         <button className="w-full border p-4 rounded-full">Buy It Now</button>
-      </div>
+      </Link>
 
       {/* Share, Ask a Question, FAQ Section */}
       <div className="mb-8">
@@ -220,6 +236,7 @@ const ProductDetails = () => {
         </ul>
       </div>
     </div>
+ </>
   );
 };
 

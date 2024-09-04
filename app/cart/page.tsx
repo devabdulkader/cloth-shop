@@ -1,6 +1,6 @@
 
 'use client'
-import { Description, Field, Label, Select } from '@headlessui/react'
+import { Description, Field, Label, Select, Textarea } from '@headlessui/react'
 import clsx from 'clsx'
 
 import Image from 'next/image'
@@ -9,6 +9,8 @@ import React, { useState } from 'react'
 import Img from "@/public/instagram/insta01.jpeg"
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoIosArrowDown } from "react-icons/io";
+import Form from '@/components/forms/Form'
+import FormInput from '@/components/forms/FormInput'
 interface Cart {
     id: number,
     title: string,
@@ -16,7 +18,7 @@ interface Cart {
     quantity: number,
     price: number,
     image: string,
-    sizes:string[],
+    sizes: string[],
 }
 
 const CartPage: React.FC = () => {
@@ -99,8 +101,10 @@ const CartPage: React.FC = () => {
             prevCartData.filter(item => item.id !== id)
         );
     };
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedCountry(event.target.value);
+
+
+    const submitHandler = async (data: any) => {
+        console.log("hello");
     };
 
     return (
@@ -112,8 +116,8 @@ const CartPage: React.FC = () => {
 
             <div className=' flex flex-col md:flex-row gap-8 py-4'>
                 <div className='min-w-full md:min-w-[60%] '>
-                    <div className='border'>
-                        <div className=' min-w-full hidden md:flex flex-col md:flex-row justify-between items-center bg-slate-100  px-6 py-3'>
+                    <div className='border '>
+                        <div className=' min-w-full hidden md:flex flex-col md:flex-row justify-between items-center bg-slate-100 px-4 py-3'>
                             <div className=' w-full'>
                                 <span className=' pl-12 text-[12px] font-semibold'>PRODUCTS</span>
                             </div>
@@ -130,7 +134,7 @@ const CartPage: React.FC = () => {
                                     <div key={item.id} className='flex flex-col md:flex-row justify-between items-center border gap-8 md:gap-0 p-6'>
                                         <div className=' max-w-full md:w-full flex flex-row gap-4 md:gap-2 items-center'>
                                             <div className='px-4'>
-                                                <RiDeleteBin5Line size={18} className=' cursor-pointer' onClick={()=>removeCartItem(item.id)} />
+                                                <RiDeleteBin5Line size={18} className=' cursor-pointer' onClick={() => removeCartItem(item.id)} />
                                             </div>
 
                                             <Image src={item.image} alt={item.title} width={100} height={100} className=' bg-cover ' />
@@ -174,9 +178,9 @@ const CartPage: React.FC = () => {
 
                     <div className=' w-full flex flex-row justify-center items-center text-center gap-4 md:gap-8  py-4'>
                         <Link href='/checkouts' className='w-full'>
-                        <button className='w-full py-4 bg-slate-200 hover:bg-[#132842] text-black hover:text-white rounded-full text-sm font-semibold'>
-                            Proceed To Checkout
-                        </button>
+                            <button className='w-full py-4 bg-slate-200 hover:bg-[#132842] text-black hover:text-white rounded-full text-sm font-semibold'>
+                                Proceed To Checkout
+                            </button>
                         </Link>
                         <Link href='/products' className='w-full  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                             Continue Shopping
@@ -185,41 +189,42 @@ const CartPage: React.FC = () => {
 
                 </div>
 
-                <div className='min-w-full md:min-w-[40%] '>
-                    <div className='border'>
-                    <p className='px-6 py-3 text-[12px] font-semibold uppercase'>There are {cartData.length} items in your cart</p>
-                    <div className='flex flex-col gap-2 bg-slate-100 px-6 py-4'>
-                        <p className=' flex flex-row justify-between items-center '><span className='text-lg font-semibold'>Total:</span><span className='text-xl font-bold'>€{calculateCartTotal()}</span></p>
-                        <p className=' flex flex-row justify-between items-center'><span className='text-lg font-semibold'>Shipping :</span><span>Shipping & taxes calculated at checkout</span></p>
-                        <p>Congratulations! You&apos;ve got free shipping!</p>
-
-                        <p>Free shipping for any orders above €150,00</p>
-                    </div>
-                    </div>
-
-                    <Field>
+                <div className='flex flex-col gap-4 min-w-full md:min-w-[40%] '>
+                    <Form submitHandler={submitHandler}>
+                        <Textarea
+                            name="promocode"
+                            id="promocode"
+                            placeholder="COMMANTS HERE..."
+                            rows={6}
+                            
+                            className="w-full text-sm outline-none text-black border p-2"
+                        />
                         <div className="relative">
-                            <Select
-                                value={selectedCountry}
-                                onChange={handleChange}
-                                className={clsx(
-                                    'mt-3 block w-full appearance-none rounded-lg border py-3 px-3 text-sm/6 text-black',
-                                    'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-                                    // Make the text of each option black on Windows
-                                    '*:text-black'
-                                )}
-                            >
-                                <option>Bangaldesh</option>
-                                <option>Canada</option>
-                                <option>Mexico</option>
-                                <option>United States</option>
-                            </Select>
-                            <IoIosArrowDown
-                                className="group pointer-events-none absolute top-4 right-2.5 size-4 fill-black"
-                                aria-hidden="true"
+                            <FormInput
+                                name="promocode"
+                                id="promocode"
+                                placeholder="PROMO CODE"
+                                type="text"
+                                className=" px-4 h-14 text-sm outline-none text-black border"
                             />
+                            <button className="absolute top-1 right-0 text-[#132842]  rounded-full h-12 w-40 flex justify-center items-center">
+                                Apply
+                            </button>
                         </div>
-                    </Field>
+                    </Form>
+                    <div className='border'>
+
+                        <p className='px-6 py-3 text-[12px] font-semibold uppercase'>There are {cartData.length} items in your cart</p>
+                        <div className='flex flex-col gap-2 bg-slate-100 px-6 py-4'>
+                            <p className=' flex flex-row justify-between items-center '><span className='text-lg font-semibold'>Total:</span><span className='text-xl font-bold'>€{calculateCartTotal()}</span></p>
+                            {/* <p className=' flex flex-row justify-between items-center'><span className='text-lg font-semibold'>Shipping :</span><span>Shipping & taxes calculated at checkout</span></p>
+                            <p>Congratulations! You&apos;ve got free shipping!</p>
+
+                            <p>Free shipping for any orders above €150,00</p> */}
+                        </div>
+                    </div>
+
+
 
                 </div>
             </div>
