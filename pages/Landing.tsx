@@ -1,4 +1,3 @@
-"use client";
 import FashionFusion from "@/components/home/FashionFusion";
 import FashionStatement from "@/components/home/FashionStatement";
 import Hero from "@/components/home/Hero";
@@ -14,6 +13,7 @@ import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
 import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
 import Statement from "@/components/home/Statement";
+import Loader from "@/components/common/Loader";
 const Landing = () => {
   return (
     <div>

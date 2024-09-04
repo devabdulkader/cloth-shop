@@ -9,7 +9,7 @@ const NewestProduct: React.FC = () => {
           Our newest product line
         </h2>
       </div>
-      <ProductList layoutClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" />
+      <ProductList layoutClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" />
     </MotionTransition>
   );
 };
