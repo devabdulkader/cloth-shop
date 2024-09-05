@@ -12,7 +12,7 @@ const directionToRotationClass: Record<ArrowButtonProps["direction"], string> =
     bottom: "rotate-[180deg]",
   };
 
-const ArrowButton: React.FC<ArrowButtonProps> = ({ direction }) => {
+const  ArrowButton: React.FC<ArrowButtonProps> = ({ direction }) => {
   const rotationClass = directionToRotationClass[direction];
 
   return (
