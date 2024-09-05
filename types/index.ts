@@ -11,11 +11,7 @@ export interface AnimatedSectionProps {
   imageContainerClassName?: string; // Optional class for the image container
 }
 
-
-
-
-// PRODUCTS INTERFACE 
-
+// PRODUCTS INTERFACE
 
 export interface ReturnPolicy {
   policyTitle: string;
@@ -60,7 +56,7 @@ export interface Product {
   sku: string;
   totalQuantity: number;
   lowStockQuantity: number;
-  productImgs: string[];
+  productVarients: string[];
   deliveryMethods: string[];
   returnPolicy: ReturnPolicy[];
   productCategory: string[];

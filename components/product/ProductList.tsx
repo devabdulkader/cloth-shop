@@ -23,5 +23,13 @@ const ProductList: React.FC<ProductListProps> = async ({
     </div>
   );
 };
+// export async function getStaticProps() {
+//   const res = await fetch('http://localhost:3000/data/products.json');
+//   const data = await res.json();
+
+//   return {
+//     props: { data }, // This will be available as props in the page
+//   };
+// }
 
 export default ProductList;

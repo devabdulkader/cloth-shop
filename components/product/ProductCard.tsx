@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
-import { FaRegStar } from "react-icons/fa6";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
 import { motion } from "framer-motion";
@@ -10,6 +9,7 @@ import IconButton from "../common/IconButton";
 import { IProduct } from "@/types/product";
 import Link from "next/link";
 import { BiStar } from "react-icons/bi";
+import QuickViewModal from "../card/QuickViewModel";
 
 interface ProductCardProps {
   product: IProduct;
@@ -17,10 +17,25 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
+  const [showQuickView, setShowQuickView] = useState(false);
+
+  // Handle opening the QuickViewModal with product data
+  const openQuickView = () => {
+    setShowQuickView(true);
+  };
+
+  // Handle closing the QuickViewModal
+  const closeQuickView = () => {
+    setShowQuickView(false);
+  };
+
   const [hoveredProductkey, setHoveredProductkey] = useState<number | null>(
     null
   );
   const [blinkStartkey, setBlinkStartkey] = useState<number | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string>(
+    product.productVariants[0]?.color || ""
+  );
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -56,25 +71,34 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     setHoveredProductkey(null);
   };
 
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color);
+  };
+
   const Icons = [
     { icon: <FaHeart />, tooltip: "Wishlist" },
     { icon: <MdOutlineShoppingBag />, tooltip: "Add to Cart" },
-    { icon: <FiEye />, tooltip: "View" },
+    { icon: <FiEye />, tooltip: "Quick View" },
   ];
+
+  const selectedImage =
+    product.productVariants.find((img) => img.color === selectedColor) ||
+    product.productVariants[0];
+
   return (
-    <Link
-      href={`/products/${product._id}`}
+    <div
       className="relative place-self-center"
+      onMouseEnter={() => handleMouseEnter(key)}
+      onMouseLeave={handleMouseLeave}
     >
-      <div
+      <Link
+        href={`/products/${product._id}`}
         className="relative place-self-center"
-        onMouseEnter={() => handleMouseEnter(key)}
-        onMouseLeave={handleMouseLeave}
       >
-        <div className={`relative overflow-hidden `}>
+        <div className="relative overflow-hidden">
           <Image
-            src={product.displayImage.url}
-            alt={product.title}
+            src={selectedImage.url}
+            alt={selectedImage.alt}
             height={300}
             width={300}
             className="rounded-2xl transition-transform duration-300 h-full w-full object-cover"
@@ -86,58 +110,66 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
             }`}
           />
         </div>
-        <div className="p-4 flex flex-col justify-center items-center">
-          <h2 className="text-lg font-bold mb-2">{product.title}</h2>
+      </Link>
+      <div className="p-4 flex flex-col justify-center items-center">
+        <h2 className="text-lg font-bold mb-2">{product.title}</h2>
 
-          <div className="flex items-center mb-2">
-            {Array.from({ length: 5 }, (_, i) => (
-              <span key={i} className={`text-yellow-500`}>
-                <BiStar className={`text-yellow-500 text-2xl`} />
-              </span>
-            ))}
-          </div>
-          <p className="text-xl font-semibold mb-2">$ {product.basePrice}</p>
-
-          {/* Color variants div */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={
-              hoveredProductkey === key
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 20 }
-            }
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="flex gap-2"
-          >
-            {product.productImgs.map((variant, i) => (
-              <div
-                key={i}
-                className={`relative h-8 w-12 border`}
-                style={{ backgroundColor: variant.color }}
-              >
-                <div className="absolute inset-0 border-2 border-white p-1"></div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* icon tooltip div */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={
-              hoveredProductkey === key
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: -20 }
-            }
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute top-4 right-4 flex flex-col gap-2"
-          >
-            {Icons.map((icon, i) => (
-              <IconButton key={i} icon={icon.icon} tooltip={icon.tooltip} />
-            ))}
-          </motion.div>
+        <div className="flex items-center mb-2">
+          {Array.from({ length: 5 }, (_, i) => (
+            <span key={i} className={`text-yellow-500`}>
+              <BiStar className={`text-yellow-500 text-2xl`} />
+            </span>
+          ))}
         </div>
+        <p className="text-xl font-semibold mb-2">$ {product.basePrice}</p>
+
+        {/* Color variants div */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={
+            hoveredProductkey === key
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: 20 }
+          }
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="flex gap-2"
+        >
+          {product.productVariants.map((variant, i) => (
+            <div
+              key={i}
+              className={`relative h-8 w-12 border cursor-pointer`}
+              style={{ backgroundColor: variant.color }}
+              onClick={() => handleColorChange(variant.color)}
+            >
+              <div className="absolute inset-0 border-2 border-white p-1"></div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Icon tooltip div */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={
+            hoveredProductkey === key
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: -20 }
+          }
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="absolute top-4 right-4 flex flex-col gap-2 z-10"
+        >
+          <IconButton icon={Icons[0].icon} tooltip={Icons[0].tooltip} />
+          <IconButton icon={Icons[1].icon} tooltip={Icons[1].tooltip} />
+          <IconButton
+            icon={Icons[2].icon}
+            tooltip={Icons[2].tooltip}
+            onClick={openQuickView}
+          />
+        </motion.div>
       </div>
-    </Link>
+      {showQuickView && product && (
+        <QuickViewModal product={product} onClose={closeQuickView} />
+      )}
+    </div>
   );
 };
 

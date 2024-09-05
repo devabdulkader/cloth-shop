@@ -19,74 +19,36 @@ import PaymentCards from "../common/PaymentCards";
 import Link from "next/link";
 import CartModal from "../common/CartModal";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
+import { IProduct } from "@/types/product";
+import useProductSelection from "@/hooks/useProductSelection";
 
-type ProductDetailsProps = {
-  title: string;
-  description: string;
-  basePrice: number;
-  buyPrice: number;
-  otherCost: number;
-  discountPrice: number;
-  sku: string;
-  totalQuantity: number;
-  lowStockQuantity: number;
-  displayImage: {
-    url: string;
-    alt: string;
-    color: string;
-  };
-  productCategory: { name: string }[];
-  productAttributes: { attributeName: string; attributeValue: string }[];
-  productSEO: {
-    metaTitle: string;
-    metaDescription: string;
-    metaKeywords: string;
-    searchEngineListings: string;
-  }[];
-  productVariants: {
-    tags: string[];
-    size: string[];
-    quantity: number;
-    sellingPrice: number;
-    status: boolean;
-  }[];
-  productBrand: {
-    name: string;
-    description: string;
-    logoURL: string;
-  }[];
-};
+interface ProductDetailsProps {
+  product: IProduct;
+}
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-  const [quantity, setQuantity] = useState<number | "">(1); // Initialize quantity state
-  const [selectedSize, setSelectedSize] = useState<string>(
-    product.productVariants[0]?.size[0] || ""
-  ); // Initialize with the first size if available
+  // Initialize hook
+  const {
+    selectedSize,
+    selectedColor,
+    quantity,
+    selectedImage,
+    handleSizeChange,
+    handleColorChange,
+    handleQuantityChange,
+    decreaseQuantity,
+    increaseQuantity,
+    addToCart,
+    addToWishlist,
+    getSelectionState,
+  } = useProductSelection({ product });
+
   const [showCartModal, setShowCartModal] = useState(false);
-
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const numericValue = Number(value);
-    if (value === "" || (!isNaN(numericValue) && numericValue > 0)) {
-      setQuantity(value === "" ? "" : numericValue);
-    }
-  };
-
-  const decreaseQuantity = () => {
-    if (quantity !== "" && quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-  const increaseQuantity = () => {
-    if (quantity === "" || quantity > 0) {
-      setQuantity((quantity === "" ? 0 : quantity) + 1);
-    }
-  };
 
   const handleModalOpen = () => {
     setShowCartModal(true);
   };
+
   const handleModalClose = () => {
     setShowCartModal(false);
   };
@@ -104,7 +66,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           <div className="flex items-center space-x-3">
             {/* Star rating for reviews */}
             <div className="text-yellow-500 text-lg flex items-center justify-center py-5 gap-5">
-              {" "}
               <div className="flex justify-center items-center">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <FaStar key={index} className="text-2xl" />
@@ -119,52 +80,68 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             </div>
           </div>
         </div>
-
         {/* Product price */}
         <div className="text-2xl font-semibold text-gray-800">{`€${product.basePrice}`}</div>
-
         {/* Product description */}
         <div className="mb-4">
           <p className="text-gray-700 mb-2 text-xl">{product.description}</p>
         </div>
-
         {/* Product tags */}
         <div className="mb-4">
           <strong className="text-gray-800 text-xl">Tags:</strong>{" "}
-          {product.productVariants[0]?.tags.join(", ")}
+          {product.tags.map((tag) => tag.name).join(", ")}
         </div>
-
         {/* Product SKU */}
         <div className="mb-4">
           <strong className="text-gray-800 text-xl">SKU:</strong> {product.sku}
         </div>
-
         {/* Product category */}
         <div className="mb-4">
           <strong className="text-gray-800 text-xl">Category:</strong>{" "}
           {product.productCategory.map((cat) => cat.name).join(", ")}
         </div>
-
         {/* Product size selection */}
         <div className="mb-4">
-          <strong className="text-gray-800 text-xl ">
+          <strong className="text-gray-800 text-xl">
             Size: {selectedSize || "Select a size"}
           </strong>
           <div className="flex space-x-2 mt-5">
-            {product.productVariants[0]?.size.map((size) => (
+            {product.sizes.map((size) => (
               <button
-                key={size}
-                onClick={() => setSelectedSize(size)}
+                key={size._id}
+                onClick={() => handleSizeChange(size.size)}
                 className={`border border-gray-300 rounded px-5 py-3 text-gray-700 ${
-                  selectedSize === size ? "bg-black text-white" : "bg-gray-200"
+                  selectedSize === size.size
+                    ? "bg-black text-white"
+                    : "bg-gray-200"
                 }`}
               >
-                {size}
+                {size.size}
               </button>
             ))}
           </div>
         </div>
-
+        {/* // Product color selection */}
+        <div className="mb-4">
+          <strong className="text-gray-800 text-xl">Color:</strong>
+          <div className="flex space-x-2 mt-5">
+            {product.productVariants.map((img) => (
+              <div
+                key={img.color}
+                className={`relative h-8 w-12 border cursor-pointer ${
+                  selectedColor === img.color ? "border-2 border-black" : ""
+                }`}
+                style={{ backgroundColor: img.color }}
+                onClick={() => handleColorChange(img.color)}
+              >
+                {selectedColor === img.color && (
+                  <div className="absolute inset-0 border-2 border-white p-1"></div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Quantity and action buttons */}
         <section>
           <p className="mb-5">
             <strong className="text-gray-800 text-xl">Quantity:</strong>
@@ -186,7 +163,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                 onChange={handleQuantityChange}
                 className="text-center w-20 border-0 outline-none"
                 min="1"
-                step="1" // Step size for increment/decrement
+                step="1"
               />
 
               {/* Plus button */}
@@ -201,12 +178,16 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             {/* Add to Bag and Heart buttons */}
             <div className="flex items-center space-x-4 mb-4 w-full">
               <button
-                onClick={handleModalOpen}
-                className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center  justify-center w-full p-4 border rounded-full bg-gray-100`}
+                onClick={() => {
+                  addToCart();
+                  handleModalOpen();
+                }}
+                className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
               >
                 Add to Bag
               </button>
               <button
+                onClick={addToWishlist}
                 className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center p-4 justify-center border rounded-full bg-gray-100`}
               >
                 <FaHeart />
@@ -214,7 +195,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             </div>
           </div>
         </section>
-
         {/* Buy Now button */}
         <Link href="/checkouts" className="mb-4">
           <button
@@ -223,7 +203,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             Buy It Now
           </button>
         </Link>
-
         {/* Share, Ask a Question, FAQ Section */}
         <div className="mb-8">
           <div className="flex space-x-6">
@@ -246,22 +225,32 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             </div>
           </div>
         </div>
-
         {/* Payment cards */}
         <div>
           <PaymentCards />
         </div>
-
         {/* Product guarantee and shipping information */}
         <div className="mb-5">
           <ul className="list-disc list-inside text-gray-600 space-y-2">
-            <li className="flex items-center text-xl">
-              <FaClockRotateLeft className="text-gray-600 mr-2" />
-              Orders ship within 5 to 10 business days.
+            <li className="flex items-center space-x-2">
+              <FaShippingFast />
+              <span>Free Shipping on orders over €50</span>
             </li>
-            <li className="flex items-center text-xl">
-              <FaShippingFast className="text-gray-600 mr-2" />
-              Hooray! This item ships free to the US.
+            <li className="flex items-center space-x-2">
+              <FaHeadset />
+              <span>24/7 Customer Support</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaUndo />
+              <span>Easy Returns within 30 days</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaClock />
+              <span>Fast Delivery in 3-5 working days</span>
+            </li>
+            <li className="flex items-center space-x-2">
+              <FaClockRotateLeft />
+              <span>30-Day Money Back Guarantee</span>
             </li>
           </ul>
         </div>

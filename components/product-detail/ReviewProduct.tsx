@@ -4,7 +4,7 @@ import Reviews from "./Reviews";
 
 const ReviewProduct = () => {
   return (
-    <div className="w-full flex gap-5">
+    <div className="w-full flex lg:flex-row flex-col justify-center items-center lg:items-start gap-5">
       <ReviewCard />
       <Reviews />
     </div>
