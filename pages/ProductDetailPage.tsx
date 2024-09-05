@@ -2,6 +2,7 @@ import Breadcrumb from "@/components/common/Breadcrumb";
 import AdditionalDetailsTab from "@/components/product-detail/AdditionalDetailsTab";
 import ImageSlider from "@/components/product-detail/ImageSlider";
 import ProductDetails from "@/components/product-detail/ProductDetails";
+import ReviewProduct from "@/components/product-detail/ReviewProduct";
 import ServiceHighlights from "@/components/product/ServiceHighlights";
 import { getAllProducts } from "@/lib/service/getAllProducts";
 import { IProduct } from "@/types/product";
@@ -33,23 +34,7 @@ const ProductDetailPage = async ({ productId }: ProductDetailPageProps) => {
             <ImageSlider productImgs={matchedProduct.productImgs} />
           </div>
           <div>
-            <ProductDetails
-              title={matchedProduct.title}
-              description={matchedProduct.description}
-              basePrice={matchedProduct.basePrice}
-              buyPrice={matchedProduct.buyPrice}
-              otherCost={matchedProduct.otherCost}
-              discountPrice={matchedProduct.discountPrice}
-              sku={matchedProduct.sku}
-              totalQuantity={matchedProduct.totalQuantity}
-              lowStockQuantity={matchedProduct.lowStockQuantity}
-              displayImage={matchedProduct.displayImage}
-              productCategory={matchedProduct.productCategory}
-              productAttributes={matchedProduct.productAttributes}
-              productSEO={matchedProduct.productSEO}
-              productVariants={matchedProduct.productVariants}
-              productBrand={matchedProduct.productBrand}
-            />
+            <ProductDetails product={matchedProduct} />
           </div>
         </section>
         <AdditionalDetailsTab
@@ -59,6 +44,9 @@ const ProductDetailPage = async ({ productId }: ProductDetailPageProps) => {
         />
       </div>
       <ServiceHighlights />
+      <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10">
+        <ReviewProduct />
+      </div>
     </div>
   );
 };
