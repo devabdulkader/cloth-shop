@@ -11,6 +11,7 @@ import ZoomedImage from "./ZoomedImage";
 import { FaTimes } from "react-icons/fa";
 import ArrowButton from "../button/ArrowButton";
 import { IProduct } from "@/types/product";
+import { RxCross1 } from "react-icons/rx";
 
 // Sample product data
 
@@ -52,7 +53,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
   };
 
   return (
-    <div className="flex w-full h-[700px] gap-5 sticky top-0 ">
+    <div className="flex w-full h-[700px] gap-5 sticky top-0 overflow-hidden ">
       <Swiper
         direction={"vertical"}
         spaceBetween={10} // Adjust the space between slides
@@ -63,7 +64,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper w-full h-full relative "
+        className="mySwiper w-full h-full relative overflow-hidden"
       >
         {productImgs.map((image, index) => (
           <SwiperSlide
@@ -97,7 +98,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
       <div
         className={` group  ${
           isFullscreen
-            ? "bg-white z-layer-2 left-0 z-10 fixed top-0 h-screen w-screen"
+            ? "bg-white left-0 z-10 fixed z-layer-2  top-0 h-screen w-screen"
             : "relative w-4/5"
         }`}
       >
@@ -109,27 +110,34 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
             modules={[FreeMode, Navigation, Thumbs]}
             className={`mySwiper2  h-full ${
               isFullscreen
-                ? "fixed  z-layer-2 bg-white w-[500px]"
+                ? "fixed  z-layer-2 bg-white w-[90%] sm:w-[500px]"
                 : "relative  w-full"
             }`}
             onSwiper={setMainSwiper}
             onClick={openFullscreen}
           >
             {productImgs.map((image, index) => (
-              <SwiperSlide key={index} className="rounded-md overflow-hidden">
+              <SwiperSlide
+                key={index}
+                className="rounded-md overflow-hidden relative"
+              >
                 {isFullscreen ? (
-                  <Image
-                    src={image.url}
-                    alt={``}
-                    className="object-cover w-full h-full rounded-md"
-                    width={300}
-                    height={300}
-                  />
+                  <>
+                    <Image
+                      src={image.url}
+                      alt={``}
+                      className="object-cover relative z-layer-2 w-full h-full rounded-md"
+                      width={300}
+                      height={300}
+                    />
+                  </>
                 ) : (
                   <ZoomedImage src={image.url} />
                 )}
+                {/* Fullscreen Close Button */}
               </SwiperSlide>
             ))}
+
             <div
               className="absolute z-50 left-0 top-1/2 transform -translate-y-1/2"
               onClick={() => mainSwiper?.slidePrev()}
@@ -142,17 +150,15 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
             >
               <ArrowButton direction="right" />
             </div>
+            {isFullscreen && (
+              <button
+                className="absolute z-layer-1  left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2 bg-white rounded-full size-16 flex justify-center items-center "
+                onClick={closeFullscreen}
+              >
+                <RxCross1 className="text-2xl" />
+              </button>
+            )}
           </Swiper>
-        )}
-
-        {/* Fullscreen Close Button */}
-        {isFullscreen && (
-          <button
-            className="absolute top-4 right-4 z-50 p-2 bg-white rounded-full flex justify-center items-center"
-            onClick={closeFullscreen}
-          >
-            <FaTimes className="text-2xl" />
-          </button>
         )}
       </div>
     </div>

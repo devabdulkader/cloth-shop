@@ -28,8 +28,10 @@ const ProductDetailPage = async ({ productId }: ProductDetailPageProps) => {
     <div className="relative">
       <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10">
         <Breadcrumb items={breadcrumbItems} />
-        <section className="md:grid grid-cols-2 md:gap-10 mt-4">
-          <ImageSlider productImgs={matchedProduct.productImgs} />
+        <section className="md:grid grid-cols-2 md:gap-10 mt-4 relative">
+          <div className="relative z-50">
+            <ImageSlider productImgs={matchedProduct.productImgs} />
+          </div>
           <div>
             <ProductDetails
               title={matchedProduct.title}
