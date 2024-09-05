@@ -10,7 +10,7 @@ interface IconButtonProps {
   icon: React.ReactNode;
   tooltip: string;
   additionalClass?: string;
-  href?: string;
+
   onClick?: () => void; // Optional onClick function
 }
 
@@ -18,7 +18,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   icon,
   tooltip,
   additionalClass,
-  href = "#",
+
   onClick,
 }) => {
   return (
@@ -31,12 +31,11 @@ const IconButton: React.FC<IconButtonProps> = ({
 
         <IoMdArrowDropright className="text-4xl absolute -right-5 text-black top-0" />
       </span>
-      <Link
-        href={href}
+      <span
         className={`bg-white size-10 flex justify-center items-center rounded-full text-black hover:bg-black hover:text-white ${BUTTON_ANIMATION_CLASSES}`}
       >
         {icon}
-      </Link>
+      </span>
     </button>
   );
 };
