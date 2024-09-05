@@ -1,4 +1,4 @@
-import ServiceHighlights from "@/components/product-page/ServiceHighlights";
+import ServiceHighlights from "@/components/product/ServiceHighlights";
 import FilterSidebar from "@/components/product/FilterSidebar";
 import FilterToggler from "@/components/product/FilterToggler";
 import ProductList from "@/components/product/ProductList";
