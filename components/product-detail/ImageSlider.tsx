@@ -52,7 +52,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
   };
 
   return (
-    <div className="flex w-full h-[700px] space-x-5 sticky top-0 ">
+    <div className="flex w-full h-[700px] gap-5 sticky top-0 ">
       <Swiper
         direction={"vertical"}
         spaceBetween={10} // Adjust the space between slides
@@ -63,12 +63,12 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper w-full h-full relative"
+        className="mySwiper w-full h-full relative "
       >
         {productImgs.map((image, index) => (
           <SwiperSlide
             key={index}
-            className="border rounded-md overflow-hidden border-black cursor-pointer"
+            className="border rounded-md overflow-hidden border-black cursor-pointer "
           >
             <Image
               src={image.url}
@@ -95,10 +95,10 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
 
       {/* Main Swiper */}
       <div
-        className={` group w-4/5 ${
+        className={` group  ${
           isFullscreen
-            ? "bg-white z-layer-1 left-0 z-10 fixed top-0 h-screen w-screen"
-            : "relative"
+            ? "bg-white z-layer-2 left-0 z-10 fixed top-0 h-screen w-screen"
+            : "relative w-4/5"
         }`}
       >
         {thumbsSwiper && (
@@ -107,8 +107,10 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productImgs }) => {
             spaceBetween={10}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Navigation, Thumbs]}
-            className={`mySwiper2  w-full h-full ${
-              isFullscreen ? "fixed inset-0 z-50 bg-white" : "relative"
+            className={`mySwiper2  h-full ${
+              isFullscreen
+                ? "fixed  z-layer-2 bg-white w-[500px]"
+                : "relative  w-full"
             }`}
             onSwiper={setMainSwiper}
             onClick={openFullscreen}
