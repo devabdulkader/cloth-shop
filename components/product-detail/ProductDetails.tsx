@@ -57,26 +57,10 @@ type ProductDetailsProps = {
   }[];
 };
 
-const ProductDetails = ({
-  title,
-  description,
-  basePrice,
-  buyPrice,
-  otherCost,
-  discountPrice,
-  sku,
-  totalQuantity,
-  lowStockQuantity,
-  displayImage,
-  productCategory,
-  productAttributes,
-  productSEO,
-  productVariants,
-  productBrand,
-}: ProductDetailsProps) => {
+const ProductDetails = ({ product }: ProductDetailsProps) => {
   const [quantity, setQuantity] = useState<number | "">(1); // Initialize quantity state
   const [selectedSize, setSelectedSize] = useState<string>(
-    productVariants[0]?.size[0] || ""
+    product.productVariants[0]?.size[0] || ""
   ); // Initialize with the first size if available
   const [showCartModal, setShowCartModal] = useState(false);
 
@@ -114,7 +98,9 @@ const ProductDetails = ({
       <div className="flex flex-col space-y-8 py-10">
         {/* Header section with product name and review link */}
         <div>
-          <h1 className="text-3xl font-bold mt-5 md:mt-0 mb-5">{title}</h1>
+          <h1 className="text-3xl font-bold mt-5 md:mt-0 mb-5">
+            {product.title}
+          </h1>
           <div className="flex items-center space-x-3">
             {/* Star rating for reviews */}
             <div className="text-yellow-500 text-lg flex items-center justify-center py-5 gap-5">
@@ -135,28 +121,28 @@ const ProductDetails = ({
         </div>
 
         {/* Product price */}
-        <div className="text-2xl font-semibold text-gray-800">{`€${basePrice}`}</div>
+        <div className="text-2xl font-semibold text-gray-800">{`€${product.basePrice}`}</div>
 
         {/* Product description */}
         <div className="mb-4">
-          <p className="text-gray-700 mb-2 text-xl">{description}</p>
+          <p className="text-gray-700 mb-2 text-xl">{product.description}</p>
         </div>
 
         {/* Product tags */}
         <div className="mb-4">
           <strong className="text-gray-800 text-xl">Tags:</strong>{" "}
-          {productVariants[0]?.tags.join(", ")}
+          {product.productVariants[0]?.tags.join(", ")}
         </div>
 
         {/* Product SKU */}
         <div className="mb-4">
-          <strong className="text-gray-800 text-xl">SKU:</strong> {sku}
+          <strong className="text-gray-800 text-xl">SKU:</strong> {product.sku}
         </div>
 
         {/* Product category */}
         <div className="mb-4">
           <strong className="text-gray-800 text-xl">Category:</strong>{" "}
-          {productCategory.map((cat) => cat.name).join(", ")}
+          {product.productCategory.map((cat) => cat.name).join(", ")}
         </div>
 
         {/* Product size selection */}
@@ -165,7 +151,7 @@ const ProductDetails = ({
             Size: {selectedSize || "Select a size"}
           </strong>
           <div className="flex space-x-2 mt-5">
-            {productVariants[0]?.size.map((size) => (
+            {product.productVariants[0]?.size.map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}

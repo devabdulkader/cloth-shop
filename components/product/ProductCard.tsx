@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import IconButton from "../common/IconButton";
 import { IProduct } from "@/types/product";
 import Link from "next/link";
+import { BiStar } from "react-icons/bi";
 
 interface ProductCardProps {
   product: IProduct;
@@ -88,18 +89,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
         <div className="p-4 flex flex-col justify-center items-center">
           <h2 className="text-lg font-bold mb-2">{product.title}</h2>
 
-          {/* <div className="flex items-center mb-2">
-          {Array.from({ length: 5 }, (_, i) => (
-            <span
-              key={i}
-              className={`${
-                i < product.rating ? "text-yellow-500" : "text-gray-300"
-              }`}
-            >
-              ★
-            </span>
-          ))}
-        </div> */}
+          <div className="flex items-center mb-2">
+            {Array.from({ length: 5 }, (_, i) => (
+              <span key={i} className={`text-yellow-500`}>
+                <BiStar className={`text-yellow-500 text-2xl`} />
+              </span>
+            ))}
+          </div>
           <p className="text-xl font-semibold mb-2">$ {product.basePrice}</p>
 
           {/* Color variants div */}
