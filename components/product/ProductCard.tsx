@@ -10,6 +10,11 @@ import { IProduct } from "@/types/product";
 import Link from "next/link";
 import { BiStar } from "react-icons/bi";
 import QuickViewModal from "../card/QuickViewModel";
+import { VscClose } from "react-icons/vsc";
+import useProductSelection from "@/hooks/useProductSelection";
+import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
+import CartModal from "../common/CartModal";
+import { toast, ToastContainer } from "react-toastify";
 
 interface ProductCardProps {
   product: IProduct;
@@ -17,7 +22,16 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
+  const { selectedSize, handleSizeChange, addToCart, setSelectedImage } =
+    useProductSelection({
+      product,
+    });
+  const handleAddToCart = () => {
+    addToCart(); // Ensure addToCart function handles variant details correctly
+    toast.success("Item added to cart!");
+  };
   const [showQuickView, setShowQuickView] = useState(false);
+  const [showQuickAdd, setShowQuickAdd] = useState(false); // State to control the Quick Add modal
 
   // Handle opening the QuickViewModal with product data
   const openQuickView = () => {
@@ -29,12 +43,33 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     setShowQuickView(false);
   };
 
+  // Handle opening the QuickAdd modal
+  const openQuickAdd = () => {
+    setShowQuickAdd(true);
+  };
+
+  // Handle closing the QuickAdd modal
+  const closeQuickAdd = () => {
+    setShowQuickAdd(false);
+  };
+  const [showCartModal, setShowCartModal] = useState(false);
+
+  const handleModalOpen = () => {
+    setShowCartModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowCartModal(false);
+    setShowQuickAdd(false);
+  };
   const [hoveredProductkey, setHoveredProductkey] = useState<number | null>(
     null
   );
   const [blinkStartkey, setBlinkStartkey] = useState<number | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>(
-    product.productVariants[0]?.color || ""
+    product.productVariants && product.productVariants.length > 0
+      ? product.productVariants[0].color
+      : ""
   );
 
   useEffect(() => {
@@ -76,26 +111,36 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
   };
 
   const Icons = [
-    { icon: <FaHeart />, tooltip: "Wishlist" },
-    { icon: <MdOutlineShoppingBag />, tooltip: "Add to Cart" },
+    { icon: <FaHeart />, tooltip: "Add to Wishlist" },
+    { icon: <MdOutlineShoppingBag />, tooltip: "Quick Add" },
     { icon: <FiEye />, tooltip: "Quick View" },
   ];
 
   const selectedImage =
-    product.productVariants.find((img) => img.color === selectedColor) ||
-    product.productVariants[0];
+    product.productVariants && product.productVariants.length > 0
+      ? product.productVariants.find((img) => img.color === selectedColor) ||
+        product.productVariants[0]
+      : null; // Handle the case where there are no product variants
+
+  if (!selectedImage) {
+    return <div>No image available</div>; // Handle the case where no image is available
+  }
 
   return (
     <div
-      className="relative place-self-center"
+      className="relative place-self-center w-full sm:w-auto"
       onMouseEnter={() => handleMouseEnter(key)}
       onMouseLeave={handleMouseLeave}
     >
+      {showCartModal && <CartModal onClose={handleModalClose} />}
+
       <Link
         href={`/products/${product._id}`}
         className="relative place-self-center"
       >
         <div className="relative overflow-hidden">
+          {/* Quick Add Modal */}
+
           <Image
             src={selectedImage.url}
             alt={selectedImage.alt}
@@ -111,6 +156,51 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           />
         </div>
       </Link>
+      {showQuickAdd && (
+        <div className="absolute top-[40%] left-0 right-0 p-5">
+          <div className="bg-black bg-opacity-50 backdrop-blur-md p-4 z-10 rounded-lg shadow-lg relative">
+            <div className="flex justify-center items-center mb-4 ">
+              <h3 className="text-lg font-bold text-white text-center">
+                Select Size
+              </h3>
+              <button
+                onClick={closeQuickAdd}
+                className="text-gray-300 absolute top-3 right-3"
+              >
+                <VscClose className="text-2xl" />
+              </button>
+            </div>
+            <div className="flex justify-center gap-2 mb-4">
+              {/* Sizes buttons */}
+              {product.sizes.map((size, index) => (
+                <button
+                  key={index} // Use _id as the key
+                  onClick={() => handleSizeChange(size.size)}
+                  className={`border rounded px-4 py-2 text-gray-700 ${
+                    selectedSize === size.size
+                      ? "bg-black text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {size.size}
+                </button>
+              ))}
+            </div>
+            {/* Add to Cart Button */}
+            <button
+              onClick={() => {
+                console.log("quick add Image", selectedImage.url);
+                setSelectedImage(selectedImage.url);
+                handleAddToCart();
+                handleModalOpen();
+              }}
+              className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-3 border rounded-sm bg-gray-100`}
+            >
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      )}
       <div className="p-4 flex flex-col justify-center items-center">
         <h2 className="text-lg font-bold mb-2">{product.title}</h2>
 
@@ -158,7 +248,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           className="absolute top-4 right-4 flex flex-col gap-2 z-10"
         >
           <IconButton icon={Icons[0].icon} tooltip={Icons[0].tooltip} />
-          <IconButton icon={Icons[1].icon} tooltip={Icons[1].tooltip} />
+          <IconButton
+            icon={Icons[1].icon}
+            tooltip={Icons[1].tooltip}
+            onClick={openQuickAdd} // Open Quick Add modal on click
+          />
           <IconButton
             icon={Icons[2].icon}
             tooltip={Icons[2].tooltip}
@@ -166,9 +260,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           />
         </motion.div>
       </div>
+
       {showQuickView && product && (
         <QuickViewModal product={product} onClose={closeQuickView} />
       )}
+      <ToastContainer />
     </div>
   );
 };

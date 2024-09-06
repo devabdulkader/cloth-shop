@@ -226,6 +226,7 @@ import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import Link from "next/link";
 import useProductSelection from "@/hooks/useProductSelection";
+import CustomCrossBar from "../custom/CustomCrossBar";
 
 interface CartItem {
   variantId: string;
@@ -294,9 +295,12 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                 THERE ARE {cartData.length} ITEM(S) IN YOUR CART
               </p>
             </div>
-            <div className="bg-white text-black p-2 shadow-md rounded-full">
-              <IoClose size={25} onClick={onClose} />
-            </div>
+            <button
+            onClick={onClose}
+            className="text-gray-600 text-lg self-end "
+          >
+            <CustomCrossBar/>
+          </button>
           </div>
 
           <div className="flex flex-row">

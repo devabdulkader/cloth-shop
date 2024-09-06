@@ -42,7 +42,7 @@ const Navbar = () => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       // Log the scroll position
-      console.log("Current scroll position:", scrollTop);
+      // console.log("Current scroll position:", scrollTop);
       // Check if scrolled down more than 300px to activate sticky
       if (scrollTop > 130) {
         setIsSticky(true);

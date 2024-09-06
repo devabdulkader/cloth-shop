@@ -11,6 +11,7 @@ interface SelectionState {
   selectedColor: string;
   quantity: number | "";
   selectedImage: string;
+  selectedVariantId: string; // Track the selected variant by ID
 }
 
 const useProductSelection = ({ product }: UseProductSelectionProps) => {
@@ -38,7 +39,13 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     const newImage = product.productVariants.find((img) => img.color === color);
     if (newImage) {
       setSelectedImage(newImage.url);
+      setSelectedVariantId(newImage._id); // Update selectedVariantId when color changes
     }
+  };
+
+  // Handle image change
+  const handleImageChange = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
   };
 
   // Handle quantity change
@@ -64,13 +71,19 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     }
   };
 
+  // Track selected variant ID
+  const [selectedVariantId, setSelectedVariantId] = useState<string>(
+    product.productVariants?.[0]?._id || "" // Initialize with the first variant ID if available
+  );
+
   const addToCart = () => {
+    console.log("selectedImage from addToCart hook: ", selectedImage);
     // Retrieve the current cart from local storage or initialize as an empty array
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Find the selected variant
+    // Find the selected variant by ID
     const variant = product.productVariants.find(
-      (v) => v.color === selectedColor
+      (v) => v._id === selectedVariantId // Use selectedVariantId from state
     );
 
     if (!variant) {
@@ -85,7 +98,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
       size: selectedSize,
       color: selectedColor,
       quantity,
-      selectedImage: variant.url, // Use the URL of the selected variant
+      selectedImage: selectedImage, // Use the URL of the selected variant
     };
 
     // Check if the item with the same variantId already exists in the cart
@@ -146,6 +159,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     selectedColor,
     quantity,
     selectedImage,
+    selectedVariantId,
   });
 
   return {
@@ -156,6 +170,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     handleSizeChange,
     handleColorChange,
     handleQuantityChange,
+    handleImageChange,
     decreaseQuantity,
     increaseQuantity,
     addToCart,
@@ -163,6 +178,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     removeFromCart,
     removeFromWishlist,
     getSelectionState,
+    setSelectedImage,
   };
 };
 

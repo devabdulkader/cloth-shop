@@ -13,7 +13,7 @@ const ProductList: React.FC<ProductListProps> = async ({
 }) => {
   // Fetch products asynchronously
   const products: IProduct[] = await getAllProducts(); // Fixed type to IProduct[]
-
+  console.log("productlist", products);
   // Return component JSX
   return (
     <div className={`  gap-5 grid grid-cols-1 items-center`}>
