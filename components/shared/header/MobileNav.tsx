@@ -194,7 +194,7 @@ const MobileNav: React.FC = () => {
     dispatch(closeNav());
   };
   return (
-    <nav className="relative">
+    <nav className="relative hidden">
       {isNavOpen && <CustomBackDrop onClose={handleClose} zIndex="10" />}
       <div
         className={`w-full fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white z-50  transition-transform duration-300 ease-in-out ${
@@ -207,7 +207,7 @@ const MobileNav: React.FC = () => {
         {/* Conditionally rendered search input */}
         <MobileSearchBar />
         <div className="flex justify-between items-center space-x-5 w-full z-50 bg-white px-5 xl:px-10 2xl:px-20">
-          <div className="flex justify-center items-center space-x-2">
+          <div className="flex bg-green-300 items-center sm:space-x-2 w-1/3">
             <div
               onClick={() => {
                 dispatch(toggleNav());
@@ -233,13 +233,13 @@ const MobileNav: React.FC = () => {
             )}
           </div>
 
-          <div>
+          <div className="w-1/3">
             <Logo />
           </div>
           <div className="hidden md:flex space-x-4 justify-center items-center lg:space-x-6">
             <NavIcons />
           </div>
-          <div className="md:hidden relative">
+          <div className="md:hidden relative w-1/3 bg-blue-400 flex justify-end">
             <CustomIcon
               Icon={RiLuggageCartFill}
               iconClassName="text-2xl"

@@ -23,7 +23,7 @@ const FashionStatement = () => {
           />
 
           {/* Second Section */}
-          <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 w-full lg:grid-rows-2 lg:grid-cols-1 lg:col-span-1 lg:h-full">
+          <section className="grid relative grid-cols-1 gap-5 sm:grid-cols-2 w-full lg:grid-rows-2 lg:grid-cols-1 lg:col-span-1 lg:h-full">
             {/* First Card in Second Section */}
             <div className="relative rounded-2xl overflow-hidden h-[500px] sm:h-96 lg:h-full">
               <Image
