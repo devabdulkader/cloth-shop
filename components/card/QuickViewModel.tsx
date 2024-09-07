@@ -249,6 +249,7 @@ const QuickViewModal = ({
               <div className="flex items-center space-x-4 mb-4 w-full">
                 <button
                   onClick={() => {
+                    addToCart(image.id);
                     handleModalOpen();
                   }}
                   className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}

@@ -280,6 +280,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           product={product}
           onClose={closeQuickView}
           activeImage={activeImage}
+          activeColor={activeColor}
         />
       )}
     </div>
