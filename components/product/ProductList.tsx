@@ -16,7 +16,7 @@ const ProductList: React.FC<ProductListProps> = async ({
   console.log("productlist", products);
   // Return component JSX
   return (
-    <div className={`  gap-5 grid grid-cols-1 items-center`}>
+    <div className={`  gap-5 flex flex-wrap justify-center items-center`}>
       {products.map((product, index) => (
         <ProductCard product={product} key={index} />
       ))}
