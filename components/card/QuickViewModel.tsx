@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -18,19 +18,15 @@ interface QuickViewModalProps {
   product: IProduct;
   onClose: () => void;
   activeImage: string;
-  activeColor: string;
 }
 
 const QuickViewModal = ({
   product,
   onClose,
   activeImage,
-  activeColor,
 }: QuickViewModalProps) => {
   const [swiperInstance, setSwiperInstance] = useState<any>(null);
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    null
-  );
+  const [currentImageId, setCurrentImageId] = useState<string | null>(null);
 
   const {
     selectedSize,
@@ -48,17 +44,15 @@ const QuickViewModal = ({
   } = useProductSelection({ product });
 
   const productVariants = product?.productVariants || [];
-  const [currentImageId, setCurrentImageId] = useState<string | null>(null);
 
-  // Combine main image with variants
   const images = [
     {
-      id: product._id, // Add main product ID here
+      id: product._id,
       url: product.url,
       alt: product.alt,
     },
     ...product.productVariants.map((variant) => ({
-      id: variant.id, // Add variant ID here
+      id: variant._id,
       url: variant.url,
       alt: variant.alt,
     })),
@@ -66,9 +60,8 @@ const QuickViewModal = ({
 
   const handleAddToCart = () => {
     if (currentImageId) {
+      console.log("Adding to cart with image ID:", currentImageId);
       addToCart(currentImageId);
-      toast.success("Item added to cart!");
-      handleModalOpen();
     }
   };
 
@@ -86,36 +79,20 @@ const QuickViewModal = ({
   const handleSlideChange = () => {
     if (swiperInstance) {
       const activeIndex = swiperInstance.activeIndex;
-      const currentImage = images[activeIndex];
-      if (currentImage) {
-        setCurrentImageId(currentImage.id); // Update current image ID
-        const variant = productVariants.find((v) => v.url === currentImage.url);
-        setSelectedVariantId(variant?._id || null);
-      }
+      const activeSlide = swiperInstance.slides[activeIndex];
+      const imageId = activeSlide.getAttribute("data-image-id");
+      setCurrentImageId(imageId || null);
+      console.log("Current slide image ID:", imageId);
     }
   };
-
-  // Helper to find the initial slide index based on the activeImage
-  const getInitialSlideIndex = () => {
-    const index = images.findIndex((image) => image.url === activeImage);
-    return index >= 0 ? index : 0; // Fallback to the first slide if no match
-  };
-  useEffect(() => {
-    if (swiperInstance) {
-      const initialIndex = getInitialSlideIndex();
-      console.log("Setting initial slide index:", initialIndex);
-      console.log("inital selected", selectedImage);
-      swiperInstance.slideTo(initialIndex); // Move Swiper to the selected image
-    }
-  }, [selectedImage, swiperInstance]);
 
   return (
-    <div className="h-full w-full">
+    <div className="fixed inset-0 z-50 md:flex items-center justify-center bg-black bg-opacity-50 hidden">
       {showCartModal && <CartModal onClose={handleModalClose} />}
       <div
         className={`${
-          showCartModal ? "hidden" : "flex "
-        }  rounded-lg overflow-hidden`}
+          showCartModal ? "hidden" : "flex"
+        } bg-white w-[70%] lg:h-[65%] rounded-lg overflow-hidden`}
       >
         {/* Swiper section */}
         <div className="w-1/2 relative">
@@ -123,16 +100,19 @@ const QuickViewModal = ({
             spaceBetween={10}
             modules={[FreeMode, Navigation]}
             className="mySwiper2 h-full w-full"
-            onInit={(swiper) => {
-              setSwiperInstance(swiper); // Store swiper instance
-            }}
+            direction={"horizontal"}
+            pagination={{ clickable: true }}
+            loop={true}
+            freeMode={true}
+            watchSlidesProgress={true}
+            onInit={(swiper) => setSwiperInstance(swiper)}
             onSlideChange={handleSlideChange}
-            initialSlide={getInitialSlideIndex()} // Set the initial slide index
           >
             {images.map((image, index) => (
               <SwiperSlide
                 key={index}
-                className={`rounded-md overflow-hidden relative p-5 `}
+                className="rounded-md overflow-hidden relative p-5"
+                data-image-id={image.id}
               >
                 <Image
                   src={image.url}
@@ -254,7 +234,6 @@ const QuickViewModal = ({
                 <button
                   onClick={() => {
                     handleAddToCart();
-
                     handleModalOpen();
                   }}
                   className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
@@ -264,17 +243,8 @@ const QuickViewModal = ({
               </div>
             </div>
           </section>
-          {/* Buy Now button */}
-          <Link href="/checkouts" className="mb-4 w-full">
-            <button
-              className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full border p-4 rounded-full`}
-            >
-              Buy It Now
-            </button>
-          </Link>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

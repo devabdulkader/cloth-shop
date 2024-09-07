@@ -123,7 +123,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     const idToAdd = imageObject ? imageObject.id : product._id; // Use the found image ID or the main product ID
 
     addToCart(idToAdd); // Pass the ID to the addToCart function
-    toast.success("Item added to cart!");
     setShowCartModal(true); // Show the cart modal after adding the item
   };
 
@@ -280,7 +279,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           product={product}
           onClose={closeQuickView}
           activeImage={activeImage}
-          activeColor={activeColor}
+          // activeColor={activeColor}
         />
       )}
     </div>
