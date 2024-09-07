@@ -31,7 +31,7 @@ const AdditionalDetailsTab: React.FC<AdditionalDetailsTabProps> = ({
   };
 
   return (
-    <div className="w-full mt-5 overflow-x-auto">
+    <div className="w-full mt-5 overflow-x-auto ">
       {/* Tab Headers */}
       <div className="flex justify-between">
         {["Description", "Delivery Policy", "Shipping & Return"].map((tab) => (

@@ -1,6 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FaHeart } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -10,30 +8,33 @@ import useProductSelection from "@/hooks/useProductSelection";
 import { IProduct } from "@/types/product";
 import ArrowButton from "../button/ArrowButton";
 import { FreeMode, Navigation } from "swiper/modules";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import CustomCrossBar from "../custom/CustomCrossBar";
 import CartModal from "../common/CartModal";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import Link from "next/link";
+import { ToastContainer } from "react-toastify";
 
 interface QuickViewModalProps {
   product: IProduct;
   onClose: () => void;
+  activeImage: string;
 }
 
-const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
-  const swiperRef = useRef<any>(null);
+const QuickViewModal = ({
+  product,
+  onClose,
+  activeImage,
+}: QuickViewModalProps) => {
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null
   );
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [showCartModal, setShowCartModal] = useState(false);
 
   const {
     selectedSize,
     selectedColor,
     quantity,
+    selectedImage,
     handleSizeChange,
     handleColorChange,
     handleQuantityChange,
@@ -45,33 +46,26 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
   } = useProductSelection({ product });
 
   const productVariants = product?.productVariants || [];
-
-  // Set default variant and image when product or variants change
-  useEffect(() => {
-    if (productVariants.length > 0) {
-      const defaultVariant = productVariants[0];
-      setSelectedVariantId(defaultVariant._id);
-      setSelectedImage(defaultVariant.url);
-    }
-  }, [productVariants]);
-
-  const handleAddToCart = () => {
-    if (selectedVariantId) {
-      addToCart(selectedVariantId); // Pass the selected variant ID and quantity
-      toast.success("Item added to cart!");
-    } else {
-      toast.error("Please select a variant.");
-    }
-  };
-
-  const handleAddToWishlist = () => {
-    if (selectedVariantId) {
-      addToWishlist(); // Pass the selected variant ID
-      toast.success("Item added to wishlist!");
-    } else {
-      toast.error("Please select a variant.");
-    }
-  };
+  const images = [
+    {
+      url: product.url,
+      alt: product.alt,
+    },
+    ...productVariants.map((variant) => ({
+      url: variant.url,
+      alt: variant.alt,
+    })),
+  ];
+  // Combine main image with variants
+  const colors = [
+    {
+      color: product.color,
+    },
+    ...product.productVariants.map((variant) => ({
+      color: variant.color,
+    })),
+  ];
+  const [showCartModal, setShowCartModal] = useState(false);
 
   const handleModalOpen = () => {
     setShowCartModal(true);
@@ -83,23 +77,41 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
   };
 
   const handleSlideChange = () => {
-    if (swiperRef.current) {
-      const activeIndex = swiperRef.current.activeIndex;
-      const currentVariant = productVariants[activeIndex];
-      if (currentVariant) {
-        setSelectedVariantId(currentVariant._id);
-        setSelectedImage(currentVariant.url); // Ensure this is updated
+    console.log("value image from swip outside", selectedImage);
+
+    if (swiperInstance) {
+      const activeIndex = swiperInstance.activeIndex;
+      const currentImage = images[activeIndex];
+      console.log("Selected Image:", selectedImage);
+      console.log("Current Image:", currentImage.url);
+      if (currentImage) {
+        const variant = productVariants.find((v) => v.url === currentImage.url);
+        setSelectedVariantId(variant?._id || null);
       }
     }
   };
 
+  // Helper to find the initial slide index based on the activeImage
+  const getInitialSlideIndex = () => {
+    const index = images.findIndex((image) => image.url === activeImage);
+    return index >= 0 ? index : 0; // Fallback to the first slide if no match
+  };
+  useEffect(() => {
+    if (swiperInstance) {
+      const initialIndex = getInitialSlideIndex();
+      console.log("Setting initial slide index:", initialIndex);
+      console.log("inital selected", selectedImage);
+      swiperInstance.slideTo(initialIndex); // Move Swiper to the selected image
+    }
+  }, [selectedImage, swiperInstance]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 md:flex items-center justify-center bg-black bg-opacity-50 hidden">
       {showCartModal && <CartModal onClose={handleModalClose} />}
       <div
         className={`${
           showCartModal ? "hidden" : "flex"
-        } bg-white w-11/12 md:w-3/4 lg:w-1/2 rounded-lg overflow-hidden`}
+        } bg-white w-[70%] lg:h-[65%] rounded-lg overflow-hidden`}
       >
         {/* Swiper section */}
         <div className="w-1/2 relative">
@@ -108,20 +120,19 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
             modules={[FreeMode, Navigation]}
             className="mySwiper2 h-full"
             onInit={(swiper) => {
-              swiperRef.current = swiper; // Store swiper instance
+              setSwiperInstance(swiper); // Store swiper instance
             }}
             onSlideChange={handleSlideChange}
+            initialSlide={getInitialSlideIndex()} // Set the initial slide index
           >
-            {productVariants.map((variant, index) => (
+            {images.map((image, index) => (
               <SwiperSlide
                 key={index}
-                className={`rounded-md overflow-hidden relative p-5 ${
-                  variant.url === selectedImage ? "swiper-slide-active" : ""
-                }`}
+                className={`rounded-md overflow-hidden relative p-5 `}
               >
                 <Image
-                  src={variant.url}
-                  alt={`Image of ${product.title}`}
+                  src={image.url}
+                  alt={image.alt}
                   className="object-cover w-full h-full rounded-md"
                   width={300}
                   height={300}
@@ -133,13 +144,13 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
           {/* Navigation buttons */}
           <div
             className="absolute z-50 left-0 top-1/2 transform -translate-y-1/2 cursor-pointer"
-            onClick={() => swiperRef.current?.slidePrev()}
+            onClick={() => swiperInstance?.slidePrev()}
           >
             <ArrowButton direction="left" />
           </div>
           <div
             className="absolute z-50 right-0 top-1/2 transform -translate-y-1/2 cursor-pointer"
-            onClick={() => swiperRef.current?.slideNext()}
+            onClick={() => swiperInstance?.slideNext()}
           >
             <ArrowButton direction="right" />
           </div>
@@ -187,7 +198,7 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
           <div className="mb-4">
             <strong className="text-gray-800">Color:</strong>
             <div className="flex space-x-2 mt-2">
-              {product.productVariants.map((variant) => (
+              {colors.map((variant) => (
                 <div
                   key={variant.color}
                   onClick={() => handleColorChange(variant.color)}
@@ -205,8 +216,8 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
             <p className="mb-5 w-full">
               <strong className="text-gray-800 text-xl">Quantity:</strong>
             </p>
-            <div className="flex gap-5">
-              <div className="flex items-center mb-4 space-x-2 border rounded-full bg-blue-">
+            <div className="flex  flex-col lg:flex-row  gap-5">
+              <div className="flex items-center lg:mb-4 space-x-2 border py-2 rounded-full bg-blue-">
                 {/* Minus button */}
                 <button
                   onClick={decreaseQuantity}
@@ -220,7 +231,7 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
                   type="number"
                   value={quantity}
                   onChange={handleQuantityChange}
-                  className="text-center w-20 border-0 outline-none"
+                  className="text-center w-20 border-0 outline-none "
                   min="1"
                   step="1"
                 />
@@ -238,24 +249,26 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
               <div className="flex items-center space-x-4 mb-4 w-full">
                 <button
                   onClick={() => {
-                    handleAddToCart();
                     handleModalOpen();
                   }}
                   className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
                 >
                   Add to Bag
                 </button>
-                <button
-                  onClick={handleAddToWishlist}
-                  className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
-                >
-                  <FaHeart className="text-red-500" />
-                </button>
               </div>
             </div>
           </section>
+          {/* Buy Now button */}
+          <Link href="/checkouts" className="mb-4 w-full">
+            <button
+              className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full border p-4 rounded-full`}
+            >
+              Buy It Now
+            </button>
+          </Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

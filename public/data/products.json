@@ -13,44 +13,33 @@
     "lowStockQuantity": 10,
     "deliveryPolicy": "Details about the delivery policy.Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias nesciunt maxime quas dignissimos esse voluptatibus impedit, minima explicabo ducimus, voluptates ipsam reiciendis illo iste? Nobis sunt facere animi cum, nemo temporibus tempore repudiandae officiis commodi veniam atque, minima possimus dignissimos soluta aliquid quibusdam iusto excepturi. Accusantium atque ex repellat maxime non quia, tempore inventore in commodi voluptatum, quasi, repudiandae consectetur recusandae animi reprehenderit eius minima a aliquam saepe numquam ut! Laborum, vel? Eveniet ea minus, fugiat aliquam itaque quaerat molestiae ullam hic? Cum error officia sapiente laboriosam quae eos cumque, accusantium aperiam autem veniam fugit reprehenderit fugiat nemo eaque nisi?",
     "shippingReturnPolicy": "Details about the delivery policy.Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias nesciunt maxime quas dignissimos esse voluptatibus impedit, minima explicabo ducimus, voluptates ipsam reiciendis illo iste? Nobis sunt facere animi cum, nemo temporibus tempore repudiandae officiis commodi veniam atque, minima possimus dignissimos soluta aliquid quibusdam iusto excepturi. Accusantium atque ex repellat maxime non quia, tempore inventore in commodi voluptatum, quasi, repudiandae consectetur recusandae animi reprehenderit eius minima a aliquam saepe numquam ut! Laborum, vel? Eveniet ea minus, fugiat aliquam itaque quaerat molestiae ullam hic? Cum error officia sapiente laboriosam quae eos cumque, accusantium aperiam autem veniam fugit reprehenderit fugiat nemo eaque nisi?",
-    "url": "/products/product-1.webp",
+    "url": "/products/white-shirt.webp",
     "alt": "Classic Cotton T-Shirt Main Image",
+    "color": "white",
     "productVariants": [
       {
         "_id": "64d89b2c4f5e0c5a91e1a1bd",
-        "url": "/products/product-2.webp",
+        "url": "/products/red-shirt.webp",
         "alt": "Classic Cotton T-Shirt Back View",
-        "color": "LightCoral"
+        "color": "red"
       },
       {
         "_id": "64d89b2c4f5e0c5a91e1a1be",
-        "url": "/products/product-3.webp",
+        "url": "/products/green-shirt.webp",
         "alt": "Classic Cotton T-Shirt Side View",
-        "color": "LightGoldenRodYellow"
+        "color": "green"
       },
       {
         "_id": "64d89b2c4f5e0c5a91e1a1bf",
-        "url": "/products/product-4.webp",
+        "url": "/products/black-shirt.webp",
         "alt": "Classic Cotton T-Shirt Detailed View",
-        "color": "LightGreen"
+        "color": "black"
       },
       {
         "_id": "64d89b2c4f5e0c5a91e1a1c0",
-        "url": "/products/product-5.webp",
+        "url": "/products/blue-shirt.webp",
         "alt": "Classic Cotton T-Shirt Label Close-up",
-        "color": "LightPink"
-      },
-      {
-        "_id": "64d89b2c4f5e0c5a91e1a1c1",
-        "url": "/products/product-6.webp",
-        "alt": "Classic Cotton T-Shirt in Packaging",
-        "color": "LightSalmon"
-      },
-      {
-        "_id": "64d89b2c4f5e0c5a91e1a1c2",
-        "url": "/products/product-7.webp",
-        "alt": "Classic Cotton T-Shirt Folded View",
-        "color": "LightSteelBlue"
+        "color": "blue"
       }
     ],
     "deliveryMethods": "bkash",
@@ -91,6 +80,7 @@
         "searchEngineListings": "Classic Cotton T-Shirt for Unisex"
       }
     ],
+
     "sizes": [
       {
         "_id": "64d89b2c4f5e0c5a91e1a1c6",
@@ -109,6 +99,7 @@
         "size": "XL"
       }
     ],
+
     "availableQuantities": [
       {
         "sizeId": "64d89b2c4f5e0c5a91e1a1c6",
@@ -148,6 +139,98 @@
         "name": "Nike",
         "description": "Global brand known for high-quality athletic wear.",
         "logoURL": "/products/brand-logo-nike.webp"
+      }
+    ]
+  },
+  {
+    "_id": "64d89b2c4f5e0c5a91e1a1b8",
+    "title": "Eco-Friendly Yoga Pants",
+    "description": "Stretchy and comfortable yoga pants made from sustainable materials. Ideal for workouts or lounging.",
+    "gender": "Women",
+    "basePrice": 65,
+    "buyPrice": 40,
+    "otherCost": 15,
+    "discountPrice": 10,
+    "sku": "u-102",
+    "totalQuantity": 80,
+    "lowStockQuantity": 8,
+    "deliveryPolicy": "Details about the delivery policy...",
+    "shippingReturnPolicy": "Details about the return policy...",
+    "url": "/products/blue-tshirt.webp",
+    "alt": "Eco-Friendly Yoga Pants Main Image",
+    "color": "blue",
+    "productVariants": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "url": "/products/white-tshirt.webp",
+        "alt": "Yoga Pants Side View",
+        "color": "white"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "url": "/products/gray-tshirt.webp",
+        "alt": "Yoga Pants Side View",
+        "color": "gray"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "url": "/products/yellow-tshirt.webp",
+        "alt": "Yoga Pants Side View",
+        "color": "yellow"
+      }
+    ],
+    "deliveryMethods": "home delivery",
+    "returnPolicy": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1bf",
+        "policyTitle": "30-Day Return Policy",
+        "days": 30
+      }
+    ],
+    "productCategory": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1b1",
+        "name": "Activewear"
+      }
+    ],
+
+    "sizes": [
+      {
+        "_id": "64d89b2c45f5e0c5a91e1a1c6",
+        "size": "S"
+      },
+      {
+        "_id": "64d89b2c34f5e0c5a91e1a1c7",
+        "size": "M"
+      },
+      {
+        "_id": "64d89b2c24f5e0c5a91e1a1c8",
+        "size": "L"
+      },
+      {
+        "_id": "64d89b2c41f5e0c5a91e1a1c9",
+        "size": "XL"
+      }
+    ],
+    "availableQuantities": [
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c0",
+        "quantity": 12
+      }
+    ],
+    "sellingPrice": 60,
+    "tags": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c0",
+        "name": "Eco-Friendly"
+      }
+    ],
+    "productBrand": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "name": "Green Earth",
+        "description": "Brand specializing in eco-friendly clothing.",
+        "logoURL": "/products/brand-logo-green-earth.webp"
       }
     ]
   }

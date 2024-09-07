@@ -23,52 +23,89 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
   const {
+    selectedImage,
+    selectedColor,
     selectedSize,
     handleSizeChange,
     addToCart,
-    setSelectedImage,
-    selectedVariantId,
+    handleImageChange,
+    handleColorChange,
   } = useProductSelection({
     product,
   });
+
   const [showQuickView, setShowQuickView] = useState(false);
-  const [showQuickAdd, setShowQuickAdd] = useState(false); // State to control the Quick Add modal
+  const [showQuickAdd, setShowQuickAdd] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
   const [hoveredProductkey, setHoveredProductkey] = useState<number | null>(
     null
   );
+
+  // Combine main image with variants
+  const images = [
+    {
+      id: product._id, // Add main product ID here
+      url: product.url,
+      alt: product.alt,
+    },
+    ...product.productVariants.map((variant) => ({
+      id: variant.id, // Add variant ID here
+      url: variant.url,
+      alt: variant.alt,
+    })),
+  ];
+
+  // Combine main image with variants
+  const colors = [
+    {
+      color: product.color,
+    },
+    ...product.productVariants.map((variant) => ({
+      color: variant.color,
+    })),
+  ];
+
+  const Icons = [
+    { icon: <FaHeart />, tooltip: "Add to Wishlist" },
+    { icon: <MdOutlineShoppingBag />, tooltip: "Quick Add" },
+    { icon: <FiEye />, tooltip: "Quick View" },
+  ];
+
   const [blinkStartkey, setBlinkStartkey] = useState<number | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string>(
-    product.productVariants && product.productVariants.length > 0
-      ? product.productVariants[0].color
-      : ""
-  );
+  const [activeColor, setActiveColor] = useState<string>(colors[0].color);
+  const [activeImage, setActiveImage] = useState<string>(images[0].url);
+  const [activeVariantId, setActiveVariantId] = useState<string>(images[0].id); // Added state for active variant ID
 
+  // Update the image and variant ID when color changes
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-    let interval: NodeJS.Timeout | null = null;
+    const matchingVariant = product.productVariants.find(
+      (variant) => variant.color === activeColor
+    );
 
-    if (hoveredProductkey !== null) {
-      setBlinkStartkey(hoveredProductkey);
-
-      timer = setTimeout(() => {
-        setBlinkStartkey(null);
-      }, 500);
-
-      interval = setInterval(() => {
-        if (hoveredProductkey === null) {
-          clearInterval(interval!);
-        } else {
-          setBlinkStartkey(null);
-        }
-      }, 500);
+    if (matchingVariant) {
+      setActiveImage(matchingVariant.url);
+      setActiveVariantId(matchingVariant.id); // Set the active variant ID
+      handleImageChange(matchingVariant.url);
+    } else {
+      setActiveImage(product.url);
+      setActiveVariantId(product._id); // Revert to main product ID
+      handleImageChange(product.url);
     }
 
-    return () => {
-      if (timer) clearTimeout(timer);
-      if (interval) clearInterval(interval);
-    };
-  }, [hoveredProductkey]);
+    handleColorChange(activeColor);
+  }, [
+    activeColor,
+    product.productVariants,
+    product.url,
+    product._id, // Ensure product ID is considered
+    handleImageChange,
+    handleColorChange,
+  ]);
+
+  const handleColorSelection = (color: string) => {
+    setActiveColor(color);
+    handleColorChange(color);
+  };
 
   const handleMouseEnter = (key: number) => {
     setHoveredProductkey(key);
@@ -78,114 +115,100 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     setHoveredProductkey(null);
   };
 
-  const handleColorChange = (color: string) => {
-    setSelectedColor(color);
-  };
-
   const handleAddToCart = () => {
-    addToCart(selectedVariantId); // Pass selectedVariantId to addToCart
+    // Find the image object that matches the activeImage URL
+    const imageObject = images.find((image) => image.url === activeImage);
+
+    // Determine the ID to use based on the found image object
+    const idToAdd = imageObject ? imageObject.id : product._id; // Use the found image ID or the main product ID
+
+    addToCart(idToAdd); // Pass the ID to the addToCart function
     toast.success("Item added to cart!");
+    setShowCartModal(true); // Show the cart modal after adding the item
   };
 
   const openQuickView = () => setShowQuickView(true);
   const closeQuickView = () => setShowQuickView(false);
   const openQuickAdd = () => setShowQuickAdd(true);
   const closeQuickAdd = () => setShowQuickAdd(false);
-  const handleModalOpen = () => setShowCartModal(true);
   const handleModalClose = () => {
     setShowCartModal(false);
     setShowQuickAdd(false);
   };
-
-  const Icons = [
-    { icon: <FaHeart />, tooltip: "Add to Wishlist" },
-    { icon: <MdOutlineShoppingBag />, tooltip: "Quick Add" },
-    { icon: <FiEye />, tooltip: "Quick View" },
-  ];
-
-  const selectedImage =
-    product.productVariants && product.productVariants.length > 0
-      ? product.productVariants.find((img) => img.color === selectedColor) ||
-        product.productVariants[0]
-      : null;
-
-  if (!selectedImage) {
-    return <div>No image available</div>; // Handle the case where no image is available
-  }
+  const handleSizeClick = (size: string) => {
+    handleSizeChange(size);
+  };
 
   return (
     <div
-      className="relative place-self-center w-full sm:w-auto"
+      className="relative  w-full sm:w-[350px]"
       onMouseEnter={() => handleMouseEnter(key)}
       onMouseLeave={handleMouseLeave}
     >
       {showCartModal && <CartModal onClose={handleModalClose} />}
 
-      <Link
-        href={`/products/${product._id}`}
-        className="relative place-self-center"
-      >
-        <div className="relative overflow-hidden">
-          {/* Quick Add Modal */}
+      <div className="relative overflow-hidden h-[430px] w-full">
+        <Link
+          href={`/products/${product._id}`}
+          className="relative place-self-center"
+        >
           <Image
-            src={selectedImage.url}
-            alt={selectedImage.alt}
+            src={activeImage}
+            alt={product.alt}
             height={300}
             width={300}
             className="rounded-2xl transition-transform duration-300 h-full w-full object-cover"
           />
-          {/* White opacity blink effect */}
-          <div
-            className={`absolute inset-0 bg-white transition-opacity duration-300 ${
-              blinkStartkey === key ? "opacity-30" : "opacity-0"
-            }`}
-          />
-        </div>
-      </Link>
-      {showQuickAdd && (
-        <div className="absolute top-[40%] left-0 right-0 p-5">
-          <div className="bg-black bg-opacity-50 backdrop-blur-md p-4 z-10 rounded-lg shadow-lg relative">
-            <div className="flex justify-center items-center mb-4 ">
-              <h3 className="text-lg font-bold text-white text-center">
-                Select Size
-              </h3>
+        </Link>
+        {/* White opacity blink effect */}
+        <div
+          className={`absolute inset-0 bg-white transition-opacity duration-300 ${
+            blinkStartkey === key ? "opacity-30" : "opacity-0"
+          }`}
+        />
+        {showQuickAdd && (
+          <div className="absolute bottom-0 left-0 right-0 p-5">
+            <div className="bg-black bg-opacity-50 backdrop-blur-md p-4 z-10 rounded-lg shadow-lg relative">
+              <div className="flex justify-center items-center mb-4 ">
+                <h3 className="text-lg font-bold text-white text-center">
+                  Select Size
+                </h3>
+                <button
+                  onClick={closeQuickAdd}
+                  className="text-gray-300 absolute top-3 right-3"
+                >
+                  <VscClose className="text-2xl" />
+                </button>
+              </div>
+              <div className="flex justify-center gap-2 mb-4">
+                {/* Sizes buttons */}
+                {product.sizes.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSizeClick(item.size)}
+                    className={`border border-gray-300 rounded-md px-4 py-2 transition-colors duration-300 
+          ${
+            selectedSize === item.size
+              ? "bg-slate-800 text-white"
+              : "text-gray-400 hover:bg-gray-600 hover:text-white"
+          }`}
+                  >
+                    {item.size}
+                  </button>
+                ))}
+              </div>
+              {/* Add to Cart Button */}
               <button
-                onClick={closeQuickAdd}
-                className="text-gray-300 absolute top-3 right-3"
+                className="bg-white text-black  w-full py-2 rounded-md "
+                onClick={handleAddToCart}
               >
-                <VscClose className="text-2xl" />
+                Add to Cart
               </button>
             </div>
-            <div className="flex justify-center gap-2 mb-4">
-              {/* Sizes buttons */}
-              {product.sizes.map((size, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleSizeChange(size.size)}
-                  className={`border rounded px-4 py-2 text-gray-700 ${
-                    selectedSize === size.size
-                      ? "bg-black text-white"
-                      : "bg-gray-200"
-                  }`}
-                >
-                  {size.size}
-                </button>
-              ))}
-            </div>
-            {/* Add to Cart Button */}
-            <button
-              onClick={() => {
-                setSelectedImage(selectedImage.url);
-                handleAddToCart();
-                handleModalOpen();
-              }}
-              className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-3 border rounded-sm bg-gray-100`}
-            >
-              Add to Cart
-            </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+
       <div className="p-4 flex flex-col justify-center items-center">
         <h2 className="text-lg font-bold mb-2">{product.title}</h2>
 
@@ -198,7 +221,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
         </div>
         <p className="text-xl font-semibold mb-2">$ {product.basePrice}</p>
 
-        {/* Color variants div */}
+        {/* Color variants */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={
@@ -209,19 +232,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="flex gap-2"
         >
-          {product.productVariants.map((variant, i) => (
+          {colors.map((c, i) => (
             <div
               key={i}
               className={`relative h-8 w-12 border cursor-pointer`}
-              style={{ backgroundColor: variant.color }}
-              onClick={() => handleColorChange(variant.color)}
+              style={{ backgroundColor: c.color }}
+              onClick={() => handleColorSelection(c.color)}
             >
-              <div className="absolute inset-0 border-2 border-white p-1"></div>
+              {activeColor === c.color && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-full bg-white"></div>
+                </div>
+              )}
             </div>
           ))}
         </motion.div>
 
-        {/* Icon tooltip div */}
+        {/* Icon tooltip */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={
@@ -230,25 +257,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
               : { opacity: 0, y: -20 }
           }
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="absolute top-4 right-4 flex flex-col gap-2 z-10"
+          className="absolute top-3 right-3 flex flex-col gap-2"
         >
           <IconButton icon={Icons[0].icon} tooltip={Icons[0].tooltip} />
           <IconButton
             icon={Icons[1].icon}
             tooltip={Icons[1].tooltip}
-            onClick={openQuickAdd}
+            onClick={openQuickAdd} // Open Quick Add modal on click
           />
           <IconButton
+            className="hidden md:flex"
             icon={Icons[2].icon}
             tooltip={Icons[2].tooltip}
             onClick={openQuickView}
           />
         </motion.div>
       </div>
+
+      {/* Quick View Modal */}
       {showQuickView && (
-        <QuickViewModal product={product} onClose={closeQuickView} />
+        <QuickViewModal
+          product={product}
+          onClose={closeQuickView}
+          activeImage={activeImage}
+        />
       )}
-      <ToastContainer />
     </div>
   );
 };

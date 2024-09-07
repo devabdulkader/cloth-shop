@@ -1,9 +1,26 @@
 "use client";
 import { useState } from "react";
-import { IProduct, IProductVariant } from "@/types/product";
+import { IProduct } from "@/types/product";
+import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
 
 interface UseProductSelectionProps {
   product: IProduct;
+}
+
+interface CartItem {
+  id: string; // Unique ID for each cart item
+  productId: string;
+  variantId?: string | null;
+  title: string;
+  size: string;
+  color: string;
+  quantity: number | string;
+  selectedImage: string;
+  basePrice: number;
+  buyPrice: number;
+  otherCost: number;
+  discountPrice: number;
+  sellingPrice: number;
 }
 
 interface SelectionState {
@@ -15,22 +32,21 @@ interface SelectionState {
 }
 
 const useProductSelection = ({ product }: UseProductSelectionProps) => {
+  // Default values for state
+  const defaultSize = product.sizes?.[0]?.size || "";
+  const defaultColor = product.color || "";
+  const defaultImage = product.url;
+  const defaultVariantId =
+    product.productVariants?.find((img) => img.color === defaultColor)?._id ||
+    "";
+
   // Initialize state
-  const [selectedSize, setSelectedSize] = useState<string>(
-    product.sizes?.[0]?.size || "" // Initialize with the first size if available
-  );
-  const [selectedColor, setSelectedColor] = useState<string>(
-    product.productVariants?.[0]?.color || "" // Initialize with the first color if available
-  );
-  const [quantity, setQuantity] = useState<number | "">(1); // Initialize with a default quantity
-  const [selectedImage, setSelectedImage] = useState<string>(
-    product.productVariants?.find((img) => img.color === selectedColor)?.url ||
-      ""
-  );
-  const [selectedVariantId, setSelectedVariantId] = useState<string>(
-    product.productVariants?.find((img) => img.color === selectedColor)?._id ||
-      "" // Initialize with the first variant ID if available
-  );
+  const [selectedSize, setSelectedSize] = useState<string>(defaultSize);
+  const [selectedColor, setSelectedColor] = useState<string>(defaultColor);
+  const [quantity, setQuantity] = useState<number | "">(1);
+  const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
+  const [selectedVariantId, setSelectedVariantId] =
+    useState<string>(defaultVariantId);
 
   // Handle size change
   const handleSizeChange = (size: string) => {
@@ -43,7 +59,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     const newImage = product.productVariants.find((img) => img.color === color);
     if (newImage) {
       setSelectedImage(newImage.url);
-      setSelectedVariantId(newImage._id); // Update selectedVariantId when color changes
+      setSelectedVariantId(newImage._id);
     }
   };
 
@@ -78,62 +94,40 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   // Add to cart
   const addToCart = (itemId: string) => {
     try {
-      // Retrieve the current cart from local storage or initialize as an empty array
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-      // Determine if the itemId is a variant ID or product ID
       const variant = product.productVariants.find((v) => v._id === itemId);
       const isVariantId = !!variant;
 
-      let newProduct;
+      const newProduct: CartItem = {
+        id: uuidv4(), // Generate a unique ID for each cart item
+        productId: product._id,
+        variantId: isVariantId ? itemId : null,
+        title: product.title,
+        size: selectedSize,
+        color: isVariantId ? variant.color : selectedColor,
+        quantity,
+        selectedImage: isVariantId ? variant.url : selectedImage,
+        basePrice: product.basePrice,
+        buyPrice: product.buyPrice,
+        otherCost: product.otherCost,
+        discountPrice: product.discountPrice,
+        sellingPrice: product.sellingPrice,
+      };
 
-      if (isVariantId) {
-        // If the itemId is a variant ID
-        newProduct = {
-          variantId: itemId,
-          title: product.title,
-          size: selectedSize,
-          color: selectedColor,
-          quantity,
-          selectedImage: variant.url,
-          basePrice: product.basePrice,
-          buyPrice: product.buyPrice,
-          otherCost: product.otherCost,
-          discountPrice: product.discountPrice,
-          sellingPrice: product.sellingPrice,
-        };
-      } else {
-        // If the itemId is a product ID, find the first variant
-        const defaultVariant = product.productVariants[0];
-        newProduct = {
-          variantId: defaultVariant._id,
-          title: product.title,
-          size: selectedSize,
-          color: defaultVariant.color,
-          quantity,
-          selectedImage: defaultVariant.url,
-          basePrice: product.basePrice,
-          buyPrice: product.buyPrice,
-          otherCost: product.otherCost,
-          discountPrice: product.discountPrice,
-          sellingPrice: product.sellingPrice,
-        };
-      }
-
-      // Check if the item with the same variantId already exists in the cart
       const existingItemIndex = cart.findIndex(
-        (item: any) => item.variantId === newProduct.variantId
+        (item: CartItem) =>
+          item.productId === newProduct.productId &&
+          item.variantId === newProduct.variantId &&
+          item.size === newProduct.size &&
+          item.color === newProduct.color
       );
 
       if (existingItemIndex > -1) {
-        // Update the quantity of the existing item
         cart[existingItemIndex].quantity += quantity;
       } else {
-        // Add the new product to the cart
         cart.push(newProduct);
       }
 
-      // Save the updated cart back to local storage
       localStorage.setItem("cart", JSON.stringify(cart));
     } catch (error) {
       console.error("Failed to add item to cart", error);
@@ -161,12 +155,10 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   };
 
   // Remove from cart
-  const removeFromCart = (variantId: string) => {
+  const removeFromCart = (id: string) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const updatedCart = cart.filter(
-        (item: any) => item.variantId !== variantId
-      );
+      const updatedCart = cart.filter((item: CartItem) => item.id !== id);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
     } catch (error) {
       console.error("Failed to remove item from cart", error);
@@ -211,8 +203,6 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     removeFromCart,
     removeFromWishlist,
     getSelectionState,
-    setSelectedImage,
-    selectedVariantId,
   };
 };
 
