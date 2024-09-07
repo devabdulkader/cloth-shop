@@ -80,6 +80,7 @@
         "searchEngineListings": "Classic Cotton T-Shirt for Unisex"
       }
     ],
+
     "sizes": [
       {
         "_id": "64d89b2c4f5e0c5a91e1a1c6",
@@ -98,6 +99,7 @@
         "size": "XL"
       }
     ],
+
     "availableQuantities": [
       {
         "sizeId": "64d89b2c4f5e0c5a91e1a1c6",
@@ -191,6 +193,7 @@
         "name": "Activewear"
       }
     ],
+
     "sizes": [
       {
         "_id": "64d89b2c45f5e0c5a91e1a1c6",

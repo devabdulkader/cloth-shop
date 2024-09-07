@@ -259,34 +259,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="absolute top-3 right-3 flex flex-col gap-2"
         >
-          {Icons.map((icon, index) => (
-            <IconButton
-              key={index}
-              icon={icon.icon}
-              tooltip={icon.tooltip}
-              onClick={() => {
-                if (icon.tooltip === "Quick Add") {
-                  openQuickAdd();
-                } else if (icon.tooltip === "Quick View") {
-                  openQuickView();
-                }
-              }}
-            />
-          ))}
+          <IconButton icon={Icons[0].icon} tooltip={Icons[0].tooltip} />
+          <IconButton
+            icon={Icons[1].icon}
+            tooltip={Icons[1].tooltip}
+            onClick={openQuickAdd} // Open Quick Add modal on click
+          />
+          <IconButton
+            className="hidden md:flex"
+            icon={Icons[2].icon}
+            tooltip={Icons[2].tooltip}
+            onClick={openQuickView}
+          />
         </motion.div>
       </div>
 
       {/* Quick View Modal */}
       {showQuickView && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 h-screen w-screen">
-          <div className="bg-white p-6 rounded-lg  w-full sm:w-[80%] relative">
-            <QuickViewModal
-              product={product}
-              onClose={closeQuickView}
-              activeImage={activeImage}
-            />
-          </div>
-        </div>
+        <QuickViewModal
+          product={product}
+          onClose={closeQuickView}
+          activeImage={activeImage}
+        />
       )}
     </div>
   );

@@ -56,7 +56,15 @@ const QuickViewModal = ({
       alt: variant.alt,
     })),
   ];
-
+  // Combine main image with variants
+  const colors = [
+    {
+      color: product.color,
+    },
+    ...product.productVariants.map((variant) => ({
+      color: variant.color,
+    })),
+  ];
   const [showCartModal, setShowCartModal] = useState(false);
 
   const handleModalOpen = () => {
@@ -98,19 +106,19 @@ const QuickViewModal = ({
   }, [selectedImage, swiperInstance]);
 
   return (
-    <div className="h-full w-full">
+    <div className="fixed inset-0 z-50 md:flex items-center justify-center bg-black bg-opacity-50 hidden">
       {showCartModal && <CartModal onClose={handleModalClose} />}
       <div
         className={`${
-          showCartModal ? "hidden" : "flex "
-        }  rounded-lg overflow-hidden`}
+          showCartModal ? "hidden" : "flex"
+        } bg-white w-[70%] lg:h-[65%] rounded-lg overflow-hidden`}
       >
         {/* Swiper section */}
         <div className="w-1/2 relative">
           <Swiper
             spaceBetween={10}
             modules={[FreeMode, Navigation]}
-            className="mySwiper2 h-full w-full"
+            className="mySwiper2 h-full"
             onInit={(swiper) => {
               setSwiperInstance(swiper); // Store swiper instance
             }}
@@ -190,7 +198,7 @@ const QuickViewModal = ({
           <div className="mb-4">
             <strong className="text-gray-800">Color:</strong>
             <div className="flex space-x-2 mt-2">
-              {product.productVariants.map((variant) => (
+              {colors.map((variant) => (
                 <div
                   key={variant.color}
                   onClick={() => handleColorChange(variant.color)}
@@ -208,8 +216,8 @@ const QuickViewModal = ({
             <p className="mb-5 w-full">
               <strong className="text-gray-800 text-xl">Quantity:</strong>
             </p>
-            <div className="flex gap-5">
-              <div className="flex items-center mb-4 space-x-2 border rounded-full bg-blue-">
+            <div className="flex  flex-col lg:flex-row  gap-5">
+              <div className="flex items-center lg:mb-4 space-x-2 border py-2 rounded-full bg-blue-">
                 {/* Minus button */}
                 <button
                   onClick={decreaseQuantity}
@@ -223,7 +231,7 @@ const QuickViewModal = ({
                   type="number"
                   value={quantity}
                   onChange={handleQuantityChange}
-                  className="text-center w-20 border-0 outline-none"
+                  className="text-center w-20 border-0 outline-none "
                   min="1"
                   step="1"
                 />
