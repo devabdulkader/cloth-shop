@@ -12,7 +12,7 @@ import CustomCrossBar from "../custom/CustomCrossBar";
 import CartModal from "../common/CartModal";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import Link from "next/link";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 interface QuickViewModalProps {
   product: IProduct;
@@ -29,12 +29,12 @@ const QuickViewModal = ({
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null
   );
+  const [selectedImage, setSelectedImage] = useState<string>(activeImage); // Added state for selectedImage
 
   const {
     selectedSize,
     selectedColor,
     quantity,
-    selectedImage,
     handleSizeChange,
     handleColorChange,
     handleQuantityChange,
@@ -65,6 +65,16 @@ const QuickViewModal = ({
       color: variant.color,
     })),
   ];
+
+  const handleAddToCart = () => {
+    if (selectedVariantId) {
+      addToCart(selectedVariantId); // Pass the selected variant ID and quantity
+      toast.success("Item added to cart!");
+    } else {
+      toast.error("Please select a variant.");
+    }
+  };
+
   const [showCartModal, setShowCartModal] = useState(false);
 
   const handleModalOpen = () => {
@@ -77,13 +87,9 @@ const QuickViewModal = ({
   };
 
   const handleSlideChange = () => {
-    console.log("value image from swip outside", selectedImage);
-
     if (swiperInstance) {
       const activeIndex = swiperInstance.activeIndex;
       const currentImage = images[activeIndex];
-      console.log("Selected Image:", selectedImage);
-      console.log("Current Image:", currentImage.url);
       if (currentImage) {
         const variant = productVariants.find((v) => v.url === currentImage.url);
         setSelectedVariantId(variant?._id || null);
@@ -91,19 +97,29 @@ const QuickViewModal = ({
     }
   };
 
-  // Helper to find the initial slide index based on the activeImage
   const getInitialSlideIndex = () => {
     const index = images.findIndex((image) => image.url === activeImage);
     return index >= 0 ? index : 0; // Fallback to the first slide if no match
   };
+
   useEffect(() => {
     if (swiperInstance) {
       const initialIndex = getInitialSlideIndex();
-      console.log("Setting initial slide index:", initialIndex);
-      console.log("inital selected", selectedImage);
       swiperInstance.slideTo(initialIndex); // Move Swiper to the selected image
     }
   }, [selectedImage, swiperInstance]);
+
+  useEffect(() => {
+    // Update image when color changes
+    const selectedVariant = product.productVariants.find(
+      (variant) => variant.color === selectedColor
+    );
+    if (selectedVariant) {
+      setSelectedImage(selectedVariant.url);
+    } else {
+      setSelectedImage(product.url);
+    }
+  }, [selectedColor]);
 
   return (
     <div className="fixed inset-0 z-50 md:flex items-center justify-center bg-black bg-opacity-50 hidden">
@@ -249,24 +265,56 @@ const QuickViewModal = ({
               <div className="flex items-center space-x-4 mb-4 w-full">
                 <button
                   onClick={() => {
-                    addToCart(image.id);
+                    handleAddToCart();
                     handleModalOpen();
                   }}
-                  className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
+                  className={`${BUTTON_ANIMATION_CLASSES} px-6 py-2 text-white bg-black rounded-full hover:bg-gray-900`}
                 >
                   Add to Bag
+                </button>
+                <button
+                  onClick={() => addToWishlist(product._id)}
+                  className={`${BUTTON_ANIMATION_CLASSES} text-black border border-black rounded-full px-6 py-2 hover:bg-gray-200`}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5.121 8.121a3.375 3.375 0 014.757 0L12 10.293l2.121-2.172a3.375 3.375 0 014.757 4.757L12 21.207l-6.878-6.878a3.375 3.375 0 010-4.757z"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
           </section>
-          {/* Buy Now button */}
-          <Link href="/checkouts" className="mb-4 w-full">
-            <button
-              className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full border p-4 rounded-full`}
+
+          {/* Close button */}
+          <div
+            className="absolute top-5 right-5 cursor-pointer"
+            onClick={onClose}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6 text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              Buy It Now
-            </button>
-          </Link>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </div>
         </div>
       </div>
       <ToastContainer />
