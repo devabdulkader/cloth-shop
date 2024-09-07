@@ -74,7 +74,7 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
             modules={[FreeMode, Navigation]}
             className="mySwiper2 h-full"
           >
-            {productVariants.map((image, index) => (
+            {images.map((image, index) => (
               <SwiperSlide
                 key={index}
                 className="rounded-md overflow-hidden relative"
