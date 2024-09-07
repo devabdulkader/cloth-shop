@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { IProduct } from "@/types/product";
+import { IProduct, IProductVariant } from "@/types/product";
 
 interface UseProductSelectionProps {
   product: IProduct;
@@ -11,13 +11,13 @@ interface SelectionState {
   selectedColor: string;
   quantity: number | "";
   selectedImage: string;
-  selectedVariantId: string; // Track the selected variant by ID
+  selectedVariantId: string;
 }
 
 const useProductSelection = ({ product }: UseProductSelectionProps) => {
   // Initialize state
   const [selectedSize, setSelectedSize] = useState<string>(
-    product.sizes?.[0].size || "" // Initialize with the first size if available
+    product.sizes?.[0]?.size || "" // Initialize with the first size if available
   );
   const [selectedColor, setSelectedColor] = useState<string>(
     product.productVariants?.[0]?.color || "" // Initialize with the first color if available
@@ -26,6 +26,10 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   const [selectedImage, setSelectedImage] = useState<string>(
     product.productVariants?.find((img) => img.color === selectedColor)?.url ||
       ""
+  );
+  const [selectedVariantId, setSelectedVariantId] = useState<string>(
+    product.productVariants?.find((img) => img.color === selectedColor)?._id ||
+      "" // Initialize with the first variant ID if available
   );
 
   // Handle size change
@@ -71,86 +75,115 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     }
   };
 
-  // Track selected variant ID
-  const [selectedVariantId, setSelectedVariantId] = useState<string>(
-    product.productVariants?.[0]?._id || "" // Initialize with the first variant ID if available
-  );
+  // Add to cart
+  const addToCart = (itemId: string) => {
+    try {
+      // Retrieve the current cart from local storage or initialize as an empty array
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-  const addToCart = () => {
-    console.log("selectedImage from addToCart hook: ", selectedImage);
-    // Retrieve the current cart from local storage or initialize as an empty array
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      // Determine if the itemId is a variant ID or product ID
+      const variant = product.productVariants.find((v) => v._id === itemId);
+      const isVariantId = !!variant;
 
-    // Find the selected variant by ID
-    const variant = product.productVariants.find(
-      (v) => v._id === selectedVariantId // Use selectedVariantId from state
-    );
+      let newProduct;
 
-    if (!variant) {
-      console.error("Selected variant not found.");
-      return;
+      if (isVariantId) {
+        // If the itemId is a variant ID
+        newProduct = {
+          variantId: itemId,
+          title: product.title,
+          size: selectedSize,
+          color: selectedColor,
+          quantity,
+          selectedImage: variant.url,
+          basePrice: product.basePrice,
+          buyPrice: product.buyPrice,
+          otherCost: product.otherCost,
+          discountPrice: product.discountPrice,
+          sellingPrice: product.sellingPrice,
+        };
+      } else {
+        // If the itemId is a product ID, find the first variant
+        const defaultVariant = product.productVariants[0];
+        newProduct = {
+          variantId: defaultVariant._id,
+          title: product.title,
+          size: selectedSize,
+          color: defaultVariant.color,
+          quantity,
+          selectedImage: defaultVariant.url,
+          basePrice: product.basePrice,
+          buyPrice: product.buyPrice,
+          otherCost: product.otherCost,
+          discountPrice: product.discountPrice,
+          sellingPrice: product.sellingPrice,
+        };
+      }
+
+      // Check if the item with the same variantId already exists in the cart
+      const existingItemIndex = cart.findIndex(
+        (item: any) => item.variantId === newProduct.variantId
+      );
+
+      if (existingItemIndex > -1) {
+        // Update the quantity of the existing item
+        cart[existingItemIndex].quantity += quantity;
+      } else {
+        // Add the new product to the cart
+        cart.push(newProduct);
+      }
+
+      // Save the updated cart back to local storage
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } catch (error) {
+      console.error("Failed to add item to cart", error);
     }
-
-    // Create a new cart item with the variant details
-    const newProduct = {
-      variantId: variant._id, // Use the variant ID as the unique identifier
-      title: product.title,
-      size: selectedSize,
-      color: selectedColor,
-      quantity,
-      selectedImage: selectedImage, // Use the URL of the selected variant
-    };
-
-    // Check if the item with the same variantId already exists in the cart
-    const existingItemIndex = cart.findIndex(
-      (item: any) => item.variantId === newProduct.variantId
-    );
-
-    if (existingItemIndex > -1) {
-      // Update the quantity of the existing item
-      cart[existingItemIndex].quantity += quantity;
-    } else {
-      // Add the new product to the cart
-      cart.push(newProduct);
-    }
-
-    // Save the updated cart back to local storage
-    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   // Add to wishlist
   const addToWishlist = () => {
-    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    const newProduct = {
-      ...product,
-      selectedSize,
-      selectedColor,
-      quantity,
-      selectedImage,
-    };
-    if (!wishlist.some((item: IProduct) => item._id === product._id)) {
-      wishlist.push(newProduct);
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    try {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+      const newProduct = {
+        ...product,
+        selectedSize,
+        selectedColor,
+        quantity,
+        selectedImage,
+      };
+      if (!wishlist.some((item: IProduct) => item._id === product._id)) {
+        wishlist.push(newProduct);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      }
+    } catch (error) {
+      console.error("Failed to add item to wishlist", error);
     }
   };
 
   // Remove from cart
   const removeFromCart = (variantId: string) => {
-    console.log("VariantId", variantId);
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const updatedCart = cart.filter(
-      (item: any) => item.variantId !== variantId
-    );
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    try {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const updatedCart = cart.filter(
+        (item: any) => item.variantId !== variantId
+      );
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } catch (error) {
+      console.error("Failed to remove item from cart", error);
+    }
   };
 
   // Remove from wishlist
   const removeFromWishlist = (productId: string) => {
-    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    const updatedWishlist = wishlist.filter(
-      (item: IProduct) => item._id !== productId
-    );
-    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    try {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+      const updatedWishlist = wishlist.filter(
+        (item: IProduct) => item._id !== productId
+      );
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    } catch (error) {
+      console.error("Failed to remove item from wishlist", error);
+    }
   };
 
   // Get selection state
@@ -179,6 +212,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     removeFromWishlist,
     getSelectionState,
     setSelectedImage,
+    selectedVariantId,
   };
 };
 

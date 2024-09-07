@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -27,12 +27,13 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null
   );
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [showCartModal, setShowCartModal] = useState(false);
 
   const {
     selectedSize,
     selectedColor,
     quantity,
-    selectedImage,
     handleSizeChange,
     handleColorChange,
     handleQuantityChange,
@@ -40,23 +41,37 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
     increaseQuantity,
     addToCart,
     addToWishlist,
-    setSelectedImage,
     handleImageChange,
   } = useProductSelection({ product });
 
   const productVariants = product?.productVariants || [];
 
+  // Set default variant and image when product or variants change
+  useEffect(() => {
+    if (productVariants.length > 0) {
+      const defaultVariant = productVariants[0];
+      setSelectedVariantId(defaultVariant._id);
+      setSelectedImage(defaultVariant.url);
+    }
+  }, [productVariants]);
+
   const handleAddToCart = () => {
-    addToCart(); // Ensure addToCart function handles variant details correctly
-    toast.success("Item added to cart!");
+    if (selectedVariantId) {
+      addToCart(selectedVariantId); // Pass the selected variant ID and quantity
+      toast.success("Item added to cart!");
+    } else {
+      toast.error("Please select a variant.");
+    }
   };
 
   const handleAddToWishlist = () => {
-    addToWishlist(); // Ensure addToWishlist function works as expected
-    toast.success("Item added to wishlist!");
+    if (selectedVariantId) {
+      addToWishlist(); // Pass the selected variant ID
+      toast.success("Item added to wishlist!");
+    } else {
+      toast.error("Please select a variant.");
+    }
   };
-
-  const [showCartModal, setShowCartModal] = useState(false);
 
   const handleModalOpen = () => {
     setShowCartModal(true);
@@ -74,7 +89,6 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
       if (currentVariant) {
         setSelectedVariantId(currentVariant._id);
         setSelectedImage(currentVariant.url); // Ensure this is updated
-    
       }
     }
   };
@@ -85,7 +99,7 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
       <div
         className={`${
           showCartModal ? "hidden" : "flex"
-        } bg-white w-11/12 md:w-3/4 lg:w-1/2  rounded-lg overflow-hidden`}
+        } bg-white w-11/12 md:w-3/4 lg:w-1/2 rounded-lg overflow-hidden`}
       >
         {/* Swiper section */}
         <div className="w-1/2 relative">
@@ -98,15 +112,15 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
             }}
             onSlideChange={handleSlideChange}
           >
-            {productVariants.map((image, index) => (
+            {productVariants.map((variant, index) => (
               <SwiperSlide
                 key={index}
                 className={`rounded-md overflow-hidden relative p-5 ${
-                  image.url === selectedImage ? "swiper-slide-active" : ""
+                  variant.url === selectedImage ? "swiper-slide-active" : ""
                 }`}
               >
                 <Image
-                  src={image.url}
+                  src={variant.url}
                   alt={`Image of ${product.title}`}
                   className="object-cover w-full h-full rounded-md"
                   width={300}
@@ -231,22 +245,17 @@ const QuickViewModal = ({ product, onClose }: QuickViewModalProps) => {
                 >
                   Add to Bag
                 </button>
+                <button
+                  onClick={handleAddToWishlist}
+                  className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
+                >
+                  <FaHeart className="text-red-500" />
+                </button>
               </div>
             </div>
           </section>
-          {/* Buy Now button */}
-          <Link href="/checkouts" className="mb-4 w-full">
-            <button
-              className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full border p-4 rounded-full`}
-            >
-              Buy It Now
-            </button>
-          </Link>
         </div>
       </div>
-
-      {/* Toast container */}
-      <ToastContainer />
     </div>
   );
 };

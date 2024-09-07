@@ -13,14 +13,9 @@
     "lowStockQuantity": 10,
     "deliveryPolicy": "Details about the delivery policy.Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias nesciunt maxime quas dignissimos esse voluptatibus impedit, minima explicabo ducimus, voluptates ipsam reiciendis illo iste? Nobis sunt facere animi cum, nemo temporibus tempore repudiandae officiis commodi veniam atque, minima possimus dignissimos soluta aliquid quibusdam iusto excepturi. Accusantium atque ex repellat maxime non quia, tempore inventore in commodi voluptatum, quasi, repudiandae consectetur recusandae animi reprehenderit eius minima a aliquam saepe numquam ut! Laborum, vel? Eveniet ea minus, fugiat aliquam itaque quaerat molestiae ullam hic? Cum error officia sapiente laboriosam quae eos cumque, accusantium aperiam autem veniam fugit reprehenderit fugiat nemo eaque nisi?",
     "shippingReturnPolicy": "Details about the delivery policy.Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias nesciunt maxime quas dignissimos esse voluptatibus impedit, minima explicabo ducimus, voluptates ipsam reiciendis illo iste? Nobis sunt facere animi cum, nemo temporibus tempore repudiandae officiis commodi veniam atque, minima possimus dignissimos soluta aliquid quibusdam iusto excepturi. Accusantium atque ex repellat maxime non quia, tempore inventore in commodi voluptatum, quasi, repudiandae consectetur recusandae animi reprehenderit eius minima a aliquam saepe numquam ut! Laborum, vel? Eveniet ea minus, fugiat aliquam itaque quaerat molestiae ullam hic? Cum error officia sapiente laboriosam quae eos cumque, accusantium aperiam autem veniam fugit reprehenderit fugiat nemo eaque nisi?",
-
+    "url": "/products/product-1.webp",
+    "alt": "Classic Cotton T-Shirt Main Image",
     "productVariants": [
-      {
-        "_id": "64d89b2c4f5e0c5a91e1a1bc",
-        "url": "/products/product-1.webp",
-        "alt": "Classic Cotton T-Shirt Front View",
-        "color": "LightBlue"
-      },
       {
         "_id": "64d89b2c4f5e0c5a91e1a1bd",
         "url": "/products/product-2.webp",
