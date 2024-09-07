@@ -1,32 +1,32 @@
-// Define type for product images
-interface ProductImage {
+// Type for product images
+export interface ProductImage {
   _id: string;
   url: string;
   alt: string;
   color: string;
 }
 
-// Define type for return policy
+// Type for return policy
 interface ReturnPolicy {
   _id: string;
   policyTitle: string;
   days: number;
 }
 
-// Define type for product categories
+// Type for product categories
 interface ProductCategory {
   _id: string;
   name: string;
 }
 
-// Define type for product attributes
+// Type for product attributes
 interface ProductAttribute {
   _id: string;
   attributeName: string;
   attributeValue: string;
 }
 
-// Define type for product SEO
+// Type for product SEO
 interface ProductSEO {
   _id: string;
   metaTitle: string;
@@ -35,17 +35,25 @@ interface ProductSEO {
   searchEngineListings: string;
 }
 
-// Define type for product variants
-interface ProductVariant {
+// Type for product sizes
+interface ProductSize {
   _id: string;
-  tags: string[];
-  size: string[];
-  quantity: number;
-  sellingPrice: number;
-  status: boolean;
+  size: string;
 }
 
-// Define type for product brand
+// Type for available quantities
+interface AvailableQuantity {
+  sizeId: string;
+  quantity: number;
+}
+
+// Type for product tags
+interface ProductTag {
+  _id: string;
+  name: string;
+}
+
+// Type for product brand
 interface ProductBrand {
   _id: string;
   name: string;
@@ -53,12 +61,12 @@ interface ProductBrand {
   logoURL: string;
 }
 
-// Define type for a product
+// Main product type
 export interface IProduct {
   _id: string;
   title: string;
   description: string;
-  gender: string; // Any string value
+  gender: string;
   basePrice: number;
   buyPrice: number;
   otherCost: number;
@@ -68,13 +76,15 @@ export interface IProduct {
   lowStockQuantity: number;
   deliveryPolicy: string;
   shippingReturnPolicy: string;
-  displayImage: ProductImage;
-  productImgs: ProductImage[];
-  deliveryMethods: string; // Any string value
+  productVariants: ProductImage[];
+  deliveryMethods: string;
   returnPolicy: ReturnPolicy[];
   productCategory: ProductCategory[];
   productAttributes: ProductAttribute[];
   productSEO: ProductSEO[];
-  productVariants: ProductVariant[];
+  sizes: ProductSize[];
+  availableQuantities: AvailableQuantity[];
+  sellingPrice: number;
+  tags: ProductTag[];
   productBrand: ProductBrand[];
 }

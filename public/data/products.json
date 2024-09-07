@@ -13,19 +13,9 @@
     "lowStockQuantity": 10,
     "deliveryPolicy": "Details about the delivery policy.Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias nesciunt maxime quas dignissimos esse voluptatibus impedit, minima explicabo ducimus, voluptates ipsam reiciendis illo iste? Nobis sunt facere animi cum, nemo temporibus tempore repudiandae officiis commodi veniam atque, minima possimus dignissimos soluta aliquid quibusdam iusto excepturi. Accusantium atque ex repellat maxime non quia, tempore inventore in commodi voluptatum, quasi, repudiandae consectetur recusandae animi reprehenderit eius minima a aliquam saepe numquam ut! Laborum, vel? Eveniet ea minus, fugiat aliquam itaque quaerat molestiae ullam hic? Cum error officia sapiente laboriosam quae eos cumque, accusantium aperiam autem veniam fugit reprehenderit fugiat nemo eaque nisi?",
     "shippingReturnPolicy": "Details about the delivery policy.Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias nesciunt maxime quas dignissimos esse voluptatibus impedit, minima explicabo ducimus, voluptates ipsam reiciendis illo iste? Nobis sunt facere animi cum, nemo temporibus tempore repudiandae officiis commodi veniam atque, minima possimus dignissimos soluta aliquid quibusdam iusto excepturi. Accusantium atque ex repellat maxime non quia, tempore inventore in commodi voluptatum, quasi, repudiandae consectetur recusandae animi reprehenderit eius minima a aliquam saepe numquam ut! Laborum, vel? Eveniet ea minus, fugiat aliquam itaque quaerat molestiae ullam hic? Cum error officia sapiente laboriosam quae eos cumque, accusantium aperiam autem veniam fugit reprehenderit fugiat nemo eaque nisi?",
-    "displayImage": {
-      "_id": "64d89b2c4f5e0c5a91e1a1bc",
-      "url": "/products/product-1.webp",
-      "alt": "Classic Cotton T-Shirt Front View",
-      "color": "LightBlue"
-    },
-    "productImgs": [
-      {
-        "_id": "64d89b2c4f5e0c5a91e1a1bc",
-        "url": "/products/product-1.webp",
-        "alt": "Classic Cotton T-Shirt Front View",
-        "color": "LightBlue"
-      },
+    "url": "/products/product-1.webp",
+    "alt": "Classic Cotton T-Shirt Main Image",
+    "productVariants": [
       {
         "_id": "64d89b2c4f5e0c5a91e1a1bd",
         "url": "/products/product-2.webp",
@@ -101,14 +91,55 @@
         "searchEngineListings": "Classic Cotton T-Shirt for Unisex"
       }
     ],
-    "productVariants": [
+    "sizes": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c4",
-        "tags": ["Cotton", "T-Shirt", "Unisex"],
-        "size": ["S", "M", "L", "XL"],
-        "quantity": 50,
-        "sellingPrice": 45,
-        "status": true
+        "_id": "64d89b2c4f5e0c5a91e1a1c6",
+        "size": "S"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c7",
+        "size": "M"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "size": "L"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c9",
+        "size": "XL"
+      }
+    ],
+    "availableQuantities": [
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c6",
+        "quantity": 10
+      },
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c7",
+        "quantity": 15
+      },
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c8",
+        "quantity": 20
+      },
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c9",
+        "quantity": 5
+      }
+    ],
+    "sellingPrice": 45,
+    "tags": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c6",
+        "name": "Cotton"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c7",
+        "name": "T-Shirt"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "name": "Unisex"
       }
     ],
     "productBrand": [

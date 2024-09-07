@@ -13,7 +13,7 @@ const ProductList: React.FC<ProductListProps> = async ({
 }) => {
   // Fetch products asynchronously
   const products: IProduct[] = await getAllProducts(); // Fixed type to IProduct[]
-
+  console.log("productlist", products);
   // Return component JSX
   return (
     <div className={`  gap-5 grid grid-cols-1 items-center`}>
@@ -23,5 +23,13 @@ const ProductList: React.FC<ProductListProps> = async ({
     </div>
   );
 };
+// export async function getStaticProps() {
+//   const res = await fetch('http://localhost:3000/data/products.json');
+//   const data = await res.json();
+
+//   return {
+//     props: { data }, // This will be available as props in the page
+//   };
+// }
 
 export default ProductList;

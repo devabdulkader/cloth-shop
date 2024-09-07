@@ -87,7 +87,7 @@ const NewArrival = () => {
           </div>
 
           {/* Third Section (1 Card, 1 Column Wide) */}
-          <div className="md:w-1/5 group h-[600px] md:h-full">
+          <div className="md:w-1/5 group h-[600px] md:h-full relative">
             <div className="relative rounded-2xl overflow-hidden h-full">
               <CustomImage src={new_arrival_3} alt="New Arrival 3" />
             </div>

@@ -6,7 +6,6 @@ import ReviewProduct from "@/components/product-detail/ReviewProduct";
 import ServiceHighlights from "@/components/product/ServiceHighlights";
 import { getAllProducts } from "@/lib/service/getAllProducts";
 import { IProduct } from "@/types/product";
-import { Description } from "@headlessui/react";
 
 type ProductDetailPageProps = {
   productId: string;
@@ -27,11 +26,12 @@ const ProductDetailPage = async ({ productId }: ProductDetailPageProps) => {
 
   return (
     <div className="relative">
-      <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10">
+      <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10 ">
         <Breadcrumb items={breadcrumbItems} />
-        <section className="md:grid grid-cols-2 md:gap-10 mt-4 relative">
+        <section className="md:grid grid-cols-2 md:gap-10 my-10 relative">
           <div className="relative z-50">
-            <ImageSlider productImgs={matchedProduct.productImgs} />
+            <ImageSlider productVariants={matchedProduct.productVariants} />{" "}
+            {/* Ensure this matches the prop name in ImageSlider */}
           </div>
           <div>
             <ProductDetails product={matchedProduct} />
@@ -43,8 +43,10 @@ const ProductDetailPage = async ({ productId }: ProductDetailPageProps) => {
           shippingReturnPolicy={matchedProduct.shippingReturnPolicy}
         />
       </div>
+
       <ServiceHighlights />
-      <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10">
+
+      <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10 ">
         <ReviewProduct />
       </div>
     </div>

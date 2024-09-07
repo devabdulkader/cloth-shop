@@ -7,7 +7,7 @@ import { PiHeadset, PiTruckDuotone } from "react-icons/pi";
 const ServiceHighlights: React.FC = () => {
   return (
     <div className="bg-white border-b border-t py-24">
-      <div className="container w-full mx-auto flex flex-col md:flex-row justify-between items-center ">
+      <div className="container w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-5 ">
         {/* Free Delivery */}
         <div className="flex items-center mb-4 md:mb-0 gap-5 ">
           <div className="size-16 shadow-md bg-white rounded-full flex justify-center items-center">
@@ -20,7 +20,7 @@ const ServiceHighlights: React.FC = () => {
         </div>
 
         {/* Support 24/7 */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center mb-4 md:mb-0 gap-5 ">
           <div className="size-16 shadow-md bg-white rounded-full flex justify-center items-center">
             <PiHeadset className="text-3xl text-gray-600" />
           </div>
@@ -31,7 +31,7 @@ const ServiceHighlights: React.FC = () => {
         </div>
 
         {/* 7 Days Return */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center mb-4 md:mb-0 gap-5 ">
           <div className="size-16 shadow-md bg-white rounded-full flex justify-center items-center">
             <CiUndo className="text-3xl text-gray-600" />
           </div>
