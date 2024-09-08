@@ -8,7 +8,7 @@ import useProductSelection from "@/hooks/useProductSelection";
 import CustomCrossBar from "../custom/CustomCrossBar";
 
 interface CartItem {
-  variantId: string;
+  id: string; // Unique identifier for each cart item
   title: string;
   basePrice: number;
   quantity: number;
@@ -29,15 +29,9 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
     const cartFromLocalStorage = localStorage.getItem("cart");
     if (cartFromLocalStorage) {
       const parsedCartData = JSON.parse(cartFromLocalStorage);
+
       // Log the cart data to verify the structure
       console.log("Cart Data from Local Storage:", parsedCartData);
-
-      // Check if variantId exists in the cart items
-      parsedCartData.forEach((item: CartItem) => {
-        if (!item.variantId) {
-          console.error(`Item with title ${item.title} is missing variantId.`);
-        }
-      });
 
       setCartData(parsedCartData);
     } else {
@@ -46,21 +40,22 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   }, []);
 
   // Handle quantity change
-  const handleQuantityChange = (variantId: string, newQuantity: number) => {
+  const handleQuantityChange = (id: string, newQuantity: number) => {
     const updatedCart = cartData.map((item) =>
-      item.variantId === variantId ? { ...item, quantity: newQuantity } : item
+      item.id === id ? { ...item, quantity: newQuantity } : item
     );
     setCartData(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   // Handle delete item
-  const handleDeleteItem = (variantId: string) => {
-    removeFromCart(variantId);
-    console.log("id of the variant", variantId);
-    const updatedCart = cartData.filter((item) => item.variantId !== variantId);
+  const handleDeleteItem = (id: string) => {
+    removeFromCart(id);
+    console.log("id of the item", id);
+    const updatedCart = cartData.filter((item) => item.id !== id);
 
     setCartData(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
   };
 
   return (
@@ -76,7 +71,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
             </div>
             <button
               onClick={onClose}
-              className="text-gray-600 text-lg self-end "
+              className="text-gray-600 text-lg self-end"
             >
               <CustomCrossBar />
             </button>
@@ -85,13 +80,13 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
           <div className="flex flex-row">
             <div className="w-full flex flex-col lg:flex-row p-2 gap-4 md:gap-10">
               <div className="flex flex-col gap-4 w-full md:min-w-[60%] h-[200px] overflow-x-hidden p-4">
-                {cartData.map((item, index) => (
+                {cartData.map((item) => (
                   <div
-                    key={index}
+                    key={item.id}
                     className="relative flex flex-col md:flex-row justify-between items-center border rounded-md shadow-xl px-2 md:px-6 py-2 md:py-4"
                   >
                     <button
-                      onClick={() => handleDeleteItem(item.variantId)}
+                      onClick={() => handleDeleteItem(item.id)}
                       className="absolute -top-2 md:top-1/2 md:-left-3 bg-gray-400 rounded-full p-1"
                     >
                       <RiDeleteBin5Fill size={16} />
@@ -116,7 +111,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       <button
                         onClick={() =>
                           handleQuantityChange(
-                            item.variantId,
+                            item.id,
                             Math.max(item.quantity - 1, 1)
                           )
                         }
@@ -128,7 +123,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                         value={item.quantity}
                         onChange={(e) =>
                           handleQuantityChange(
-                            item.variantId,
+                            item.id,
                             parseInt(e.target.value) || 1
                           )
                         }
@@ -137,10 +132,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       />
                       <button
                         onClick={() =>
-                          handleQuantityChange(
-                            item.variantId,
-                            item.quantity + 1
-                          )
+                          handleQuantityChange(item.id, item.quantity + 1)
                         }
                       >
                         +
