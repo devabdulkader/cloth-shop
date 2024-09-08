@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import "swiper/css";
@@ -9,32 +9,49 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import ArrowButton from "../button/ArrowButton";
 import { IProduct } from "@/types/product";
+import Link from "next/link";
+import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
+import CustomCrossBar from "../custom/CustomCrossBar";
 
 interface QuickViewModelProps {
-  product: IProduct;
+  product: IProduct; // Assuming you have an IProduct interface defined
+  onClose: () => void; // Function type for the close handler
+  activeImage: string; // Assuming activeImage is a string URL
+  activeColor: string; // Assuming activeColor is a string representing the color (could be a hex code or color name)
 }
 
-const QuickViewModel: React.FC<QuickViewModelProps> = ({ product }) => {
+const QuickViewModel: React.FC<QuickViewModelProps> = ({
+  product,
+  onClose,
+  activeImage,
+  activeColor,
+}) => {
   console.log("quick view product", product);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
+  const [productItems, setProductItems] = useState<any>([]);
 
-  // Combine main image with variants
-  const items = [
-    {
-      id: product._id,
-      url: product.url,
-      color: product.color,
-      alt: product.alt,
-    },
-    ...(product.productVariants.map((variant) => ({
-      id: variant._id,
-      url: variant.url,
-      color: variant.color,
-      alt: variant.alt,
-    })) || []),
-  ];
-  console.log("items", items);
+  useEffect(() => {
+    if (product) {
+      const items = [
+        {
+          id: product._id,
+          url: product.url,
+          color: product.color,
+          alt: product.alt,
+        },
+        ...(product.productVariants?.map((variant) => ({
+          id: variant._id,
+          url: variant.url,
+          color: variant.color,
+          alt: variant.alt,
+        })) || []),
+      ];
+
+      // Set the items in state
+      setProductItems(items);
+    }
+  }, [product]);
 
   const handleColorClick = (index: number) => {
     if (mainSwiper) {
@@ -57,7 +74,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({ product }) => {
             modules={[FreeMode, Navigation, Thumbs]}
             className="mySwiper w-full h-full"
           >
-            {items.map((item, index) => (
+            {productItems.map((item, index) => (
               <SwiperSlide key={index} className="rounded-md overflow-hidden">
                 <Image
                   src={item.url}
@@ -84,30 +101,119 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({ product }) => {
         </div>
 
         {/* Right Side: Color Boxes */}
-        <div className="w-1/2 h-40 border  p-4">
-          <div></div>
-          <Swiper
-            loop={true}
-            direction={"horizontal"}
-            spaceBetween={10}
-            thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs]}
-            slidesPerView={items.length}
-            className="mySwiper2 w-full h-full"
-          >
-            {items.map((item, index) => (
-              <SwiperSlide
-                key={index}
-                className="rounded-md cursor-pointer"
-                onClick={() => handleColorClick(index)}
+        <div className="w-1/2 h-full border overflow-y-auto flex flex-col items-start justify-start p-4">
+          {/* Product details section */}
+          <div className=" px-5 flex flex-col items-start justify-start  relative">
+            <button
+              onClick={onClose}
+              className="text-gray-600 text-lg self-end absolute top-3"
+            >
+              <CustomCrossBar />
+            </button>
+            <h1 className="text-2xl font-bold mt-5">{product.title}</h1>
+            <div className="text-2xl font-semibold text-gray-800 mt-2">{`€${product.basePrice}`}</div>
+            <div className="mt-4 mb-6">
+              <strong className="text-gray-800">SKU:</strong> {product.sku}
+            </div>
+            <div className="mb-4">
+              <strong className="text-gray-800">Category:</strong>{" "}
+              {product.productCategory.map((cat) => cat.name).join(", ")}
+            </div>
+
+            {/* Size Selection */}
+            <div className="mb-4">
+              <strong className="text-gray-800">Size:</strong>
+              <div className="flex space-x-2 mt-2">
+                {product.sizes.map((size) => (
+                  <button key={size._id}>{size.size}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Color Selection */}
+            <div className="flex justify-start">
+              <Swiper
+                loop={true}
+                direction={"horizontal"}
+                spaceBetween={0} // Set to 0 to remove the space between slides
+                thumbs={{ swiper: thumbsSwiper }}
+                modules={[FreeMode, Navigation, Thumbs]}
+                slidesPerView={productItems.length}
+                className="mySwiper2 border  h-full flex gap-5 " // Align slides to the left
               >
-                <div
-                  className="h-20 w-20 rounded-full border"
-                  style={{ backgroundColor: item.color }} // Dynamically setting the background color
-                ></div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                {productItems.map((item, index) => (
+                  <SwiperSlide
+                    key={index}
+                    className="cursor-pointer pr-2 " // Prevent shrinking of slides
+                    onClick={() => handleColorClick(index)}
+                  >
+                    <div
+                      className="size-10  rounded-full  "
+                      style={{ backgroundColor: item.color }} // Dynamically setting the background color
+                    ></div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+
+            {/* Quantity and action buttons */}
+            <section className="w-full">
+              <p className="mb-5 w-full">
+                <strong className="text-gray-800 text-xl">Quantity:</strong>
+              </p>
+              <div className="flex gap-5">
+                <div className="flex items-center mb-4 space-x-2 border rounded-full ">
+                  {/* Minus button */}
+                  <button
+                    // onClick={decreaseQuantity}
+                    className="p-2 border-gray-300"
+                  >
+                    -
+                  </button>
+
+                  {/* Quantity input */}
+                  <input
+                    type="number"
+                    // value={quantity}
+                    // onChange={handleQuantityChange}
+                    className="text-center w-20 border-0 outline-none"
+                    min="1"
+                    step="1"
+                  />
+
+                  {/* Plus button */}
+                  <button
+                    // onClick={increaseQuantity}
+                    className="p-2 border-gray-300"
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Add to Bag and Heart buttons */}
+                <div className="flex items-center space-x-4 mb-4 w-full">
+                  <button
+                    // onClick={() => {
+                    //   handleAddToCart();
+
+                    //   handleModalOpen();
+                    // }}
+                    className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
+                  >
+                    Add to Bag
+                  </button>
+                </div>
+              </div>
+            </section>
+            {/* Buy Now button */}
+            <Link href="/checkouts" className="mb-4 w-full">
+              <button
+                className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full border p-4 rounded-full`}
+              >
+                Buy It Now
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

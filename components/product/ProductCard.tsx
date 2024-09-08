@@ -277,9 +277,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
       {showQuickView && (
         <QuickViewModal
           product={product}
-          // onClose={closeQuickView}
-          // activeImage={activeImage}
-          // activeColor={activeColor}
+          onClose={closeQuickView}
+          activeImage={activeImage}
+          activeColor={activeColor}
         />
       )}
     </div>
