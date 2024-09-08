@@ -10,14 +10,16 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import ArrowButton from "../button/ArrowButton";
 import { IProduct } from "@/types/product";
 import Link from "next/link";
+
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import CustomCrossBar from "../custom/CustomCrossBar";
+import useProductSelection from "@/hooks/useProductSelection";
 
 interface QuickViewModelProps {
-  product: IProduct; // Assuming you have an IProduct interface defined
-  onClose: () => void; // Function type for the close handler
-  activeImage: string; // Assuming activeImage is a string URL
-  activeColor: string; // Assuming activeColor is a string representing the color (could be a hex code or color name)
+  product: IProduct;
+  onClose: () => void;
+  activeImage: string;
+  activeColor: string;
 }
 
 const QuickViewModel: React.FC<QuickViewModelProps> = ({
@@ -26,10 +28,25 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
   activeImage,
   activeColor,
 }) => {
-  console.log("quick view product", product);
+  const {
+    selectedSize,
+    selectedColor,
+    quantity,
+    handleSizeChange,
+    handleColorChange,
+    handleQuantityChange,
+    decreaseQuantity,
+    increaseQuantity,
+    addToCart,
+    addToWishlist,
+    handleImageChange,
+  } = useProductSelection({ product });
+
+  // console.log("quick view product", product);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [productItems, setProductItems] = useState<any>([]);
+  const [colorId, setColorId] = useState<string | null>(null);
 
   useEffect(() => {
     if (product) {
@@ -54,8 +71,27 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
   }, [product]);
 
   const handleColorClick = (index: number) => {
+    console.log("color index: ", index);
     if (mainSwiper) {
       mainSwiper.slideTo(index);
+    }
+
+    // Set the colorId based on the index
+    const selectedColorItem = productItems[index];
+    console.log(selectedColor);
+    if (selectedColorItem) {
+      setColorId(selectedColorItem.id);
+      console.log(productItems);
+      console.log("color id", colorId);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (colorId) {
+      addToCart(colorId);
+    } else {
+      // Handle the case where no color is selected (optional)
+      console.log("No color selected");
     }
   };
 
@@ -125,7 +161,15 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
               <strong className="text-gray-800">Size:</strong>
               <div className="flex space-x-2 mt-2">
                 {product.sizes.map((size) => (
-                  <button key={size._id}>{size.size}</button>
+                  <button
+                    key={size._id}
+                    onClick={() => handleSizeChange(size.size)}
+                    className={`p-5 border ${
+                      selectedSize === size.size ? "bg-blue-500 text-white" : ""
+                    }`}
+                  >
+                    {size.size}
+                  </button>
                 ))}
               </div>
             </div>
@@ -135,21 +179,21 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
               <Swiper
                 loop={true}
                 direction={"horizontal"}
-                spaceBetween={0} // Set to 0 to remove the space between slides
+                spaceBetween={0}
                 thumbs={{ swiper: thumbsSwiper }}
                 modules={[FreeMode, Navigation, Thumbs]}
                 slidesPerView={productItems.length}
-                className="mySwiper2 border  h-full flex gap-5 " // Align slides to the left
+                className="mySwiper2  h-full flex gap-5 "
               >
                 {productItems.map((item, index) => (
                   <SwiperSlide
                     key={index}
-                    className="cursor-pointer pr-2 " // Prevent shrinking of slides
+                    className="cursor-pointer pr-2 "
                     onClick={() => handleColorClick(index)}
                   >
                     <div
-                      className="size-10  rounded-full  "
-                      style={{ backgroundColor: item.color }} // Dynamically setting the background color
+                      className="size-10  rounded-full border "
+                      style={{ backgroundColor: item.color }}
                     ></div>
                   </SwiperSlide>
                 ))}
@@ -165,7 +209,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
                 <div className="flex items-center mb-4 space-x-2 border rounded-full ">
                   {/* Minus button */}
                   <button
-                    // onClick={decreaseQuantity}
+                    onClick={decreaseQuantity}
                     className="p-2 border-gray-300"
                   >
                     -
@@ -174,8 +218,8 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
                   {/* Quantity input */}
                   <input
                     type="number"
-                    // value={quantity}
-                    // onChange={handleQuantityChange}
+                    value={quantity}
+                    onChange={handleQuantityChange}
                     className="text-center w-20 border-0 outline-none"
                     min="1"
                     step="1"
@@ -183,7 +227,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
 
                   {/* Plus button */}
                   <button
-                    // onClick={increaseQuantity}
+                    onClick={increaseQuantity}
                     className="p-2 border-gray-300"
                   >
                     +
@@ -193,11 +237,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
                 {/* Add to Bag and Heart buttons */}
                 <div className="flex items-center space-x-4 mb-4 w-full">
                   <button
-                    // onClick={() => {
-                    //   handleAddToCart();
-
-                    //   handleModalOpen();
-                    // }}
+                    onClick={handleAddToCart} // Update to call handleAddToCart
                     className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
                   >
                     Add to Bag
