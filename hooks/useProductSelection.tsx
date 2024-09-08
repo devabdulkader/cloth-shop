@@ -14,7 +14,7 @@ interface CartItem {
   title: string;
   size: string;
   color: string;
-  quantity: number | string;
+  quantity: number; // Should be a number instead of number | string
   selectedImage: string;
   basePrice: number;
   buyPrice: number;
@@ -26,7 +26,7 @@ interface CartItem {
 interface SelectionState {
   selectedSize: string;
   selectedColor: string;
-  quantity: number | "";
+  quantity: number; // Keep this as number
   selectedImage: string;
   selectedVariantId: string;
 }
@@ -43,7 +43,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   // Initialize state
   const [selectedSize, setSelectedSize] = useState<string>(defaultSize);
   const [selectedColor, setSelectedColor] = useState<string>(defaultColor);
-  const [quantity, setQuantity] = useState<number | "">(1);
+  const [quantity, setQuantity] = useState<number>(1); // Initialize as a number
   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
   const [selectedVariantId, setSelectedVariantId] =
     useState<string>(defaultVariantId);
@@ -70,25 +70,22 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
 
   // Handle quantity change
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const numericValue = Number(value);
-    if (value === "" || (!isNaN(numericValue) && numericValue > 0)) {
-      setQuantity(value === "" ? "" : numericValue);
+    const numericValue = Number(e.target.value);
+    if (!isNaN(numericValue) && numericValue > 0) {
+      setQuantity(numericValue);
     }
   };
 
   // Decrease quantity
   const decreaseQuantity = () => {
-    if (quantity !== "" && quantity > 1) {
+    if (quantity > 1) {
       setQuantity(quantity - 1);
     }
   };
 
   // Increase quantity
   const increaseQuantity = () => {
-    if (quantity === "" || quantity > 0) {
-      setQuantity((quantity === "" ? 0 : quantity) + 1);
-    }
+    setQuantity(quantity + 1);
   };
 
   // Add to cart
@@ -105,7 +102,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
         title: product.title,
         size: selectedSize,
         color: isVariantId ? variant.color : selectedColor,
-        quantity,
+        quantity, // Ensure quantity is always valid
         selectedImage: isVariantId ? variant.url : selectedImage,
         basePrice: product.basePrice,
         buyPrice: product.buyPrice,

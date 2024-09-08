@@ -22,6 +22,12 @@ interface QuickViewModelProps {
   activeImage: string;
   activeColor: string;
 }
+interface ProductItem {
+  id: string;
+  url: string;
+  color: string;
+  alt: string;
+}
 
 const QuickViewModel: React.FC<QuickViewModelProps> = ({
   product,
@@ -45,7 +51,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
 
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
-  const [productItems, setProductItems] = useState<any>([]);
+  const [productItems, setProductItems] = useState<ProductItem[]>([]); // Use ProductItem[] for the array
   const [colorId, setColorId] = useState<string | null>(null);
   const [showCartModal, setShowCartModal] = useState(false);
 

@@ -49,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
       alt: product.alt,
     },
     ...product.productVariants.map((variant) => ({
-      id: variant.id, // Add variant ID here
+      id: variant._id, // Add variant ID here
       url: variant.url,
       alt: variant.alt,
     })),
@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
 
     if (matchingVariant) {
       setActiveImage(matchingVariant.url);
-      setActiveVariantId(matchingVariant.id); // Set the active variant ID
+      setActiveVariantId(matchingVariant._id); // Set the active variant ID
       handleImageChange(matchingVariant.url);
     } else {
       setActiveImage(product.url);
@@ -158,13 +158,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
             width={300}
             className="rounded-2xl transition-transform duration-300 h-full w-full object-cover"
           />
+
+          {/* White opacity blink effect */}
+          <div
+            className={`absolute inset-0 bg-white transition-opacity duration-300 ${
+              blinkStartkey === key ? "opacity-30" : "opacity-0"
+            }`}
+          />
         </Link>
-        {/* White opacity blink effect */}
-        <div
-          className={`absolute inset-0 bg-white transition-opacity duration-300 ${
-            blinkStartkey === key ? "opacity-30" : "opacity-0"
-          }`}
-        />
         {showQuickAdd && (
           <div className="absolute bottom-0 left-0 right-0 p-5">
             <div className="bg-black bg-opacity-50 backdrop-blur-md p-4 z-10 rounded-lg shadow-lg relative">

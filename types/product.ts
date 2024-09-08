@@ -1,33 +1,33 @@
-// Type for product images
-export interface ProductImage {
+// Interface for Product Variants
+export interface IProductVariant {
   _id: string;
   url: string;
   alt: string;
   color: string;
 }
 
-// Type for return policy
-interface ReturnPolicy {
+// Interface for Return Policy
+export interface IReturnPolicy {
   _id: string;
   policyTitle: string;
   days: number;
 }
 
-// Type for product categories
-interface ProductCategory {
+// Interface for Product Category
+export interface IProductCategory {
   _id: string;
   name: string;
 }
 
-// Type for product attributes
-interface ProductAttribute {
+// Interface for Product Attributes
+export interface IProductAttribute {
   _id: string;
   attributeName: string;
   attributeValue: string;
 }
 
-// Type for product SEO
-interface ProductSEO {
+// Interface for Product SEO
+export interface IProductSEO {
   _id: string;
   metaTitle: string;
   metaDescription: string;
@@ -35,33 +35,33 @@ interface ProductSEO {
   searchEngineListings: string;
 }
 
-// Type for product sizes
-interface ProductSize {
+// Interface for Sizes
+export interface ISize {
   _id: string;
   size: string;
 }
 
-// Type for available quantities
-interface AvailableQuantity {
+// Interface for Available Quantities
+export interface IAvailableQuantity {
   sizeId: string;
   quantity: number;
 }
 
-// Type for product tags
-interface ProductTag {
+// Interface for Tags
+export interface ITag {
   _id: string;
   name: string;
 }
 
-// Type for product brand
-interface ProductBrand {
+// Interface for Product Brand
+export interface IProductBrand {
   _id: string;
   name: string;
   description: string;
   logoURL: string;
 }
 
-// Main product type
+// Main Product Interface
 export interface IProduct {
   _id: string;
   title: string;
@@ -76,15 +76,18 @@ export interface IProduct {
   lowStockQuantity: number;
   deliveryPolicy: string;
   shippingReturnPolicy: string;
-  productVariants: ProductImage[];
+  url: string;
+  alt: string;
+  color: string;
+  productVariants: IProductVariant[];
   deliveryMethods: string;
-  returnPolicy: ReturnPolicy[];
-  productCategory: ProductCategory[];
-  productAttributes: ProductAttribute[];
-  productSEO: ProductSEO[];
-  sizes: ProductSize[];
-  availableQuantities: AvailableQuantity[];
+  returnPolicy: IReturnPolicy[];
+  productCategory: IProductCategory[];
+  productAttributes: IProductAttribute[];
+  productSEO: IProductSEO[];
+  sizes: ISize[];
+  availableQuantities: IAvailableQuantity[];
   sellingPrice: number;
-  tags: ProductTag[];
-  productBrand: ProductBrand[];
+  tags: ITag[];
+  productBrand: IProductBrand[];
 }
