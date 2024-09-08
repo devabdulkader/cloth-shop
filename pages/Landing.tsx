@@ -14,7 +14,14 @@ import NewestProduct from "@/components/home/NewestProduct";
 import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
 import Statement from "@/components/home/Statement";
 import Loader from "@/components/common/Loader";
-const Landing = () => {
+import { IProduct } from "@/types/product";
+interface LandingProps {
+  products: IProduct[];
+}
+
+const Landing: React.FC<LandingProps> = ({ products }) => {
+  console.log("landing page", products);
+
   return (
     <div>
       <div className="flex flex-col gap-6 lg:gap-10 xl:gap-16 pt-16 md:pt-20 lg:pt-0 px-5 xl:px-10 2xl:px-20 pb-10">
@@ -23,7 +30,7 @@ const Landing = () => {
         <Statement />
         <NewArrival />
         <FashionFusion />
-        <NewestProduct />
+        <NewestProduct products={products} />
         {/* <FashionStatement /> */}
 
         <LimitedOffer />

@@ -1,3 +1,4 @@
+"use client";
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "../store/features/cart/cartSlice";
 import navReducer from "../store/features/nav/navSlice";

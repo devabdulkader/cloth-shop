@@ -1,10 +1,19 @@
+import { getAllProducts } from "@/lib/service/getAllProducts";
 import Landing from "@/pages/Landing";
-import Image from "next/image";
+import { IProduct } from "@/types/product";
 
-export default function Home() {
+export default async function Home() {
+  let products: IProduct[] = []; // Ensure the type is IProduct[]
+
+  try {
+    products = await getAllProducts();
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+
   return (
     <main>
-      <Landing />
+      <Landing products={products} />
     </main>
   );
 }
