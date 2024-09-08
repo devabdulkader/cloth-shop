@@ -21,6 +21,7 @@ interface SidebarItem {
 interface SidebarCategory {
   category: string;
   items: SidebarItem[];
+  // active:boolean;
 }
 const sidebarItems: SidebarCategory[] = [
   {
@@ -49,7 +50,7 @@ const currencies = ["EUR €", "USD $", "GBP £"];
 const languages = ["English", "German", "French"];
 
 const UserAccountSidebar: React.FC = () => {
-  const { handleLogout } = useContext(AuthContext);
+  const { isLoggedIn, handleLogout } = useContext(AuthContext);
   const dispatch = useDispatch();
   const isUserSidebarOpen = useSelector(
     (state: RootState) => state.userSidebar.isUserSidebarOpen
@@ -107,10 +108,14 @@ const UserAccountSidebar: React.FC = () => {
                 </ul>
               </div>
             ))}
+            {
+              isLoggedIn && (
+                <button className="mb-3 font-medium" onClick={() => handleLogout()}>
+                  Log Out
+                </button>
+              )
+            }
 
-            <button className="mb-3 font-medium" onClick={() => handleLogout()}>
-              Log Out
-            </button>
 
           </div>
 
