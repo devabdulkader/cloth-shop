@@ -146,7 +146,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     >
       {showCartModal && <CartModal onClose={handleModalClose} />}
 
-      <div className="relative overflow-hidden h-[430px] w-full">
+      <div className="relative overflow-hidden h-[420px] w-full">
         <Link
           href={`/products/${product._id}`}
           className="relative place-self-center"
@@ -158,14 +158,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
             width={300}
             className="rounded-2xl transition-transform duration-300 h-full w-full object-cover"
           />
-
-          {/* White opacity blink effect */}
-          <div
-            className={`absolute inset-0 bg-white transition-opacity duration-300 ${
-              blinkStartkey === key ? "opacity-30" : "opacity-0"
-            }`}
-          />
         </Link>
+        {/* White opacity blink effect */}
+        <div
+          className={`absolute inset-0 bg-white transition-opacity duration-300 ${
+            blinkStartkey === key ? "opacity-30" : "opacity-0"
+          }`}
+        />
         {showQuickAdd && (
           <div className="absolute bottom-0 left-0 right-0 p-5">
             <div className="bg-black bg-opacity-50 backdrop-blur-md p-4 z-10 rounded-lg shadow-lg relative">
@@ -278,8 +277,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
       {showQuickView && (
         <QuickViewModal
           product={product}
-          onClose={closeQuickView}
-          activeImage={activeImage}
+          // onClose={closeQuickView}
+          // activeImage={activeImage}
           // activeColor={activeColor}
         />
       )}
