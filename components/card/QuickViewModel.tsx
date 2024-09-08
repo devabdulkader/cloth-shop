@@ -76,30 +76,18 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
     }
 
     const selectedColorItem = productItems[index];
-    console.log(selectedColorItem);
     if (selectedColorItem) {
       setColorId(selectedColorItem.id);
     }
   };
 
-  useEffect(() => {
-    if (colorId) {
-      // Perform actions that depend on colorId here
-    }
-  }, [colorId]);
-
   const handleAddToCart = () => {
-    // Ensure colorId is updated before using it
-    setColorId((prevColorId) => {
-      const updatedColorId = prevColorId;
-      if (updatedColorId) {
-        addToCart(updatedColorId);
-        setShowCartModal(true);
-      } else {
-        console.log("No color selected");
-      }
-      return updatedColorId;
-    });
+    if (colorId) {
+      addToCart(colorId);
+      setShowCartModal(true);
+    } else {
+      console.log("No color selected");
+    }
   };
 
   const handleModalClose = () => {
