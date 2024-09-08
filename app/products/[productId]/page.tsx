@@ -1,16 +1,29 @@
+import { getAllProducts } from "@/lib/service/getAllProducts";
 import ProductDetailPage from "@/pages/ProductDetailPage";
-import React from "react";
+import { IProduct } from "@/types/product";
 
-// Define the type for the props
 type PageProps = {
+  productId: string;
   params: {
     productId: string;
   };
 };
 
-const Page: React.FC<PageProps> = ({ params }) => {
-  const { productId } = params; // Extract productId from params
-  return <ProductDetailPage productId={productId} />;
+const fetchProduct = async (productId: string): Promise<IProduct | null> => {
+  try {
+    const products: IProduct[] = await getAllProducts();
+    return products.find((p) => p._id === productId) || null;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return null;
+  }
+};
+
+const Page = async ({ params }: { params: PageProps }) => {
+  const { productId } = params;
+  const product = await fetchProduct(productId);
+
+  return <ProductDetailPage product={product} />;
 };
 
 export default Page;

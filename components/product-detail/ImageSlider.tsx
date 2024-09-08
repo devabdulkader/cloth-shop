@@ -9,11 +9,11 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import ZoomedImage from "./ZoomedImage";
 import ArrowButton from "../button/ArrowButton";
-import { ProductImage } from "@/types/product";
+import { IProductVariant } from "@/types/product";
 import { RxCross1 } from "react-icons/rx";
 
 interface ImageSliderProps {
-  productVariants: ProductImage[];
+  productVariants: IProductVariant[];
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
@@ -142,12 +142,12 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
           spaceBetween={10}
           thumbs={{ swiper: thumbsSwiper }}
           modules={[FreeMode, Navigation, Thumbs]}
+          onSwiper={setMainSwiper}
           className={`mySwiper2 h-full ${
             isFullscreen
               ? "fixed z-layer-2 bg-white w-[90%] sm:w-[500px]"
               : "relative w-full z-auto"
           }`}
-          onSwiper={setMainSwiper}
           onClick={openFullscreen}
         >
           {productVariants.map((image, index) => (

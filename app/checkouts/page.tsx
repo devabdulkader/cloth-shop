@@ -15,7 +15,7 @@ interface Order {
   date: string;
   quantity: number;
   price: number;
-  image: string;
+  selectedImage: string;
   category: string[];
   sku: string;
   size: string;

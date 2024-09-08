@@ -22,6 +22,12 @@ interface QuickViewModelProps {
   activeImage: string;
   activeColor: string;
 }
+interface ProductItem {
+  id: string;
+  url: string;
+  color: string;
+  alt: string;
+}
 
 const QuickViewModel: React.FC<QuickViewModelProps> = ({
   product,
@@ -45,7 +51,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
 
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
-  const [productItems, setProductItems] = useState<any>([]);
+  const [productItems, setProductItems] = useState<ProductItem[]>([]); // Use ProductItem[] for the array
   const [colorId, setColorId] = useState<string | null>(null);
   const [showCartModal, setShowCartModal] = useState(false);
 
@@ -71,15 +77,29 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
   }, [product]);
 
   const handleColorClick = (index: number) => {
-    if (mainSwiper) {
-      mainSwiper.slideTo(index);
-    }
-
     const selectedColorItem = productItems[index];
     if (selectedColorItem) {
       setColorId(selectedColorItem.id);
     }
   };
+
+  // const handleSlideChange = () => {
+  //   if (mainSwiper && thumbsSwiper) {
+  //     const activeIndex = mainSwiper.activeIndex;
+  //     thumbsSwiper.slideTo(activeIndex);
+  //   }
+  // };
+
+  // const handleColorClick = (index: number) => {
+  //   if (mainSwiper) {
+  //     mainSwiper.slideTo(index);
+  //   }
+
+  //   const selectedColorItem = productItems[index];
+  //   if (selectedColorItem) {
+  //     setColorId(selectedColorItem.id);
+  //   }
+  // };
 
   const handleAddToCart = () => {
     if (colorId) {
@@ -106,14 +126,12 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
         {/* Left Side: Main Image */}
         <div className="h-full w-1/2 relative">
           <Swiper
-            direction={"horizontal"}
-            spaceBetween={10}
-            slidesPerView={1}
-            pagination={{ clickable: true }}
-            onSwiper={setMainSwiper}
+            className="mySwiper2 w-full h-full"
             loop={true}
+            spaceBetween={10}
+            thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper w-full h-full"
+            onSwiper={setMainSwiper}
           >
             {productItems.map((item, index) => (
               <SwiperSlide key={index} className="rounded-md overflow-hidden">
@@ -142,7 +160,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
         </div>
 
         {/* Right Side: Color Boxes */}
-        <div className="w-1/2 h-full border overflow-y-auto flex flex-col items-start justify-start p-4">
+        <div className="w-1/2 h-full relative border overflow-y-auto flex flex-col items-start justify-start p-4">
           {/* Product details section */}
           <div className=" px-5 flex flex-col items-start justify-start  relative">
             <button
@@ -182,21 +200,21 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
             {/* Color Selection */}
             <div className="flex justify-start">
               <Swiper
-                loop={true}
                 direction={"horizontal"}
                 spaceBetween={0}
-                thumbs={{ swiper: thumbsSwiper }}
-                modules={[FreeMode, Navigation, Thumbs]}
                 slidesPerView={productItems.length}
-                className="mySwiper2  h-full flex gap-5 "
+                pagination={{ clickable: true }}
+                onSwiper={setThumbsSwiper}
+                loop={true}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper h-full flex gap-5"
               >
                 {productItems.map((item, index) => (
-                  <SwiperSlide
-                    key={index}
-                    className="cursor-pointer pr-2 "
-                    onClick={() => handleColorClick(index)}
-                  >
+                  <SwiperSlide key={index} className="cursor-pointer pr-3 ">
                     <div
+                      onClick={() => handleColorClick(index)}
                       className="size-10  rounded-full border "
                       style={{ backgroundColor: item.color }}
                     ></div>
