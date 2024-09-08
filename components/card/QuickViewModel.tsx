@@ -14,6 +14,7 @@ import Link from "next/link";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import CustomCrossBar from "../custom/CustomCrossBar";
 import useProductSelection from "@/hooks/useProductSelection";
+import CartModal from "../common/CartModal";
 
 interface QuickViewModelProps {
   product: IProduct;
@@ -42,11 +43,11 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
     handleImageChange,
   } = useProductSelection({ product });
 
-  // console.log("quick view product", product);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [productItems, setProductItems] = useState<any>([]);
   const [colorId, setColorId] = useState<string | null>(null);
+  const [showCartModal, setShowCartModal] = useState(false);
 
   useEffect(() => {
     if (product) {
@@ -65,39 +66,55 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
         })) || []),
       ];
 
-      // Set the items in state
       setProductItems(items);
     }
   }, [product]);
 
   const handleColorClick = (index: number) => {
-    console.log("color index: ", index);
     if (mainSwiper) {
       mainSwiper.slideTo(index);
     }
 
-    // Set the colorId based on the index
     const selectedColorItem = productItems[index];
-    console.log(selectedColor);
+    console.log(selectedColorItem);
     if (selectedColorItem) {
       setColorId(selectedColorItem.id);
-      console.log(productItems);
-      console.log("color id", colorId);
     }
   };
 
-  const handleAddToCart = () => {
+  useEffect(() => {
     if (colorId) {
-      addToCart(colorId);
-    } else {
-      // Handle the case where no color is selected (optional)
-      console.log("No color selected");
+      // Perform actions that depend on colorId here
     }
+  }, [colorId]);
+
+  const handleAddToCart = () => {
+    // Ensure colorId is updated before using it
+    setColorId((prevColorId) => {
+      const updatedColorId = prevColorId;
+      if (updatedColorId) {
+        addToCart(updatedColorId);
+        setShowCartModal(true);
+      } else {
+        console.log("No color selected");
+      }
+      return updatedColorId;
+    });
+  };
+
+  const handleModalClose = () => {
+    setShowCartModal(false);
+    onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white max-w-7xl mx-auto w-full h-[500px] rounded-lg flex">
+      {showCartModal && <CartModal onClose={handleModalClose} />}
+      <div
+        className={`${
+          showCartModal ? "" : ""
+        }bg-white flex max-w-7xl mx-auto w-full h-[500px] rounded-lg`}
+      >
         {/* Left Side: Main Image */}
         <div className="h-full w-1/2 relative">
           <Swiper
@@ -237,7 +254,10 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
                 {/* Add to Bag and Heart buttons */}
                 <div className="flex items-center space-x-4 mb-4 w-full">
                   <button
-                    onClick={handleAddToCart} // Update to call handleAddToCart
+                    onClick={() => {
+                      handleAddToCart();
+                      setShowCartModal(true);
+                    }} // Update to call handleAddToCart
                     className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
                   >
                     Add to Bag
