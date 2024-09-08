@@ -1,45 +1,3 @@
-// "use client";
-
-// import { createContext, ReactNode, useState } from "react";
-// import { useRouter } from "next/navigation";
-
-// // Define the shape of the AuthContext
-// interface AuthContextType {
-//   handleLogout: () => void;
-//   isLoggedIn: boolean;
-//   setIsLoggedIn: (value: boolean) => void;
-// }
-
-// // Create the context with default values
-// export const AuthContext = createContext<AuthContextType>({
-//   handleLogout: () => {},
-//   isLoggedIn: false,
-//   setIsLoggedIn: () => {},
-// });
-
-// // Define the props type for the AuthProvider
-// interface AuthProviderProps {
-//   children: ReactNode;
-// }
-
-// const AuthProvider = ({ children }: AuthProviderProps) => {
-//   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-//   const router = useRouter();
-
-//   const handleLogout = () => {
-//     setIsLoggedIn(false);
-//     router.push("/");
-//   };
-
-//   return (
-//     <AuthContext.Provider value={{ handleLogout, isLoggedIn, setIsLoggedIn }}>
-//       {children}
-//     </AuthContext.Provider>
-//   )
-// };
-
-// export default AuthProvider;
-
 
 
 
@@ -53,7 +11,7 @@
 
 import { createContext, ReactNode, useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 import { useRouter } from "next/navigation";
 
 // Define the shape of the AuthContext
@@ -90,15 +48,16 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<string | null>(null);
   const router = useRouter();
-  const token = Cookies.get("token");
+  const token = Cookies.get("accessKey");
+  console.log(token,"......")
 
   useEffect(() => {
     if (token) {
       try {
-        const decodedToken = jwtDecode<TokenPayload>(token); // Specify TokenPayload as the decode type
+        // const decodedToken = jwtDecode<TokenPayload>(token); // Specify TokenPayload as the decode type
         setIsLoggedIn(true);
-        setUserId(decodedToken._id);
-        setAccountType(decodedToken.accountType);
+        // setUserId(decodedToken._id);
+        // setAccountType(decodedToken.accountType);
       } catch (error) {
         console.error("Failed to decode token", error);
       }
@@ -106,8 +65,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [token]);
 
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("currentUser");
+    Cookies.remove("accessKey");
+    // localStorage.removeItem("currentUser");
     setIsLoggedIn(false);
     setAccountType(null);
     router.push("/");
@@ -115,11 +74,12 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ accountType, handleLogout, isLoggedIn, setIsLoggedIn, userId }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    value={{ accountType, handleLogout, isLoggedIn, setIsLoggedIn, userId }}
+  >
+    {children}
+  </AuthContext.Provider>
+
+  )
 };
 
 export default AuthProvider;

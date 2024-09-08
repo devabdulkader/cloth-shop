@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaTimes } from "react-icons/fa";
 import { closeUserSidebar } from "@/lib/store/features/userSidebar/userSidebarSlice";
@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import UserDropdown from "./UserDropdown";
 import CustomCrossBar from "@/components/custom/CustomCrossBar";
 import CustomBackDrop from "@/components/custom/CustomBackDrop";
+import { AuthContext } from "@/app/authProvider";
 
 // Define the interface for a single sidebar item
 interface SidebarItem {
@@ -48,6 +49,7 @@ const currencies = ["EUR €", "USD $", "GBP £"];
 const languages = ["English", "German", "French"];
 
 const UserAccountSidebar: React.FC = () => {
+  const { handleLogout } = useContext(AuthContext);
   const dispatch = useDispatch();
   const isUserSidebarOpen = useSelector(
     (state: RootState) => state.userSidebar.isUserSidebarOpen
@@ -75,9 +77,8 @@ const UserAccountSidebar: React.FC = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 py-4 px-8 shadow-lg transform transition-transform duration-500 ${
-          isUserSidebarOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 py-4 px-8 shadow-lg transform transition-transform duration-500 ${isUserSidebarOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <main className="relative z-20  h-full">
           <div className="flex justify-between items-center py-8  border-b">
@@ -106,6 +107,11 @@ const UserAccountSidebar: React.FC = () => {
                 </ul>
               </div>
             ))}
+
+            <button className="mb-3 font-medium" onClick={() => handleLogout()}>
+              Log Out
+            </button>
+
           </div>
 
           <div className="py-8">

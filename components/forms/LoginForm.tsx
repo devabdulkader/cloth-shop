@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { MdEmail } from "react-icons/md";
-
+import Cookies from "js-cookie";
 const LOGIN_MUTATION = `
   query Login($input: LoginInput!) {
     login(input: $input) {
@@ -46,7 +46,7 @@ const LoginForm = () => {
             }
 
             const { accessToken } = response.data.data.login;
-            localStorage.setItem("accessKey", accessToken);
+            Cookies.set("accessKey", accessToken);
 
             // // Redirect to the dashboard
             // router.push("/dashboard");
