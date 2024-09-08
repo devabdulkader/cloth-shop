@@ -45,97 +45,95 @@
     "deliveryMethods": "bkash",
     "returnPolicy": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1be",
+        "_id": "64d89b2c4f5e0c5a91e1a1c1",
         "policyTitle": "7-Day Return Policy",
         "days": 7
       }
     ],
     "productCategory": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1bf",
+        "_id": "64d89b2c4f5e0c5a91e1a1c2",
         "name": "Fashion"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c0",
+        "_id": "64d89b2c4f5e0c5a91e1a1c3",
         "name": "T-Shirt"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c1",
+        "_id": "64d89b2c4f5e0c5a91e1a1c4",
         "name": "Unisex"
       }
     ],
     "productAttributes": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c2",
+        "_id": "64d89b2c4f5e0c5a91e1a1c5",
         "attributeName": "Material",
         "attributeValue": "Cotton"
       }
     ],
     "productSEO": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "_id": "64d89b2c4f5e0c5a91e1a1c6",
         "metaTitle": "Classic Cotton T-Shirt",
         "metaDescription": "A comfortable and versatile cotton t-shirt for all occasions.",
         "metaKeywords": "cotton t-shirt, unisex clothing, fashion",
         "searchEngineListings": "Classic Cotton T-Shirt for Unisex"
       }
     ],
-
     "sizes": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c6",
+        "_id": "64d89b2c4f5e0c5a91e1a1c7",
         "size": "S"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c7",
+        "_id": "64d89b2c4f5e0c5a91e1a1c8",
         "size": "M"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "_id": "64d89b2c4f5e0c5a91e1a1c9",
         "size": "L"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c9",
+        "_id": "64d89b2c4f5e0c5a91e1a1ca",
         "size": "XL"
       }
     ],
-
     "availableQuantities": [
       {
-        "sizeId": "64d89b2c4f5e0c5a91e1a1c6",
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c7",
         "quantity": 10
       },
       {
-        "sizeId": "64d89b2c4f5e0c5a91e1a1c7",
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c8",
         "quantity": 15
       },
       {
-        "sizeId": "64d89b2c4f5e0c5a91e1a1c8",
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c9",
         "quantity": 20
       },
       {
-        "sizeId": "64d89b2c4f5e0c5a91e1a1c9",
+        "sizeId": "64d89b2c4f5e0c5a91e1a1ca",
         "quantity": 5
       }
     ],
     "sellingPrice": 45,
     "tags": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c6",
+        "_id": "64d89b2c4f5e0c5a91e1a1cb",
         "name": "Cotton"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c7",
+        "_id": "64d89b2c4f5e0c5a91e1a1cc",
         "name": "T-Shirt"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "_id": "64d89b2c4f5e0c5a91e1a1cd",
         "name": "Unisex"
       }
     ],
     "productBrand": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c5",
+        "_id": "64d89b2c4f5e0c5a91e1a1ce",
         "name": "Nike",
         "description": "Global brand known for high-quality athletic wear.",
         "logoURL": "/products/brand-logo-nike.webp"
@@ -161,19 +159,19 @@
     "color": "blue",
     "productVariants": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "_id": "64d89b2c4f5e0c5a91e1a1c0",
         "url": "/products/white-tshirt.webp",
         "alt": "Yoga Pants Side View",
         "color": "white"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "_id": "64d89b2c4f5e0c5a91e1a1c1",
         "url": "/products/gray-tshirt.webp",
         "alt": "Yoga Pants Side View",
         "color": "gray"
       },
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c3",
+        "_id": "64d89b2c4f5e0c5a91e1a1c2",
         "url": "/products/yellow-tshirt.webp",
         "alt": "Yoga Pants Side View",
         "color": "yellow"
@@ -182,55 +180,98 @@
     "deliveryMethods": "home delivery",
     "returnPolicy": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1bf",
+        "_id": "64d89b2c4f5e0c5a91e1a1c3",
         "policyTitle": "30-Day Return Policy",
         "days": 30
       }
     ],
     "productCategory": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1b1",
-        "name": "Activewear"
+        "_id": "64d89b2c4f5e0c5a91e1a1c4",
+        "name": "Fitness"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c5",
+        "name": "Yoga"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c6",
+        "name": "Women"
       }
     ],
-
+    "productAttributes": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c7",
+        "attributeName": "Material",
+        "attributeValue": "Recycled Polyester"
+      }
+    ],
+    "productSEO": [
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1c8",
+        "metaTitle": "Eco-Friendly Yoga Pants",
+        "metaDescription": "Sustainable and comfortable yoga pants for all your workout needs.",
+        "metaKeywords": "yoga pants, eco-friendly, workout wear",
+        "searchEngineListings": "Eco-Friendly Yoga Pants for Women"
+      }
+    ],
     "sizes": [
       {
-        "_id": "64d89b2c45f5e0c5a91e1a1c6",
+        "_id": "64d89b2c4f5e0c5a91e1a1c9",
         "size": "S"
       },
       {
-        "_id": "64d89b2c34f5e0c5a91e1a1c7",
+        "_id": "64d89b2c4f5e0c5a91e1a1ca",
         "size": "M"
       },
       {
-        "_id": "64d89b2c24f5e0c5a91e1a1c8",
+        "_id": "64d89b2c4f5e0c5a91e1a1cb",
         "size": "L"
       },
       {
-        "_id": "64d89b2c41f5e0c5a91e1a1c9",
+        "_id": "64d89b2c4f5e0c5a91e1a1cc",
         "size": "XL"
       }
     ],
     "availableQuantities": [
       {
-        "sizeId": "64d89b2c4f5e0c5a91e1a1c0",
+        "sizeId": "64d89b2c4f5e0c5a91e1a1c9",
         "quantity": 12
+      },
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1ca",
+        "quantity": 14
+      },
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1cb",
+        "quantity": 18
+      },
+      {
+        "sizeId": "64d89b2c4f5e0c5a91e1a1cc",
+        "quantity": 6
       }
     ],
-    "sellingPrice": 60,
+    "sellingPrice": 55,
     "tags": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c0",
+        "_id": "64d89b2c4f5e0c5a91e1a1cd",
         "name": "Eco-Friendly"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1ce",
+        "name": "Yoga"
+      },
+      {
+        "_id": "64d89b2c4f5e0c5a91e1a1cf",
+        "name": "Women"
       }
     ],
     "productBrand": [
       {
-        "_id": "64d89b2c4f5e0c5a91e1a1c8",
-        "name": "Green Earth",
-        "description": "Brand specializing in eco-friendly clothing.",
-        "logoURL": "/products/brand-logo-green-earth.webp"
+        "_id": "64d89b2c4f5e0c5a91e1a1d0",
+        "name": "Adidas",
+        "description": "Known for its sustainable and eco-friendly products.",
+        "logoURL": "/products/brand-logo-adidas.webp"
       }
     ]
   }
