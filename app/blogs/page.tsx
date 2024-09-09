@@ -34,7 +34,7 @@ const FashionPage: React.FC = async () => {
                                     <p className='flex gap-2 items-center px-2 '><FaUser />VINOVA THEME</p>
                                 </div>
                                 <p className=' text-base font-normal'>{item.description.map((item, index) => (<span key={index}>{item.para.slice(0, 100)}</span>))}...</p>
-                                <Link href={`blogs/fashion/${item.pathName}`} className='flex justify-center items-center  bg-[#132842] w-48 h-14 text-white rounded-full text-sm'>
+                                <Link href={`/blogs/${item.id}`} className='flex justify-center items-center  bg-[#132842] w-48 h-14 text-white rounded-full text-sm'>
                                     Read More
                                 </Link>
                             </div>

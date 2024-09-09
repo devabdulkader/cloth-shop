@@ -48,19 +48,19 @@ const OrderList = () => {
         try {
             const token = Cookies.get("accessKey");
 
-            if(token){
+            if (token) {
                 const response = await axios.post("https://chokro-ecommerce.vercel.app/graphql", {
                     query: ORDERS_MUTATION,
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-    
+
                 });
-                console.log(token,"1111")
+                console.log(token, "1111")
                 console.log(response?.data, "22222")
             }
 
-          
+
 
         } catch (error) {
             console.log(error, "error");

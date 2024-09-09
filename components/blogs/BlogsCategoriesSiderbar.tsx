@@ -65,7 +65,7 @@ const BlogsCategoriesSiderbar =async () => {
                 <h1 className='pb-4 text-xl font-semibold border-b-2'>RECENT POST</h1>
                 {
                     blogs?.slice(0,3)?.map((item,index)=>(
-                        <Link key={index} href={`/blogs/fashion/${item.pathName}`} className='flex flex-row justify-between items-center' >
+                        <Link key={index} href={`/blogs/${item.id}`} className='flex flex-row justify-between items-center' >
                             <div className=' flex flex-row gap-4'>
                     <Image src={item.image} width={100} height={100} alt={item.title} className=' w-28 h-24 bg-cover rounded-lg' />
                     <div>

@@ -109,7 +109,7 @@ const LatestNews: React.FC = () => {
                         </span>
                       </div>
                       <Link
-                        href={`/blogs/fashion/${item.pathName}`}
+                        href={`/blogs/${item.id}`}
                         className=" flex justify-center items-center w-10 h-10 text-center rounded-full  bg-white hover:bg-[#132742] text-black hover:text-white"
                       >
                         <GoArrowRight size={24} />

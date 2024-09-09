@@ -1,11 +1,10 @@
-
+'use client'
 import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
-
 // import required modules
 import { Pagination } from 'swiper/modules';
 import Image from 'next/image';
@@ -43,7 +42,7 @@ const BlogRelatedFashionSlider = async () => {
                 {
                     blogs?.map((item, index) => (
                         <SwiperSlide key={index}>
-                            <Link href={`/blogs/fashion/${item.pathName}`} >
+                            <Link href={`/blogs/${item.id}`} >
                                 <Image src={item.image} alt={item.title} width={300} height={200} />
                                 <p className='text-md font-semibold py-3'>{item.title}</p>
                                 <p className=' text-base font-normal'>{item.description.map((item, index) => (<span key={index}>{item.para.slice(0, 25)}</span>))}...</p>
