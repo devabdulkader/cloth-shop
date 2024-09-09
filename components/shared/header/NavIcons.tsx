@@ -1,4 +1,5 @@
 // components/NavIcons.tsx
+"use client";
 import React, { useState, useEffect } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { IoStarOutline } from "react-icons/io5";
@@ -10,8 +11,10 @@ import CustomSearchIcon from "@/components/custom/CustomSearchIcon";
 import { toggleCartSidebar } from "@/lib/store/features/cartSidebar/cartSidebarSlice";
 import { toggleUserSidebar } from "@/lib/store/features/userSidebar/userSidebarSlice";
 import { AiOutlineUser } from "react-icons/ai";
+import useProductSelection from "@/hooks/useProductSelection";
 
 const NavIcons: React.FC = () => {
+
   const dispatch = useDispatch();
   const [cartItemCount, setCartItemCount] = useState<number>(0);
   const [wishlistItemCount, setWishlistItemCount] = useState<number>(0);

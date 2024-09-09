@@ -19,8 +19,8 @@ import CartModal from "../common/CartModal";
 interface QuickViewModelProps {
   product: IProduct;
   onClose: () => void;
-  activeImage: string;
-  activeColor: string;
+  activeImage?: string;
+  activeColor?: string;
 }
 interface ProductItem {
   id: string;
@@ -177,14 +177,14 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
             </div>
             <div className="mb-4">
               <strong className="text-gray-800">Category:</strong>{" "}
-              {product.productCategory.map((cat) => cat.name).join(", ")}
+              {product.productCategory?.map((cat) => cat.name).join(", ")}
             </div>
 
             {/* Size Selection */}
             <div className="mb-4 flex flex-col gap-4">
               <strong className="text-gray-800">Size:</strong>
               <div className="flex space-x-2">
-                {product.sizes.map((size) => (
+                {product.sizes?.map((size) => (
                   <button
                     key={size._id}
                     onClick={() => handleSizeChange(size.size)}
