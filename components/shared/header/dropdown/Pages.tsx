@@ -15,7 +15,7 @@ const pagesSections = [
 
 const Pages = () => {
   return (
-    <section className="relative top-0">
+    <section className="relative top-0 z-50">
       <div className="grid grid-cols-1 gap-5 w-80 bg-white border shadow-sm px-6 py-8">
         {/* Displaying each title with link */}
         {pagesSections.map((section, index) => (

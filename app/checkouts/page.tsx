@@ -53,7 +53,10 @@ const CheckoutPage = () => {
   };
 
   // Calculate subtotal and total
-  const subtotal = orderData.reduce((acc, item) => acc + item.price, 0);
+  const subtotal = orderData.reduce(
+    (acc, item) => acc + item.buyPrice * item.quantity,
+    0
+  );
   const deliveryCost = selectedDeliveryLocation === "insite-dhaka" ? 70 : 130;
   const total = subtotal + deliveryCost;
 
@@ -191,7 +194,7 @@ const CheckoutPage = () => {
                 <p>{item.size}</p>
               </div>
             </div>
-            <div className="text-sm font-normal">${item.price}</div>
+            <div className="text-sm font-normal">${item.buyPrice}</div>
           </div>
         ))}
         <div className="flex flex-row justify-between items-center text-sm font-normal">

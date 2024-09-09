@@ -30,6 +30,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     addToCart,
     handleImageChange,
     handleColorChange,
+    addToWishlist,
+    removeFromWishlist,
+    isProductInWishlist,
   } = useProductSelection({
     product,
   });
@@ -40,6 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
   const [hoveredProductkey, setHoveredProductkey] = useState<number | null>(
     null
   );
+  const [blinkStartKey, setBlinkStartKey] = useState<number | null>(null); // State to manage blinking
 
   // Combine main image with variants
   const images = [
@@ -71,10 +75,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     { icon: <FiEye />, tooltip: "Quick View" },
   ];
 
-  const [blinkStartkey, setBlinkStartkey] = useState<number | null>(null);
   const [activeColor, setActiveColor] = useState<string>(colors[0].color);
   const [activeImage, setActiveImage] = useState<string>(images[0].url);
-  const [activeVariantId, setActiveVariantId] = useState<string>(images[0].id); // Added state for active variant ID
+  const [activeVariantId, setActiveVariantId] = useState<string>(images[0].id);
 
   // Update the image and variant ID when color changes
   useEffect(() => {
@@ -84,11 +87,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
 
     if (matchingVariant) {
       setActiveImage(matchingVariant.url);
-      setActiveVariantId(matchingVariant._id); // Set the active variant ID
+      setActiveVariantId(matchingVariant._id);
       handleImageChange(matchingVariant.url);
     } else {
       setActiveImage(product.url);
-      setActiveVariantId(product._id); // Revert to main product ID
+      setActiveVariantId(product._id);
       handleImageChange(product.url);
     }
 
@@ -97,7 +100,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     activeColor,
     product.productVariants,
     product.url,
-    product._id, // Ensure product ID is considered
+    product._id,
     handleImageChange,
     handleColorChange,
   ]);
@@ -109,21 +112,79 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
 
   const handleMouseEnter = (key: number) => {
     setHoveredProductkey(key);
+    // Start blink effect when hovered
+    setBlinkStartKey(key);
+
+    // Stop blink effect after 2 seconds
+    setTimeout(() => {
+      setBlinkStartKey(null);
+    }, 500);
   };
 
   const handleMouseLeave = () => {
     setHoveredProductkey(null);
+    setBlinkStartKey(null); // Ensure blink effect is stopped when mouse leaves
   };
 
+  useEffect(() => {
+    const matchingVariant = product.productVariants.find(
+      (variant) => variant.color === activeColor
+    );
+
+    if (matchingVariant) {
+      setActiveImage(matchingVariant.url);
+      setActiveVariantId(matchingVariant._id);
+      handleImageChange(matchingVariant.url);
+    } else {
+      setActiveImage(product.url);
+      setActiveVariantId(product._id);
+      handleImageChange(product.url);
+    }
+
+    handleColorChange(activeColor);
+  }, [
+    activeColor,
+    product.productVariants,
+    product.url,
+    product._id,
+    handleImageChange,
+    handleColorChange,
+  ]);
+
   const handleAddToCart = () => {
-    // Find the image object that matches the activeImage URL
     const imageObject = images.find((image) => image.url === activeImage);
+    const idToAdd = imageObject ? imageObject.id : product._id;
+    console.log("id  from add to cart", idToAdd);
+    addToCart(idToAdd);
+    setShowCartModal(true);
+  };
+  const [isInWishlist, setIsInWishlist] = useState<boolean>(false); // State for wishlist status
 
-    // Determine the ID to use based on the found image object
-    const idToAdd = imageObject ? imageObject.id : product._id; // Use the found image ID or the main product ID
+  useEffect(() => {
+    const checkWishlistStatus = async () => {
+      const status = await isProductInWishlist(activeImage, activeColor);
+      setIsInWishlist(status);
+    };
+    checkWishlistStatus();
+  }, [activeImage, activeColor, isProductInWishlist]);
 
-    addToCart(idToAdd); // Pass the ID to the addToCart function
-    setShowCartModal(true); // Show the cart modal after adding the item
+  const handleAddToWishList = () => {
+    const imageObject = images.find((image) => image.url === activeImage);
+    const idToAdd = imageObject ? imageObject.id : product._id;
+    console.log("add wishlist id", idToAdd);
+    setIsInWishlist(true); // Update wishlist status
+
+    // Add to wishlist if it doesn't exist
+    addToWishlist(idToAdd);
+  };
+  const handleRemoveFromWishList = () => {
+    const imageObject = images.find((image) => image.url === activeImage);
+    const idToAdd = imageObject ? imageObject.id : product._id;
+    console.log("remove wishlist id", idToAdd);
+    // Add to wishlist if it doesn't exist
+    setIsInWishlist(false); // Update wishlist status
+
+    removeFromWishlist(idToAdd);
   };
 
   const openQuickView = () => setShowQuickView(true);
@@ -140,7 +201,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
 
   return (
     <div
-      className="relative  w-full sm:w-[350px]"
+      className="relative w-full sm:w-[350px]"
       onMouseEnter={() => handleMouseEnter(key)}
       onMouseLeave={handleMouseLeave}
     >
@@ -162,7 +223,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           {/* White opacity blink effect */}
           <div
             className={`absolute inset-0 bg-white transition-opacity duration-300 ${
-              blinkStartkey === key ? "opacity-30" : "opacity-0"
+              blinkStartKey === key ? "opacity-30" : "opacity-0"
             }`}
           />
         </Link>
@@ -230,20 +291,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
               : { opacity: 0, y: 20 }
           }
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="flex gap-2"
+          className="flex gap-2 mt-2"
         >
           {colors.map((c, i) => (
             <div
               key={i}
-              className={`relative h-8 w-12 border cursor-pointer`}
-              style={{ backgroundColor: c.color }}
+              className={`relative hover:border-gray-400 hover:border hover:p-1 bg-white h-8 w-12 cursor-pointer rounded-md transition-all duration-100 
+        ${
+          activeColor === c.color
+            ? "border border-gray-400 p-1" // Active state (clicked) with white border and padding
+            : "border border-gray-400"
+        } 
+        `} // Hover state with larger padding and black border
+              // style={{ backgroundColor: c.color }}
               onClick={() => handleColorSelection(c.color)}
             >
-              {activeColor === c.color && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-white"></div>
-                </div>
-              )}
+              <div
+                className="h-full w-full rounded-md "
+                style={{ backgroundColor: c.color }}
+              ></div>
             </div>
           ))}
         </motion.div>
@@ -259,7 +325,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="absolute top-3 right-3 flex flex-col gap-2"
         >
-          <IconButton icon={Icons[0].icon} tooltip={Icons[0].tooltip} />
+          {/* Add to wishlist tooltip */}
+          <IconButton
+            icon={<FaHeart />}
+            tooltip={isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+            onClick={
+              isInWishlist ? handleRemoveFromWishList : handleAddToWishList
+            }
+          />
           <IconButton
             icon={Icons[1].icon}
             tooltip={Icons[1].tooltip}

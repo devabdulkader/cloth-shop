@@ -92,7 +92,7 @@ const Nav = () => {
   //   }, [lastScrollTop]);
 
   return (
-    <section className={`w-full h-auto`}>
+    <section className={`w-full h-auto relative z-layer-1`}>
       <nav className="w-full h-auto bg-white px-5 xl:px-10 2xl:px-20">
         <div className="flex items-center justify-between ">
           {/* Logo */}

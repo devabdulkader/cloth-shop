@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaShippingFast,
   FaHeadset,
@@ -41,9 +41,37 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     addToCart,
     addToWishlist,
     getSelectionState,
+    handleImageChange,
+    isProductInWishlist
   } = useProductSelection({ product });
-
+  const [productItems, setProductItems] = useState<IProduct[]>([]);
+  const [addToId, setAddToId] = useState<string>("");
   const [showCartModal, setShowCartModal] = useState(false);
+  const handleColorClick = (item) => {
+    console.log(item);
+    setAddToId(item.id);
+    handleImageChange(item.url);
+  };
+  useEffect(() => {
+    if (product) {
+      const items = [
+        {
+          id: product._id,
+          url: product.url,
+          color: product.color,
+          alt: product.alt,
+        },
+        ...(product.productVariants?.map((variant) => ({
+          id: variant._id,
+          url: variant.url,
+          color: variant.color,
+          alt: variant.alt,
+        })) || []),
+      ];
+
+      setProductItems(items);
+    }
+  }, [product]);
 
   const handleModalOpen = () => {
     setShowCartModal(true);
@@ -125,14 +153,17 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         <div className="mb-4">
           <strong className="text-gray-800 text-xl">Color:</strong>
           <div className="flex space-x-2 mt-5">
-            {product.productVariants.map((img) => (
+            {productItems.map((img) => (
               <div
                 key={img.color}
                 className={`relative h-8 w-12 border cursor-pointer ${
                   selectedColor === img.color ? "border-2 border-black" : ""
                 }`}
                 style={{ backgroundColor: img.color }}
-                onClick={() => handleColorChange(img.color)}
+                onClick={() => {
+                  handleColorChange(img.color);
+                  handleColorClick(img);
+                }}
               >
                 {selectedColor === img.color && (
                   <div className="absolute inset-0 border-2 border-white p-1"></div>
@@ -179,7 +210,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             <div className="flex items-center space-x-4 mb-4 w-full">
               <button
                 onClick={() => {
-                  addToCart(product._id);
+                  addToCart(addToId);
                   handleModalOpen();
                 }}
                 className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
@@ -187,7 +218,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                 Add to Bag
               </button>
               <button
-                onClick={addToWishlist}
+                onClick={() => addToWishlist(addToId)}
                 className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center p-4 justify-center border rounded-full bg-gray-100`}
               >
                 <FaHeart />
@@ -249,7 +280,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               <span>Fast Delivery in 3-5 working days</span>
             </li>
             <li className="flex items-center space-x-2">
-              <FaClockRotateLeft />
+              <FaClockRotateLeft  />
               <span>30-Day Money Back Guarantee</span>
             </li>
           </ul>

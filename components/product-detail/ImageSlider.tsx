@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import "swiper/css";
@@ -9,18 +9,82 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import ZoomedImage from "./ZoomedImage";
 import ArrowButton from "../button/ArrowButton";
-import { IProductVariant } from "@/types/product";
+import { IProduct, IProductVariant } from "@/types/product";
 import { RxCross1 } from "react-icons/rx";
+import useProductSelection from "@/hooks/useProductSelection";
 
 interface ImageSliderProps {
   productVariants: IProductVariant[];
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({ product }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [height, setHeight] = useState<number>(200);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [productItems, setProductItems] = useState<IProduct[]>([]);
+  const [imageId, setImageId] = useState<string | null>(null);
+
+  const { handleImageId, selectedImageId } = useProductSelection({
+    product: {} as any,
+  }); // Passing a dummy product
+
+  // Initialize product items and find the initial active image and color
+  useEffect(() => {
+    if (product) {
+      const items = [
+        {
+          id: product._id,
+          url: product.url,
+          color: product.color,
+          alt: product.alt,
+        },
+        ...(product.productVariants?.map((variant) => ({
+          id: variant._id,
+          url: variant.url,
+          color: variant.color,
+          alt: variant.alt,
+        })) || []),
+      ];
+
+      setProductItems(items);
+
+      // Set initial imageId after the items are set
+  
+    }
+  }, [product]);
+
+  // Update the imageId when the slide changes
+  const handleSlideChange = useCallback(() => {
+    if (mainSwiper && productItems.length > 0) {
+      const activeIndex = mainSwiper.realIndex; // realIndex gives the original index in loop
+      const currentImage = productItems[activeIndex];
+
+      if (currentImage) {
+        setImageId(currentImage.id); // Set the imageId to state
+        handleImageId(currentImage.id); // Update in your custom hook
+        console.log(currentImage.id, selectedImageId);
+      }
+    }
+  }, [mainSwiper, productItems, handleImageId]);
+
+  // Ensure selectedImageId updates immediately when imageId is updated
+  useEffect(() => {
+    handleImageId(imageId);
+  }, [imageId, handleImageId]);
+
+  // Attach slideChange event to Swiper
+  useEffect(() => {
+    if (mainSwiper) {
+      mainSwiper.on("slideChange", handleSlideChange); // Listen to slide change event
+    }
+
+    return () => {
+      if (mainSwiper) {
+        mainSwiper.off("slideChange", handleSlideChange); // Cleanup event listener
+      }
+    };
+  }, [mainSwiper, handleSlideChange]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,7 +125,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
           modules={[FreeMode, Navigation, Thumbs]}
           className="mySwiper w-full h-32 relative sm:hidden "
         >
-          {productVariants.map((image, index) => (
+          {productItems.map((image, index) => (
             <SwiperSlide
               key={index}
               className="border rounded-md h-full overflow-hidden border-black cursor-pointer  "
@@ -76,13 +140,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
             </SwiperSlide>
           ))}
           <div
-            className="absolute z-50 bottom-16 left-1/2 rotate-[90deg] transform -translate-x-1/2"
+            className="absolute z-20 bottom-16 left-1/2 rotate-[90deg] transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slideNext()}
           >
             <ArrowButton direction="top" />
           </div>
           <div
-            className="absolute z-50 rotate-[-90deg] bottom-0 left-1/2 transform -translate-x-1/2"
+            className="absolute z-20 rotate-[-90deg] bottom-0 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slidePrev()}
           >
             <ArrowButton direction="bottom" />
@@ -102,7 +166,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
           modules={[FreeMode, Navigation, Thumbs]}
           className="mySwiper w-full h-full relative overflow-hidden "
         >
-          {productVariants.map((image, index) => (
+          {productItems.map((image, index) => (
             <SwiperSlide
               key={index}
               className="border rounded-md overflow-hidden border-black cursor-pointer  "
@@ -117,13 +181,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
             </SwiperSlide>
           ))}
           <div
-            className="absolute z-50 bottom-16 left-1/2 transform -translate-x-1/2"
+            className="absolute z-20 bottom-16 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slideNext()}
           >
             <ArrowButton direction="top" />
           </div>
           <div
-            className="absolute z-50 bottom-0 left-1/2 transform -translate-x-1/2"
+            className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slidePrev()}
           >
             <ArrowButton direction="bottom" />
@@ -150,7 +214,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
           }`}
           onClick={openFullscreen}
         >
-          {productVariants.map((image, index) => (
+          {productItems.map((image, index) => (
             <SwiperSlide
               key={index}
               className="rounded-md overflow-hidden relative"
@@ -170,13 +234,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ productVariants }) => {
           ))}
 
           <div
-            className="absolute z-50 left-0 top-1/2 transform -translate-y-1/2"
+            className="absolute z-20 left-0 top-1/2 transform -translate-y-1/2"
             onClick={() => mainSwiper?.slidePrev()}
           >
             <ArrowButton direction="left" />
           </div>
           <div
-            className="absolute z-50 right-0 top-1/2 transform -translate-y-1/2"
+            className="absolute z-20 right-0 top-1/2 transform -translate-y-1/2"
             onClick={() => mainSwiper?.slideNext()}
           >
             <ArrowButton direction="right" />
