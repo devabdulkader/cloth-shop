@@ -33,6 +33,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     addToWishlist,
     removeFromWishlist,
     isProductInWishlist,
+    cartUpdated,
+    wishlistUpdated,
   } = useProductSelection({
     product,
   });
@@ -120,6 +122,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
       setBlinkStartKey(null);
     }, 500);
   };
+
+  useEffect(() => {
+    // Any logic you want to run on re-render can be placed here
+    console.log("Cart or wishlist updated");
+  }, [cartUpdated, wishlistUpdated]);
 
   const handleMouseLeave = () => {
     setHoveredProductkey(null);

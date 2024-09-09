@@ -2,34 +2,40 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { RiCalendarTodoFill } from "react-icons/ri";
-import { RiDeleteBin5Line } from "react-icons/ri";
-import QuickViewWishlistModal from "@/components/common/QuickViewWishlistModal";
+import { RiCalendarTodoFill, RiDeleteBin5Line } from "react-icons/ri";
+import QuickViewModel from "@/components/card/QuickViewModel";
 import useProductSelection from "@/hooks/useProductSelection";
+import { getAllProducts } from "@/lib/service/getAllProducts";
+import { IProduct } from "@/types/product";
 
 interface Wishlist {
   variantId: string;
   productId: string;
-  id: string; // Changed to string
+  id: string;
   title: string;
   date: string;
   quantity: number;
   price: number;
-  selectedImage: string; // Changed to selectedImage to match your hook
+  selectedImage: string;
   category: string[];
   sku: string;
   sizes: string[];
-  buyPrice: number; // Ensure this matches with your actual data structure
-  dateAdded: string; // Ensure this matches with your actual data structure
+  buyPrice: number;
+  dateAdded: string;
+  color: string; // Added color field for active color
 }
 
-const WishlistPage = () => {
-  const [showModal, setShowModal] = useState(true);
+const WishlistPage: React.FC = () => {
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [showModal, setShowModal] = useState(false);
   const [wishlist, setWishlist] = useState<Wishlist[]>([]);
-  const [wishlistModal, setWishlistModal] = useState<Wishlist | undefined>(
-    undefined
-  );
-  const { removeFromWishlist } = useProductSelection({ product: {} as any }); // Passing a dummy product
+  const [wishlistItem, setWishlistItem] = useState<IProduct | undefined>();
+  const [activeColor, setActiveColor] = useState<string>("");
+  const [activeImage, setActiveImage] = useState<string>("");
+
+  const { removeFromWishlist } = useProductSelection({
+    product: {} as IProduct,
+  }); // Type fixed
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -41,49 +47,65 @@ const WishlistPage = () => {
     return date.toLocaleDateString("en-US", options).toUpperCase();
   };
 
-  const removeWishLIstItem = (item: Wishlist) => {
-    const { id, variantId, productId } = item;
-
-    // Check if item has variantId
-    if (variantId) {
-      // If variantId exists, call removeFromWishlist with variantId
-      removeFromWishlist(variantId);
-    } else {
-      // If variantId does not exist, call removeFromWishlist with productId
-      removeFromWishlist(productId);
-    }
-
-    // Update the wishlist state
-    setWishlist((prevWishlistData) =>
-      prevWishlistData.filter((wishlistItem) => wishlistItem.id !== id)
-    );
-  };
-
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data: IProduct[] = await getAllProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+
     const storedWishlist = localStorage.getItem("wishlist");
     if (storedWishlist) {
       setWishlist(JSON.parse(storedWishlist));
     }
   }, []);
 
+  const removeWishLIstItem = (item: Wishlist) => {
+    const { id, variantId, productId } = item;
+
+    if (variantId) {
+      removeFromWishlist(variantId); // Remove based on variantId
+    } else {
+      removeFromWishlist(productId); // Remove based on productId
+    }
+
+    setWishlist((prevWishlistData) =>
+      prevWishlistData.filter((wishlistItem) => wishlistItem.id !== id)
+    );
+  };
+
   const handleModalOpen = (item: Wishlist) => {
-    setWishlistModal(item);
-    setShowModal(true);
+    const product = products.find((prod) => prod._id === item.productId);
+
+    if (product) {
+      setWishlistItem(product);
+      setActiveColor(item.color);
+      setActiveImage(item.selectedImage);
+      setShowModal(true);
+    } else {
+      console.warn("Product not found:", item.productId);
+    }
   };
 
   const handleModalClose = () => {
     setShowModal(false);
-    setWishlistModal(undefined);
   };
 
   return (
     <div className="container">
-      {/* {showModal && wishlistModal && (
-        <QuickViewWishlistModal
+      {showModal && wishlistItem && (
+        <QuickViewModel
           onClose={handleModalClose}
-          wishlistItem={wishlistModal}
+          product={wishlistItem}
+          activeColor={activeColor}
+          activeImage={activeImage}
         />
-      )} */}
+      )}
 
       <div className="text-center py-20 md:py-40">
         <h1 className="text-2xl md:text-4xl font-semibold md:font-medium uppercase">
