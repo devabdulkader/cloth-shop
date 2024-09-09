@@ -63,6 +63,7 @@ export interface IProductBrand {
 
 // Main Product Interface
 export interface IProduct {
+  id: string;
   _id: string;
   title: string;
   description: string;

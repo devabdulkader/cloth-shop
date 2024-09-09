@@ -21,6 +21,7 @@ interface CartItem {
   otherCost: number;
   discountPrice: number;
   sellingPrice: number;
+  dateAdded: string;
 }
 
 interface SelectionState {
@@ -28,6 +29,7 @@ interface SelectionState {
   selectedColor: string;
   quantity: number; // Keep this as number
   selectedImage: string;
+  selectedImageId?: string; // Add selectedImageId to SelectionState
   selectedVariantId: string;
 }
 
@@ -45,6 +47,9 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   const [selectedColor, setSelectedColor] = useState<string>(defaultColor);
   const [quantity, setQuantity] = useState<number>(1); // Initialize as a number
   const [selectedImage, setSelectedImage] = useState<string>(defaultImage);
+  const [selectedImageId, setSelectedImageId] = useState<string | undefined>(
+    undefined
+  ); // Add selectedImageId state
   const [selectedVariantId, setSelectedVariantId] =
     useState<string>(defaultVariantId);
 
@@ -66,6 +71,9 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   // Handle image change
   const handleImageChange = (imageUrl: string) => {
     setSelectedImage(imageUrl);
+  };
+  const handleImageId = (imageId: string) => {
+    setSelectedImageId(imageId); // Set selectedImageId
   };
 
   // Handle quantity change
@@ -109,6 +117,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
         otherCost: product.otherCost,
         discountPrice: product.discountPrice,
         sellingPrice: product.sellingPrice,
+        dateAdded: new Date().toISOString(), // Timestamp when added
       };
 
       const existingItemIndex = cart.findIndex(
@@ -132,22 +141,46 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   };
 
   // Add to wishlist
-  const addToWishlist = () => {
+  const addToWishlist = (itemId: string) => {
+    console.log("use product wishlist id", itemId);
     try {
       const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-      const newProduct = {
-        ...product,
-        selectedSize,
-        selectedColor,
-        quantity,
-        selectedImage,
+      const variant = product.productVariants.find((v) => v._id === itemId);
+      const isVariantId = !!variant;
+      const newProduct: CartItem = {
+        id: uuidv4(), // Generate a unique ID for each cart item
+        productId: product._id,
+        variantId: isVariantId ? itemId : null,
+        title: product.title,
+        size: selectedSize,
+        color: isVariantId ? variant.color : selectedColor,
+        quantity, // Ensure quantity is always valid
+        selectedImage: isVariantId ? variant.url : selectedImage,
+        basePrice: product.basePrice,
+        buyPrice: product.buyPrice,
+        otherCost: product.otherCost,
+        discountPrice: product.discountPrice,
+        sellingPrice: product.sellingPrice,
+        dateAdded: new Date().toISOString(), // Timestamp when added
       };
-      if (!wishlist.some((item: IProduct) => item._id === product._id)) {
+
+      const existingItemIndex = wishlist.findIndex(
+        (item: CartItem) =>
+          item.productId === newProduct.productId &&
+          item.variantId === newProduct.variantId &&
+          item.size === newProduct.size &&
+          item.color === newProduct.color
+      );
+
+      if (existingItemIndex > -1) {
+        wishlist[existingItemIndex].quantity += quantity;
+      } else {
         wishlist.push(newProduct);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
       }
+
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
     } catch (error) {
-      console.error("Failed to add item to wishlist", error);
+      console.error("Failed to add item to cart", error);
     }
   };
 
@@ -163,15 +196,62 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   };
 
   // Remove from wishlist
-  const removeFromWishlist = (productId: string) => {
+  // Remove from wishlist
+  const removeFromWishlist = (id: string) => {
     try {
+      console.log("ID from remove function:", id);
+
+      // Fetch the wishlist from localStorage
       const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+
+      // Log the current wishlist for debugging
+      console.log("Current wishlist:", wishlist);
+
+      // Ensure wishlist items are objects with 'id', 'productId', and 'variantId' properties
+      if (!Array.isArray(wishlist)) {
+        console.error("Wishlist is not an array");
+        return;
+      }
+
       const updatedWishlist = wishlist.filter(
-        (item: IProduct) => item._id !== productId
+        (item: { id: string; productId: string; variantId?: string }) => {
+          // If item has a variantId, keep items where the variantId does not match the provided id
+          if (item.variantId) {
+            return item.variantId !== id;
+          } else {
+            // If item does not have a variantId, keep items where the productId does not match the provided id
+            return item.productId !== id;
+          }
+        }
       );
+
+      // Log the updated wishlist for debugging
+      console.log("Updated wishlist:", updatedWishlist);
+
+      // Update localStorage with the new wishlist
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+
+      // Optionally, update component state if using React
+      // setWishlist(updatedWishlist); // Uncomment if using state
     } catch (error) {
       console.error("Failed to remove item from wishlist", error);
+    }
+  };
+
+  // Check if the product is in the wishlist
+  const isProductInWishlist = async (
+    imageUrl: string,
+    color: string
+  ): Promise<boolean> => {
+    try {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+      return wishlist.some(
+        (item: CartItem) =>
+          item.selectedImage === imageUrl && item.color === color
+      );
+    } catch (error) {
+      console.error("Failed to check wishlist status", error);
+      return false;
     }
   };
 
@@ -200,6 +280,9 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     removeFromCart,
     removeFromWishlist,
     getSelectionState,
+    isProductInWishlist,
+    handleImageId,
+    selectedImageId,
   };
 };
 

@@ -146,7 +146,7 @@ const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
         <Breadcrumb items={breadcrumbItems} />
         <section className="md:grid grid-cols-2 md:gap-10 my-10 relative">
           <div className="relative z-50">
-            <ImageSlider productVariants={product.productVariants} />
+            <ImageSlider product={product} />
           </div>
           <div>
             <ProductDetails product={product} />
