@@ -116,7 +116,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
 interface SubItem {
   title: string; // Assuming "title" is correct; adjust if necessary.
   path: string;
@@ -127,7 +126,6 @@ interface MainItem {
   title: string;
   items: SubItem[];
 }
-
 const MobileFooter = () => {
   const linkItems: MainItem[] = [
     {
