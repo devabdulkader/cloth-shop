@@ -12,7 +12,7 @@
 // import Image from 'next/image';
 // import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 // import { BiShoppingBag } from "react-icons/bi";
-// import Banner_image from '@/public/blogs/banner_image.webp'
+// import Banner_image from '@/public/blogs/Lobortis_mia_maximus.webp'
 // interface Fashion {
 //     id: number,
 //     title: string,
@@ -121,7 +121,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import Image from 'next/image';
 import { BiShoppingBag } from 'react-icons/bi';
-import Banner_image from '@/public/blogs/banner_image.webp';
+import Banner_image from '@/public/blogs/Lobortis_mia_maximus.webp';
 import Link from 'next/link';
 
 interface Fashion {

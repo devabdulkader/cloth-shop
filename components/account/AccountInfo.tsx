@@ -1,9 +1,11 @@
 'use client'
 import { AuthContext } from '@/app/authProvider';
 import React, { useContext } from 'react'
-
+import Cookies from 'js-cookie';
 const AccountInfo = () => {
     const { isLoggedIn, handleLogout } = useContext(AuthContext);
+    const user =    Cookies.get("user")
+    console.log(JSON.stringify(user),"3333333333")
     return (
         <>
             <div>

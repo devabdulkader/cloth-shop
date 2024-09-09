@@ -8,11 +8,28 @@ import React, { useState } from 'react'
 import { MdEmail } from "react-icons/md";
 import Cookies from "js-cookie";
 const LOGIN_MUTATION = `
-  query Login($input: LoginInput!) {
-    login(input: $input) {
-      accessToken
+query Login($input: LoginInput!) {
+  login(input: $input) {
+    accessToken
+    user {
+      id
+      fullName
+      email
+      role
+      addresses {
+        id
+        fullName
+        email
+        phoneNumber
+        fullAddress
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
     }
   }
+}
 `;
 const LoginForm = () => {
 
@@ -45,7 +62,8 @@ const LoginForm = () => {
                 return;
             }
 
-            const { accessToken } = response.data.data.login;
+            const { accessToken,user } = response.data.data.login;
+            Cookies.set("user", JSON.stringify(user));
             Cookies.set("accessKey", accessToken);
 
             // // Redirect to the dashboard

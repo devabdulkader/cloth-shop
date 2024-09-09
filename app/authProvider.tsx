@@ -66,6 +66,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleLogout = () => {
     Cookies.remove("accessKey");
+    Cookies.remove("user")
     // localStorage.removeItem("currentUser");
     setIsLoggedIn(false);
     setAccountType(null);
