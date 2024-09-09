@@ -15,7 +15,7 @@ interface LandingProps {
   products: IProduct[];
 }
 
-const Landing: React.FC<LandingProps> =async ({ products }) => {
+const Landing: React.FC<LandingProps> = ({ products }) => {
   return (
    <>
     <div>
