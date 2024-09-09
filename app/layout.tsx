@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 import StoreProvider from "./StoreProvider";
-import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
 import AuthProvider from "./authProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,11 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-        <StoreProvider>
-          <Header />
-          <main className="">{children}</main>
-          <Footer />
-        </StoreProvider>
+          <StoreProvider>
+            <Header />
+            <main className="">{children}</main>
+            <Footer />
+          </StoreProvider>
         </AuthProvider>
       </body>
     </html>

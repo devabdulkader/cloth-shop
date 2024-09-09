@@ -1,6 +1,12 @@
 import MotionTransition from "../motion/MotionTransition";
 import ProductList from "../product/ProductList";
-const NewestProduct: React.FC = () => {
+import { IProduct } from "@/types/product";
+
+interface NewestProductProps {
+  products: IProduct[];
+}
+
+const NewestProduct: React.FC<NewestProductProps> = ({ products }) => {
   return (
     <MotionTransition initialY={50} duration={3}>
       <div className="flex flex-col items-center justify-center text-center py-10">
@@ -9,7 +15,7 @@ const NewestProduct: React.FC = () => {
           Our newest product line
         </h2>
       </div>
-      <ProductList layoutClass="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" />
+      <ProductList products={products} />
     </MotionTransition>
   );
 };

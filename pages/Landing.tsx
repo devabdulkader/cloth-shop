@@ -11,7 +11,15 @@ import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
 import Statement from "@/components/home/Statement";
-const Landing = () => {
+import Loader from "@/components/common/Loader";
+import { IProduct } from "@/types/product";
+interface LandingProps {
+  products: IProduct[];
+}
+
+const Landing: React.FC<LandingProps> = ({ products }) => {
+  console.log("landing page", products);
+
   return (
    <>
     <div>
@@ -21,7 +29,8 @@ const Landing = () => {
         <Statement />
         <NewArrival />
         <FashionFusion />
-        <NewestProduct />
+        <NewestProduct products={products} />
+        {/* <FashionStatement /> */}
 
         <LimitedOffer />
 
