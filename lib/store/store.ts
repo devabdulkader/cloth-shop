@@ -3,7 +3,6 @@ import cartReducer from "../store/features/cart/cartSlice";
 import navReducer from "../store/features/nav/navSlice";
 import userSidebarReducer from "../store/features/userSidebar/userSidebarSlice";
 import filterSidebarReducer from "../store/features/filterSidebar/filterSidebarSlice";
-
 import cartSidebarReducer from "../store/features/cartSidebar/cartSidebarSlice";
 import mobileSearchBarReducer from "./features/searchBar/mobileSearchBarSlice"; // Import the searchBarReducer
 import desktopSearchBarReducer from "./features/searchBar/desktopSearchBarSlice"; // Import the searchBarReducer
@@ -17,10 +16,8 @@ export const makeStore = () => {
       userSidebar: userSidebarReducer,
       cartSidebar: cartSidebarReducer,
       filterSidebar: filterSidebarReducer,
-
       mobileSearchBar: mobileSearchBarReducer, // Add the searchBar reducer to the store
       desktopSearchBar: desktopSearchBarReducer, // Add the searchBar reducer to the store
-
       buttonToggle: buttonToggleReducer, // Add the reducer here
     },
   });

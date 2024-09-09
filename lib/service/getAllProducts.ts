@@ -8,7 +8,7 @@ export async function getAllProducts() {
     // console.log("Data fetched in getAllProducts:", data); // Log the data
     return data;
   } catch (error) {
-    console.error("Error in getAllProducts:", error);
+    // console.error("Error in getAllProducts:", error);
     throw error;
   }
 }

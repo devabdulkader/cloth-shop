@@ -1,5 +1,4 @@
 import FashionFusion from "@/components/home/FashionFusion";
-import FashionStatement from "@/components/home/FashionStatement";
 import Hero from "@/components/home/Hero";
 import ExploreCategory from "@/components/home/ExploreCategory";
 import LimitedOffer from "@/components/home/LimitedOffer";
@@ -11,11 +10,10 @@ import Policy from "@/components/home/Policy";
 import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
-import DesktopSearchBar from "@/components/shared/header/searchBar/DesktopSearchBar";
 import Statement from "@/components/home/Statement";
-import Loader from "@/components/common/Loader";
 const Landing = () => {
   return (
+   <>
     <div>
       <div className="flex flex-col gap-6 lg:gap-10 xl:gap-16 pt-16 md:pt-20 lg:pt-0 px-5 xl:px-10 2xl:px-20 pb-10">
         <Hero />
@@ -24,7 +22,6 @@ const Landing = () => {
         <NewArrival />
         <FashionFusion />
         <NewestProduct />
-        {/* <FashionStatement /> */}
 
         <LimitedOffer />
 
@@ -35,6 +32,7 @@ const Landing = () => {
 
       <InstagramSlider />
     </div>
+   </>
   );
 };
 

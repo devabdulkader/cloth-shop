@@ -49,7 +49,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userId, setUserId] = useState<string | null>(null);
   const router = useRouter();
   const token = Cookies.get("accessKey");
-  console.log(token,"......")
+  // console.log(token,"......")
 
   useEffect(() => {
     if (token) {

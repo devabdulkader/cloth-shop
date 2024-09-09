@@ -49,7 +49,7 @@ const LoginForm = () => {
             Cookies.set("accessKey", accessToken);
 
             // // Redirect to the dashboard
-            // router.push("/dashboard");
+            router.push("/account");
         } catch (error) {
             console.log(error);
             setError("Something went wrong");
