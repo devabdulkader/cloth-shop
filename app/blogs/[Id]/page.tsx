@@ -9,12 +9,14 @@ import { IoMdShare, IoMdPrint } from "react-icons/io";
 import BlogRelatedFashionSlider from '@/components/blogs/BlogRelatedFashionSlider'
 import getSingleBlog from '@/lib/service/getSingleBlog';
 import ShareAndPrint from '@/components/blogs/ShareAndPrint';
+import { getAllBlogs } from '@/lib/service/getAllBlogs';
 interface SingleBlogPageProps {
     params: { Id: number }
 }
 const SingleBlogPage: React.FC<SingleBlogPageProps> = async ({ params }) => {
     const { Id } = params;
     const blog = await getSingleBlog(Id);
+    const blogs = await getAllBlogs();
 
     return (
         <div className='container pb-20'>
@@ -39,7 +41,8 @@ const SingleBlogPage: React.FC<SingleBlogPageProps> = async ({ params }) => {
                 <ShareAndPrint/>
 
             </div>
-            <BlogRelatedFashionSlider />
+            {blogs && <BlogRelatedFashionSlider blogs={blogs} />}
+
         </div>
 
     )

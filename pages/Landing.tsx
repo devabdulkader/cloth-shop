@@ -25,7 +25,7 @@ const Landing: React.FC<LandingProps> =async ({ products }) => {
         <Statement />
         <NewArrival />
         <FashionFusion />
-        <NewestProduct products={products} />
+      {products &&   <NewestProduct products={products} />}
         {/* <FashionStatement /> */}
 
         <LimitedOffer />

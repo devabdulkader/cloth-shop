@@ -8,12 +8,15 @@ import 'swiper/css/pagination';
 // import required modules
 import { Pagination } from 'swiper/modules';
 import Image from 'next/image';
-import Banner_image from '@/public/blogs/Lobortis_mia_maximus.webp'
 import { getAllBlogs } from '@/lib/service/getAllBlogs';
 import Link from 'next/link';
+import { IBlog } from '@/types/blog';
+interface BlogsProps{
+    blogs:IBlog[]
+}
 
-const BlogRelatedFashionSlider = async () => {
-    const blogs = await getAllBlogs();
+const BlogRelatedFashionSlider:React.FC < BlogsProps> =  ({blogs}) => {
+    // const blogs = await getAllBlogs();
 
     return (
         <div className=' py-10'>
