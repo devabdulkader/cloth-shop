@@ -9,12 +9,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { RiDeleteBin5Fill, RiPlayLargeFill } from "react-icons/ri";
 import { FaTrash } from "react-icons/fa";
-import { IProduct } from "@/types/product";
 import useProductSelection from "@/hooks/useProductSelection";
 
 interface Tag {
   title: string;
   href: string;
+}
+// Example of updated IProduct type
+export interface IProduct {
+  id: string;
+  title: string;
+  size: string;
+  basePrice: number;
+  quantity: number;
+  selectedImage: string; // Add this property
 }
 
 const tags: Tag[] = [

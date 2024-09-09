@@ -8,6 +8,8 @@ import QuickViewWishlistModal from "@/components/common/QuickViewWishlistModal";
 import useProductSelection from "@/hooks/useProductSelection";
 
 interface Wishlist {
+  variantId: string;
+  productId: string;
   id: string; // Changed to string
   title: string;
   date: string;

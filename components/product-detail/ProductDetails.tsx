@@ -7,23 +7,25 @@ import {
   FaHeart,
   FaShareAlt,
   FaInfoCircle,
-} from "react-icons/fa";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import {
   FaClock,
-  FaClockRotateLeft,
-  FaQuestion,
-  FaStar,
-} from "react-icons/fa6";
+} from "react-icons/fa";
 import PaymentCards from "../common/PaymentCards";
 import Link from "next/link";
 import CartModal from "../common/CartModal";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import { IProduct } from "@/types/product";
 import useProductSelection from "@/hooks/useProductSelection";
+import { FaClockRotateLeft, FaQuestion, FaStar } from "react-icons/fa6";
 
 interface ProductDetailsProps {
   product: IProduct;
+}
+
+interface ProductItem {
+  id: string;
+  url: string;
+  color: string;
+  alt: string;
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
@@ -42,19 +44,22 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     addToWishlist,
     getSelectionState,
     handleImageChange,
-    isProductInWishlist
+    isProductInWishlist,
   } = useProductSelection({ product });
-  const [productItems, setProductItems] = useState<IProduct[]>([]);
+
+  const [productItems, setProductItems] = useState<ProductItem[]>([]);
   const [addToId, setAddToId] = useState<string>("");
   const [showCartModal, setShowCartModal] = useState(false);
-  const handleColorClick = (item) => {
+
+  const handleColorClick = (item: ProductItem) => {
     console.log(item);
     setAddToId(item.id);
     handleImageChange(item.url);
   };
+
   useEffect(() => {
     if (product) {
-      const items = [
+      const items: ProductItem[] = [
         {
           id: product._id,
           url: product.url,
@@ -280,7 +285,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               <span>Fast Delivery in 3-5 working days</span>
             </li>
             <li className="flex items-center space-x-2">
-              <FaClockRotateLeft  />
+              <FaClockRotateLeft />
               <span>30-Day Money Back Guarantee</span>
             </li>
           </ul>

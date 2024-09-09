@@ -14,7 +14,7 @@ import { RxCross1 } from "react-icons/rx";
 import useProductSelection from "@/hooks/useProductSelection";
 
 interface ImageSliderProps {
-  productVariants: IProductVariant[];
+  product: IProduct;
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ product }) => {
@@ -22,7 +22,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product }) => {
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [height, setHeight] = useState<number>(200);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const [productItems, setProductItems] = useState<IProduct[]>([]);
+  const [productItems, setProductItems] = useState<IProductVariant[]>([]);
   const [imageId, setImageId] = useState<string | null>(null);
 
   const { handleImageId, selectedImageId } = useProductSelection({
@@ -32,15 +32,15 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product }) => {
   // Initialize product items and find the initial active image and color
   useEffect(() => {
     if (product) {
-      const items = [
+      const items: IProductVariant[] = [
         {
-          id: product._id,
+          _id: product._id,
           url: product.url,
           color: product.color,
           alt: product.alt,
         },
-        ...(product.productVariants?.map((variant) => ({
-          id: variant._id,
+        ...(product.productVariants?.map((variant: IProductVariant) => ({
+          _id: variant._id,
           url: variant.url,
           color: variant.color,
           alt: variant.alt,
@@ -50,41 +50,40 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product }) => {
       setProductItems(items);
 
       // Set initial imageId after the items are set
-  
     }
   }, [product]);
 
   // Update the imageId when the slide changes
-  const handleSlideChange = useCallback(() => {
-    if (mainSwiper && productItems.length > 0) {
-      const activeIndex = mainSwiper.realIndex; // realIndex gives the original index in loop
-      const currentImage = productItems[activeIndex];
+  // const handleSlideChange = useCallback(() => {
+  //   if (mainSwiper && productItems.length > 0) {
+  //     const activeIndex = mainSwiper.realIndex;
+  //     const currentImage = productItems[activeIndex];
 
-      if (currentImage) {
-        setImageId(currentImage.id); // Set the imageId to state
-        handleImageId(currentImage.id); // Update in your custom hook
-        console.log(currentImage.id, selectedImageId);
-      }
-    }
-  }, [mainSwiper, productItems, handleImageId]);
+  //     if (currentImage) {
+  //       setImageId(currentImage.id);
+  //       handleImageId(currentImage.id);
+  //       console.log(currentImage.id, selectedImageId);
+  //     }
+  //   }
+  // }, [mainSwiper, productItems, handleImageId]);
 
   // Ensure selectedImageId updates immediately when imageId is updated
-  useEffect(() => {
-    handleImageId(imageId);
-  }, [imageId, handleImageId]);
+  // useEffect(() => {
+  //   handleImageId(imageId);
+  // }, [imageId, handleImageId]);
 
   // Attach slideChange event to Swiper
-  useEffect(() => {
-    if (mainSwiper) {
-      mainSwiper.on("slideChange", handleSlideChange); // Listen to slide change event
-    }
+  // useEffect(() => {
+  //   if (mainSwiper) {
+  //     mainSwiper.on("slideChange", handleSlideChange);
+  //   }
 
-    return () => {
-      if (mainSwiper) {
-        mainSwiper.off("slideChange", handleSlideChange); // Cleanup event listener
-      }
-    };
-  }, [mainSwiper, handleSlideChange]);
+  //   return () => {
+  //     if (mainSwiper) {
+  //       mainSwiper.off("slideChange", handleSlideChange);
+  //     }
+  //   };
+  // }, [mainSwiper, handleSlideChange]);
 
   useEffect(() => {
     const handleResize = () => {
