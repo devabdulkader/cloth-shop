@@ -1,96 +1,38 @@
 "use client";
-import React, { useRef } from "react";
-// Import Swiper React components
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import Slider01 from "@/public/latest-news/slider01.webp";
-
-// import required modules
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
-import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import Link from "next/link";
 import ArrowButton from "../button/ArrowButton";
-interface Testimonial {
-  id: string;
-  title: string;
-  date: string;
-  author: string;
-  link: string;
-  image: string;
-}
+import { getAllBlogs } from "@/lib/service/getAllBlogs";
+import { IBlog } from "@/types/blog";
 
 const LatestNews: React.FC = () => {
-  const testimonialData: Testimonial[] = [
-    {
-      id: "1",
-      title: "Unlocking New Levels of Speed and Endurance",
-      date: "July 10, 2024",
-      author: "Elsa Marine",
-      link: "/",
-      image: "/latest-news/slider01.webp",
-    },
-    {
-      id: "2",
-      title: "Breaking Boundaries in Athletic Performance",
-      date: "August 15, 2024",
-      author: "Samantha Khan",
-      link: "/",
-      image: "/latest-news/slider02.webp",
-    },
-    {
-      id: "3",
-      title: "Revolutionizing Sports Training Techniques",
-      date: "September 5, 2024",
-      author: "Michael Smith",
-      link: "/",
-      image: "/latest-news/slider03.webp",
-    },
-    {
-      id: "4",
-      title: "Advancements in Exercise Science and Wellness",
-      date: "October 20, 2024",
-      author: "Jessica Lee",
-      link: "/",
-      image: "/latest-news/slider04.webp",
-    },
-    {
-      id: "5",
-      title: "Transforming the Future of Fitness",
-      date: "November 12, 2024",
-      author: "Robert Brown",
-      link: "/",
-      image: "/latest-news/slider05.webp",
-    },
-    {
-      id: "6",
-      title: "Innovations in Sports Nutrition",
-      date: "December 8, 2024",
-      author: "Emily Johnson",
-      link: "/",
-      image: "/latest-news/slider06.webp",
-    },
-    {
-      id: "7",
-      title: "Enhancing Athletic Recovery and Performance",
-      date: "January 15, 2025",
-      author: "David Wilson",
-      link: "/",
-      image: "/latest-news/slider07.webp",
-    },
-    {
-      id: "8",
-      title: "Pushing the Limits of Endurance Training",
-      date: "February 22, 2025",
-      author: "Olivia Martinez",
-      link: "/",
-      image: "/latest-news/slider08.webp",
-    },
-  ];
+
+  const [blogs, setBlogs] = useState<IBlog[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const blogsData = await getAllBlogs();
+        setBlogs(blogsData ?? []);
+      } catch (error) {
+        console.error("Failed to fetch blogs", error);
+        setBlogs([]);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+
+
+
   const swiperRef: React.MutableRefObject<SwiperType | null> =
     useRef<SwiperType | null>(null);
   return (
@@ -143,7 +85,7 @@ const LatestNews: React.FC = () => {
             swiperRef.current = swiper;
           }}
         >
-          {testimonialData.map((item, index) => (
+          {blogs?.map((item, index) => (
             <SwiperSlide key={index}>
               <div className=" relative w-full h-[500px] sm:h-full overflow-hidden group rounded-xl">
                 <div className=" w-full h-full relative group-hover:scale-105 duration-500">
@@ -167,7 +109,7 @@ const LatestNews: React.FC = () => {
                         </span>
                       </div>
                       <Link
-                        href={item.link}
+                        href={`/blogs/fashion/${item.pathName}`}
                         className=" flex justify-center items-center w-10 h-10 text-center rounded-full  bg-white hover:bg-[#132742] text-black hover:text-white"
                       >
                         <GoArrowRight size={24} />

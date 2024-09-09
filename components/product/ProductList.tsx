@@ -7,7 +7,6 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
-  console.log("newest page", products);
 
   return (
     <div className="gap-5 flex flex-wrap justify-center items-center">

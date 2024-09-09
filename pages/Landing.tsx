@@ -3,7 +3,6 @@ import Hero from "@/components/home/Hero";
 import ExploreCategory from "@/components/home/ExploreCategory";
 import LimitedOffer from "@/components/home/LimitedOffer";
 import NewArrival from "@/components/home/NewArrival";
-
 import InstagramSlider from "@/components/home/InstagramSlider";
 import LatestNews from "@/components/home/LatestNews";
 import Policy from "@/components/home/Policy";
@@ -11,15 +10,12 @@ import Testimonials from "@/components/home/Testimonials";
 import React from "react";
 import NewestProduct from "@/components/home/NewestProduct";
 import Statement from "@/components/home/Statement";
-import Loader from "@/components/common/Loader";
 import { IProduct } from "@/types/product";
 interface LandingProps {
   products: IProduct[];
 }
 
-const Landing: React.FC<LandingProps> = ({ products }) => {
-  console.log("landing page", products);
-
+const Landing: React.FC<LandingProps> =async ({ products }) => {
   return (
    <>
     <div>
@@ -35,7 +31,7 @@ const Landing: React.FC<LandingProps> = ({ products }) => {
         <LimitedOffer />
 
         <Policy />
-        <LatestNews />
+        <LatestNews  />
         <Testimonials />
       </div>
 
