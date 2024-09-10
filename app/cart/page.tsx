@@ -280,11 +280,24 @@ const CartPage: React.FC = () => {
     // Handle form submission logic
   };
   // Handle delete item
-  const handleDeleteItem = (_id: string) => {
-    removeFromCart(_id);
-    const updatedCart = cartData.filter((item) => item._id !== _id);
+  const handleDeleteItem = (item) => {
+    // Check if variantId exists, if not, use productId
+    const idToUse = item.variantId ? item.variantId : item.productId;
 
+    // Remove from cart based on the id (variantId or productId)
+    const updatedCart = cartData.filter((cartItem) => {
+      if (cartItem.variantId) {
+        return cartItem.variantId !== idToUse;
+      } else {
+        return cartItem.productId !== idToUse;
+      }
+    });
+
+    // Set the updated cart data
     setCartData(updatedCart);
+
+    // Save the updated cart to localStorage
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   return (
@@ -324,7 +337,7 @@ const CartPage: React.FC = () => {
                     <div className="px-4">
                       <RiDeleteBin5Line
                         size={18}
-                        onClick={() => handleDeleteItem(item._id)}
+                        onClick={() => handleDeleteItem(item)}
                         className="cursor-pointer"
                       />
                     </div>
