@@ -1,4 +1,5 @@
 "use client"
+import { instance } from '@/axios/axiosInstance';
 import Form from '@/components/forms/Form';
 import FormInput from '@/components/forms/FormInput';
 import axios from 'axios';
@@ -29,7 +30,7 @@ const RegisterForm = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.post("https://chokro-ecommerce.vercel.app/graphql", {
+            const response = await instance.post("/", {
                 query: REGISTER_MUTATION,
                 variables: {
                     input: {
@@ -39,15 +40,14 @@ const RegisterForm = () => {
                     },
                 },
             });
-            console.log(response, "....")
 
             if (response.data.errors?.length) {
                 setError(response.data.errors[0].message);
                 return;
             }
 
-            // const { accessToken } = response.data.data.login;
-            // localStorage.setItem("accessKey", accessToken);
+            const { accessToken } = response.data.data.login;
+            localStorage.setItem("accessKey", accessToken);
 
             // // Redirect to the dashboard
             router.push("/account");

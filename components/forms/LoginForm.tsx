@@ -11,23 +11,6 @@ const LOGIN_MUTATION = `
 query Login($input: LoginInput!) {
   login(input: $input) {
     accessToken
-    user {
-      id
-      fullName
-      email
-      role
-      addresses {
-        id
-        fullName
-        email
-        phoneNumber
-        fullAddress
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
   }
 }
 `;
@@ -47,7 +30,7 @@ const LoginForm = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.post("https://chokro-ecommerce.vercel.app/graphql", {
+            const response = await axios.post("/", {
                 query: LOGIN_MUTATION,
                 variables: {
                     input: {
@@ -62,8 +45,7 @@ const LoginForm = () => {
                 return;
             }
 
-            const { accessToken,user } = response.data.data.login;
-            Cookies.set("user", JSON.stringify(user));
+            const { accessToken } = response.data.data.login;
             Cookies.set("accessKey", accessToken);
 
             // // Redirect to the dashboard
