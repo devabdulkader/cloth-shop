@@ -2,11 +2,8 @@
 import { useState } from "react";
 import { IProduct } from "@/types/product";
 import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
+import { reduxAddCart, reduxRemoveCart } from "@/lib/store/features/cart/cartSlice";
 import { useDispatch } from "react-redux";
-import {
-  reduxAddCart,
-  reduxRemoveCart,
-} from "@/lib/store/features/cart/cartSlice";
 
 interface UseProductSelectionProps {
   product: IProduct;
@@ -39,9 +36,9 @@ interface SelectionState {
 }
 
 const useProductSelection = ({ product }: UseProductSelectionProps) => {
-  const dispatch = useDispatch(); // Initialize Redux dispatch
-
   // Default values for state
+  const dispatch = useDispatch();
+
   const [cartUpdated, setCartUpdated] = useState<boolean>(false);
   const [wishlistUpdated, setWishlistUpdated] = useState<boolean>(false);
   const defaultSize = product.sizes?.[0]?.size || "";
@@ -142,6 +139,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
       } else {
         cart.push(newProduct);
         dispatch(reduxAddCart(JSON.stringify(newProduct)));
+
         // window.location.reload();
       }
 
@@ -187,7 +185,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
         wishlist[existingItemIndex].quantity += quantity;
       } else {
         wishlist.push(newProduct);
-        // window.location.reload();
+        window.location.reload();
       }
 
       localStorage.setItem("wishlist", JSON.stringify(wishlist));
@@ -201,9 +199,8 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
       const updatedCart = cart.filter((item: CartItem) => item.id !== itemId);
-      dispatch(reduxRemoveCart(itemId));
-
       localStorage.setItem("cart", JSON.stringify(updatedCart));
+      dispatch(reduxRemoveCart(itemId));
       // window.location.reload();
     } catch (error) {
       console.error("Failed to remove item from cart", error);

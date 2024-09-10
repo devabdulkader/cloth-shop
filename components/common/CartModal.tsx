@@ -4,8 +4,14 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import Link from "next/link";
-import useProductSelection from "@/hooks/useProductSelection";
 import CustomCrossBar from "../custom/CustomCrossBar";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/lib/store/store";
+import {
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from "@/lib/store/features/cart/cartSlice";
 
 interface CartItem {
   id: string; // Unique identifier for each cart item
@@ -21,41 +27,24 @@ interface CartModalProps {
 }
 
 const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
-  const [cartData, setCartData] = useState<CartItem[]>([]);
-  const { removeFromCart } = useProductSelection({ product: {} as any });
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
-  // Fetch cart data from localStorage when component mounts
-  useEffect(() => {
-    const cartFromLocalStorage = localStorage.getItem("cart");
-    if (cartFromLocalStorage) {
-      const parsedCartData = JSON.parse(cartFromLocalStorage);
+  // Update local state when cartItems from Redux store change
+  // useEffect(() => {
+  //   setCartData(cartItems);
+  // }, [cartItems]);
 
-      // Log the cart data to verify the structure
-      console.log("Cart Data from Local Storage:", parsedCartData);
-
-      setCartData(parsedCartData);
-    } else {
-      console.log("No cart data found in localStorage.");
-    }
-  }, []);
-
-  // Handle quantity change
-  const handleQuantityChange = (id: string, newQuantity: number) => {
-    const updatedCart = cartData.map((item) =>
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    );
-    setCartData(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  const handleIncreaseQuantity = (id: string) => {
+    dispatch(incrementQuantity(id));
   };
 
-  // Handle delete item
-  const handleDeleteItem = (id: string) => {
-    removeFromCart(id);
-    console.log("id of the item", id);
-    const updatedCart = cartData.filter((item) => item.id !== id);
+  const handleDecreaseQuantity = (id: string) => {
+    dispatch(decrementQuantity(id));
+  };
 
-    setCartData(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
+  const handleRemoveItem = (id: string) => {
+    dispatch(removeFromCart(id));
   };
 
   return (
@@ -66,7 +55,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
             <div className="flex flex-row items-center gap-4">
               <p className="text-xl font-semibold">YOUR ORDER</p>
               <p className="text-[12px] font-medium">
-                THERE ARE {cartData.length} ITEM(S) IN YOUR CART
+                THERE ARE {cartItems.length} ITEM(S) IN YOUR CART
               </p>
             </div>
             <button
@@ -80,20 +69,20 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
           <div className="flex flex-row">
             <div className="w-full flex flex-col lg:flex-row p-2 gap-4 md:gap-10">
               <div className="flex flex-col gap-4 w-full md:min-w-[60%] h-[200px] overflow-x-hidden p-4">
-                {cartData.map((item) => (
+                {cartItems?.map((item) => (
                   <div
                     key={item.id}
                     className="relative flex flex-col md:flex-row justify-between items-center border rounded-md shadow-xl px-2 md:px-6 py-2 md:py-4"
                   >
                     <button
-                      onClick={() => handleDeleteItem(item.id)}
+                      onClick={() => handleRemoveItem(item.id)}
                       className="absolute -top-2 md:top-1/2 md:-left-3 bg-gray-400 rounded-full p-1"
                     >
                       <RiDeleteBin5Fill size={16} />
                     </button>
                     <div className="flex flex-row items-center gap-4">
                       <Image
-                        src={item.selectedImage}
+                        src={item.url}
                         width={70}
                         height={50}
                         alt={item.title}
@@ -108,35 +97,31 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       <span className="text-md font-semibold">
                         ${item.basePrice}
                       </span>
-                      <button
-                        onClick={() =>
-                          handleQuantityChange(
-                            item.id,
-                            Math.max(item.quantity - 1, 1)
-                          )
-                        }
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          handleQuantityChange(
-                            item.id,
-                            parseInt(e.target.value) || 1
-                          )
-                        }
-                        className="text-center w-8 outline-none"
-                        min="1"
-                      />
-                      <button
-                        onClick={() =>
-                          handleQuantityChange(item.id, item.quantity + 1)
-                        }
-                      >
-                        +
-                      </button>
+                      {/* Quantity Selection */}
+                      <div className="mb-4 flex items-center">
+                        <strong className="text-gray-800 mr-4">
+                          Quantity:
+                        </strong>
+                        <button
+                          onClick={() => handleDecreaseQuantity(item.id)}
+                          className="bg-gray-300 px-3 py-1 rounded"
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          min="1"
+                          readOnly
+                          className="w-12 text-center mx-2 border border-gray-300 rounded"
+                        />
+                        <button
+                          onClick={() => handleIncreaseQuantity(item.id)}
+                          className="bg-gray-300 px-3 py-1 rounded"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -147,7 +132,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                   <span className="font-semibold">TOTAL:</span>
                   <span className="font-bold">
                     ${" "}
-                    {cartData.reduce(
+                    {cartItems.reduce(
                       (acc, item) => acc + item.basePrice * item.quantity,
                       0
                     )}
