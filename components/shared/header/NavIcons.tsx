@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { IoStarOutline } from "react-icons/io5";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleDesktopSearchBar } from "@/lib/store/features/searchBar/desktopSearchBarSlice";
 import CustomIcon from "@/components/custom/CustomIcon";
 import { MdOutlineShoppingBag } from "react-icons/md";
@@ -12,28 +12,29 @@ import { toggleCartSidebar } from "@/lib/store/features/cartSidebar/cartSidebarS
 import { toggleUserSidebar } from "@/lib/store/features/userSidebar/userSidebarSlice";
 import { AiOutlineUser } from "react-icons/ai";
 import useProductSelection from "@/hooks/useProductSelection";
+import { RootState } from "@/lib/store/store";
 
 const NavIcons: React.FC = () => {
-
   const dispatch = useDispatch();
   const [cartItemCount, setCartItemCount] = useState<number>(0);
   const [wishlistItemCount, setWishlistItemCount] = useState<number>(0);
+  const cartCount = useSelector((state: RootState) => state.cart.cartCount);
 
   // Function to get item count from localStorage
-  const getItemCountFromLocalStorage = (key: string) => {
-    const data = localStorage.getItem(key);
-    if (data) {
-      const parsedData = JSON.parse(data);
-      return parsedData.length;
-    }
-    return 0;
-  };
+  // const getItemCountFromLocalStorage = (key: string) => {
+  //   const data = localStorage.getItem(key);
+  //   if (data) {
+  //     const parsedData = JSON.parse(data);
+  //     return parsedData.length;
+  //   }
+  //   return 0;
+  // };
 
   // Fetch cart and wishlist counts on component mount
-  useEffect(() => {
-    setCartItemCount(getItemCountFromLocalStorage("cart"));
-    setWishlistItemCount(getItemCountFromLocalStorage("wishlist"));
-  }, []);
+  // useEffect(() => {
+  //   setCartItemCount(getItemCountFromLocalStorage("cart"));
+  //   setWishlistItemCount(getItemCountFromLocalStorage("wishlist"));
+  // }, []);
 
   const handleCartClick = () => {
     dispatch(toggleCartSidebar());
@@ -68,7 +69,7 @@ const NavIcons: React.FC = () => {
       <CustomIcon
         Icon={MdOutlineShoppingBag}
         iconClassName="text-2xl"
-        quantity={cartItemCount}
+        quantity={cartCount}
         onClick={handleCartClick}
       />
     </div>
