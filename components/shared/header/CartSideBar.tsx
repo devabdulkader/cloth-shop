@@ -35,26 +35,6 @@ const tags: Tag[] = [
 
 const CartSideBar: React.FC = () => {
   const [cartData, setCartData] = useState<IProduct[]>([]);
-  const {
-    selectedSize,
-    selectedColor,
-    quantity,
-    selectedImage,
-    handleSizeChange,
-    handleColorChange,
-    handleQuantityChange,
-    handleImageChange,
-    decreaseQuantity,
-    increaseQuantity,
-    addToCart,
-    addToWishlist,
-    removeFromCart,
-    removeFromWishlist,
-    getSelectionState,
-    isProductInWishlist,
-    handleImageId,
-    selectedImageId,
-  } = useProductSelection({ product: {} as any });
 
   // Fetch cart data from localStorage when component mounts
   useEffect(() => {
@@ -72,16 +52,6 @@ const CartSideBar: React.FC = () => {
   }, []);
 
   // Handle quantity change
-
-  // Handle delete item
-  const handleDeleteItem = (id: string) => {
-    removeFromCart(id);
-    console.log("id of the item", id);
-    const updatedCart = cartData.filter((item) => item.id !== id);
-
-    setCartData(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
-  };
 
   const dispatch = useDispatch();
   const isCartSidebarOpen = useSelector(

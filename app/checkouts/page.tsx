@@ -8,6 +8,8 @@ import Image from "next/image";
 import Form from "@/components/forms/Form";
 import FormInput from "@/components/forms/FormInput";
 import Link from "next/link";
+import { RootState } from "@/lib/store/store";
+import { useSelector } from "react-redux";
 
 interface Order {
   id: number;
@@ -30,19 +32,7 @@ const CheckoutPage = () => {
     useState<string>("cash-on-delivery");
   const [orderData, setOrderData] = useState<Order[]>([]);
 
-  useEffect(() => {
-    // Retrieve cart data from local storage
-    const cartData = localStorage.getItem("cart");
-
-    if (cartData) {
-      try {
-        const parsedData = JSON.parse(cartData) as Order[];
-        setOrderData(parsedData);
-      } catch (error) {
-        console.error("Error parsing cart data from local storage", error);
-      }
-    }
-  }, []);
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(event.target.value);
@@ -174,12 +164,12 @@ const CheckoutPage = () => {
         </Link>
       </Form>
       <div className="flex flex-col gap-4">
-        {orderData.map((item, index) => (
+        {cartItems?.map((item, index) => (
           <div key={index} className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-4">
               <div className="relative">
                 <Image
-                  src={item.selectedImage}
+                  src={item.url}
                   alt={item.title}
                   width={100}
                   height={100}

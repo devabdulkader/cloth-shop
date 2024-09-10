@@ -3,11 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 
 // Define the interface for an individual cart item
 interface CartItem {
-  id: string; // Unique identifier for the item
-  name: string; // Product name
-  price: number; // Product price
+  id: string;
+  name: string;
+  price: number;
   quantity: number;
-  description?: string; // Optional fields based on your needs
+  description?: string;
   url?: string;
   color?: string;
   size?: string;
@@ -16,7 +16,7 @@ interface CartItem {
 // Define the CartState interface
 export interface CartState {
   cartItems: CartItem[];
-  cartCount: number; // This should represent the number of distinct items
+  cartCount: number; // Represents the number of distinct items
 }
 
 // Function to load cart from local storage
@@ -25,7 +25,6 @@ const loadCartFromLocalStorage = (): CartState => {
   if (storedCart) {
     try {
       const parsedCart = JSON.parse(storedCart);
-      // Ensure cartItems is always an array
       return {
         cartItems: Array.isArray(parsedCart.cartItems)
           ? parsedCart.cartItems
@@ -33,11 +32,10 @@ const loadCartFromLocalStorage = (): CartState => {
         cartCount: parsedCart.cartCount || 0,
       };
     } catch (error) {
-      // Handle parsing error
       return { cartItems: [], cartCount: 0 };
     }
   }
-  return { cartItems: [], cartCount: 0 }; // Default state
+  return { cartItems: [], cartCount: 0 };
 };
 
 // Initial state
@@ -59,26 +57,20 @@ export const cartSlice = createSlice({
     ) => {
       const { url, color, size, quantity } = action.payload;
 
-      // Check if the item with the same color, size, and URL already exists
       const existingItemIndex = state.cartItems.findIndex(
         (item) => item.color === color && item.size === size && item.url === url
       );
 
       if (existingItemIndex === -1) {
-        // Item not found, add it with a new unique ID and specified quantity
         state.cartItems.push({
           ...action.payload,
-          id: uuidv4(), // Generate a unique ID for the new item
+          id: uuidv4(),
         });
       } else {
-        // Item found, update quantity
         state.cartItems[existingItemIndex].quantity += quantity;
       }
 
-      // Update cart count as the number of distinct items
       state.cartCount = state.cartItems.length;
-
-      // Save updated cart to local storage
       saveCartToLocalStorage(state);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
@@ -86,7 +78,7 @@ export const cartSlice = createSlice({
         (item) => item.id !== action.payload
       );
       state.cartCount = state.cartItems.length;
-      saveCartToLocalStorage(state); // Save to local storage
+      saveCartToLocalStorage(state);
     },
     incrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.cartItems.findIndex(
@@ -96,7 +88,7 @@ export const cartSlice = createSlice({
       if (itemIndex !== -1) {
         state.cartItems[itemIndex].quantity += 1;
         state.cartCount = state.cartItems.length;
-        saveCartToLocalStorage(state); // Save to local storage
+        saveCartToLocalStorage(state);
       }
     },
     decrementQuantity: (state, action: PayloadAction<string>) => {
@@ -113,7 +105,7 @@ export const cartSlice = createSlice({
           );
         }
         state.cartCount = state.cartItems.length;
-        saveCartToLocalStorage(state); // Save to local storage
+        saveCartToLocalStorage(state);
       }
     },
   },

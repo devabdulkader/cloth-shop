@@ -254,38 +254,18 @@ import Form from "@/components/forms/Form";
 import FormInput from "@/components/forms/FormInput";
 import { Textarea } from "@headlessui/react";
 import useProductSelection from "@/hooks/useProductSelection";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store/store";
+import {
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from "@/lib/store/features/cart/cartSlice";
 
 const CartPage: React.FC = () => {
-  const [cartData, setCartData] = useState<any[]>([]);
-  const {
-    selectedSize,
-    selectedColor,
-    quantity,
-    handleSizeChange,
-    handleColorChange,
-    handleQuantityChange,
-    decreaseQuantity,
-    increaseQuantity,
-    addToCart,
-    addToWishlist,
-    handleImageChange,
-    removeFromCart,
-  } = useProductSelection({ product: {} as any });
+  const dispatch = useDispatch();
 
-  // Retrieve cart data from local storage on component mount
-  useEffect(() => {
-    const cartFromLocalStorage = localStorage.getItem("cart");
-    if (cartFromLocalStorage) {
-      setCartData(JSON.parse(cartFromLocalStorage));
-    }
-  }, []);
-
-  // Calculate the total price of items in the cart
-  const calculateCartTotal = () => {
-    return cartData
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
-  };
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   // Handle form submission (example placeholder function)
   const submitHandler = (event: React.FormEvent) => {
@@ -293,27 +273,18 @@ const CartPage: React.FC = () => {
     // Handle form submission logic
   };
   // Handle delete item
-  const handleDeleteItem = (item) => {
-    // Check if variantId exists, if not, use productId
-    const idToUse = item.variantId ? item.variantId : item.productId;
 
-    // Remove from cart based on the id (variantId or productId)
-    const updatedCart = cartData.filter((cartItem) => {
-      if (cartItem.variantId) {
-        return cartItem.variantId !== idToUse;
-      } else {
-        return cartItem.productId !== idToUse;
-      }
-    });
-
-    // Set the updated cart data
-    setCartData(updatedCart);
-    removeFromCart(idToUse);
-
-    // Save the updated cart to localStorage
-    // localStorage.setItem("cart", JSON.stringify(updatedCart));
+  const handleIncreaseQuantity = (id: string) => {
+    dispatch(incrementQuantity(id));
   };
 
+  const handleDecreaseQuantity = (id: string) => {
+    dispatch(decrementQuantity(id));
+  };
+
+  const handleRemoveItem = (id: string) => {
+    dispatch(removeFromCart(id));
+  };
   return (
     <div className="container">
       <div className="text-center py-20 md:py-40">
@@ -342,8 +313,8 @@ const CartPage: React.FC = () => {
             </div>
 
             <div className="flex flex-col">
-              {cartData &&
-                cartData.map((item, index) => (
+              {cartItems &&
+                cartItems.map((item, index) => (
                   <div
                     key={index}
                     className="flex flex-col md:flex-row justify-between items-center border gap-8 md:gap-0 p-6"
@@ -352,13 +323,12 @@ const CartPage: React.FC = () => {
                       <div className="px-4">
                         <RiDeleteBin5Line
                           size={18}
-                          onClick={() => handleDeleteItem(item)}
                           className="cursor-pointer"
                         />
                       </div>
 
                       <Image
-                        src={item.selectedImage}
+                        src={item.url}
                         alt={item.title}
                         width={100}
                         height={100}
@@ -372,26 +342,27 @@ const CartPage: React.FC = () => {
 
                     <div className="w-full flex justify-between items-center text-sm">
                       <p>€{item.price}</p>
-                      <div className="flex border quantity">
+                      {/* Quantity Selection */}
+                      <div className="mb-4 flex items-center">
+                        <strong className="text-gray-800 mr-4">
+                          Quantity:
+                        </strong>
                         <button
-                          className="p-2 text-xl text-gray-500"
-                          onClick={decreaseQuantity}
+                          onClick={() => handleDecreaseQuantity(item.id)}
+                          className="bg-gray-300 px-3 py-1 rounded"
                         >
                           -
                         </button>
-
                         <input
                           type="number"
-                          value={quantity}
-                          onChange={handleQuantityChange}
-                          className="text-center w-20 outline-none bg-slate-100"
+                          value={item.quantity}
                           min="1"
-                          step="1" // Step size for increment/decrement
+                          readOnly
+                          className="w-12 text-center mx-2 border border-gray-300 rounded"
                         />
-
                         <button
-                          className="p-2 text-xl text-gray-500"
-                          onClick={increaseQuantity}
+                          onClick={() => handleIncreaseQuantity(item.id)}
+                          className="bg-gray-300 px-3 py-1 rounded"
                         >
                           +
                         </button>
@@ -442,14 +413,12 @@ const CartPage: React.FC = () => {
           </Form>
           <div className="border">
             <p className="px-6 py-3 text-[12px] font-semibold uppercase">
-              There are {cartData.length} items in your cart
+              There are {cartItems.length} items in your cart
             </p>
             <div className="flex flex-col gap-2 bg-slate-100 px-6 py-4">
               <p className="flex flex-row justify-between items-center ">
                 <span className="text-lg font-semibold">Total:</span>
-                <span className="text-xl font-bold">
-                  €{calculateCartTotal()}
-                </span>
+                <span className="text-xl font-bold">€</span>
               </p>
               {/* Optional: Additional details like shipping and offers */}
             </div>

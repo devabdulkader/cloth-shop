@@ -105,6 +105,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
 
   const handleAddToCart = () => {
     dispatch(addToCart(productItem));
+    setShowCartModal(true);
     console.log(productItem);
   };
 
@@ -230,7 +231,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
             {/* Color Selection */}
             <div className="mb-4">
               <strong className="text-gray-800">Color:</strong>
-              <div className="flex flex-wrap">
+              {/* <div className="flex flex-wrap">
                 {productItems.map((item, index) => (
                   <button
                     key={index}
@@ -241,7 +242,39 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
                     onClick={() => handleColorClick(index)}
                   />
                 ))}
-              </div>
+              </div> */}
+              <Swiper
+                direction={"horizontal"}
+                spaceBetween={0}
+                slidesPerView={productItems.length}
+                pagination={{ clickable: true }}
+                onSwiper={setThumbsSwiper}
+                loop={true}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper h-full flex gap-5"
+              >
+                {productItems.map((item, index) => (
+                  <SwiperSlide key={index} className="cursor-pointer pr-3 ">
+                    <div
+                      className={`w-8 h-8 rounded-full mr-2 mb-2 ${
+                        selectedColor === item.color
+                          ? "ring-2 ring-blue-500"
+                          : ""
+                      }`}
+                      style={{ backgroundColor: item.color }}
+                      onClick={() => handleColorClick(index)}
+                    >
+                      {/* Inner div for the actual color */}
+                      <div
+                        className="h-full w-full rounded-full"
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
 
             {/* Quantity Selection */}
@@ -268,12 +301,23 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
               </button>
             </div>
 
-            <button
-              onClick={handleAddToCart}
-              className={`bg-blue-500 text-white px-4 py-2 rounded ${BUTTON_ANIMATION_CLASSES}`}
-            >
-              Add to Cart
-            </button>
+            <div className="flex items-center space-x-2 mb-4 w-full">
+              <button
+                onClick={handleAddToCart}
+                className={`border py-3 px-4 w-full  rounded-full hover:bg-slate-800 hover:text-white transition-colors duration-300 ease-in-out`}
+              >
+                Add to Bag
+              </button>
+            </div>
+
+            <div className="flex flex-col">
+              <Link href="/checkouts">
+                <button className="mb-4 w-full border py-3 rounded-full hover:bg-slate-800 hover:text-white transition-colors duration-300 ease-in-out">
+                  {/* Link to View Full Product */}
+                  Buy It Now
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
