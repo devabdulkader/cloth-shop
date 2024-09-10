@@ -5,22 +5,8 @@ import Image from 'next/image';
 import axios from 'axios';
 import Cookies from "js-cookie";
 import { AxiosResponse } from 'axios';
-import urls from '@/urls/urls';
 import { instance } from '@/axios/axiosInstance';
-// interface GetOrdersId {
-//     id: string,
-// }
-// interface Orders {
-//     id: string,
-//     title: string,
-//     code: string,
-//     discount: number,
-//     startsAt: string,
-//     endsAt: string,
-//     status: string,
-//     createdAt: string,
-//     updatedAt: string,
-// }
+
 
 const ORDER_QUERY = `
   query Orders {

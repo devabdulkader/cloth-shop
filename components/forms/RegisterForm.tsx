@@ -2,7 +2,6 @@
 import { instance } from '@/axios/axiosInstance';
 import Form from '@/components/forms/Form';
 import FormInput from '@/components/forms/FormInput';
-import urls from '@/urls/urls';
 import axios from 'axios';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';

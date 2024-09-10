@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { MdEmail } from "react-icons/md";
 import Cookies from "js-cookie";
-import urls from '@/urls/urls';
 const LOGIN_MUTATION = `
 query Login($input: LoginInput!) {
   login(input: $input) {
