@@ -257,7 +257,20 @@ import useProductSelection from "@/hooks/useProductSelection";
 
 const CartPage: React.FC = () => {
   const [cartData, setCartData] = useState<any[]>([]);
-  const { removeFromCart } = useProductSelection({ product: {} as any });
+  const {
+    selectedSize,
+    selectedColor,
+    quantity,
+    handleSizeChange,
+    handleColorChange,
+    handleQuantityChange,
+    decreaseQuantity,
+    increaseQuantity,
+    addToCart,
+    addToWishlist,
+    handleImageChange,
+    removeFromCart,
+  } = useProductSelection({ product: {} as any });
 
   // Retrieve cart data from local storage on component mount
   useEffect(() => {
@@ -295,9 +308,10 @@ const CartPage: React.FC = () => {
 
     // Set the updated cart data
     setCartData(updatedCart);
+    removeFromCart(idToUse);
 
     // Save the updated cart to localStorage
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    // localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   return (
@@ -328,52 +342,64 @@ const CartPage: React.FC = () => {
             </div>
 
             <div className="flex flex-col">
-              {cartData.map((item) => (
-                <div
-                  key={item._id}
-                  className="flex flex-col md:flex-row justify-between items-center border gap-8 md:gap-0 p-6"
-                >
-                  <div className="max-w-full md:w-full flex flex-row gap-4 md:gap-2 items-center">
-                    <div className="px-4">
-                      <RiDeleteBin5Line
-                        size={18}
-                        onClick={() => handleDeleteItem(item)}
-                        className="cursor-pointer"
+              {cartData &&
+                cartData.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col md:flex-row justify-between items-center border gap-8 md:gap-0 p-6"
+                  >
+                    <div className="max-w-full md:w-full flex flex-row gap-4 md:gap-2 items-center">
+                      <div className="px-4">
+                        <RiDeleteBin5Line
+                          size={18}
+                          onClick={() => handleDeleteItem(item)}
+                          className="cursor-pointer"
+                        />
+                      </div>
+
+                      <Image
+                        src={item.selectedImage}
+                        alt={item.title}
+                        width={100}
+                        height={100}
+                        className="bg-cover"
                       />
+                      <div className="text-[12px]">
+                        <p className="font-semibold">{item.title}</p>
+                        <p className="font-medium">Size: {item.size}</p>
+                      </div>
                     </div>
 
-                    <Image
-                      src={item.selectedImage}
-                      alt={item.title}
-                      width={100}
-                      height={100}
-                      className="bg-cover"
-                    />
-                    <div className="text-[12px]">
-                      <p className="font-semibold">{item.title}</p>
-                      <p className="font-medium">Size: {item.size}</p>
+                    <div className="w-full flex justify-between items-center text-sm">
+                      <p>€{item.price}</p>
+                      <div className="flex border quantity">
+                        <button
+                          className="p-2 text-xl text-gray-500"
+                          onClick={decreaseQuantity}
+                        >
+                          -
+                        </button>
+
+                        <input
+                          type="number"
+                          value={quantity}
+                          onChange={handleQuantityChange}
+                          className="text-center w-20 outline-none bg-slate-100"
+                          min="1"
+                          step="1" // Step size for increment/decrement
+                        />
+
+                        <button
+                          className="p-2 text-xl text-gray-500"
+                          onClick={increaseQuantity}
+                        >
+                          +
+                        </button>
+                      </div>
+                      <p>€{(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                   </div>
-
-                  <div className="w-full flex justify-between items-center text-sm">
-                    <p>€{item.price}</p>
-                    <div className="flex border quantity">
-                      <button className="p-2 text-xl text-gray-500">-</button>
-
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        className="text-center w-20 outline-none bg-slate-100"
-                        min="1"
-                        step="1" // Step size for increment/decrement
-                      />
-
-                      <button className="p-2 text-xl text-gray-500">+</button>
-                    </div>
-                    <p>€{(item.price * item.quantity).toFixed(2)}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 

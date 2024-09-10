@@ -10,19 +10,11 @@ import Link from "next/link";
 import { RiDeleteBin5Fill, RiPlayLargeFill } from "react-icons/ri";
 import { FaTrash } from "react-icons/fa";
 import useProductSelection from "@/hooks/useProductSelection";
+import { IProduct } from "@/types/product";
 
 interface Tag {
   title: string;
   href: string;
-}
-// Example of updated IProduct type
-export interface IProduct {
-  id: string;
-  title: string;
-  size: string;
-  basePrice: number;
-  quantity: number;
-  selectedImage: string; // Add this property
 }
 
 const tags: Tag[] = [
@@ -34,41 +26,56 @@ const tags: Tag[] = [
 ];
 
 const CartSideBar: React.FC = () => {
-  const [cartData, setCartData] = useState<IProduct[]>([]);
-  const { removeFromCart } = useProductSelection({ product: {} as any });
+  const {
+    handleSizeChange,
+    handleColorChange,
+    handleQuantityChange,
+    decreaseQuantity,
+    increaseQuantity,
+    addToCart,
+    addToWishlist,
+    handleImageChange,
+    removeFromCart,
+  } = useProductSelection({ product: {} as any });
 
-  // Fetch cart data from localStorage when component mounts
+  const [cartData, setCartData] = useState<IProduct[]>([]);
+
   useEffect(() => {
     const cartFromLocalStorage = localStorage.getItem("cart");
     if (cartFromLocalStorage) {
       const parsedCartData = JSON.parse(cartFromLocalStorage);
-
-      // Log the cart data to verify the structure
       console.log("Cart Data from Local Storage:", parsedCartData);
-
       setCartData(parsedCartData);
     } else {
       console.log("No cart data found in localStorage.");
     }
   }, []);
 
-  // Handle quantity change
-  const handleQuantityChange = (id: string, newQuantity: number) => {
-    const updatedCart = cartData.map((item) =>
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    );
-    setCartData(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
-
-  // Handle delete item
   const handleDeleteItem = (id: string) => {
     removeFromCart(id);
-    console.log("id of the item", id);
     const updatedCart = cartData.filter((item) => item.id !== id);
-
     setCartData(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
+  };
+
+  const handleQuantityChangeForItem = (
+    productId: string,
+    variantId: string,
+    newQuantity: number
+  ) => {
+    setCartData((prevData) => {
+      // Update cartData with new quantity
+      const updatedCart = prevData.map((item) =>
+        item.id === productId && item.variantId === variantId
+          ? { ...item, quantity: newQuantity }
+          : item
+      );
+
+      // Update localStorage with new quantity
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+      return updatedCart;
+    });
   };
 
   const dispatch = useDispatch();
@@ -166,9 +173,9 @@ const CartSideBar: React.FC = () => {
                         <div className="flex flex-row gap-4 md:gap-6 items-center">
                           <button
                             onClick={() =>
-                              handleQuantityChange(
+                              handleQuantityChangeForItem(
                                 item.id,
-                                Math.max(item.quantity - 1, 1)
+                                item.quantity - 1
                               )
                             }
                           >
@@ -178,17 +185,22 @@ const CartSideBar: React.FC = () => {
                             type="number"
                             value={item.quantity}
                             onChange={(e) =>
-                              handleQuantityChange(
+                              handleQuantityChangeForItem(
                                 item.id,
-                                parseInt(e.target.value) || 1
+                                item.variantId,
+                                parseInt(e.target.value, 10)
                               )
                             }
                             className="text-center w-8 outline-none"
                             min="1"
                           />
+
                           <button
                             onClick={() =>
-                              handleQuantityChange(item.id, item.quantity + 1)
+                              handleQuantityChangeForItem(
+                                item.id,
+                                item.quantity + 1
+                              )
                             }
                           >
                             +
