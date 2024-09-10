@@ -1,19 +1,18 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import Img from "@/public/instagram/insta01.jpeg"
-import Image from 'next/image';
-import axios from 'axios';
-import Cookies from "js-cookie";
-import { AxiosResponse } from 'axios';
 import { instance } from '@/axios/axiosInstance';
-
-
+import Table from '../table/Table';
+import { formatDate } from '@/utils/formatDate';
+import LoadingSpinner from '../common/LoadingSpinner';
 const ORDER_QUERY = `
   query Orders {
     orders {
-      id
-      user{
-        email
+      shippingMethod {
+        methodName
+      }
+      orderedItems {
+        productName
+        productPrice
       }
       trackingNumber
       createdAt
@@ -21,66 +20,62 @@ const ORDER_QUERY = `
     }
   }
 `;
-
-
-
 const OrderList = () => {
 
-    const [order, setOrders] = useState([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-
+    const [orders, setOrders] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         userOrders();
-
     }, [])
 
     const userOrders = async () => {
-
         try {
-
             const response = await instance.post("/", {
                 query: ORDER_QUERY,
-              });
-                setOrders(response.data.data.orders)
-
-
-
-
+            });
+            setOrders(response.data.data.orders)
         } catch (error) {
-            console.log(error, "error");
-            setError("Something went wrong");
+            console.log(error);
         } finally {
             setLoading(false);
         }
 
     }
 
+    const columns = [
+        { key: "serialNo", label: "SL" },
+        { key: "productName", label: "Product Name" },
+        { key: "productPrice", label: "Product Price" },
+        { key: "shippingMethod", label: "Shipping Method" },
+        { key: "trackingNumber", label: "Tracking Number" },
+        { key: "createdAt", label: "Ordered At" },
+        { key: "status", label: "Status" },
+    ]
+
+    const ordersData = orders?.map((order, index) => ({
+            id: order.id,
+            serialNo: index + 1,
+            productName: order.orderedItems[0].productName,
+            productPrice: order.orderedItems[0].productPrice,
+            shippingMethod: order.shippingMethod.methodName,
+            trackingNumber: order.trackingNumber,
+            createdAt: formatDate(order.createdAt),
+            status: order.status,
+        }))
+
+    if (loading) {
+        return <LoadingSpinner/>;
+    }
 
     return (
         <div className='py-4'>
-            <div>
+            <div className=' pb-4'>
                 <h2 className='text-4xl font-semibold'>Order History</h2>
                 <p className='text-sm font-normal'>You haven&lsquo;t placed any orders yet.</p>
             </div>
-            <div className=' grid grid-cols-1 md:grid-cols-2 gap-4 py-4 '>
-                {/* {orders?.map((item, index) => (
-                    <div key={index}>{item.}</div>
-                    <div key={index} className=' flex flex-row justify-between items-center rounded-xl border p-4 hover:shadow-xl duration-300'>
-                        <div className=' flex flex-row justify-between gap-8'>
-                            <div className=' flex flex-col gap-1 text-gray-700'>
-                                <p className=' text-lg font-bold'>{item?.user.email}</p>
-                                <p className='text-sm'><span className=' font-semibold'>Price:</span>${item.price}</p>
-                                <p className='text-sm'> <span className=' font-semibold'>Size:</span> {item.size}</p>
-                                <p className='text-sm'> <span className=' font-semibold'>Status:</span> {item.status}</p>
+           {ordersData && columns &&  <Table columns={columns} data={ordersData} />}
 
-                            </div>
-                        </div>
-                    </div>
-                ))
-                } */}
-            </div>
         </div>
     )
 }
