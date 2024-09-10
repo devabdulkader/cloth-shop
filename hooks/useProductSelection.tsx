@@ -35,6 +35,8 @@ interface SelectionState {
 
 const useProductSelection = ({ product }: UseProductSelectionProps) => {
   // Default values for state
+  const [cartUpdated, setCartUpdated] = useState<boolean>(false);
+  const [wishlistUpdated, setWishlistUpdated] = useState<boolean>(false);
   const defaultSize = product.sizes?.[0]?.size || "";
   const defaultColor = product.color || "";
   const defaultImage = product.url;
@@ -132,6 +134,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
         cart[existingItemIndex].quantity += quantity;
       } else {
         cart.push(newProduct);
+        window.location.reload();
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -176,6 +179,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
         wishlist[existingItemIndex].quantity += quantity;
       } else {
         wishlist.push(newProduct);
+        window.location.reload();
       }
 
       localStorage.setItem("wishlist", JSON.stringify(wishlist));
@@ -190,6 +194,8 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
       const updatedCart = cart.filter((item: CartItem) => item.id !== id);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
+      window.location.reload();
+
     } catch (error) {
       console.error("Failed to remove item from cart", error);
     }
@@ -230,6 +236,7 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
 
       // Update localStorage with the new wishlist
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+      window.location.reload();
 
       // Optionally, update component state if using React
       // setWishlist(updatedWishlist); // Uncomment if using state
@@ -283,6 +290,8 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
     isProductInWishlist,
     handleImageId,
     selectedImageId,
+    cartUpdated, // Return cartUpdated for use in the component
+    wishlistUpdated, // Return wishlistUpdated for use in the component
   };
 };
 

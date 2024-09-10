@@ -69,7 +69,7 @@ const QuickViewWishlistModal: React.FC<QuickViewWishlistModalProps> = ({
               </p>
               <p className="flex flex-row gap-8 text-sm font-normal">
                 <span>Category:</span>{" "}
-                <span>{wishlistItem.category.join(" ")}</span>
+                <span>{wishlistItem.category?.join(" ")}</span>
               </p>
 
               <div className="mb-4">
@@ -77,7 +77,7 @@ const QuickViewWishlistModal: React.FC<QuickViewWishlistModalProps> = ({
                   Size: {selectedSize || "Select a size"}
                 </strong>
                 <div className="flex space-x-2 mt-5">
-                  {wishlistItem.sizes.map((size) => (
+                  {wishlistItem.sizes?.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
