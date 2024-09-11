@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { IProduct } from "@/types/product";
 import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
+import { reduxAddCart, reduxRemoveCart } from "@/lib/store/features/cart/cartSlice";
+import { useDispatch } from "react-redux";
 
 interface UseProductSelectionProps {
   product: IProduct;
@@ -35,6 +37,8 @@ interface SelectionState {
 
 const useProductSelection = ({ product }: UseProductSelectionProps) => {
   // Default values for state
+  const dispatch = useDispatch();
+
   const [cartUpdated, setCartUpdated] = useState<boolean>(false);
   const [wishlistUpdated, setWishlistUpdated] = useState<boolean>(false);
   const defaultSize = product.sizes?.[0]?.size || "";
@@ -134,7 +138,9 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
         cart[existingItemIndex].quantity += quantity;
       } else {
         cart.push(newProduct);
-        window.location.reload();
+        dispatch(reduxAddCart(JSON.stringify(newProduct)));
+
+        // window.location.reload();
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -189,13 +195,13 @@ const useProductSelection = ({ product }: UseProductSelectionProps) => {
   };
 
   // Remove from cart
-  const removeFromCart = (id: string) => {
+  const removeFromCart = (itemId: string) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const updatedCart = cart.filter((item: CartItem) => item.id !== id);
+      const updatedCart = cart.filter((item: CartItem) => item.id !== itemId);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
-      window.location.reload();
-
+      dispatch(reduxRemoveCart(itemId));
+      // window.location.reload();
     } catch (error) {
       console.error("Failed to remove item from cart", error);
     }

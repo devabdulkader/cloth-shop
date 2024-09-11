@@ -194,7 +194,7 @@ const MobileNav: React.FC = () => {
     dispatch(closeNav());
   };
   return (
-    <nav className="relative hidden">
+    <nav className="relative ">
       {isNavOpen && <CustomBackDrop onClose={handleClose} zIndex="10" />}
       <div
         className={`w-full fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white z-50  transition-transform duration-300 ease-in-out ${
@@ -207,7 +207,7 @@ const MobileNav: React.FC = () => {
         {/* Conditionally rendered search input */}
         <MobileSearchBar />
         <div className="flex justify-between items-center space-x-5 w-full z-50 bg-white px-5 xl:px-10 2xl:px-20">
-          <div className="flex bg-green-300 items-center sm:space-x-2 w-1/3">
+          <div className="flex  items-center sm:space-x-2 w-1/3">
             <div
               onClick={() => {
                 dispatch(toggleNav());
