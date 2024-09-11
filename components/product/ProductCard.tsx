@@ -505,6 +505,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
     dispatch(addToCart(productItem));
     console.log(productItem);
     closeQuickAdd();
+    setShowCartModal(true);
     toast.success("Product added to cart!");
   };
 

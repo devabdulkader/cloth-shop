@@ -14,8 +14,9 @@ import Link from "next/link";
 import CartModal from "../common/CartModal";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import { IProduct } from "@/types/product";
-import useProductSelection from "@/hooks/useProductSelection";
 import { FaClockRotateLeft, FaQuestion, FaStar } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/lib/store/features/cart/cartSlice";
 
 interface ProductDetailsProps {
   product: IProduct;
@@ -29,57 +30,122 @@ interface ProductItem {
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-  // Initialize hook
-  const {
-    selectedSize,
-    selectedColor,
-    quantity,
-    selectedImage,
-    handleSizeChange,
-    handleColorChange,
-    handleQuantityChange,
-    decreaseQuantity,
-    increaseQuantity,
-    addToCart,
-    addToWishlist,
-    getSelectionState,
-    handleImageChange,
-    isProductInWishlist,
-  } = useProductSelection({ product });
+  const dispatch = useDispatch();
 
-  const [productItems, setProductItems] = useState<ProductItem[]>([]);
-  const [addToId, setAddToId] = useState<string>("");
-  const [showCartModal, setShowCartModal] = useState(false);
+  const items = [
+    {
+      id: product._id,
+      url: product.url,
+      alt: product.alt,
+      color: product.color,
+    },
+    ...product.productVariants.map((variant) => ({
+      id: variant._id,
+      url: variant.url,
+      alt: variant.alt,
+      color: variant.color,
+    })),
+  ];
 
-  const handleColorClick = (item: ProductItem) => {
-    console.log(item);
-    setAddToId(item.id);
-    handleImageChange(item.url);
-  };
+  const [selectedSize, setSelectedSize] = useState<string | null>(
+    product.sizes.length > 0 ? product.sizes[0].size : null
+  );
+  const [selectedColor, setSelectedColor] = useState<string | null>(
+    items[0].color
+  );
+  const [selectedImage, setSelectedImage] = useState<string | null>(
+    items[0].url
+  );
+  const [selectedId, setSelectedId] = useState<string | null>(items[0].id);
+
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
+
+  const [productItem, setProductItem] = useState<IProduct>({
+    _id: product._id,
+    selectedProductId: selectedId || "",
+    title: product.title,
+    description: product.description,
+    gender: product.gender,
+    basePrice: product.basePrice,
+    buyPrice: product.buyPrice,
+    otherCost: product.otherCost,
+    discountPrice: product.discountPrice,
+    url: selectedImage || product.url,
+    color: selectedColor || product.color,
+    deliveryMethods: "",
+    size: selectedSize || "",
+    sellingPrice: product.sellingPrice,
+    productVariants: product.productVariants,
+    availableSizes: product.sizes,
+    quantity: selectedQuantity || 1,
+  });
 
   useEffect(() => {
-    if (product) {
-      const items: ProductItem[] = [
-        {
-          id: product._id,
-          url: product.url,
-          color: product.color,
-          alt: product.alt,
-        },
-        ...(product.productVariants?.map((variant) => ({
-          id: variant._id,
-          url: variant.url,
-          color: variant.color,
-          alt: variant.alt,
-        })) || []),
-      ];
+    setProductItem((prevProductItem) => ({
+      ...prevProductItem,
+      url: selectedImage || product.url,
+      color: selectedColor || product.color,
+      size: selectedSize || "",
+      quantity: selectedQuantity, // Include quantity here
+    }));
+  }, [selectedSize, selectedColor, selectedImage, selectedQuantity]); // Add quantity to dependencies
 
-      setProductItems(items);
+  const handleSizeClick = (size: string) => {
+    setSelectedSize(size);
+  };
+
+  const handleColorSelection = (color: string) => {
+    setSelectedColor(color);
+    const selectedItem = items.find((item) => item.color === color);
+    if (selectedItem) {
+      setSelectedImage(selectedItem.url);
+      setSelectedId(selectedItem.id);
+    }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(productItem));
+    setShowCartModal(true);
+    console.log(productItem);
+  };
+
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [mainSwiper, setMainSwiper] = useState<any>(null);
+  const [productItems, setProductItems] = useState<ProductItem[]>(items);
+  const [colorId, setColorId] = useState<string | null>(null);
+  const [showCartModal, setShowCartModal] = useState(false);
+
+  useEffect(() => {
+    const activeColorItem = items.find((item) => item.color === product.color);
+    if (activeColorItem) {
+      setColorId(activeColorItem.id);
     }
   }, [product]);
 
-  const handleModalOpen = () => {
-    setShowCartModal(true);
+  const handleColorClick = (index: number) => {
+    const selectedColorItem = productItems[index];
+    if (selectedColorItem) {
+      setSelectedColor(selectedColorItem.color);
+      setSelectedImage(selectedColorItem.url); // Update image URL for the selected color
+      setSelectedId(selectedColorItem.id); // Also set the selected item's ID
+    }
+  };
+
+  const increaseQuantity = () => {
+    setSelectedQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const decreaseQuantity = () => {
+    if (selectedQuantity > 1) {
+      setSelectedQuantity((prevQuantity) => prevQuantity - 1);
+    }
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (value >= 1) {
+      setSelectedQuantity(value);
+    }
   };
 
   const handleModalClose = () => {
@@ -141,13 +207,13 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           <div className="flex space-x-2 mt-5">
             {product.sizes.map((size) => (
               <button
-                key={size._id}
-                onClick={() => handleSizeChange(size.size)}
-                className={`border border-gray-300 rounded px-5 py-3 text-gray-700 ${
+                key={size.size}
+                className={`mr-2 mb-2 py-1 px-3 rounded border ${
                   selectedSize === size.size
-                    ? "bg-black text-white"
-                    : "bg-gray-200"
+                    ? "border-blue-500 text-blue-500"
+                    : "border-gray-300 text-gray-800"
                 }`}
+                onClick={() => handleSizeClick(size.size)}
               >
                 {size.size}
               </button>
@@ -158,21 +224,20 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         <div className="mb-4">
           <strong className="text-gray-800 text-xl">Color:</strong>
           <div className="flex space-x-2 mt-5">
-            {productItems.map((img) => (
+            {productItems.map((item, index) => (
               <div
-                key={img.color}
-                className={`relative h-8 w-12 border cursor-pointer ${
-                  selectedColor === img.color ? "border-2 border-black" : ""
+                key={index}
+                className={`w-8 h-8 rounded-full mr-2 mb-2 ${
+                  selectedColor === item.color ? "ring-2 ring-blue-500" : ""
                 }`}
-                style={{ backgroundColor: img.color }}
-                onClick={() => {
-                  handleColorChange(img.color);
-                  handleColorClick(img);
-                }}
+                style={{ backgroundColor: item.color }}
+                onClick={() => handleColorClick(index)}
               >
-                {selectedColor === img.color && (
-                  <div className="absolute inset-0 border-2 border-white p-1"></div>
-                )}
+                {/* Inner div for the actual color */}
+                <div
+                  className="h-full w-full rounded-full"
+                  style={{ backgroundColor: item.color }}
+                ></div>
               </div>
             ))}
           </div>
@@ -187,25 +252,20 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               {/* Minus button */}
               <button
                 onClick={decreaseQuantity}
-                className="p-2 border-gray-300"
+                className="bg-gray-300 px-3 py-1 rounded"
               >
                 -
               </button>
-
-              {/* Quantity input */}
               <input
                 type="number"
-                value={quantity}
-                onChange={handleQuantityChange}
-                className="text-center w-20 border-0 outline-none"
+                value={selectedQuantity}
                 min="1"
-                step="1"
+                onChange={handleQuantityChange}
+                className="w-12 text-center mx-2 border border-gray-300 rounded"
               />
-
-              {/* Plus button */}
               <button
                 onClick={increaseQuantity}
-                className="p-2 border-gray-300"
+                className="bg-gray-300 px-3 py-1 rounded"
               >
                 +
               </button>
@@ -214,16 +274,12 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             {/* Add to Bag and Heart buttons */}
             <div className="flex items-center space-x-4 mb-4 w-full">
               <button
-                onClick={() => {
-                  addToCart(addToId);
-                  handleModalOpen();
-                }}
-                className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center justify-center w-full p-4 border rounded-full bg-gray-100`}
+                onClick={handleAddToCart}
+                className={`border py-3 px-4 w-full  rounded-full hover:bg-slate-800 hover:text-white transition-colors duration-300 ease-in-out`}
               >
                 Add to Bag
               </button>
               <button
-                onClick={() => addToWishlist(addToId)}
                 className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center p-4 justify-center border rounded-full bg-gray-100`}
               >
                 <FaHeart />
