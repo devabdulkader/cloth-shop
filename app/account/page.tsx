@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import OrderList from '@/components/account/OrderList';
 import AccountInfo from '@/components/account/AccountInfo';
+import AccountGroupButton from '@/components/account/AccountGroupButton';
 
 const AccountPage: React.FC = () => {
 
@@ -12,7 +13,7 @@ const AccountPage: React.FC = () => {
                 <p className='text-sm font-normal py-2'><Link href="/" >Home</Link> &#x2022; <span>Account</span></p>
             </div>
            <AccountInfo/>
-
+           <AccountGroupButton/>
             <OrderList />
 
 

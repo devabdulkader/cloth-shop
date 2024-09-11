@@ -4,7 +4,7 @@ import { ReactNode, useState, useEffect } from "react";
 import { createContext } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-
+import { jwtDecode } from "jwt-decode";
 interface AuthContextType {
   accountType: string | null;
   handleLogout: () => void;
@@ -16,6 +16,10 @@ interface AuthContextType {
 interface AuthProviderProps {
   children: ReactNode;
 }
+interface DecodedToken {
+  id: string; 
+}
+
 export const AuthContext = createContext<AuthContextType>({
   accountType: null,
   handleLogout: () => { },
@@ -31,9 +35,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const router = useRouter();
   const token = Cookies.get("accessKey");
 
+  
+
   useEffect(() => {
     if (token) {
       try {
+        const decodedToken = jwtDecode<DecodedToken>(token);
+        console.log(decodedToken?.id)
+        setUserId(decodedToken?.id)
         setIsLoggedIn(true);
       } catch (error) {
         console.error("Failed to decode token", error);
@@ -45,6 +54,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     Cookies.remove("accessKey");
     Cookies.remove("user")
     setIsLoggedIn(false);
+    setUserId(null);
     setAccountType(null);
     router.push("/");
   };
