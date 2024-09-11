@@ -1,49 +1,126 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Img from "@/public/instagram/insta01.jpeg";
-import { Description, Field, Label, Select } from "@headlessui/react";
+import Image from "next/image";
+import { Field, Label, Select } from "@headlessui/react";
 import { IoIosArrowDown } from "react-icons/io";
 import clsx from "clsx";
-import Image from "next/image";
 import Form from "@/components/forms/Form";
 import FormInput from "@/components/forms/FormInput";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { RootState } from "@/lib/store/store";
 import { useSelector } from "react-redux";
+import { instance } from "@/axios/axiosInstance";
 
-interface Order {
+interface CartItem {
   id: number;
   title: string;
-  date: string;
   quantity: number;
   buyPrice: number;
-  selectedImage: string;
-  category: string[];
-  sku: string;
+  url: string;
   size: string;
-  status: string;
+}
+
+interface CreateOrderInput {
+  trackingNumber?: string;
+  note?: string;
+  shippingMethodId: string;
+  shippingAddress: {
+    fullName: string;
+    addressEmail: string;
+    phoneNumber: string;
+    fullAddress: string;
+    save?: boolean;
+  };
+  orderedItems: {
+    productName: string;
+    productPrice: string;
+    quantity: string;
+  }[];
+  payment: {
+    method: string;
+    transactionId?: string;
+  };
+  couponCode?: string;
 }
 
 const CheckoutPage = () => {
-  const [selectedCountry, setSelectedCountry] = useState<string>("Bangaldesh");
+  const router = useRouter();
+  const [selectedCountry, setSelectedCountry] = useState<string>("Bangladesh");
   const [selectedDeliveryLocation, setSelectedDeliveryLocation] =
     useState<string>("insite-dhaka");
-  const [selectedPayment, setSelectedPayment] =
-    useState<string>("cash-on-delivery");
-  const [orderData, setOrderData] = useState<Order[]>([]);
+  const [selectedPayment, setSelectedPayment] = useState({
+    title: "Cash On Delivery",
+    value: "COD",
+  });
 
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const couponCode = useSelector((state: RootState) => state.cart.couponCode);
+  const comment = useSelector((state: RootState) => state.cart.comment);
+
+  console.log({comment});
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(event.target.value);
   };
 
   const submitHandler = async (data: any) => {
-    console.log("hello");
+    try {
+      const orderInput: CreateOrderInput = {
+        shippingMethodId:
+          selectedDeliveryLocation === "insite-dhaka"
+            ? "19e8b3dc-d4b0-46f0-a22f-f52e09718400"
+            : "9a6cbf57-b55f-430d-aca6-7f4fc08d1b36",
+        shippingAddress: {
+          fullName: data.name,
+          addressEmail: data.email,
+          phoneNumber: data.phone,
+          fullAddress: data.address,
+        },
+        orderedItems: cartItems.map((item) => ({
+          productName: item.title,
+          productPrice: item.buyPrice.toString(),
+          quantity: item.quantity.toString(),
+        })),
+        payment: {
+          method: selectedPayment.value,
+        },
+        couponCode: couponCode,
+        note: comment,
+      };
+
+      const response = await instance.post("/", {
+        query: `
+            mutation CreateOrder($input: CreateOrderInput!) {
+              createOrder(input: $input) {
+                id
+                trackingNumber
+                status
+                total
+              }
+            }
+          `,
+        variables: {
+          input: orderInput,
+        },
+      });
+
+      const createdOrder = response.data.data.createOrder;
+      console.log("Order created:", createdOrder?.trackingNumber);
+
+      // Clear the cart after successful order creation
+      // You might want to dispatch an action to clear the Redux store as well
+      localStorage.removeItem("cart");
+
+      // Redirect to order confirmation page
+      router.push(`/confirmation`);
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
   };
 
-  // Calculate subtotal and total
-  const subtotal = orderData.reduce(
+  console.log("cartItems", cartItems);
+
+  const subtotal = cartItems.reduce(
     (acc, item) => acc + item.buyPrice * item.quantity,
     0
   );
@@ -69,7 +146,7 @@ const CheckoutPage = () => {
                 "*:text-black"
               )}
             >
-              <option>Bangaldesh</option>
+              <option>Bangladesh</option>
               <option>Canada</option>
               <option>Mexico</option>
               <option>United States</option>
@@ -80,9 +157,10 @@ const CheckoutPage = () => {
             />
           </div>
         </Field>
-        {selectedCountry === "Bangaldesh" && (
+        {selectedCountry === "Bangladesh" && (
           <div className="flex flex-row gap-4 text-center">
             <button
+              type="button"
               onClick={() => setSelectedDeliveryLocation("insite-dhaka")}
               className={`py-4 w-48 px-2 ${
                 selectedDeliveryLocation === "insite-dhaka"
@@ -93,6 +171,7 @@ const CheckoutPage = () => {
               Inside Dhaka 70 tk
             </button>
             <button
+              type="button"
               onClick={() => setSelectedDeliveryLocation("outsite-dhaka")}
               className={`py-4 w-48 px-2 ${
                 selectedDeliveryLocation === "outsite-dhaka"
@@ -132,12 +211,18 @@ const CheckoutPage = () => {
           type="text"
           className="min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none"
         />
-        {selectedCountry === "Bangaldesh" && (
+        {selectedCountry === "Bangladesh" && (
           <div className="flex flex-row gap-4 text-center">
             <button
-              onClick={() => setSelectedPayment("cash-on-delivery")}
+              type="button"
+              onClick={() =>
+                setSelectedPayment({
+                  title: "Cash On Delivery",
+                  value: "COD",
+                })
+              }
               className={`py-8 w-48 px-2 ${
-                selectedPayment === "cash-on-delivery"
+                selectedPayment.value === "COD"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
               } `}
@@ -145,10 +230,16 @@ const CheckoutPage = () => {
               Cash On Delivery
             </button>
             <button
-              onClick={() => setSelectedPayment("bkash")}
+              type="button"
+              onClick={() =>
+                setSelectedPayment({
+                  title: "Bkash",
+                  value: "BKASH",
+                })
+              }
               disabled
               className={`py-8 w-48 px-2 ${
-                selectedPayment === "bkash"
+                selectedPayment.value === "BKASH"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
               } `}
@@ -157,11 +248,12 @@ const CheckoutPage = () => {
             </button>
           </div>
         )}
-        <Link href="/confirmation">
-          <button className="min-w-full bg-[#132842] py-4 text-white rounded-full text-base">
-            Pay Now
-          </button>
-        </Link>
+        <button
+          type="submit"
+          className="min-w-full bg-[#132842] py-4 text-white rounded-full text-base"
+        >
+          Pay Now
+        </button>
       </Form>
       <div className="flex flex-col gap-4">
         {cartItems?.map((item, index) => (
@@ -195,7 +287,7 @@ const CheckoutPage = () => {
           <span>Shipping</span>
           <span>uttara-11, Dhaka</span>
         </div>
-        {selectedCountry === "Bangaldesh" && (
+        {selectedCountry === "Bangladesh" && (
           <div className="flex flex-row justify-between items-center text-sm font-normal">
             <span>Delivery Cost</span>
             <span>${deliveryCost}</span>
