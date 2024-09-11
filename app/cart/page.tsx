@@ -257,6 +257,7 @@ import useProductSelection from "@/hooks/useProductSelection";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store/store";
 import {
+  addCommentAndPromoCode,
   decrementQuantity,
   incrementQuantity,
   removeFromCart,
@@ -285,6 +286,16 @@ const CartPage: React.FC = () => {
   const handleRemoveItem = (id: string) => {
     dispatch(removeFromCart(id));
   };
+
+  const [promoCode, setPromoCode] = useState("");
+  const [comment, setComment] = useState("");
+
+  const handleApply = () => {
+    // Dispatch comments and promo code to redux
+    dispatch(addCommentAndPromoCode({ comment, promoCode }));
+    // Add further navigation or actions as needed
+  };
+
   return (
     <div className="container">
       <div className="text-center py-20 md:py-40">
@@ -390,7 +401,7 @@ const CartPage: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-4 min-w-full md:min-w-[40%]">
-          <Form submitHandler={submitHandler}>
+          {/* <Form submitHandler={submitHandler}>
             <Textarea
               name="promocode"
               id="promocode"
@@ -410,17 +421,69 @@ const CartPage: React.FC = () => {
                 Apply
               </button>
             </div>
-          </Form>
+          </Form> */}
+          <div>
+            {/* <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add a comment..."
+              className="w-full text-sm outline-none text-black border p-2"
+            />
+            <input
+              type="text"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              placeholder="Enter promo code"
+              className="px-4 h-14 text-sm outline-none text-black border"
+            />
+            <button onClick={handleApplyPromoCode}>Apply Promo Code</button>
+
+            <button onClick={handleAddComment}>Add Comment</button>
+
+            <button onClick={handleProceedToCheckout}>
+              Proceed to Checkout
+            </button> */}
+            <label htmlFor="comments">Comments:</label>
+            <textarea
+              id="comments"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add your comments here"
+              className="w-full text-sm outline-none text-black border p-2"
+            />
+
+            {/* Promo Code Section */}
+            <label htmlFor="promoCode">Promo Code:</label>
+            <input
+              type="text"
+              id="promoCode"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              placeholder="Enter promo code"
+              className="px-4 h-14 text-sm outline-none text-black border"
+            />
+            <button
+              onClick={handleApply}
+              className="bg-blue-500 text-[#132842] rounded-full h-12 w-40 flex justify-center items-center"
+            >
+              Apply
+            </button>
+          </div>
           <div className="border">
             <p className="px-6 py-3 text-[12px] font-semibold uppercase">
               There are {cartItems.length} items in your cart
             </p>
             <div className="flex flex-col gap-2 bg-slate-100 px-6 py-4">
-              <p className="flex flex-row justify-between items-center ">
+              <p className="flex flex-row justify-between items-center">
                 <span className="text-lg font-semibold">Total:</span>
-                <span className="text-xl font-bold">€</span>
+                <span className="text-xl font-bold">
+                  €
+                  {cartItems.reduce(
+                    (acc, item) => acc + item.basePrice * item.quantity,
+                    0
+                  )}
+                </span>
               </p>
-              {/* Optional: Additional details like shipping and offers */}
             </div>
           </div>
         </div>
