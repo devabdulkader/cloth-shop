@@ -115,12 +115,12 @@ export const cartSlice = createSlice({
         saveCartToLocalStorage(state);
       }
     },
-    addCommentAndCouponCode: (
-      state,
-      action: PayloadAction<{ couponCode: string; comment: string }>
-    ) => {
-      state.couponCode = action.payload.couponCode;
-      state.comment = action.payload.comment;
+    setCouponCode: (state, action: PayloadAction<string>) => {
+      state.couponCode = action.payload;
+      saveCartToLocalStorage(state);
+    },
+    setComment: (state, action: PayloadAction<string>) => {
+      state.comment = action.payload;
       saveCartToLocalStorage(state);
     },
   },
@@ -131,7 +131,8 @@ export const {
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
-  addCommentAndCouponCode,
+  setCouponCode,
+  setComment,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
