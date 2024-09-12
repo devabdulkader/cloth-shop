@@ -1,28 +1,14 @@
-import { IAddToItem } from "@/types/product";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { IAddToItem, IStoreItem } from "@/types/product";
 
-// Define the interface for an individual cart item
-// interface CartItem {
-//   uuid: string;
-//   name: string;
-//   price: number;
-//   quantity: number;
-//   description?: string;
-//   url?: string;
-//   color?: string;
-//   size?: string;
-// }
-
-// Define the CartState interface
 export interface CartState {
-  cartItems: IAddToItem[];
-  cartCount: number; // Represents the number of distinct items
-  promoCode: string; // New field for promo code
-  comment: string; // New field for comment
+  cartItems: IStoreItem[];
+  cartCount: number;
+  couponCode: string;
+  comment: string;
 }
 
-// Function to load cart from local storage
 const loadCartFromLocalStorage = (): CartState => {
   const storedCart = localStorage.getItem("cart");
   if (storedCart) {
@@ -33,29 +19,26 @@ const loadCartFromLocalStorage = (): CartState => {
           ? parsedCart.cartItems
           : [],
         cartCount: parsedCart.cartCount || 0,
-        promoCode: parsedCart.promoCode || "", // Load promoCode
-        comment: parsedCart.comment || "", // Load comment
+        couponCode: parsedCart.couponCode || "",
+        comment: parsedCart.comment || "",
       };
     } catch (error) {
-      return { cartItems: [], cartCount: 0, promoCode: "", comment: "" };
+      return { cartItems: [], cartCount: 0, couponCode: "", comment: "" };
     }
   }
-  return { cartItems: [], cartCount: 0, promoCode: "", comment: "" };
+  return { cartItems: [], cartCount: 0, couponCode: "", comment: "" };
 };
 
-// Initial state
 const initialState: CartState = {
   ...loadCartFromLocalStorage(),
-  promoCode: "",
+  couponCode: "",
   comment: "",
 };
 
-// Function to save cart to local storage
 const saveCartToLocalStorage = (state: CartState) => {
   localStorage.setItem("cart", JSON.stringify(state));
 };
 
-// Create the cart slice
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -68,8 +51,14 @@ export const cartSlice = createSlice({
         selectedProductUrl,
         selectedProductColor,
         selectedProductSize,
+        uuid,
+        date,
         quantity,
-      } = action.payload;
+      } = {
+        ...action.payload,
+        uuid: uuidv4(),
+        date: new Date().toISOString(),
+      };
 
       const existingItemIndex = state.cartItems.findIndex(
         (item) =>
@@ -81,7 +70,8 @@ export const cartSlice = createSlice({
       if (existingItemIndex === -1) {
         state.cartItems.push({
           ...action.payload,
-          uuid: uuidv4(),
+          uuid,
+          date,
         });
       } else {
         state.cartItems[existingItemIndex].quantity += quantity;
@@ -125,25 +115,23 @@ export const cartSlice = createSlice({
         saveCartToLocalStorage(state);
       }
     },
-    // New action to update both the promo code and the comment
-    addCommentAndPromoCode: (
+    addCommentAndCouponCode: (
       state,
-      action: PayloadAction<{ promoCode: string; comment: string }>
+      action: PayloadAction<{ couponCode: string; comment: string }>
     ) => {
-      state.promoCode = action.payload.promoCode;
+      state.couponCode = action.payload.couponCode;
       state.comment = action.payload.comment;
       saveCartToLocalStorage(state);
     },
   },
 });
 
-// Export actions and reducer
 export const {
   addToCart,
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
-  addCommentAndPromoCode, // Export the new action
+  addCommentAndCouponCode,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

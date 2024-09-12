@@ -10,11 +10,10 @@ import ZoomedImage from "./ZoomedImage";
 import ArrowButton from "../button/ArrowButton";
 import { IProduct, IProductVariant } from "@/types/product";
 import { RxCross1 } from "react-icons/rx";
-import useProductSelection from "@/hooks/useProductSelection";
 
 interface ImageSliderProps {
   product: IProduct;
-  currentSlide: number; // Added currentSlide prop
+  currentSlide: string; // Added currentSlide prop
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
@@ -24,10 +23,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [productItems, setProductItems] = useState<IProductVariant[]>([]);
   const [imageId, setImageId] = useState<string | null>(null);
-
-  const { handleImageId, selectedImageId } = useProductSelection({
-    product: {} as any,
-  }); // Passing a dummy product
 
   useEffect(() => {
     if (product) {

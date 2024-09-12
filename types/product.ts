@@ -90,10 +90,11 @@ export interface IAddToItem {
   description: string;
   sku: string;
   productCategory: IProductCategory[];
+  tags: ITag[];
+  productBrand: IProductBrand[];
   url: string;
   alt: string;
   color: string;
-  uuid?: string;
   selectedProductId: string;
   selectedProductUrl: string;
   selectedProductColor: string;
@@ -108,5 +109,9 @@ export interface IAddToItem {
   sellingPrice: number;
   productVariants: IProductVariant[];
   quantity: number;
-  date?: string;
+}
+
+export interface IStoreItem extends IAddToItem {
+  uuid: string;
+  date: string;
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FaShippingFast,
   FaHeadset,
@@ -28,6 +28,7 @@ import { RootState } from "@/lib/store/store";
 
 interface ProductDetailsProps {
   product: IProduct;
+  onColorClick: (url: string) => void; // Add this line to define the type for `onColorClick`
 }
 
 interface ProductItem {
@@ -39,21 +40,23 @@ interface ProductItem {
 
 const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
   const dispatch = useDispatch();
-
-  const items = [
-    {
-      id: product._id,
-      url: product.url,
-      alt: product.alt,
-      color: product.color,
-    },
-    ...product.productVariants.map((variant) => ({
-      id: variant._id,
-      url: variant.url,
-      alt: variant.alt,
-      color: variant.color,
-    })),
-  ];
+  // Memoize items array
+  const items = useMemo(() => {
+    return [
+      {
+        id: product._id,
+        url: product.url,
+        alt: product.alt,
+        color: product.color,
+      },
+      ...product.productVariants.map((variant) => ({
+        id: variant._id,
+        url: variant.url,
+        alt: variant.alt,
+        color: variant.color,
+      })),
+    ];
+  }, [product]); // Dependencies
 
   const [selectedSize, setSelectedSize] = useState<string | null>(
     product.sizes.length > 0 ? product.sizes[0].size : null
@@ -98,12 +101,19 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
   useEffect(() => {
     setProductItem((prevProductItem) => ({
       ...prevProductItem,
-      url: selectedImage || product.url,
-      color: selectedColor || product.color,
-      size: selectedSize || "",
-      quantity: selectedQuantity, // Include quantity here
+      url: selectedImage || product.url, // Update URL based on selected image or product URL
+      color: selectedColor || product.color, // Update color based on selected color or product color
+      size: selectedSize || "", // Update size based on selected size or default to empty string
+      quantity: selectedQuantity, // Update quantity
     }));
-  }, [selectedSize, selectedColor, selectedImage, selectedQuantity]); // Add quantity to dependencies
+  }, [
+    product.color,
+    product.url,
+    selectedSize,
+    selectedColor,
+    selectedImage,
+    selectedQuantity,
+  ]); // Dependencies include all values that affect the effect
 
   const handleSizeClick = (size: string) => {
     setSelectedSize(size);
@@ -135,7 +145,7 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
     if (activeColorItem) {
       setColorId(activeColorItem.id);
     }
-  }, [product]);
+  }, [product, items]);
 
   const handleColorClick = (index: number) => {
     const selectedColorItem = productItems[index];

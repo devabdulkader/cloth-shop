@@ -2,13 +2,13 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "../../store";
-import { IAddToItem } from "@/types/product";
+import { IAddToItem, IStoreItem } from "@/types/product";
 
 // Define the interface for an individual wishlist item
 
 // Define the WishlistState interface
 export interface WishlistState {
-  wishlistItems: IAddToItem[];
+  wishlistItems: IStoreItem[];
   wishlistCount: number;
 }
 

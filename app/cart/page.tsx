@@ -8,22 +8,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store/store";
 import axios from "axios";
 import {
-  addCommentAndPromoCode,
+  addCommentAndCouponCode,
   decrementQuantity,
   incrementQuantity,
   removeFromCart,
 } from "@/lib/store/features/cart/cartSlice";
 import { instance } from "@/axios/axiosInstance";
 import { useRouter } from "next/navigation";
+import { IAddToItem, IStoreItem } from "@/types/product";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
-  const [comment, setComment] = useState("");
-  const [promoCode, setPromoCode] = useState("");
+  const [comment, setComment] = useState<string>("");
+  const [couponCode, setPromoCode] = useState<string>("");
   const router = useRouter();
 
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.cartItems
+  ) as IStoreItem[];
+  console.log("cart page", cartItems);
   const handleIncreaseQuantity = (id: string) => {
     dispatch(incrementQuantity(id));
   };
@@ -38,7 +41,7 @@ const CartPage: React.FC = () => {
 
   const handleApply = () => {
     // Dispatch comments and promo code to redux
-    dispatch(addCommentAndPromoCode({ comment, promoCode }));
+    dispatch(addCommentAndCouponCode({ comment, couponCode }));
     // Add further actions as needed, like showing a success message
   };
 
@@ -86,7 +89,7 @@ const CartPage: React.FC = () => {
                         <RiDeleteBin5Line
                           size={18}
                           className="cursor-pointer"
-                          onClick={() => handleRemoveItem(item.id)}
+                          onClick={() => handleRemoveItem(item.uuid)}
                         />
                       </div>
 
@@ -99,15 +102,17 @@ const CartPage: React.FC = () => {
                       />
                       <div className="text-[12px]">
                         <p className="font-semibold">{item.title}</p>
-                        <p className="font-medium">Size: {item.size}</p>
+                        <p className="font-medium">
+                          Size: {item.selectedProductSize}
+                        </p>
                       </div>
                     </div>
 
                     <div className="w-full flex justify-between items-center text-sm">
-                      <p>€{item.price}</p>
+                      <p>€{item.basePrice}</p>
                       <div className="mb-4 flex items-center">
                         <button
-                          onClick={() => handleDecreaseQuantity(item.id)}
+                          onClick={() => handleDecreaseQuantity(item.uuid)}
                           className="bg-gray-300 px-3 py-1 rounded"
                         >
                           -
@@ -120,13 +125,13 @@ const CartPage: React.FC = () => {
                           className="w-12 text-center mx-2 border border-gray-300 rounded"
                         />
                         <button
-                          onClick={() => handleIncreaseQuantity(item.id)}
+                          onClick={() => handleIncreaseQuantity(item.uuid)}
                           className="bg-gray-300 px-3 py-1 rounded"
                         >
                           +
                         </button>
                       </div>
-                      <p>€{(item.price * item.quantity).toFixed(2)}</p>
+                      <p>€{(item.basePrice * item.quantity).toFixed(2)}</p>
                     </div>
                   </div>
                 ))}
@@ -164,7 +169,7 @@ const CartPage: React.FC = () => {
           <input
             type="text"
             id="promoCode"
-            value={promoCode}
+            value={couponCode}
             onChange={(e) => setPromoCode(e.target.value)}
             placeholder="Enter promo code"
             className="px-4 h-14 text-sm outline-none text-black border"
@@ -186,7 +191,7 @@ const CartPage: React.FC = () => {
                 <span className="text-xl font-bold">
                   €
                   {cartItems.reduce(
-                    (acc, item) => acc + item.price * item.quantity,
+                    (acc, item) => acc + item.basePrice * item.quantity,
                     0
                   )}
                 </span>

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { RootState } from "@/lib/store/store";
 import { useSelector } from "react-redux";
 import { instance } from "@/axios/axiosInstance";
+import { IStoreItem } from "@/types/product";
 
 interface CartItem {
   id: number;
@@ -53,11 +54,13 @@ const CheckoutPage = () => {
     value: "COD",
   });
 
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.cartItems as IStoreItem[]
+  );
   const couponCode = useSelector((state: RootState) => state.cart.couponCode);
   const comment = useSelector((state: RootState) => state.cart.comment);
 
-  console.log({comment});
+  console.log({ comment });
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(event.target.value);
@@ -273,7 +276,7 @@ const CheckoutPage = () => {
               </div>
               <div className="text-sm font-normal">
                 <p>{item.title}</p>
-                <p>{item.size}</p>
+                <p>{item.selectedProductSize}</p>
               </div>
             </div>
             <div className="text-sm font-normal">${item.buyPrice}</div>

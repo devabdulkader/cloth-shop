@@ -11,7 +11,6 @@ import CustomSearchIcon from "@/components/custom/CustomSearchIcon";
 import { toggleCartSidebar } from "@/lib/store/features/cartSidebar/cartSidebarSlice";
 import { toggleUserSidebar } from "@/lib/store/features/userSidebar/userSidebarSlice";
 import { AiOutlineUser } from "react-icons/ai";
-import useProductSelection from "@/hooks/useProductSelection";
 import { RootState } from "@/lib/store/store";
 
 const NavIcons: React.FC = () => {
@@ -20,7 +19,9 @@ const NavIcons: React.FC = () => {
   const [wishlistItemCount, setWishlistItemCount] = useState<number>(0);
   const cartCount = useSelector((state: RootState) => state.cart.cartCount);
 
-  const wishlistCount = useSelector((state: RootState) => state.wishlist.wishlistCount);
+  const wishlistCount = useSelector(
+    (state: RootState) => state.wishlist.wishlistCount
+  );
 
   const handleCartClick = () => {
     dispatch(toggleCartSidebar());

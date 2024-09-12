@@ -12,6 +12,7 @@ import {
   incrementQuantity,
   removeFromCart,
 } from "@/lib/store/features/cart/cartSlice";
+import { IStoreItem } from "@/types/product";
 
 interface CartItem {
   id: string; // Unique identifier for each cart item
@@ -28,7 +29,9 @@ interface CartModalProps {
 
 const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.cartItems
+  ) as IStoreItem[];
 
   const handleIncreaseQuantity = (id: string) => {
     dispatch(incrementQuantity(id));

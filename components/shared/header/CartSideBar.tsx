@@ -14,20 +14,13 @@ import {
   incrementQuantity,
   removeFromCart,
 } from "@/lib/store/features/cart/cartSlice";
+import { IStoreItem } from "@/types/product";
 
 interface Tag {
   title: string;
   href: string;
 }
 // Example of updated IProduct type
-export interface IProduct {
-  id: string;
-  title: string;
-  size: string;
-  basePrice: number;
-  quantity: number;
-  selectedImage: string; // Add this property
-}
 
 const tags: Tag[] = [
   { title: "Men", href: "/men" },
@@ -40,9 +33,9 @@ const tags: Tag[] = [
 const CartSideBar: React.FC = () => {
   const dispatch = useDispatch();
 
-  const [cartData, setCartData] = useState<IProduct[]>([]);
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.cartItems
+  ) as IStoreItem[];
   // Handle quantity change
 
   const isCartSidebarOpen = useSelector(
@@ -134,12 +127,12 @@ const CartSideBar: React.FC = () => {
                       />
                     </div>
                     <div className="flex flex-col h-full  gap-4 md:gap-6 items-center">
-                     <div className="flex flex-col justify-start">
-                     <span>{item.title}</span>
-                      <span>{item.selectedProductSize}</span>
-                      <span className="text-md font-semibold">
-                        ${item.basePrice}
-                      </span>
+                      <div className="flex flex-col justify-start">
+                        <span>{item.title}</span>
+                        <span>{item.selectedProductSize}</span>
+                        <span className="text-md font-semibold">
+                          ${item.basePrice}
+                        </span>
                       </div>
                       {/* Quantity Selection */}
                       <div className="flex items-center">
