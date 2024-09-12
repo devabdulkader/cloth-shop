@@ -115,7 +115,7 @@ const CheckoutPage = () => {
       typeof window !== "undefined" && localStorage.removeItem("cart");
 
       // Redirect to order confirmation page
-      router.push(`/confirmation`);
+      router.push(`/confirmation/${createdOrder?.trackingNumber}`);
     } catch (error) {
       console.error("Error creating order:", error);
     }

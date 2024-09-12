@@ -6,27 +6,31 @@ import Link from "next/link";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store/store";
-import axios from "axios";
 import {
-  addCommentAndCouponCode,
   decrementQuantity,
   incrementQuantity,
   removeFromCart,
+  addComment,
+  addCouponCode,
 } from "@/lib/store/features/cart/cartSlice";
 import { instance } from "@/axios/axiosInstance";
 import { useRouter } from "next/navigation";
-import { IAddToItem, IStoreItem } from "@/types/product";
+import { IStoreItem } from "@/types/product";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
   const [comment, setComment] = useState<string>("");
-  const [couponCode, setPromoCode] = useState<string>("");
+  const [couponCode, setCouponCode] = useState<string>("");
+  const [couponStatus, setCouponStatus] = useState<
+    "idle" | "valid" | "invalid"
+  >("idle");
+  const [couponMessage, setCouponMessage] = useState<string>("");
   const router = useRouter();
 
   const cartItems = useSelector(
     (state: RootState) => state.cart.cartItems
   ) as IStoreItem[];
-  console.log("cart page", cartItems);
+
   const handleIncreaseQuantity = (id: string) => {
     dispatch(incrementQuantity(id));
   };
@@ -39,16 +43,69 @@ const CartPage: React.FC = () => {
     dispatch(removeFromCart(id));
   };
 
-  const handleApply = () => {
-    // Dispatch comments and promo code to redux
-    dispatch(addCommentAndCouponCode({ comment, couponCode }));
-    // Add further actions as needed, like showing a success message
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setComment(event.target.value);
+  };
+
+  const handleCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCouponCode(event.target.value);
+  };
+
+  const verifyCoupon = async () => {
+    try {
+      const response = await instance.post(
+        "https://chokro-backend-api.vercel.app/graphql",
+        {
+          query: `
+            query {
+              couponByCode(code: "${couponCode}") {
+                id
+                code
+                status
+                endsAt
+              }
+            }
+          `,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const coupon = response.data.data.couponByCode;
+
+      if (
+        coupon &&
+        coupon.status === "ACTIVE" &&
+        new Date(+coupon.endsAt) > new Date()
+      ) {
+        setCouponStatus("valid");
+        setCouponMessage("Coupon applied successfully!");
+        dispatch(addCouponCode(couponCode));
+      } else {
+        setCouponStatus("invalid");
+        setCouponMessage("Invalid or expired coupon.");
+      }
+    } catch (error) {
+      console.error("Error verifying coupon:", error);
+      setCouponStatus("invalid");
+      setCouponMessage("Error verifying coupon. Please try again.");
+    }
   };
 
   const handleCheckout = () => {
-    // Navigate to the checkout page
-    router.push("/checkout");
+    dispatch(addComment(comment));
+    router.push("/checkouts");
   };
+
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.basePrice * item.quantity,
+    0
+  );
 
   return (
     <div className="container">
@@ -155,31 +212,47 @@ const CartPage: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-4 min-w-full md:min-w-[40%]">
-          {/* Comment and Promo Code Section */}
-          <label htmlFor="comments">Comments:</label>
           <textarea
-            id="comments"
+            name="comment"
+            id="comment"
+            placeholder="COMMENTS HERE..."
+            rows={6}
             value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Add your comments here"
+            onChange={handleCommentChange}
             className="w-full text-sm outline-none text-black border p-2"
           />
-
-          <label htmlFor="promoCode">Promo Code:</label>
-          <input
-            type="text"
-            id="promoCode"
-            value={couponCode}
-            onChange={(e) => setPromoCode(e.target.value)}
-            placeholder="Enter promo code"
-            className="px-4 h-14 text-sm outline-none text-black border"
-          />
-          <button
-            onClick={handleApply}
-            className="bg-[#132842] text-white rounded-full h-12 w-40 flex justify-center items-center"
-          >
-            Apply
-          </button>
+          <div className="relative mt-4">
+            <input
+              name="promocode"
+              id="promocode"
+              placeholder="PROMO CODE"
+              type="text"
+              value={couponCode}
+              onChange={handleCouponChange}
+              className={`px-4 h-14 text-sm outline-none text-black border w-full ${
+                couponStatus === "valid"
+                  ? "border-green-500"
+                  : couponStatus === "invalid"
+                  ? "border-red-500"
+                  : ""
+              }`}
+            />
+            <button
+              onClick={verifyCoupon}
+              className="absolute top-1 right-0 text-[#132842] rounded-full h-12 w-40 flex justify-center items-center"
+            >
+              Apply
+            </button>
+          </div>
+          {couponStatus !== "idle" && (
+            <p
+              className={`text-sm ${
+                couponStatus === "valid" ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {couponMessage}
+            </p>
+          )}
 
           <div className="border">
             <p className="px-6 py-3 text-[12px] font-semibold uppercase">
@@ -188,13 +261,7 @@ const CartPage: React.FC = () => {
             <div className="flex flex-col gap-2 bg-slate-100 px-6 py-4">
               <p className="flex flex-row justify-between items-center">
                 <span className="text-lg font-semibold">Total:</span>
-                <span className="text-xl font-bold">
-                  €
-                  {cartItems.reduce(
-                    (acc, item) => acc + item.basePrice * item.quantity,
-                    0
-                  )}
-                </span>
+                <span className="text-xl font-bold">€{total.toFixed(2)}</span>
               </p>
             </div>
           </div>

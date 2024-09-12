@@ -7,7 +7,7 @@ const ConfirmationPage = ({ params }: { params: { trackingId: string } }) => {
         Your order has been confirmed
       </h1>
       <p className="text-md font-medium py-4">
-        This is your order tracking number id: ${params.trackingId}{" "}
+        This is your order tracking number id: {params.trackingId}{" "}
       </p>
     </div>
   );

@@ -117,11 +117,11 @@ export const cartSlice = createSlice({
         saveCartToLocalStorage(state);
       }
     },
-    setCouponCode: (state, action: PayloadAction<string>) => {
+    addCouponCode: (state, action: PayloadAction<string>) => {
       state.couponCode = action.payload;
       saveCartToLocalStorage(state);
     },
-    setComment: (state, action: PayloadAction<string>) => {
+    addComment: (state, action: PayloadAction<string>) => {
       state.comment = action.payload;
       saveCartToLocalStorage(state);
     },
@@ -133,8 +133,8 @@ export const {
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
-  setCouponCode,
-  setComment,
+  addCouponCode,
+  addComment,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
