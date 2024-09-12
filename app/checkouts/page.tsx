@@ -8,9 +8,10 @@ import Form from "@/components/forms/Form";
 import FormInput from "@/components/forms/FormInput";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/lib/store/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { instance } from "@/axios/axiosInstance";
 import { IStoreItem } from "@/types/product";
+import { clearCart } from "@/lib/store/features/cart/cartSlice";
 
 interface CartItem {
   id: number;
@@ -46,6 +47,7 @@ interface CreateOrderInput {
 
 const CheckoutPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState<string>("Bangladesh");
   const [selectedDeliveryLocation, setSelectedDeliveryLocation] =
     useState<string>("insite-dhaka");
@@ -113,7 +115,7 @@ const CheckoutPage = () => {
       // Clear the cart after successful order creation
       // You might want to dispatch an action to clear the Redux store as well
       typeof window !== "undefined" && localStorage.removeItem("cart");
-
+      dispatch(clearCart());
       // Redirect to order confirmation page
       router.push(`/confirmation/${createdOrder?.trackingNumber}`);
     } catch (error) {
