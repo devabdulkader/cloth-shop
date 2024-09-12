@@ -69,9 +69,9 @@ const TopNav = () => {
       </div>
 
       {/* Right: Dropdown Items */}
-      <div className="flex space-x-6 justify-end items-center relative">
+      <div className="flex space-x-6 justify-end items-center relative ">
         {/* Country Select */}
-        <div>
+        <div className="relative z-layer-2">
           <button
             className="flex items-center text-white px-3 py-1 gap-3"
             onClick={() =>
@@ -87,10 +87,13 @@ const TopNav = () => {
             />
             <span className="uppercase text-[10px]">{selectedCountry}</span>
           </button>
-          <div className="absolute top-8 mt-1 bg-white text-black shadow-sm border-t border-r border-l border-[#e5e5e5] z-50">
-            <MotionHeight isVisible={openDropdown === "country"}>
+          <div className="absolute top-8 mt-1 bg-white  text-black shadow-sm border-t border-r border-l border-[#e5e5e5] z-50 ">
+            <MotionHeight
+              isVisible={openDropdown === "country"}
+              className="w-52"
+            >
               {countries.map((country, idx) => (
-                <button
+                <div
                   key={idx}
                   className="w-full text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center"
                   onClick={() => {
@@ -106,15 +109,17 @@ const TopNav = () => {
                     width={300}
                     className="w-[15px] h-[11px]"
                   />
-                  <span className="uppercase text-[10px]">{country.label}</span>
-                </button>
+                  <span className="uppercase text-[10px] w-full">
+                    {country.label}
+                  </span>
+                </div>
               ))}
             </MotionHeight>
           </div>
         </div>
 
         {/* Language Select */}
-        <div>
+        <div className="relative z-layer-2">
           <button
             className="flex items-center text-white px-3 py-1 gap-3"
             onClick={() =>
@@ -132,7 +137,10 @@ const TopNav = () => {
           </button>
 
           <div className="absolute top-8 mt-1 right-0 bg-white text-black shadow-sm z-50 border-t border-r border-l border-[#e5e5e5]">
-            <MotionHeight isVisible={openDropdown === "language"}>
+            <MotionHeight
+              isVisible={openDropdown === "language"}
+              className="w-52"
+            >
               {languages.map((language, idx) => (
                 <button
                   key={idx}

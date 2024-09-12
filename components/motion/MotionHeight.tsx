@@ -4,9 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 interface MotionHeightProps {
   children: ReactNode;
   isVisible: boolean; // Pass a prop to control visibility
+  className?:string;
 }
 
-const MotionHeight: React.FC<MotionHeightProps> = ({ children, isVisible }) => {
+const MotionHeight: React.FC<MotionHeightProps> = ({
+  children,
+  isVisible,
+  className,
+}) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [contentHeight, setContentHeight] = useState<number | null>(null);
 
@@ -25,6 +30,7 @@ const MotionHeight: React.FC<MotionHeightProps> = ({ children, isVisible }) => {
           exit={{ height: 0 }}
           transition={{ duration: 0.3 }}
           style={{ overflow: "hidden" }}
+          className={`${className}`}
         >
           <div ref={contentRef}>{children}</div>
         </motion.div>

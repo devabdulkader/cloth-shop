@@ -13,7 +13,7 @@ import PaymentCards from "../common/PaymentCards";
 import Link from "next/link";
 import CartModal from "../common/CartModal";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
-import { IProduct } from "@/types/product";
+import { IAddToItem, IProduct } from "@/types/product";
 import { FaClockRotateLeft, FaQuestion, FaStar } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/lib/store/features/cart/cartSlice";
@@ -68,24 +68,31 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
 
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
 
-  const [productItem, setProductItem] = useState<IProduct>({
+  const [productItem, setProductItem] = useState<IAddToItem>({
     _id: product._id,
-    selectedProductId: selectedId || "",
     title: product.title,
     description: product.description,
+    url: product.url, // Assuming this is the general product image
+    alt: product.alt,
+    color: product.color,
+    sku: product.sku,
+    productCategory: product.productCategory,
+    tags: product.tags,
+    productBrand: product.productBrand,
+    selectedProductId: selectedId || product._id,
+    selectedProductUrl: selectedImage || product.url, // If selectedImage is the specific variant
+    selectedProductColor: selectedColor || product.color, // Store selected color
+    selectedProductSize: selectedSize || product.sizes[0].size, // Store selected size
     gender: product.gender,
     basePrice: product.basePrice,
     buyPrice: product.buyPrice,
-    otherCost: product.otherCost,
-    discountPrice: product.discountPrice,
-    url: selectedImage || product.url,
-    color: selectedColor || product.color,
-    deliveryMethods: "",
-    size: selectedSize || "",
+    otherCost: product.otherCost, // Optional, can be undefined
+    discountPrice: product.discountPrice, // Optional, can be undefined
+    sizes: product.sizes, // Assuming this is an array of size options
+    deliveryMethods: "", // Placeholder, can be updated with actual delivery methods
     sellingPrice: product.sellingPrice,
-    productVariants: product.productVariants,
-    availableSizes: product.sizes,
-    quantity: selectedQuantity || 1,
+    productVariants: product.productVariants, // Assuming it's an array of variants
+    quantity: 1, // Default to 1
   });
 
   useEffect(() => {
