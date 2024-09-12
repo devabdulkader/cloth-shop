@@ -17,6 +17,8 @@ interface CartItem {
 export interface CartState {
   cartItems: CartItem[];
   cartCount: number; // Represents the number of distinct items
+  comment: string;
+  couponCode: string;
 }
 
 // Function to load cart from local storage
@@ -30,16 +32,22 @@ const loadCartFromLocalStorage = (): CartState => {
           ? parsedCart.cartItems
           : [],
         cartCount: parsedCart.cartCount || 0,
+        comment: parsedCart.comment || "",
+        couponCode: parsedCart.couponCode || "",
       };
     } catch (error) {
-      return { cartItems: [], cartCount: 0 };
+      return { cartItems: [], cartCount: 0, comment: "", couponCode: "" };
     }
   }
-  return { cartItems: [], cartCount: 0 };
+  return { cartItems: [], cartCount: 0, comment: "", couponCode: "" };
 };
 
 // Initial state
-const initialState: CartState = loadCartFromLocalStorage();
+const initialState: CartState = {
+  ...loadCartFromLocalStorage(),
+  comment: "",
+  couponCode: "",
+};
 
 // Function to save cart to local storage
 const saveCartToLocalStorage = (state: CartState) => {
@@ -108,6 +116,14 @@ export const cartSlice = createSlice({
         saveCartToLocalStorage(state);
       }
     },
+    addComment: (state, action: PayloadAction<string>) => {
+      state.comment = action.payload;
+      saveCartToLocalStorage(state);
+    },
+    addCouponCode: (state, action: PayloadAction<string>) => {
+      state.couponCode = action.payload;
+      saveCartToLocalStorage(state);
+    }
   },
 });
 
@@ -117,5 +133,7 @@ export const {
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
+  addComment,
+  addCouponCode,
 } = cartSlice.actions;
 export default cartSlice.reducer;
