@@ -10,7 +10,8 @@ export interface CartState {
 }
 
 const loadCartFromLocalStorage = (): CartState => {
-  const storedCart = localStorage.getItem("cart");
+  const storedCart =
+    typeof window !== "undefined" ? localStorage.getItem("cart") : null;
   if (storedCart) {
     try {
       const parsedCart = JSON.parse(storedCart);
@@ -36,7 +37,8 @@ const initialState: CartState = {
 };
 
 const saveCartToLocalStorage = (state: CartState) => {
-  localStorage.setItem("cart", JSON.stringify(state));
+  typeof window !== "undefined" &&
+    localStorage.setItem("cart", JSON.stringify(state));
 };
 
 export const cartSlice = createSlice({

@@ -14,7 +14,8 @@ export interface WishlistState {
 
 // Function to load wishlist from local storage
 const loadWishlistFromLocalStorage = (): WishlistState => {
-  const storedWishlist = localStorage.getItem("wishlist");
+  const storedWishlist =
+    typeof window !== "undefined" ? localStorage.getItem("wishlist") : null;
   if (storedWishlist) {
     try {
       const parsedWishlist = JSON.parse(storedWishlist);
@@ -37,7 +38,8 @@ const initialState: WishlistState = loadWishlistFromLocalStorage();
 
 // Function to save wishlist to local storage
 const saveWishlistToLocalStorage = (state: WishlistState) => {
-  localStorage.setItem("wishlist", JSON.stringify(state));
+  typeof window !== "undefined" &&
+    localStorage.setItem("wishlist", JSON.stringify(state));
 };
 
 // Create the wishlist slice

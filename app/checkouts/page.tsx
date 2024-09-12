@@ -112,7 +112,7 @@ const CheckoutPage = () => {
 
       // Clear the cart after successful order creation
       // You might want to dispatch an action to clear the Redux store as well
-      localStorage.removeItem("cart");
+      typeof window !== "undefined" && localStorage.removeItem("cart");
 
       // Redirect to order confirmation page
       router.push(`/confirmation`);
