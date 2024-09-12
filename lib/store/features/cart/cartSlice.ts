@@ -1,21 +1,22 @@
+import { IAddToItem } from "@/types/product";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 // Define the interface for an individual cart item
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  description?: string;
-  url?: string;
-  color?: string;
-  size?: string;
-}
+// interface CartItem {
+//   uuid: string;
+//   name: string;
+//   price: number;
+//   quantity: number;
+//   description?: string;
+//   url?: string;
+//   color?: string;
+//   size?: string;
+// }
 
 // Define the CartState interface
 export interface CartState {
-  cartItems: CartItem[];
+  cartItems: IAddToItem[];
   cartCount: number; // Represents the number of distinct items
   promoCode: string; // New field for promo code
   comment: string; // New field for comment
@@ -61,18 +62,26 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (
       state,
-      action: PayloadAction<CartItem & { quantity: number }>
+      action: PayloadAction<IAddToItem & { quantity: number }>
     ) => {
-      const { url, color, size, quantity } = action.payload;
+      const {
+        selectedProductUrl,
+        selectedProductColor,
+        selectedProductSize,
+        quantity,
+      } = action.payload;
 
       const existingItemIndex = state.cartItems.findIndex(
-        (item) => item.color === color && item.size === size && item.url === url
+        (item) =>
+          item.selectedProductColor === selectedProductColor &&
+          item.selectedProductSize === selectedProductSize &&
+          item.selectedProductUrl === selectedProductUrl
       );
 
       if (existingItemIndex === -1) {
         state.cartItems.push({
           ...action.payload,
-          id: uuidv4(),
+          uuid: uuidv4(),
         });
       } else {
         state.cartItems[existingItemIndex].quantity += quantity;
@@ -83,14 +92,14 @@ export const cartSlice = createSlice({
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
-        (item) => item.id !== action.payload
+        (item) => item.uuid !== action.payload
       );
       state.cartCount = state.cartItems.length;
       saveCartToLocalStorage(state);
     },
     incrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.uuid === action.payload
       );
 
       if (itemIndex !== -1) {
@@ -101,7 +110,7 @@ export const cartSlice = createSlice({
     },
     decrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.uuid === action.payload
       );
 
       if (itemIndex !== -1) {
@@ -109,7 +118,7 @@ export const cartSlice = createSlice({
           state.cartItems[itemIndex].quantity -= 1;
         } else {
           state.cartItems = state.cartItems.filter(
-            (item) => item.id !== action.payload
+            (item) => item.uuid !== action.payload
           );
         }
         state.cartCount = state.cartItems.length;

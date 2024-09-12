@@ -15,8 +15,16 @@ import CartModal from "../common/CartModal";
 import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import { IProduct } from "@/types/product";
 import { FaClockRotateLeft, FaQuestion, FaStar } from "react-icons/fa6";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/lib/store/features/cart/cartSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  selectIsInWishlist,
+  wishlistDecrementQuantity,
+  wishlistIncrementQuantity,
+} from "@/lib/store/features/wishlist/wishlistSlice";
+import { RootState } from "@/lib/store/store";
 
 interface ProductDetailsProps {
   product: IProduct;
@@ -29,7 +37,7 @@ interface ProductItem {
   alt: string;
 }
 
-const ProductDetails = ({ product }: ProductDetailsProps) => {
+const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
   const dispatch = useDispatch();
 
   const items = [
@@ -128,6 +136,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       setSelectedColor(selectedColorItem.color);
       setSelectedImage(selectedColorItem.url); // Update image URL for the selected color
       setSelectedId(selectedColorItem.id); // Also set the selected item's ID
+      onColorClick(selectedColorItem.url);
     }
   };
 
@@ -138,6 +147,23 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const decreaseQuantity = () => {
     if (selectedQuantity > 1) {
       setSelectedQuantity((prevQuantity) => prevQuantity - 1);
+    }
+  };
+
+  const isInWishlist = useSelector((state: RootState) =>
+    selectIsInWishlist(
+      state,
+      product._id,
+      selectedColor || product.color,
+      selectedSize || product.sizes[0]?.size || ""
+    )
+  );
+  const handleWishlistToggle = () => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(productItem.selectedProductId || ""));
+      console.log("product id", productItem.selectedProductId);
+    } else {
+      dispatch(addToWishlist(productItem));
     }
   };
 
@@ -156,59 +182,63 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     <>
       {showCartModal && <CartModal onClose={handleModalClose} />}
 
-      <div className="flex flex-col space-y-8 py-10">
+      <div className="flex flex-col justify-start gap-5">
         {/* Header section with product name and review link */}
-        <div>
-          <h1 className="text-3xl font-bold mt-5 md:mt-0 mb-5">
-            {product.title}
-          </h1>
-          <div className="flex items-center space-x-3">
-            {/* Star rating for reviews */}
-            <div className="text-yellow-500 text-lg flex items-center justify-center py-5 gap-5">
-              <div className="flex justify-center items-center">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <FaStar key={index} className="text-2xl" />
-                ))}
-              </div>
-              <div className="flex justify-center items-center pt-1">
-                <span className="text-gray-600">(0)</span>
-                <Link href="#reviews" className="text-blue-500 hover:underline">
-                  VIEW ALL REVIEWS
-                </Link>
-              </div>
-            </div>
+        <h1 className="text-2xl font-bold">{product.title}</h1>
+        {/* Star rating for reviews */}
+        <div className=" flex items-center justify-start  gap-3">
+          <div className="flex justify-center items-center">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <FaStar key={index} className="text-sm text-gray-400" />
+            ))}
           </div>
+          <span className="text-gray-600 text-sm">(0)</span>
+
+          <Link
+            href="#reviews"
+            className="text-slate-800 font-semibold text-sm"
+          >
+            VIEW ALL REVIEWS
+          </Link>
         </div>
         {/* Product price */}
-        <div className="text-2xl font-semibold text-gray-800">{`€${product.basePrice}`}</div>
+        <h2 className="text-2xl font-semibold text-gray-800">{`€${product.basePrice}`}</h2>
         {/* Product description */}
-        <div className="mb-4">
-          <p className="text-gray-700 mb-2 text-xl">{product.description}</p>
+        <p className="text-gray-700  text-sm">{product.description}</p>
+        <div className="flex flex-col gap-2">
+          {/* Product tags */}
+          <div className="flex space-x-10">
+            <strong className="text-gray-800 text-sm w-40 uppercase">
+              Tags:
+            </strong>{" "}
+            <p>{product.tags.map((tag) => tag.name).join(", ")}</p>
+          </div>
+          {/* Product SKU */}
+          <div className="flex space-x-10">
+            <strong className="text-gray-800 text-sm w-40 uppercase">
+              SKU:
+            </strong>
+            <p>{product.sku}</p>
+          </div>
+          {/* Product category */}
+          <div className="flex space-x-10">
+            <strong className="text-gray-800 text-sm w-40 uppercase">
+              Category:
+            </strong>{" "}
+            <p> {product.productCategory.map((cat) => cat.name).join(", ")}</p>
+          </div>
         </div>
-        {/* Product tags */}
-        <div className="mb-4">
-          <strong className="text-gray-800 text-xl">Tags:</strong>{" "}
-          {product.tags.map((tag) => tag.name).join(", ")}
-        </div>
-        {/* Product SKU */}
-        <div className="mb-4">
-          <strong className="text-gray-800 text-xl">SKU:</strong> {product.sku}
-        </div>
-        {/* Product category */}
-        <div className="mb-4">
-          <strong className="text-gray-800 text-xl">Category:</strong>{" "}
-          {product.productCategory.map((cat) => cat.name).join(", ")}
-        </div>
+
         {/* Product size selection */}
-        <div className="mb-4">
-          <strong className="text-gray-800 text-xl">
+        <div className="flex flex-col gap-2">
+          <strong className="text-gray-800 text-sm uppercase mb-2">
             Size: {selectedSize || "Select a size"}
           </strong>
-          <div className="flex space-x-2 mt-5">
+          <div className="flex space-x-2">
             {product.sizes.map((size) => (
               <button
                 key={size.size}
-                className={`mr-2 mb-2 py-1 px-3 rounded border ${
+                className={`mr-2  py-1 px-3 rounded border ${
                   selectedSize === size.size
                     ? "border-blue-500 text-blue-500"
                     : "border-gray-300 text-gray-800"
@@ -221,39 +251,58 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           </div>
         </div>
         {/* // Product color selection */}
-        <div className="mb-4">
-          <strong className="text-gray-800 text-xl">Color:</strong>
-          <div className="flex space-x-2 mt-5">
+        <div className="flex flex-col gap-2">
+          <strong className="text-gray-800 text-sm uppercase mb-2">
+            Color: {productItem.color}
+          </strong>
+
+          <div className="flex space-x-2">
             {productItems.map((item, index) => (
               <div
                 key={index}
-                className={`w-8 h-8 rounded-full mr-2 mb-2 ${
-                  selectedColor === item.color ? "ring-2 ring-blue-500" : ""
+                className={`relative w-10 h-10 flex items-center justify-center rounded-full ${
+                  selectedColor === item.color
+                    ? "border-black"
+                    : "border-gray-300"
                 }`}
-                style={{ backgroundColor: item.color }}
+                style={{
+                  border: "2px solid transparent", // This creates space for the outer ring
+                  borderRadius: "50%",
+                  backgroundColor: "transparent",
+                }}
                 onClick={() => handleColorClick(index)}
               >
-                {/* Inner div for the actual color */}
+                {/* Outer Ring */}
                 <div
-                  className="h-full w-full rounded-full"
+                  className={`absolute inset-0 rounded-full border-2 ${
+                    selectedColor === item.color
+                      ? "border-black"
+                      : "border-gray-300"
+                  }`}
+                ></div>
+                {/* Inner Ring */}
+
+                {/* Actual Color */}
+                <div
+                  className="absolute inset-1 rounded-full"
                   style={{ backgroundColor: item.color }}
                 ></div>
               </div>
             ))}
           </div>
         </div>
+
         {/* Quantity and action buttons */}
         <section>
-          <p className="mb-5">
-            <strong className="text-gray-800 text-xl">Quantity:</strong>
+          <p className="">
+            <strong className="text-gray-800 text-sm uppercase mb-2">
+              Quantity:
+            </strong>
           </p>
-          <div className="flex gap-5">
-            <div className="flex items-center mb-4 space-x-2 border rounded-full quantity">
+          <div className="flex gap-5 mb-2">
+            <div className="flex items-center space-x-2 border rounded-full quantity">
               {/* Minus button */}
-              <button
-                onClick={decreaseQuantity}
-                className="bg-gray-300 px-3 py-1 rounded"
-              >
+              <button onClick={decreaseQuantity} className="px-3 ">
                 -
               </button>
               <input
@@ -261,42 +310,45 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                 value={selectedQuantity}
                 min="1"
                 onChange={handleQuantityChange}
-                className="w-12 text-center mx-2 border border-gray-300 rounded"
+                className="w-12 text-center mx-2 "
               />
-              <button
-                onClick={increaseQuantity}
-                className="bg-gray-300 px-3 py-1 rounded"
-              >
+              <button onClick={increaseQuantity} className="px-3">
                 +
               </button>
             </div>
 
             {/* Add to Bag and Heart buttons */}
-            <div className="flex items-center space-x-4 mb-4 w-full">
+            <div className="flex items-center space-x-4  w-full">
               <button
                 onClick={handleAddToCart}
-                className={`border py-3 px-4 w-full  rounded-full hover:bg-slate-800 hover:text-white transition-colors duration-300 ease-in-out`}
+                className={`border py-3 px-4 font-semibold shadow text-sm w-full uppercase bg-[#EDEDED]  rounded-full hover:bg-slate-800 hover:text-white transition-colors duration-300 ease-in-out`}
               >
-                Add to Bag
+                Add to cart
               </button>
               <button
-                className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} flex items-center p-4 justify-center border rounded-full bg-gray-100`}
+                onClick={handleWishlistToggle}
+                className={`${BUTTON_ANIMATION_CLASSES}  flex items-center p-4 justify-center border rounded-full ${
+                  isInWishlist
+                    ? "text-gray-200 bg-slate-800"
+                    : "text-slate-800 bg-[#EDEDED] hover:text-gray-200 hover:bg-slate-800"
+                }`}
               >
                 <FaHeart />
               </button>
             </div>
           </div>
+          {/* Buy Now button */}
+          <Link href="/checkouts" className="">
+            <button
+              className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} uppercase font-semibold shadow text-sm w-full border p-4 rounded-full`}
+            >
+              Buy It Now
+            </button>
+          </Link>
         </section>
-        {/* Buy Now button */}
-        <Link href="/checkouts" className="mb-4">
-          <button
-            className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full border p-4 rounded-full`}
-          >
-            Buy It Now
-          </button>
-        </Link>
+
         {/* Share, Ask a Question, FAQ Section */}
-        <div className="mb-8">
+        <div className="mt-2">
           <div className="flex space-x-6">
             {/* Share */}
             <div className="flex items-center space-x-2">
@@ -318,11 +370,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           </div>
         </div>
         {/* Payment cards */}
-        <div>
+        <div className="py-5">
           <PaymentCards />
         </div>
         {/* Product guarantee and shipping information */}
-        <div className="mb-5">
+        <div className="">
           <ul className="list-disc list-inside text-gray-600 space-y-2">
             <li className="flex items-center space-x-2">
               <FaShippingFast />

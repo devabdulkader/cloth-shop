@@ -1,6 +1,8 @@
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "../store/features/cart/cartSlice";
+import wishlistReducer from "../store/features/wishlist/wishlistSlice";
+
 import navReducer from "../store/features/nav/navSlice";
 import userSidebarReducer from "../store/features/userSidebar/userSidebarSlice";
 import filterSidebarReducer from "../store/features/filterSidebar/filterSidebarSlice";
@@ -13,6 +15,7 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       cart: cartReducer,
+      wishlist: wishlistReducer,
       nav: navReducer,
       userSidebar: userSidebarReducer,
       cartSidebar: cartSidebarReducer,

@@ -7,6 +7,9 @@ import QuickViewModel from "@/components/card/QuickViewModel";
 import useProductSelection from "@/hooks/useProductSelection";
 import { getAllProducts } from "@/lib/service/getAllProducts";
 import { IProduct } from "@/types/product";
+import { RootState } from "@/lib/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromWishlist } from "@/lib/store/features/wishlist/wishlistSlice";
 
 interface Wishlist {
   variantId: string;
@@ -26,16 +29,19 @@ interface Wishlist {
 }
 
 const WishlistPage: React.FC = () => {
+  const dispatch = useDispatch();
+
   const [products, setProducts] = useState<IProduct[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [wishlist, setWishlist] = useState<Wishlist[]>([]);
   const [wishlistItem, setWishlistItem] = useState<IProduct | undefined>();
-  const [activeColor, setActiveColor] = useState<string>("");
-  const [activeImage, setActiveImage] = useState<string>("");
 
-  const { removeFromWishlist } = useProductSelection({
-    product: {} as IProduct,
-  }); // Type fixed
+  const wishlistItems = useSelector(
+    (state: RootState) => state.wishlist.wishlistItems
+  );
+  const wishlistCount = useSelector(
+    (state: RootState) => state.wishlist.wishlistCount
+  );
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -65,27 +71,15 @@ const WishlistPage: React.FC = () => {
     }
   }, []);
 
-  const removeWishLIstItem = (item: Wishlist) => {
-    const { id, variantId, productId } = item;
-
-    if (variantId) {
-      removeFromWishlist(variantId); // Remove based on variantId
-    } else {
-      removeFromWishlist(productId); // Remove based on productId
-    }
-
-    setWishlist((prevWishlistData) =>
-      prevWishlistData.filter((wishlistItem) => wishlistItem.id !== id)
-    );
+  const removeWishLIstItem = (id) => {
+    dispatch(removeFromWishlist(id));
   };
 
   const handleModalOpen = (item: Wishlist) => {
-    const product = products.find((prod) => prod._id === item.productId);
+    const product = wishlistItems.find((prod) => prod.uuid === item.uuid);
 
     if (product) {
       setWishlistItem(product);
-      setActiveColor(item.color);
-      setActiveImage(item.selectedImage);
       setShowModal(true);
     } else {
       console.warn("Product not found:", item.productId);
@@ -99,12 +93,7 @@ const WishlistPage: React.FC = () => {
   return (
     <div className="container">
       {showModal && wishlistItem && (
-        <QuickViewModel
-          onClose={handleModalClose}
-          product={wishlistItem}
-          activeColor={activeColor}
-          activeImage={activeImage}
-        />
+        <QuickViewModel onClose={handleModalClose} product={wishlistItem} />
       )}
 
       <div className="text-center py-20 md:py-40">
@@ -116,7 +105,7 @@ const WishlistPage: React.FC = () => {
         </p>
       </div>
       <div className="flex flex-col gap-4 pb-10 md:pb-20">
-        {wishlist.map((item) => (
+        {wishlistItems?.map((item) => (
           <div
             key={item.id}
             className="flex flex-row justify-between items-center rounded-xl border p-4 md:p-8 hover:shadow-xl duration-300"
@@ -125,10 +114,10 @@ const WishlistPage: React.FC = () => {
               <RiDeleteBin5Line
                 size={18}
                 className="cursor-pointer"
-                onClick={() => removeWishLIstItem(item)}
+                onClick={() => removeWishLIstItem(item.uuid)}
               />
               <Image
-                src={item.selectedImage}
+                src={item.selectedProductUrl}
                 alt={item.title}
                 width={100}
                 height={100}
@@ -139,7 +128,7 @@ const WishlistPage: React.FC = () => {
                 <p>${item.buyPrice}</p>
                 <p className="flex gap-2 items-center">
                   <RiCalendarTodoFill size={14} />
-                  <span>{formatDate(item.dateAdded)}</span>
+                  <span>{formatDate(item.date)}</span>
                 </p>
               </div>
             </div>

@@ -20,21 +20,7 @@ const NavIcons: React.FC = () => {
   const [wishlistItemCount, setWishlistItemCount] = useState<number>(0);
   const cartCount = useSelector((state: RootState) => state.cart.cartCount);
 
-  // Function to get item count from localStorage
-  // const getItemCountFromLocalStorage = (key: string) => {
-  //   const data = localStorage.getItem(key);
-  //   if (data) {
-  //     const parsedData = JSON.parse(data);
-  //     return parsedData.length;
-  //   }
-  //   return 0;
-  // };
-
-  // Fetch cart and wishlist counts on component mount
-  // useEffect(() => {
-  //   setCartItemCount(getItemCountFromLocalStorage("cart"));
-  //   setWishlistItemCount(getItemCountFromLocalStorage("wishlist"));
-  // }, []);
+  const wishlistCount = useSelector((state: RootState) => state.wishlist.wishlistCount);
 
   const handleCartClick = () => {
     dispatch(toggleCartSidebar());
@@ -62,7 +48,7 @@ const NavIcons: React.FC = () => {
       <CustomIcon
         Icon={IoStarOutline}
         iconClassName="text-2xl"
-        quantity={wishlistItemCount}
+        quantity={wishlistCount}
         href="/wishlist"
       />
 
