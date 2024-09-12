@@ -1,8 +1,5 @@
 'use client'
-import AccountInfo from '@/components/account/AccountInfo'
 import AddressAllActions from '@/components/account/AddressAllActions'
-import CreateAddress from '@/components/account/CreateAddress'
-import EditAddress from '@/components/account/EditAddress'
 import Link from 'next/link'
 import React from 'react'
 
@@ -17,9 +14,6 @@ const AddressPage = () => {
         </div>
         <h1 className=' text-left text-2xl md:text-5xl font-semibold py-2'>Your Address</h1>
       
-        {/* <CreateAddress/>
-        <AccountInfo />
-        <EditAddress id=""/> */}
         <AddressAllActions/>
       </div>
  

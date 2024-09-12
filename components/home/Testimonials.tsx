@@ -150,17 +150,17 @@ const Testimonials: React.FC = () => {
           slidesPerView={1}
           spaceBetween={10}
           breakpoints={{
-            "@0.00": {
+            640: {
               slidesPerView: 1,
               spaceBetween: 10,
             },
-            "@0.75": {
+            760: {
               slidesPerView: 2,
-              spaceBetween: 10,
+              spaceBetween: 20,
             },
-            "@1.00": {
+            1024: {
               slidesPerView: 3,
-              spaceBetween: 15,
+              spaceBetween: 20,
             },
           }}
           modules={[Pagination]}
