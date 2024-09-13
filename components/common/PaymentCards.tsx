@@ -39,7 +39,7 @@ const PaymentCards = () => {
   ];
 
   return (
-    <div className="border relative  px-4 z-0">
+    <div className="border relative  px-4 ">
       <p className="absolute left-1/2 transform -translate-x-1/2 -top-5 text-nowrap bg-white p-2 text-center font-semibold text-gray-800">
         Guaranteed safe checkout
       </p>{" "}

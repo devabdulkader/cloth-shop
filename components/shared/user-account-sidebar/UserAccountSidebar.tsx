@@ -78,14 +78,18 @@ const UserAccountSidebar: React.FC = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 py-4 px-8 shadow-lg transform transition-transform duration-500 ${isUserSidebarOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-0 right-0 z-layer-5 w-[80%] sm:w-96 bg-white h-full  py-4 px-8 shadow-lg transform transition-transform duration-500 ${
+          isUserSidebarOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <main className="relative z-20  h-full">
           <div className="flex justify-between items-center py-8  border-b">
             <Logo />
 
-            <div onClick={handleClose}>
+            <div
+              onClick={handleClose}
+              className="absolute top-4 sm:right-5 right-0 z-50"
+            >
               <CustomCrossBar />
             </div>
           </div>
@@ -108,15 +112,14 @@ const UserAccountSidebar: React.FC = () => {
                 </ul>
               </div>
             ))}
-            {
-              isLoggedIn && (
-                <button className="mb-3 font-medium" onClick={() => handleLogout()}>
-                  Log Out
-                </button>
-              )
-            }
-
-
+            {isLoggedIn && (
+              <button
+                className="mb-3 font-medium"
+                onClick={() => handleLogout()}
+              >
+                Log Out
+              </button>
+            )}
           </div>
 
           <div className="py-8">

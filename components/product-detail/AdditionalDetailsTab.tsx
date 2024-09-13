@@ -42,9 +42,9 @@ const AdditionalDetailsTab: React.FC<AdditionalDetailsTabProps> = ({
             onMouseEnter={() => setHoveredTab(tab)} // Set hovered tab
             onMouseLeave={() => setHoveredTab(null)} // Clear hovered tab
           >
-            <span className="relative z-10">{tab}</span>
+            <span className="relative z-10 ">{tab}</span>
             <span
-              className={`absolute bottom-0 left-0 w-full h-[25px] bg-gray-200 z-0 ${
+              className={`absolute bottom-0 left-0 w-full h-[25px] bg-gray-200  ${
                 activeTab === tab || hoveredTab === tab ? "block" : "hidden"
               }`}
             ></span>

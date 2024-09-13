@@ -75,6 +75,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
     sku: product.sku,
     productCategory: product.productCategory,
     tags: product.tags,
+
     productBrand: product.productBrand,
     selectedProductId: selectedId || product._id,
     selectedProductUrl: selectedImage || product.url, // If selectedImage is the specific variant
@@ -90,6 +91,8 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
     sellingPrice: product.sellingPrice,
     productVariants: product.productVariants, // Assuming it's an array of variants
     quantity: 1, // Default to 1
+    uuid: "",
+    date: "",
   });
 
   useEffect(() => {
@@ -180,9 +183,9 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+    <div className="fixed inset-0  flex items-center justify-center bg-black bg-opacity-50 ">
       {showCartModal && <CartModal onClose={handleModalClose} />}
-      <div className="bg-white flex max-w-6xl mx-auto w-full h-[550px] rounded-lg overflow-hidden">
+      <div className="bg-white flex max-w-6xl mx-auto w-full relative  z-layer-5  h-[550px] rounded-lg overflow-hidden">
         {/* Left Side: Main Image */}
         <div className="h-full w-1/2 relative rounded-lg overflow-hidden">
           <Swiper

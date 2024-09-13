@@ -9,7 +9,7 @@ interface CustomBackDropProps {
 const CustomBackDrop: React.FC<CustomBackDropProps> = ({
   onClose,
   top = "top-0", // Default value for top
-  zIndex = "z-layer-1", // Default value for z-index
+  zIndex = "z-layer-4", // Default value for z-index
 }) => {
   return (
     <div

@@ -44,7 +44,7 @@ const MobileSearchBar: React.FC = () => {
             />
           )}
           <motion.div
-            className="border z-30 bg-white  py-10 absolute top-full w-full left-0 "
+            className="border z-30 bg-white z-layer-5 py-10 absolute top-full w-full left-0 "
             initial={{ y: "20%" }} // Adjust this value for shorter slide-in
             animate={{ y: 0 }}
             exit={{ y: "20%" }} // Adjust this value for shorter slide-out

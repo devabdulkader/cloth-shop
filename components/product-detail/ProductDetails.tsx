@@ -206,7 +206,7 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
         <div className=" flex items-center justify-start  gap-3">
           <div className="flex justify-center items-center">
             {Array.from({ length: 5 }).map((_, index) => (
-              <FaStar key={index} className="text-sm text-gray-400" />
+              <FaStar key={index} className="text-md text-gray-400" />
             ))}
           </div>
           <span className="text-gray-600 text-sm">(0)</span>
@@ -255,9 +255,9 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
             {product.sizes.map((size) => (
               <button
                 key={size.size}
-                className={`mr-2  py-1 px-3 rounded border ${
+                className={`mr-2  h-10 w-14 rounded border ${
                   selectedSize === size.size
-                    ? "border-blue-500 text-blue-500"
+                    ? "bg-slate-800 text-white"
                     : "border-gray-300 text-gray-800"
                 }`}
                 onClick={() => handleSizeClick(size.size)}
@@ -268,7 +268,7 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
           </div>
         </div>
         {/* // Product color selection */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 ">
           <strong className="text-gray-800 text-sm uppercase mb-2">
             Color: {productItem.color}
           </strong>
@@ -277,31 +277,16 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
             {productItems.map((item, index) => (
               <div
                 key={index}
-                className={`relative w-10 h-10 flex items-center justify-center rounded-full ${
+                className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer ${
                   selectedColor === item.color
-                    ? "border-black"
-                    : "border-gray-300"
+                    ? "ring-2 ring-black"
+                    : "ring-2 ring-gray-300"
                 }`}
-                style={{
-                  border: "2px solid transparent", // This creates space for the outer ring
-                  borderRadius: "50%",
-                  backgroundColor: "transparent",
-                }}
                 onClick={() => handleColorClick(index)}
               >
-                {/* Outer Ring */}
-                <div
-                  className={`absolute inset-0 rounded-full border-2 ${
-                    selectedColor === item.color
-                      ? "border-black"
-                      : "border-gray-300"
-                  }`}
-                ></div>
-                {/* Inner Ring */}
-
                 {/* Actual Color */}
                 <div
-                  className="absolute inset-1 rounded-full"
+                  className="w-6 h-6 rounded-full"
                   style={{ backgroundColor: item.color }}
                 ></div>
               </div>
@@ -311,8 +296,8 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
 
         {/* Quantity and action buttons */}
         <section>
-          <p className="">
-            <strong className="text-gray-800 text-sm uppercase mb-2">
+          <p className="mb-2">
+            <strong className="text-gray-800 text-sm uppercase">
               Quantity:
             </strong>
           </p>

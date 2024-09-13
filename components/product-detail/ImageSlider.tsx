@@ -112,13 +112,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
             </SwiperSlide>
           ))}
           <div
-            className="absolute z-20 bottom-16 left-1/2 rotate-[90deg] transform -translate-x-1/2"
+            className="absolute z-10  bottom-16 left-1/2 rotate-[90deg] transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slideNext()}
           >
             <ArrowButton direction="top" />
           </div>
           <div
-            className="absolute z-20 rotate-[-90deg] bottom-0 left-1/2 transform -translate-x-1/2"
+            className="absolute z-10  rotate-[-90deg] bottom-0 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slidePrev()}
           >
             <ArrowButton direction="bottom" />
@@ -153,13 +153,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
             </SwiperSlide>
           ))}
           <div
-            className="absolute z-20 bottom-16 left-1/2 transform -translate-x-1/2"
+            className="absolute  bottom-16 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slideNext()}
           >
             <ArrowButton direction="top" />
           </div>
           <div
-            className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2"
+            className="absolute  bottom-0 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slidePrev()}
           >
             <ArrowButton direction="bottom" />
@@ -169,7 +169,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
       <div
         className={`group ${
           isFullscreen
-            ? "bg-white left-0 z-10 fixed z-layer-2 top-0 h-screen w-screen"
+            ? "bg-white left-0 fixed z-50 inset-1   top-0 h-screen w-screen"
             : "relative w-full sm:w-4/5"
         }`}
       >
@@ -181,7 +181,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
           onSwiper={setMainSwiper}
           className={`mySwiper2 h-full ${
             isFullscreen
-              ? "fixed z-layer-2 bg-white w-[90%] sm:w-[500px]"
+              ? "fixed  bg-white w-[90%] z-layer-3 sm:w-[500px]"
               : "relative w-full z-auto"
           }`}
           onClick={openFullscreen}
@@ -195,7 +195,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
                 <Image
                   src={image.url}
                   alt=""
-                  className="object-cover relative z-layer-2 w-full h-full rounded-md"
+                  className="object-cover relative z-layer-4  w-full h-full rounded-md"
                   width={300}
                   height={300}
                 />
@@ -206,24 +206,39 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
           ))}
 
           <div
-            className="absolute z-20 left-0 top-1/2 transform -translate-y-1/2"
+            className="absolute  left-0 top-1/2 transform -translate-y-1/2"
             onClick={() => mainSwiper?.slidePrev()}
           >
             <ArrowButton direction="left" />
           </div>
           <div
-            className="absolute z-20 right-0 top-1/2 transform -translate-y-1/2"
+            className="absolute  right-0 top-1/2 transform -translate-y-1/2"
             onClick={() => mainSwiper?.slideNext()}
           >
             <ArrowButton direction="right" />
           </div>
           {isFullscreen && (
-            <button
-              className="absolute z-layer-1 left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2 bg-white rounded-full size-16 flex justify-center items-center"
-              onClick={closeFullscreen}
-            >
-              <RxCross1 className="text-2xl" />
-            </button>
+            <>
+              <div
+                className="absolute z-layer-2 left-0 top-1/2 transform -translate-y-1/2"
+                onClick={() => mainSwiper?.slidePrev()}
+              >
+                <ArrowButton direction="left" />
+              </div>
+              <div
+                className="absolute  z-layer-2 right-0 top-1/2 transform -translate-y-1/2"
+                onClick={() => mainSwiper?.slideNext()}
+              >
+                <ArrowButton direction="right" />
+              </div>
+
+              <button
+                className="absolute z-layer-2 left-1/2 -translate-x-1/2 top-1/2 transform -translate-y-1/2 bg-white rounded-full size-16 flex justify-center items-center"
+                onClick={closeFullscreen}
+              >
+                <RxCross1 className="text-2xl" />
+              </button>
+            </>
           )}
         </Swiper>
       </div>

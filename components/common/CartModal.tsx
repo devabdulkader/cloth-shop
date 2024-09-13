@@ -46,7 +46,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/50 backdrop-blur-sm">
+    <div className="fixed top-0 left-0 z-layer-5 w-screen h-screen z-50 bg-black/50 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl  max-h-[90vh] overflow-auto">
         <div className="w-full flex flex-col justify-between gap-2 bg-white shadow-md rounded-md overflow-hidden relative p-5">
           <div className="flex flex-row justify-between items-center">

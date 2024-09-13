@@ -71,7 +71,7 @@ const TopNav = () => {
       {/* Right: Dropdown Items */}
       <div className="flex space-x-6 justify-end items-center relative ">
         {/* Country Select */}
-        <div className="relative z-layer-2">
+        <div className="relative ">
           <button
             className="flex items-center text-white px-3 py-1 gap-3"
             onClick={() =>
@@ -87,7 +87,7 @@ const TopNav = () => {
             />
             <span className="uppercase text-[10px]">{selectedCountry}</span>
           </button>
-          <div className="absolute top-8 mt-1 bg-white  text-black shadow-sm border-t border-r border-l border-[#e5e5e5] z-50 ">
+          <div className="absolute z-50  top-8 mt-1 bg-white  text-black shadow-sm border-t border-r border-l border-[#e5e5e5] ">
             <MotionHeight
               isVisible={openDropdown === "country"}
               className="w-52"
@@ -119,7 +119,7 @@ const TopNav = () => {
         </div>
 
         {/* Language Select */}
-        <div className="relative z-layer-2">
+        <div className="relative ">
           <button
             className="flex items-center text-white px-3 py-1 gap-3"
             onClick={() =>

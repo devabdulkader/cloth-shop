@@ -76,7 +76,7 @@ const Navbar = () => {
       {/* Fixed Nav (appears on scroll up if sticky is true) */}
       {isSticky && (
         <div
-          className={`fixed top-0 w-full z-50 transition-transform duration-300 ease-in-out ${
+          className={`fixed top-0 w-full  transition-transform duration-300 ease-in-out ${
             isScrolledUp ? "translate-y-0" : "-translate-y-full"
           }`}
         >

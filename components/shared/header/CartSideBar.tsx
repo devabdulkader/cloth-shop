@@ -65,10 +65,16 @@ const CartSideBar: React.FC = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-layer-2 bg-white h-full w-96 px-8 shadow-lg transform transition-transform duration-500 ${
+        className={`fixed top-0 right-0 z-layer-5 bg-white h-full w-[80%] sm:w-96 px-8 shadow-lg transform transition-transform duration-500 ${
           isCartSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
+        <div
+          onClick={handleCartClose}
+          className="absolute top-3 sm:right-5 right-0 z-50"
+        >
+          <CustomCrossBar />
+        </div>
         <main className="relative z-20 h-full">
           <div className="flex items-center space-x-5 py-5 border-b">
             <h3>My Cart</h3>
@@ -77,10 +83,6 @@ const CartSideBar: React.FC = () => {
                 {cartItems.length} Items
               </span>
               <RiPlayLargeFill className="rotate-180 absolute -left-3 text-2xl text-black" />
-            </div>
-
-            <div onClick={handleCartClose} className="absolute right-0">
-              <CustomCrossBar />
             </div>
           </div>
 

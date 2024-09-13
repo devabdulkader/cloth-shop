@@ -18,7 +18,7 @@ const DesktopSearchBar: React.FC = () => {
     <>
       <AnimatePresence>
         {isDesktopSearchBarOpen && (
-          <div className="fixed top-0 left-0 h-screen w-full z-layer-2">
+          <div className="fixed top-0 left-0 h-screen w-full z-layer-5">
             <motion.div
               className="relative left-0 transform bg-white p-8 rounded-lg shadow-lg z-20 w-full px-20 flex flex-col gap-10"
               initial={{ y: "-100%" }}

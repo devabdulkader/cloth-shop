@@ -92,11 +92,11 @@ const Nav = () => {
   //   }, [lastScrollTop]);
 
   return (
-    <section className={`w-full h-auto relative z-layer-1`}>
+    <section className={`w-full h-auto relative `}>
       <nav className="w-full h-auto bg-white px-5 xl:px-10 2xl:px-20">
         <div className="flex items-center justify-between ">
           {/* Logo */}
-          <div>
+          <div className="">
             <Logo />
           </div>
           {/* NavLinks */}
@@ -107,7 +107,7 @@ const Nav = () => {
                 className={`relative ${
                   index !== 1 && index !== 2
                     ? "relative cursor-pointer"
-                    : "cursor-pointer z-50"
+                    : "cursor-pointer "
                 }`}
                 onMouseEnter={() =>
                   navItem.dropdown && setOpenDropdownIndex(index)
@@ -136,7 +136,7 @@ const Nav = () => {
                   )}
                 </button>
                 {openDropdownIndex === index && navItem.dropdown && (
-                  <div className="absolute w-full rounded-lg left-0 z-0">
+                  <div className="absolute w-full rounded-lg left-0 ">
                     <MotionTransition>{navItem.dropdown}</MotionTransition>
                   </div>
                 )}

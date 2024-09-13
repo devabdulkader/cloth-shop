@@ -19,11 +19,11 @@ const Header = () => {
       <SideBarMobile />
       <CartSideBar />
 
-      <div className="hidden  lg:block z-layer-1">
+      <div className="hidden relative lg:block z-layer-2">
         <TopNav />
         <Navbar />
       </div>
-      <div className="lg:hidden relative z-layer-1 bg-white">
+      <div className="lg:hidden relative bg-white">
         <MobileNav />
       </div>
     </div>

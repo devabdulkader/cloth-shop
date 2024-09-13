@@ -115,6 +115,7 @@ import CustomSearchIcon from "@/components/custom/CustomSearchIcon";
 import CustomBackDrop from "@/components/custom/CustomBackDrop";
 import BottomNav from "./BottomNav";
 import SideBarMobile from "./SideBarMobile";
+import { toggleCartSidebar } from "@/lib/store/features/cartSidebar/cartSidebarSlice";
 
 // Define TypeScript interfaces for navigation data
 interface SubMenuItem {
@@ -162,6 +163,10 @@ const MobileNav: React.FC = () => {
     (state: any) => state.mobileSearchBar.isMobileSearchbarOpen
   );
 
+  const handleCartClick = () => {
+    dispatch(toggleCartSidebar());
+  };
+
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
     null
   );
@@ -195,9 +200,9 @@ const MobileNav: React.FC = () => {
   };
   return (
     <nav className="relative ">
-      {isNavOpen && <CustomBackDrop onClose={handleClose} zIndex="10" />}
+      {isNavOpen && <CustomBackDrop onClose={handleClose} zIndex="z-layer-2" />}
       <div
-        className={`w-full fixed top-0 z-layer-1 left-0 h-[60px] flex bg-white z-50  transition-transform duration-300 ease-in-out ${
+        className={`w-full fixed top-0  left-0 h-[60px] flex bg-white z-50  transition-transform duration-300 ease-in-out ${
           isScrolledUp && !isNavOpen
             ? "md:translate-y-0"
             : "md:-translate-y-full"
@@ -239,11 +244,12 @@ const MobileNav: React.FC = () => {
           <div className="hidden md:flex space-x-4 justify-center items-center lg:space-x-6">
             <NavIcons />
           </div>
-          <div className="md:hidden relative w-1/3 bg-blue-400 flex justify-end">
+          <div className="md:hidden relative w-1/3  flex justify-end">
             <CustomIcon
               Icon={RiLuggageCartFill}
               iconClassName="text-2xl"
               quantity={2}
+              onClick={handleCartClick}
             />
           </div>
         </div>
