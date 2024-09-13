@@ -4,38 +4,23 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { RiCalendarTodoFill, RiDeleteBin5Line } from "react-icons/ri";
 import QuickViewModel from "@/components/card/QuickViewModel";
-import useProductSelection from "@/hooks/useProductSelection";
-import { getAllProducts } from "@/lib/service/getAllProducts";
-import { IProduct } from "@/types/product";
-
-interface Wishlist {
-  variantId: string;
-  productId: string;
-  id: string;
-  title: string;
-  date: string;
-  quantity: number;
-  price: number;
-  selectedImage: string;
-  category: string[];
-  sku: string;
-  sizes: string[];
-  buyPrice: number;
-  dateAdded: string;
-  color: string; // Added color field for active color
-}
+import { IAddToItem, IStoreItem } from "@/types/product";
+import { RootState } from "@/lib/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromWishlist } from "@/lib/store/features/wishlist/wishlistSlice";
 
 const WishlistPage: React.FC = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [showModal, setShowModal] = useState(false);
-  const [wishlist, setWishlist] = useState<Wishlist[]>([]);
-  const [wishlistItem, setWishlistItem] = useState<IProduct | undefined>();
-  const [activeColor, setActiveColor] = useState<string>("");
-  const [activeImage, setActiveImage] = useState<string>("");
+  const dispatch = useDispatch();
 
-  const { removeFromWishlist } = useProductSelection({
-    product: {} as IProduct,
-  }); // Type fixed
+  const [showModal, setShowModal] = useState(false);
+  const [wishlistItem, setWishlistItem] = useState<IStoreItem | undefined>();
+
+  const wishlistItems = useSelector(
+    (state: RootState) => state.wishlist.wishlistItems
+  );
+  const wishlistCount = useSelector(
+    (state: RootState) => state.wishlist.wishlistCount
+  );
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -47,48 +32,18 @@ const WishlistPage: React.FC = () => {
     return date.toLocaleDateString("en-US", options).toUpperCase();
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data: IProduct[] = await getAllProducts();
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-
-    const storedWishlist = localStorage.getItem("wishlist");
-    if (storedWishlist) {
-      setWishlist(JSON.parse(storedWishlist));
-    }
-  }, []);
-
-  const removeWishLIstItem = (item: Wishlist) => {
-    const { id, variantId, productId } = item;
-
-    if (variantId) {
-      removeFromWishlist(variantId); // Remove based on variantId
-    } else {
-      removeFromWishlist(productId); // Remove based on productId
-    }
-
-    setWishlist((prevWishlistData) =>
-      prevWishlistData.filter((wishlistItem) => wishlistItem.id !== id)
-    );
+  const removeWishLIstItem = (id: string) => {
+    dispatch(removeFromWishlist(id));
   };
 
-  const handleModalOpen = (item: Wishlist) => {
-    const product = products.find((prod) => prod._id === item.productId);
+  const handleModalOpen = (item: IStoreItem) => {
+    const product = wishlistItems.find((prod) => prod.uuid === item.uuid);
 
     if (product) {
       setWishlistItem(product);
-      setActiveColor(item.color);
-      setActiveImage(item.selectedImage);
       setShowModal(true);
     } else {
-      console.warn("Product not found:", item.productId);
+      console.warn("Product not found:", item.uuid);
     }
   };
 
@@ -99,12 +54,7 @@ const WishlistPage: React.FC = () => {
   return (
     <div className="container">
       {showModal && wishlistItem && (
-        <QuickViewModel
-          onClose={handleModalClose}
-          product={wishlistItem}
-          activeColor={activeColor}
-          activeImage={activeImage}
-        />
+        <QuickViewModel onClose={handleModalClose} product={wishlistItem} />
       )}
 
       <div className="text-center py-20 md:py-40">
@@ -116,19 +66,19 @@ const WishlistPage: React.FC = () => {
         </p>
       </div>
       <div className="flex flex-col gap-4 pb-10 md:pb-20">
-        {wishlist.map((item) => (
+        {wishlistItems?.map((item) => (
           <div
-            key={item.id}
+            key={item.uuid}
             className="flex flex-row justify-between items-center rounded-xl border p-4 md:p-8 hover:shadow-xl duration-300"
           >
             <div className="flex flex-row items-center gap-4">
               <RiDeleteBin5Line
                 size={18}
                 className="cursor-pointer"
-                onClick={() => removeWishLIstItem(item)}
+                onClick={() => removeWishLIstItem(item.uuid)}
               />
               <Image
-                src={item.selectedImage}
+                src={item.selectedProductUrl}
                 alt={item.title}
                 width={100}
                 height={100}
@@ -139,7 +89,7 @@ const WishlistPage: React.FC = () => {
                 <p>${item.buyPrice}</p>
                 <p className="flex gap-2 items-center">
                   <RiCalendarTodoFill size={14} />
-                  <span>{formatDate(item.dateAdded)}</span>
+                  <span>{formatDate(item.date)}</span>
                 </p>
               </div>
             </div>

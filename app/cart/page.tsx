@@ -6,7 +6,6 @@ import Link from "next/link";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store/store";
-import axios from "axios";
 import {
   decrementQuantity,
   incrementQuantity,
@@ -16,18 +15,21 @@ import {
 } from "@/lib/store/features/cart/cartSlice";
 import { instance } from "@/axios/axiosInstance";
 import { useRouter } from "next/navigation";
+import { IStoreItem } from "@/types/product";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
-  const [comment, setComment] = useState("");
-  const [couponCode, setCouponCode] = useState("");
+  const [comment, setComment] = useState<string>("");
+  const [couponCode, setCouponCode] = useState<string>("");
   const [couponStatus, setCouponStatus] = useState<
     "idle" | "valid" | "invalid"
   >("idle");
-  const [couponMessage, setCouponMessage] = useState("");
+  const [couponMessage, setCouponMessage] = useState<string>("");
   const router = useRouter();
 
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.cartItems
+  ) as IStoreItem[];
 
   const handleIncreaseQuantity = (id: string) => {
     dispatch(incrementQuantity(id));
@@ -97,13 +99,11 @@ const CartPage: React.FC = () => {
 
   const handleCheckout = () => {
     dispatch(addComment(comment));
-
     router.push("/checkouts");
   };
 
-  // Calculate total
   const total = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.basePrice * item.quantity,
     0
   );
 
@@ -146,6 +146,7 @@ const CartPage: React.FC = () => {
                         <RiDeleteBin5Line
                           size={18}
                           className="cursor-pointer"
+                          onClick={() => handleRemoveItem(item.uuid)}
                         />
                       </div>
 
@@ -158,19 +159,17 @@ const CartPage: React.FC = () => {
                       />
                       <div className="text-[12px]">
                         <p className="font-semibold">{item.title}</p>
-                        <p className="font-medium">Size: {item.size}</p>
+                        <p className="font-medium">
+                          Size: {item.selectedProductSize}
+                        </p>
                       </div>
                     </div>
 
                     <div className="w-full flex justify-between items-center text-sm">
-                      <p>€{item.price}</p>
-                      {/* Quantity Selection */}
+                      <p>€{item.basePrice}</p>
                       <div className="mb-4 flex items-center">
-                        <strong className="text-gray-800 mr-4">
-                          Quantity:
-                        </strong>
                         <button
-                          onClick={() => handleDecreaseQuantity(item.id)}
+                          onClick={() => handleDecreaseQuantity(item.uuid)}
                           className="bg-gray-300 px-3 py-1 rounded"
                         >
                           -
@@ -183,13 +182,13 @@ const CartPage: React.FC = () => {
                           className="w-12 text-center mx-2 border border-gray-300 rounded"
                         />
                         <button
-                          onClick={() => handleIncreaseQuantity(item.id)}
+                          onClick={() => handleIncreaseQuantity(item.uuid)}
                           className="bg-gray-300 px-3 py-1 rounded"
                         >
                           +
                         </button>
                       </div>
-                      <p>€{(item.price * item.quantity).toFixed(2)}</p>
+                      <p>€{(item.basePrice * item.quantity).toFixed(2)}</p>
                     </div>
                   </div>
                 ))}
@@ -213,7 +212,6 @@ const CartPage: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-4 min-w-full md:min-w-[40%]">
-          {/* <Form submitHandler={(e) => e.preventDefault()}> */}
           <textarea
             name="comment"
             id="comment"
@@ -255,13 +253,13 @@ const CartPage: React.FC = () => {
               {couponMessage}
             </p>
           )}
-          {/* </Form> */}
+
           <div className="border">
             <p className="px-6 py-3 text-[12px] font-semibold uppercase">
               There are {cartItems.length} items in your cart
             </p>
             <div className="flex flex-col gap-2 bg-slate-100 px-6 py-4">
-              <p className="flex flex-row justify-between items-center ">
+              <p className="flex flex-row justify-between items-center">
                 <span className="text-lg font-semibold">Total:</span>
                 <span className="text-xl font-bold">€{total.toFixed(2)}</span>
               </p>

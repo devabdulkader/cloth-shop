@@ -1,27 +1,21 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// Import necessary functions
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { RootState } from "../../store";
+import { IAddToItem, IStoreItem } from "@/types/product";
 
 // Define the interface for an individual wishlist item
-interface WishlistItem {
-  id: string;
-  name: string;
-  price: number;
-  description?: string;
-  url?: string;
-  color?: string;
-  size?: string;
-  quantity?: number; // Add quantity for increment and decrement
-}
 
 // Define the WishlistState interface
 export interface WishlistState {
-  wishlistItems: WishlistItem[];
-  wishlistCount: number; // Represents the number of distinct items
+  wishlistItems: IStoreItem[];
+  wishlistCount: number;
 }
 
 // Function to load wishlist from local storage
 const loadWishlistFromLocalStorage = (): WishlistState => {
-  const storedWishlist = localStorage.getItem("wishlist");
+  const storedWishlist =
+    typeof window !== "undefined" ? localStorage.getItem("wishlist") : null;
   if (storedWishlist) {
     try {
       const parsedWishlist = JSON.parse(storedWishlist);
@@ -32,6 +26,7 @@ const loadWishlistFromLocalStorage = (): WishlistState => {
         wishlistCount: parsedWishlist.wishlistCount || 0,
       };
     } catch (error) {
+      console.error("Error parsing wishlist:", error);
       return { wishlistItems: [], wishlistCount: 0 };
     }
   }
@@ -43,7 +38,8 @@ const initialState: WishlistState = loadWishlistFromLocalStorage();
 
 // Function to save wishlist to local storage
 const saveWishlistToLocalStorage = (state: WishlistState) => {
-  localStorage.setItem("wishlist", JSON.stringify(state));
+  typeof window !== "undefined" &&
+    localStorage.setItem("wishlist", JSON.stringify(state));
 };
 
 // Create the wishlist slice
@@ -51,21 +47,26 @@ export const wishlistSlice = createSlice({
   name: "wishlist",
   initialState,
   reducers: {
-    addToWishlist: (state, action: PayloadAction<WishlistItem>) => {
+    addToWishlist: (state, action: PayloadAction<IAddToItem>) => {
       const newItem = action.payload;
       const existingItemIndex = state.wishlistItems.findIndex(
         (item) =>
-          item.url === newItem.url &&
-          item.color === newItem.color &&
-          item.size === newItem.size
+          item.selectedProductUrl === newItem.selectedProductUrl &&
+          item.selectedProductColor === newItem.selectedProductColor &&
+          item.selectedProductSize === newItem.selectedProductSize
       );
 
       if (existingItemIndex === -1) {
         state.wishlistItems.push({
           ...newItem,
-          id: uuidv4(),
-          quantity: newItem.quantity || 1, // Initialize quantity
+          uuid: uuidv4(),
+          quantity: newItem.quantity || 1,
+          date: Date(),
         });
+      } else {
+        const existingItem = state.wishlistItems[existingItemIndex];
+        existingItem.quantity =
+          (existingItem.quantity || 0) + (newItem.quantity || 1);
       }
 
       state.wishlistCount = state.wishlistItems.length;
@@ -73,29 +74,26 @@ export const wishlistSlice = createSlice({
     },
     removeFromWishlist: (state, action: PayloadAction<string>) => {
       state.wishlistItems = state.wishlistItems.filter(
-        (item) => item.id !== action.payload
+        (item) => item.uuid !== action.payload
       );
       state.wishlistCount = state.wishlistItems.length;
       saveWishlistToLocalStorage(state);
     },
-    incrementQuantity: (state, action: PayloadAction<string>) => {
+    wishlistIncrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.wishlistItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.uuid === action.payload
       );
 
       if (itemIndex !== -1) {
-        if (state.wishlistItems[itemIndex].quantity) {
-          state.wishlistItems[itemIndex].quantity += 1;
-        } else {
-          state.wishlistItems[itemIndex].quantity = 1;
-        }
+        state.wishlistItems[itemIndex].quantity =
+          (state.wishlistItems[itemIndex].quantity || 1) + 1;
         state.wishlistCount = state.wishlistItems.length;
         saveWishlistToLocalStorage(state);
       }
     },
-    decrementQuantity: (state, action: PayloadAction<string>) => {
+    wishlistDecrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.wishlistItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.uuid === action.payload
       );
 
       if (itemIndex !== -1) {
@@ -106,7 +104,7 @@ export const wishlistSlice = createSlice({
           state.wishlistItems[itemIndex].quantity -= 1;
         } else {
           state.wishlistItems = state.wishlistItems.filter(
-            (item) => item.id !== action.payload
+            (item) => item.uuid !== action.payload
           );
         }
         state.wishlistCount = state.wishlistItems.length;
@@ -116,11 +114,30 @@ export const wishlistSlice = createSlice({
   },
 });
 
+// Selector to check if an item is in the wishlist
+export const selectIsInWishlist = createSelector(
+  (state: RootState) => state.wishlist.wishlistItems,
+  (state: RootState, id: string, color: string, size: string) => ({
+    id,
+    color,
+    size,
+  }),
+  (wishlistItems, { id, color, size }) => {
+    return wishlistItems.some(
+      (item) =>
+        item.selectedProductId === id &&
+        item.selectedProductColor === color &&
+        item.selectedProductSize === size
+    );
+  }
+);
+
 // Export actions and reducer
 export const {
   addToWishlist,
   removeFromWishlist,
-  incrementQuantity,
-  decrementQuantity,
+  wishlistIncrementQuantity,
+  wishlistDecrementQuantity,
 } = wishlistSlice.actions;
+
 export default wishlistSlice.reducer;

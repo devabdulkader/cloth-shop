@@ -12,6 +12,7 @@ import {
   incrementQuantity,
   removeFromCart,
 } from "@/lib/store/features/cart/cartSlice";
+import { IStoreItem } from "@/types/product";
 
 interface CartItem {
   id: string; // Unique identifier for each cart item
@@ -28,12 +29,9 @@ interface CartModalProps {
 
 const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-
-  // Update local state when cartItems from Redux store change
-  // useEffect(() => {
-  //   setCartData(cartItems);
-  // }, [cartItems]);
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.cartItems
+  ) as IStoreItem[];
 
   const handleIncreaseQuantity = (id: string) => {
     dispatch(incrementQuantity(id));
@@ -49,8 +47,8 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/50 backdrop-blur-sm">
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[984px] p-4 max-h-[90vh] overflow-auto">
-        <div className="w-full flex flex-col justify-between gap-2 bg-white shadow-md rounded-md overflow-hidden relative p-4">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl  max-h-[90vh] overflow-auto">
+        <div className="w-full flex flex-col justify-between gap-2 bg-white shadow-md rounded-md overflow-hidden relative p-5">
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row items-center gap-4">
               <p className="text-xl font-semibold">YOUR ORDER</p>
@@ -67,22 +65,22 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
           </div>
 
           <div className="flex flex-row">
-            <div className="w-full flex flex-col lg:flex-row p-2 gap-4 md:gap-10">
-              <div className="flex flex-col gap-4 w-full md:min-w-[60%] h-[200px] overflow-x-hidden p-4">
+            <div className="w-full flex flex-col lg:flex-row gap-4 md:gap-10">
+              <div className="flex flex-col gap-4 w-full md:min-w-[60%] h-[200px] overflow-y-auto px-3">
                 {cartItems?.map((item) => (
                   <div
-                    key={item.id}
+                    key={item._id}
                     className="relative flex flex-col md:flex-row justify-between items-center border rounded-md shadow-xl px-2 md:px-6 py-2 md:py-4"
                   >
                     <button
-                      onClick={() => handleRemoveItem(item.id)}
+                      onClick={() => handleRemoveItem(item.uuid)}
                       className="absolute -top-2 md:top-1/2 md:-left-3 bg-gray-400 rounded-full p-1"
                     >
-                      <RiDeleteBin5Fill size={16} />
+                      <RiDeleteBin5Fill size={16} className="" />
                     </button>
                     <div className="flex flex-row items-center gap-4">
                       <Image
-                        src={item.url}
+                        src={item.selectedProductUrl}
                         width={70}
                         height={50}
                         alt={item.title}
@@ -90,7 +88,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       />
                       <div className="flex flex-col text-sm font-semibold">
                         <span>{item.title}</span>
-                        <span>{item.size}</span>
+                        <span>{item.selectedProductSize}</span>
                       </div>
                     </div>
                     <div className="flex flex-row gap-4 md:gap-6 items-center">
@@ -98,13 +96,10 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                         ${item.basePrice}
                       </span>
                       {/* Quantity Selection */}
-                      <div className="mb-4 flex items-center">
-                        <strong className="text-gray-800 mr-4">
-                          Quantity:
-                        </strong>
+                      <div className="flex items-center">
                         <button
-                          onClick={() => handleDecreaseQuantity(item.id)}
-                          className="bg-gray-300 px-3 py-1 rounded"
+                          onClick={() => handleDecreaseQuantity(item.uuid)}
+                          className=" px-3 py-1 "
                         >
                           -
                         </button>
@@ -113,15 +108,16 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                           value={item.quantity}
                           min="1"
                           readOnly
-                          className="w-12 text-center mx-2 border border-gray-300 rounded"
+                          className="w-12 text-center mx-2 "
                         />
                         <button
-                          onClick={() => handleIncreaseQuantity(item.id)}
-                          className="bg-gray-300 px-3 py-1 rounded"
+                          onClick={() => handleIncreaseQuantity(item.uuid)}
+                          className=" px-3 py-1 "
                         >
                           +
                         </button>
                       </div>
+                      <strong>$ {item.basePrice * item.quantity}</strong>
                     </div>
                   </div>
                 ))}

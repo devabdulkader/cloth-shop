@@ -1,29 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { IAddToItem, IStoreItem } from "@/types/product";
 
-// Define the interface for an individual cart item
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  description?: string;
-  url?: string;
-  color?: string;
-  size?: string;
-}
-
-// Define the CartState interface
 export interface CartState {
-  cartItems: CartItem[];
-  cartCount: number; // Represents the number of distinct items
-  comment: string;
+  cartItems: IStoreItem[];
+  cartCount: number;
   couponCode: string;
+  comment: string;
 }
 
-// Function to load cart from local storage
 const loadCartFromLocalStorage = (): CartState => {
-  const storedCart = localStorage.getItem("cart");
+  const storedCart =
+    typeof window !== "undefined" ? localStorage.getItem("cart") : null;
   if (storedCart) {
     try {
       const parsedCart = JSON.parse(storedCart);
@@ -32,47 +20,60 @@ const loadCartFromLocalStorage = (): CartState => {
           ? parsedCart.cartItems
           : [],
         cartCount: parsedCart.cartCount || 0,
-        comment: parsedCart.comment || "",
         couponCode: parsedCart.couponCode || "",
+        comment: parsedCart.comment || "",
       };
     } catch (error) {
-      return { cartItems: [], cartCount: 0, comment: "", couponCode: "" };
+      return { cartItems: [], cartCount: 0, couponCode: "", comment: "" };
     }
   }
-  return { cartItems: [], cartCount: 0, comment: "", couponCode: "" };
+  return { cartItems: [], cartCount: 0, couponCode: "", comment: "" };
 };
 
-// Initial state
 const initialState: CartState = {
   ...loadCartFromLocalStorage(),
-  comment: "",
   couponCode: "",
+  comment: "",
 };
 
-// Function to save cart to local storage
 const saveCartToLocalStorage = (state: CartState) => {
-  localStorage.setItem("cart", JSON.stringify(state));
+  typeof window !== "undefined" &&
+    localStorage.setItem("cart", JSON.stringify(state));
 };
 
-// Create the cart slice
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart: (
       state,
-      action: PayloadAction<CartItem & { quantity: number }>
+      action: PayloadAction<IAddToItem & { quantity: number }>
     ) => {
-      const { url, color, size, quantity } = action.payload;
+      const {
+        selectedProductUrl,
+        selectedProductColor,
+        selectedProductSize,
+        uuid,
+        date,
+        quantity,
+      } = {
+        ...action.payload,
+        uuid: uuidv4(),
+        date: new Date().toISOString(),
+      };
 
       const existingItemIndex = state.cartItems.findIndex(
-        (item) => item.color === color && item.size === size && item.url === url
+        (item) =>
+          item.selectedProductColor === selectedProductColor &&
+          item.selectedProductSize === selectedProductSize &&
+          item.selectedProductUrl === selectedProductUrl
       );
 
       if (existingItemIndex === -1) {
         state.cartItems.push({
           ...action.payload,
-          id: uuidv4(),
+          uuid,
+          date,
         });
       } else {
         state.cartItems[existingItemIndex].quantity += quantity;
@@ -83,14 +84,14 @@ export const cartSlice = createSlice({
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
-        (item) => item.id !== action.payload
+        (item) => item.uuid !== action.payload
       );
       state.cartCount = state.cartItems.length;
       saveCartToLocalStorage(state);
     },
     incrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.uuid === action.payload
       );
 
       if (itemIndex !== -1) {
@@ -101,7 +102,7 @@ export const cartSlice = createSlice({
     },
     decrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.uuid === action.payload
       );
 
       if (itemIndex !== -1) {
@@ -109,31 +110,39 @@ export const cartSlice = createSlice({
           state.cartItems[itemIndex].quantity -= 1;
         } else {
           state.cartItems = state.cartItems.filter(
-            (item) => item.id !== action.payload
+            (item) => item.uuid !== action.payload
           );
         }
         state.cartCount = state.cartItems.length;
         saveCartToLocalStorage(state);
       }
     },
+    addCouponCode: (state, action: PayloadAction<string>) => {
+      state.couponCode = action.payload;
+      saveCartToLocalStorage(state);
+    },
     addComment: (state, action: PayloadAction<string>) => {
       state.comment = action.payload;
       saveCartToLocalStorage(state);
     },
-    addCouponCode: (state, action: PayloadAction<string>) => {
-      state.couponCode = action.payload;
-      saveCartToLocalStorage(state);
-    }
+    clearCart: (state) => {
+      state.cartItems = [];
+      state.cartCount = 0;
+      state.couponCode = "";
+      state.comment = "";
+      saveCartToLocalStorage(state); // Optionally save the cleared cart state to localStorage
+    },
   },
 });
 
-// Export actions and reducer
 export const {
   addToCart,
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
-  addComment,
   addCouponCode,
+  addComment,
+  clearCart,
 } = cartSlice.actions;
+
 export default cartSlice.reducer;

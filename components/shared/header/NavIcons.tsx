@@ -11,7 +11,6 @@ import CustomSearchIcon from "@/components/custom/CustomSearchIcon";
 import { toggleCartSidebar } from "@/lib/store/features/cartSidebar/cartSidebarSlice";
 import { toggleUserSidebar } from "@/lib/store/features/userSidebar/userSidebarSlice";
 import { AiOutlineUser } from "react-icons/ai";
-import useProductSelection from "@/hooks/useProductSelection";
 import { RootState } from "@/lib/store/store";
 
 const NavIcons: React.FC = () => {
@@ -20,21 +19,9 @@ const NavIcons: React.FC = () => {
   const [wishlistItemCount, setWishlistItemCount] = useState<number>(0);
   const cartCount = useSelector((state: RootState) => state.cart.cartCount);
 
-  // Function to get item count from localStorage
-  // const getItemCountFromLocalStorage = (key: string) => {
-  //   const data = localStorage.getItem(key);
-  //   if (data) {
-  //     const parsedData = JSON.parse(data);
-  //     return parsedData.length;
-  //   }
-  //   return 0;
-  // };
-
-  // Fetch cart and wishlist counts on component mount
-  // useEffect(() => {
-  //   setCartItemCount(getItemCountFromLocalStorage("cart"));
-  //   setWishlistItemCount(getItemCountFromLocalStorage("wishlist"));
-  // }, []);
+  const wishlistCount = useSelector(
+    (state: RootState) => state.wishlist.wishlistCount
+  );
 
   const handleCartClick = () => {
     dispatch(toggleCartSidebar());
@@ -62,7 +49,7 @@ const NavIcons: React.FC = () => {
       <CustomIcon
         Icon={IoStarOutline}
         iconClassName="text-2xl"
-        quantity={wishlistItemCount}
+        quantity={wishlistCount}
         href="/wishlist"
       />
 
