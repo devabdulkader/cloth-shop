@@ -14,14 +14,18 @@ import { IStoreItem } from "@/types/product";
 import { clearCart } from "@/lib/store/features/cart/cartSlice";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Cookies from "js-cookie";
-interface CartItem {
-  id: number;
-  title: string;
-  quantity: number;
-  buyPrice: number;
-  url: string;
-  size: string;
+
+const GET_DEFAULTS_ADDRESS = `
+  query{
+    getDefaultAddress{
+        fullName
+        addressEmail
+        phoneNumber
+        fullAddress
+        
+    }
 }
+`;
 
 interface CreateOrderInput {
   trackingNumber?: string;
@@ -52,7 +56,7 @@ const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>("Bangladesh");
   const [selectedDeliveryLocation, setSelectedDeliveryLocation] =
     useState<string>("insite-dhaka");
-
+  const [defaultAddress, setDefaultAddress] = useState<Record<string, any>>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,14 +71,14 @@ const CheckoutPage = () => {
   const couponCode = useSelector((state: RootState) => state.cart.couponCode);
   const comment = useSelector((state: RootState) => state.cart.comment);
 
-
-  const token = Cookies.get("accessKey") ;
+  const token = Cookies.get("accessKey");
 
   useEffect(() => {
-      if (!token) {
-          router.push("/login");
-      }
-    }, [token,router]);
+    fetchDefaultAddress();
+    if (!token) {
+      router.push("/login");
+    }
+  }, [token, router]);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(event.target.value);
@@ -107,7 +111,6 @@ const CheckoutPage = () => {
         note: comment,
       };
 
-
       const response = await instance.post("/", {
         query: `
             mutation CreateOrder($input: CreateOrderInput!) {
@@ -133,7 +136,6 @@ const CheckoutPage = () => {
           `/confirmation/${response.data.data.createOrder?.trackingNumber}`
         );
       }
-
     } catch (error) {
       console.error("Error creating order:", error);
       setError("Error creating order. Please try again later.");
@@ -142,7 +144,6 @@ const CheckoutPage = () => {
     }
   };
 
-
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.buyPrice * item.quantity,
     0
@@ -150,13 +151,33 @@ const CheckoutPage = () => {
   const deliveryCost = selectedDeliveryLocation === "insite-dhaka" ? 70 : 130;
   const total = subtotal + deliveryCost;
 
+  const fetchDefaultAddress = async () => {
+    try {
+      const response = await instance.post("/", {
+        query: GET_DEFAULTS_ADDRESS,
+      });
+      if (response.data.errors && response.data.errors.length > 0) {
+        setError(response.data.errors[0].message);
+      } else if (response.data.data.getDefaultAddress) {
+        setDefaultAddress(response.data.data.getDefaultAddress);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  
+  const defaultValues = {
+    name: defaultAddress?.fullName,
+    email: defaultAddress?.addressEmail,
+    phone: defaultAddress?.phoneNumber,
+    address: defaultAddress?.fullAddress,
+  };
 
   return (
     <div className="container grid grid-cols-1 md:grid-cols-2 gap-10 py-10">
       <Form
         submitHandler={submitHandler}
+        defaultValues={defaultValues}
         className="min-w-full flex flex-col gap-4"
       >
         <Field>
@@ -188,20 +209,22 @@ const CheckoutPage = () => {
             <button
               type="button"
               onClick={() => setSelectedDeliveryLocation("insite-dhaka")}
-              className={`py-4 w-48 px-2 ${selectedDeliveryLocation === "insite-dhaka"
+              className={`py-4 w-48 px-2 ${
+                selectedDeliveryLocation === "insite-dhaka"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-                } `}
+              } `}
             >
               Inside Dhaka 70 tk
             </button>
             <button
               type="button"
               onClick={() => setSelectedDeliveryLocation("outsite-dhaka")}
-              className={`py-4 w-48 px-2 ${selectedDeliveryLocation === "outsite-dhaka"
+              className={`py-4 w-48 px-2 ${
+                selectedDeliveryLocation === "outsite-dhaka"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-                } `}
+              } `}
             >
               Outside Dhaka 130 tk
             </button>
@@ -212,6 +235,7 @@ const CheckoutPage = () => {
           id="name"
           placeholder="FULL NAME"
           type="text"
+          required
           className="min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none"
         />
         <FormInput
@@ -219,6 +243,7 @@ const CheckoutPage = () => {
           id="email"
           placeholder="ENTER YOUR EMAIL"
           type="email"
+          required
           className="min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none"
         />
         <FormInput
@@ -226,6 +251,7 @@ const CheckoutPage = () => {
           id="phone"
           placeholder="ENTER YOUR PHONE"
           type="text"
+          required
           className="min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none"
         />
         <FormInput
@@ -233,6 +259,7 @@ const CheckoutPage = () => {
           id="address"
           placeholder="FULL ADDRESS"
           type="text"
+          required
           className="min-w-full border hover:border-black rounded-md px-4 py-3 text-sm outline-none"
         />
         {selectedCountry === "Bangladesh" && (
@@ -245,10 +272,11 @@ const CheckoutPage = () => {
                   value: "COD",
                 })
               }
-              className={`py-8 w-48 px-2 ${selectedPayment.value === "COD"
+              className={`py-8 w-48 px-2 ${
+                selectedPayment.value === "COD"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-                } `}
+              } `}
             >
               Cash On Delivery
             </button>
@@ -261,10 +289,11 @@ const CheckoutPage = () => {
                 })
               }
               disabled
-              className={`py-8 w-48 px-2 ${selectedPayment.value === "BKASH"
+              className={`py-8 w-48 px-2 ${
+                selectedPayment.value === "BKASH"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-                } `}
+              } `}
             >
               Bkash
             </button>
@@ -279,7 +308,6 @@ const CheckoutPage = () => {
         >
           {loading ? <LoadingSpinner /> : "Pay Now"}
         </button>
-
       </Form>
       <div className="flex flex-col gap-4">
         {cartItems?.map((item, index) => (

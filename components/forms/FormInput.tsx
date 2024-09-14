@@ -41,7 +41,7 @@ const FormInput = ({
     <div>
       <label className="block mb-1 font-semibold">
         {label ? label : null}
-        {required ? <span className="text-red-500">*</span> : null}
+        {required && label ? <span className="text-red-500">*</span> : null}
       </label>
       <Controller
         control={control}
@@ -61,12 +61,14 @@ const FormInput = ({
               />
               <span className="absolute right-2 top-0 h-full pr-2 flex items-center">
                 {isPasswordShow ? (
-                  <FaEye size={20}
+                  <FaEye
+                    size={20}
                     className="text-lg cursor-pointer text-gray-500"
                     onClick={() => setIsPasswordShow(!isPasswordShow)}
                   />
                 ) : (
-                  <FaEyeSlash size={20}
+                  <FaEyeSlash
+                    size={20}
                     className="text-lg cursor-pointer text-gray-500"
                     onClick={() => setIsPasswordShow(!isPasswordShow)}
                   />
