@@ -92,18 +92,20 @@ const FilterSidebar = () => {
   };
   return (
     <>
-      {isFilterSidebarOpen && <CustomBackDrop onClose={handleClose} />}
+      {isFilterSidebarOpen && (
+        <CustomBackDrop onClose={handleClose} />
+      )}
 
       {/* Sidebar */}
 
       <div
-        className={`fixed  min-h-screen overflow-y-auto lg:min-h-max lg:relative top-0 left-0 z-layer-2 lg:z-0 bg-white h-full w-[80%] lg:w-96 py-4 px-8 shadow-lg lg:shadow-none transform transition-transform duration-500 ${
+        className={`fixed inset-0  min-h-screen z-layer-5 overflow-y-auto lg:min-h-max lg:relative top-0 left-0 z-layer-5 lg:z-0 bg-white h-full w-[80%] lg:w-96 py-4 px-8 shadow-lg lg:shadow-none transform transition-transform duration-500 ${
           isFilterSidebarOpen
-            ? "translate-x-0"
+            ? "translate-x-0 "
             : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="flex-col gap-6">
+        <div className="flex-col gap-6 relative ">
           {/* Categories */}
           <div className="flex flex-col">
             <p className="flex space-x-3 mb-6 items-center ">

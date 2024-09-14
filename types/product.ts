@@ -4,7 +4,7 @@ export interface IProduct {
   _id: string;
   title: string;
   description: string;
-  gender: "Unisex" | "Men" | "Women"; // Adjust if needed
+  gender: string;
   basePrice: number;
   buyPrice: number;
   otherCost: number;
