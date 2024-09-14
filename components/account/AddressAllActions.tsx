@@ -65,8 +65,7 @@ const AddressAllActions = () => {
 
     useEffect(() => {
         handleGetAllAddress();
-
-
+        
     }, [loading])
 
     // handle get all addresss actions
@@ -225,6 +224,7 @@ const AddressAllActions = () => {
                                 <div className=' flex flex-row gap-4'>
                                     <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                         {loading ? <LoadingSpinner /> : "Add Address"}
+                                        {/* Add Address */}
                                     </button>
                                     <button onClick={() => setCreated(!created)} className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                         Cancel
@@ -256,6 +256,7 @@ const AddressAllActions = () => {
                                     </button>
                                     <button onClick={() => handleDeletedAddress(item.id)} className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                     {loading ? <LoadingSpinner /> : "Delete"}
+                                    {/* Delete */}
                                     </button>
                                 </div>
                             </div>
@@ -274,6 +275,7 @@ const AddressAllActions = () => {
                                             <div className='flex items-center gap-1 text-sm'> <FormInput id='isDefault' name="isDefault" type="checkbox" /><p> Set as default address</p></div>
                                             <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                                 {loading ? <LoadingSpinner /> : "Updated"}
+                                                {/* Updated */}
                                             </button>
                                             <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                                 Cancel
