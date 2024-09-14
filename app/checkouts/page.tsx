@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { Field, Label, Select } from "@headlessui/react";
 import { IoIosArrowDown } from "react-icons/io";
@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { instance } from "@/axios/axiosInstance";
 import { IStoreItem } from "@/types/product";
 import { clearCart } from "@/lib/store/features/cart/cartSlice";
+import { AuthContext } from "../authProvider";
+import Link from "next/link";
 
 interface CartItem {
   id: number;
@@ -46,6 +48,7 @@ interface CreateOrderInput {
 }
 
 const CheckoutPage = () => {
+  const { isLoggedIn } = useContext(AuthContext);
   const router = useRouter();
   const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState<string>("Bangladesh");
@@ -253,12 +256,22 @@ const CheckoutPage = () => {
             </button>
           </div>
         )}
-        <button
+       {
+        isLoggedIn ? (
+          <button
           type="submit"
           className="min-w-full bg-[#132842] py-4 text-white rounded-full text-base"
         >
           Pay Now
         </button>
+        ):(
+          <Link href='/login'
+          className="min-w-full text-center bg-[#132842] py-4 text-white rounded-full text-base"
+        >
+          Login
+        </Link>
+        )
+       }
       </Form>
       <div className="flex flex-col gap-4">
         {cartItems?.map((item, index) => (
