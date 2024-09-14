@@ -125,6 +125,13 @@ export const cartSlice = createSlice({
       state.comment = action.payload;
       saveCartToLocalStorage(state);
     },
+    clearCart: (state) => {
+      state.cartItems = [];
+      state.cartCount = 0;
+      state.couponCode = "";
+      state.comment = "";
+      saveCartToLocalStorage(state); // Optionally save the cleared cart state to localStorage
+    },
   },
 });
 
@@ -135,6 +142,7 @@ export const {
   decrementQuantity,
   addCouponCode,
   addComment,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
