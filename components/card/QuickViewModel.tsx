@@ -91,8 +91,8 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
     sellingPrice: product.sellingPrice,
     productVariants: product.productVariants, // Assuming it's an array of variants
     quantity: 1, // Default to 1
-    uuid: "",
-    date: "",
+    // uuid: "",
+    // date: "",
   });
 
   useEffect(() => {
@@ -183,9 +183,13 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
   };
 
   return (
-    <div className="fixed inset-0  flex items-center justify-center bg-black bg-opacity-50 ">
+    <div className="fixed inset-0 z-layer-1 flex items-center justify-center bg-black bg-opacity-50 ">
       {showCartModal && <CartModal onClose={handleModalClose} />}
-      <div className="bg-white flex max-w-6xl mx-auto w-full relative  z-layer-5  h-[550px] rounded-lg overflow-hidden">
+      <div
+        className={`${
+          showCartModal ? "hidden" : "flex"
+        } bg-white  max-w-6xl z-layer-1 mx-auto w-full relative   h-[550px] rounded-lg overflow-hidden`}
+      >
         {/* Left Side: Main Image */}
         <div className="h-full w-1/2 relative rounded-lg overflow-hidden">
           <Swiper
@@ -223,7 +227,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
         </div>
 
         {/* Right Side: Color Boxes */}
-        <div className="w-1/2 h-full relative overflow-y-auto flex flex-col items-start justify-start p-4">
+        <div className="w-1/2 h-full relative overflow-y-auto custom-scrollbar flex flex-col items-start justify-start p-4">
           <div className="px-5 flex w-full flex-col items-start justify-start relative gap-3">
             <button
               onClick={onClose}
@@ -374,7 +378,7 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
               {/* Buy Now button */}
               <Link href="/checkouts" className="w-full">
                 <button
-                  className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full uppercase font-semibold shadow text-sm w-full border p-4 rounded-full`}
+                  className={`${BUTTON_ANIMATION_CLASSES} ${ONHOVER_DARK_BG} w-full uppercase font-semibold shadow text-sm border p-4 rounded-full`}
                 >
                   Buy It Now
                 </button>

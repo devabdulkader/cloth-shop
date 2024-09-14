@@ -1,18 +1,12 @@
+import productData from "@/public/data/products.json";
+
 export async function getAllProducts() {
   try {
-    // const res = await fetch(
-    //   "https://clothing-ecommerce-ecru.vercel.app/data/products.json"
-    // );
+    const data = productData;
 
-    const res = await fetch("http://localhost:3000/data/products.json");
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    const data = await res.json();
-    // console.log("Data fetched in getAllProducts:", data); // Log the data
+    // Return the data
     return data;
   } catch (error) {
-    // console.error("Error in getAllProducts:", error);
-    throw error;
+    throw new Error("Error in getAllProducts: " + error);
   }
 }

@@ -35,9 +35,7 @@ const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
       <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10 ">
         <Breadcrumb items={breadcrumbItems} />
         <section className="md:grid grid-cols-2 md:gap-10 my-10 relative">
-          <div className="relative z-layer-1">
             <ImageSlider product={product} currentSlide={currentSlide} />
-          </div>
           <div>
             <ProductDetails product={product} onColorClick={handleColorClick} />
           </div>

@@ -83,7 +83,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
   };
 
   return (
-    <div className="flex flex-col-reverse sm:flex-row w-full sm:h-[700px] gap-5 sticky top-0 overflow-hidden ">
+    <div className={`flex flex-col-reverse sm:flex-row w-full sm:h-[700px] gap-5 sticky top-0 overflow-hidden ${isFullscreen?"z-layer-4":"z-auto"}`}>
       <div className="sm:hidden block">
         <Swiper
           direction={"horizontal"}
@@ -169,7 +169,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
       <div
         className={`group ${
           isFullscreen
-            ? "bg-white left-0 fixed z-50 inset-1   top-0 h-screen w-screen"
+            ? "bg-white left-0 fixed z-layer-5 inset-0   top-0 h-screen w-screen"
             : "relative w-full sm:w-4/5"
         }`}
       >

@@ -117,7 +117,7 @@ const CartSideBar: React.FC = () => {
                 {cartItems?.map((item) => (
                   <div
                     key={item._id}
-                    className="relative flex   justify-between items-center border rounded-md shadow-xl gap-3 "
+                    className="relative flex   items-center border rounded-md shadow-xl gap-3 "
                   >
                     <div className="flex  items-center gap-4">
                       <Image
@@ -125,10 +125,10 @@ const CartSideBar: React.FC = () => {
                         width={70}
                         height={50}
                         alt={item.title}
-                        className="w-full h-full py-2"
+                        className="w-full h-full "
                       />
                     </div>
-                    <div className="flex flex-col h-full  gap-4 md:gap-6 items-center">
+                    <div className="flex flex-col h-full p-2 gap-4  items-center">
                       <div className="flex flex-col justify-start">
                         <span>{item.title}</span>
                         <span>{item.selectedProductSize}</span>
@@ -159,9 +159,12 @@ const CartSideBar: React.FC = () => {
                         </button>
                         <button
                           onClick={() => handleRemoveItem(item.uuid)}
-                          className=" bg-gray-400 rounded-full p-1"
+                          className=" bg-gray-200 rounded-full p-1"
                         >
-                          <RiDeleteBin5Fill size={16} className="" />
+                          <RiDeleteBin5Fill
+                            size={16}
+                            className="text-gray-600"
+                          />
                         </button>
                       </div>
                     </div>
