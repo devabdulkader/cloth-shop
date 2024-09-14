@@ -21,7 +21,7 @@ const page = async () => {
         <div className="mx-auto container w-full pb-10">
           <div className="lg:flex relative lg:space-x-20">
             <FilterSidebar />
-            <div className="w-full flex flex-col border-gray-300 gap-5">
+            <div className="w-full relative flex flex-col border-gray-300 gap-5">
               <FilterToggler />
               <ProductList products={products} />
             </div>

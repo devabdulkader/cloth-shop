@@ -10,6 +10,7 @@ import UserDropdown from "./UserDropdown";
 import CustomCrossBar from "@/components/custom/CustomCrossBar";
 import CustomBackDrop from "@/components/custom/CustomBackDrop";
 import { AuthContext } from "@/app/authProvider";
+import Link from "next/link";
 
 // Define the interface for a single sidebar item
 interface SidebarItem {
@@ -104,9 +105,9 @@ const UserAccountSidebar: React.FC = () => {
                 <ul>
                   {category.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="mb-3 font-medium">
-                      <a href={item.link} className="">
+                      <Link href={item.link} className="">
                         {item.title}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
