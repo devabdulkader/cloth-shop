@@ -2,21 +2,19 @@ import * as React from "react";
 
 interface LoadingSpinnerProps {
   size?: number; // Optional size prop
+  stroke?: string; // Optional stroke prop
 }
 
 const LoadingSpinner: React.FC<
   LoadingSpinnerProps & React.SVGProps<SVGSVGElement>
-> = ({
-  size = 24,
-  ...props
-}) => {
+> = ({ size = 24, stroke = "#E5E7EB", ...props }) => {
   return (
     <div className="flex items-center justify-center h-full">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={size}
         height={size}
-        stroke="#E5E7EB"
+        stroke={stroke}
         viewBox="0 0 24 24" // Keeps proportions for any size
         {...props}
       >

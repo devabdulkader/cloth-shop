@@ -16,6 +16,7 @@ import {
 import { instance } from "@/axios/axiosInstance";
 import { useRouter } from "next/navigation";
 import { IStoreItem } from "@/types/product";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const CartPage: React.FC = () => {
     "idle" | "valid" | "invalid"
   >("idle");
   const [couponMessage, setCouponMessage] = useState<string>("");
+  const [isApplying, setIsApplying] = useState<boolean>(false);
   const router = useRouter();
 
   const cartItems = useSelector(
@@ -54,6 +56,7 @@ const CartPage: React.FC = () => {
   };
 
   const verifyCoupon = async () => {
+    setIsApplying(true);
     try {
       const response = await instance.post(
         "https://chokro-backend-api.vercel.app/graphql",
@@ -89,11 +92,15 @@ const CartPage: React.FC = () => {
       } else {
         setCouponStatus("invalid");
         setCouponMessage("Invalid or expired coupon.");
+        setCouponCode("");
       }
     } catch (error) {
       console.error("Error verifying coupon:", error);
       setCouponStatus("invalid");
       setCouponMessage("Error verifying coupon. Please try again.");
+      setCouponCode("");
+    } finally {
+      setIsApplying(false);
     }
   };
 
@@ -239,9 +246,10 @@ const CartPage: React.FC = () => {
             />
             <button
               onClick={verifyCoupon}
-              className="absolute top-1 right-0 text-[#132842] rounded-full h-12 w-40 flex justify-center items-center"
+              disabled={isApplying}
+              className="absolute top-1 right-0 text-[#132842] h-12 w-28 flex justify-center items-center"
             >
-              Apply
+              {isApplying ? <LoadingSpinner stroke="#132842" /> : "Apply"}
             </button>
           </div>
           {couponStatus !== "idle" && (

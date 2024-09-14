@@ -14,6 +14,7 @@ import { IStoreItem } from "@/types/product";
 import { clearCart } from "@/lib/store/features/cart/cartSlice";
 import { AuthContext } from "../authProvider";
 import Link from "next/link";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface CartItem {
   id: number;
@@ -54,6 +55,10 @@ const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>("Bangladesh");
   const [selectedDeliveryLocation, setSelectedDeliveryLocation] =
     useState<string>("insite-dhaka");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const [selectedPayment, setSelectedPayment] = useState({
     title: "Cash On Delivery",
     value: "COD",
@@ -65,13 +70,15 @@ const CheckoutPage = () => {
   const couponCode = useSelector((state: RootState) => state.cart.couponCode);
   const comment = useSelector((state: RootState) => state.cart.comment);
 
-  console.log({ comment });
+  // console.log({ comment });
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(event.target.value);
   };
 
   const submitHandler = async (data: any) => {
+    setLoading(true);
+    setError(null);
     try {
       const orderInput: CreateOrderInput = {
         shippingMethodId:
@@ -112,17 +119,20 @@ const CheckoutPage = () => {
         },
       });
 
-      const createdOrder = response.data.data.createOrder;
-      console.log("Order created:", createdOrder?.trackingNumber);
-
-      // Clear the cart after successful order creation
-      // You might want to dispatch an action to clear the Redux store as well
-      typeof window !== "undefined" && localStorage.removeItem("cart");
-      dispatch(clearCart());
-      // Redirect to order confirmation page
-      router.push(`/confirmation/${createdOrder?.trackingNumber}`);
+      if (response.data.errors && response.data.errors.length > 0) {
+        setError(response.data.errors[0].message);
+      } else if (response.data.data.createOrder) {
+        typeof window !== "undefined" && localStorage.removeItem("cart");
+        dispatch(clearCart());
+        router.push(
+          `/confirmation/${response.data.data.createOrder?.trackingNumber}`
+        );
+      }
     } catch (error) {
       console.error("Error creating order:", error);
+      setError("Error creating order. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -256,22 +266,23 @@ const CheckoutPage = () => {
             </button>
           </div>
         )}
-       {
-        isLoggedIn ? (
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        {isLoggedIn ? (
           <button
-          type="submit"
-          className="min-w-full bg-[#132842] py-4 text-white rounded-full text-base"
-        >
-          Pay Now
-        </button>
-        ):(
-          <Link href='/login'
-          className="min-w-full text-center bg-[#132842] py-4 text-white rounded-full text-base"
-        >
-          Login
-        </Link>
-        )
-       }
+            type="submit"
+            disabled={loading}
+            className="min-w-full bg-[#132842] py-4 text-white rounded-full text-base"
+          >
+            {loading ? <LoadingSpinner /> : "Pay Now"}
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="min-w-full text-center bg-[#132842] py-4 text-white rounded-full text-base"
+          >
+            Login
+          </Link>
+        )}
       </Form>
       <div className="flex flex-col gap-4">
         {cartItems?.map((item, index) => (
