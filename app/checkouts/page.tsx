@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Field, Label, Select } from "@headlessui/react";
 import { IoIosArrowDown } from "react-icons/io";
@@ -12,10 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { instance } from "@/axios/axiosInstance";
 import { IStoreItem } from "@/types/product";
 import { clearCart } from "@/lib/store/features/cart/cartSlice";
-import { AuthContext } from "../authProvider";
-import Link from "next/link";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-
+import Cookies from "js-cookie";
 interface CartItem {
   id: number;
   title: string;
@@ -49,7 +47,6 @@ interface CreateOrderInput {
 }
 
 const CheckoutPage = () => {
-  const { isLoggedIn } = useContext(AuthContext);
   const router = useRouter();
   const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState<string>("Bangladesh");
@@ -70,7 +67,14 @@ const CheckoutPage = () => {
   const couponCode = useSelector((state: RootState) => state.cart.couponCode);
   const comment = useSelector((state: RootState) => state.cart.comment);
 
-  // console.log({ comment });
+
+  const token = Cookies.get("accessKey") ;
+
+  useEffect(() => {
+      if (!token) {
+          router.push("/login");
+      }
+    }, [token,router]);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(event.target.value);
@@ -103,6 +107,7 @@ const CheckoutPage = () => {
         note: comment,
       };
 
+
       const response = await instance.post("/", {
         query: `
             mutation CreateOrder($input: CreateOrderInput!) {
@@ -128,6 +133,7 @@ const CheckoutPage = () => {
           `/confirmation/${response.data.data.createOrder?.trackingNumber}`
         );
       }
+
     } catch (error) {
       console.error("Error creating order:", error);
       setError("Error creating order. Please try again later.");
@@ -136,7 +142,6 @@ const CheckoutPage = () => {
     }
   };
 
-  console.log("cartItems", cartItems);
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.buyPrice * item.quantity,
@@ -144,6 +149,9 @@ const CheckoutPage = () => {
   );
   const deliveryCost = selectedDeliveryLocation === "insite-dhaka" ? 70 : 130;
   const total = subtotal + deliveryCost;
+
+
+  
 
   return (
     <div className="container grid grid-cols-1 md:grid-cols-2 gap-10 py-10">
@@ -180,22 +188,20 @@ const CheckoutPage = () => {
             <button
               type="button"
               onClick={() => setSelectedDeliveryLocation("insite-dhaka")}
-              className={`py-4 w-48 px-2 ${
-                selectedDeliveryLocation === "insite-dhaka"
+              className={`py-4 w-48 px-2 ${selectedDeliveryLocation === "insite-dhaka"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-              } `}
+                } `}
             >
               Inside Dhaka 70 tk
             </button>
             <button
               type="button"
               onClick={() => setSelectedDeliveryLocation("outsite-dhaka")}
-              className={`py-4 w-48 px-2 ${
-                selectedDeliveryLocation === "outsite-dhaka"
+              className={`py-4 w-48 px-2 ${selectedDeliveryLocation === "outsite-dhaka"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-              } `}
+                } `}
             >
               Outside Dhaka 130 tk
             </button>
@@ -239,11 +245,10 @@ const CheckoutPage = () => {
                   value: "COD",
                 })
               }
-              className={`py-8 w-48 px-2 ${
-                selectedPayment.value === "COD"
+              className={`py-8 w-48 px-2 ${selectedPayment.value === "COD"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-              } `}
+                } `}
             >
               Cash On Delivery
             </button>
@@ -256,33 +261,25 @@ const CheckoutPage = () => {
                 })
               }
               disabled
-              className={`py-8 w-48 px-2 ${
-                selectedPayment.value === "BKASH"
+              className={`py-8 w-48 px-2 ${selectedPayment.value === "BKASH"
                   ? "bg-[#132842] text-white"
                   : "bg-slate-200"
-              } `}
+                } `}
             >
               Bkash
             </button>
           </div>
         )}
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-        {isLoggedIn ? (
-          <button
-            type="submit"
-            disabled={loading}
-            className="min-w-full bg-[#132842] py-4 text-white rounded-full text-base"
-          >
-            {loading ? <LoadingSpinner /> : "Pay Now"}
-          </button>
-        ) : (
-          <Link
-            href="/login"
-            className="min-w-full text-center bg-[#132842] py-4 text-white rounded-full text-base"
-          >
-            Login
-          </Link>
-        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="min-w-full bg-[#132842] py-4 text-white rounded-full text-base"
+        >
+          {loading ? <LoadingSpinner /> : "Pay Now"}
+        </button>
+
       </Form>
       <div className="flex flex-col gap-4">
         {cartItems?.map((item, index) => (

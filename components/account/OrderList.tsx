@@ -54,18 +54,18 @@ const OrderList = () => {
     ]
 
     const ordersData = orders?.map((order, index) => ({
-            id: order.id,
-            serialNo: index + 1,
-            productName: order.orderedItems[0].productName,
-            productPrice: order.orderedItems[0].productPrice,
-            shippingMethod: order.shippingMethod.methodName,
-            trackingNumber: order.trackingNumber,
-            createdAt: formatDate(order.createdAt),
-            status: order.status,
-        }))
+        id: order.id,
+        serialNo: index + 1,
+        productName: order.orderedItems[0].productName,
+        productPrice: order.orderedItems[0].productPrice,
+        shippingMethod: order.shippingMethod.methodName,
+        trackingNumber: order.trackingNumber,
+        createdAt: formatDate(order.createdAt),
+        status: order.status,
+    }))
 
     if (loading) {
-        return <LoadingSpinner/>;
+        return <LoadingSpinner />;
     }
 
     return (
@@ -74,9 +74,10 @@ const OrderList = () => {
                 <h2 className='text-4xl font-semibold'>Order History</h2>
                 <p className='text-sm font-normal'>You haven&lsquo;t placed any orders yet.</p>
             </div>
-           {ordersData && columns &&  <Table columns={columns} data={ordersData} />}
+            {ordersData && columns && <Table columns={columns} data={ordersData} />}
 
         </div>
+
     )
 }
 

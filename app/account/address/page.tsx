@@ -10,9 +10,9 @@ const AddressPage = () => {
   const token = Cookies.get("accessKey");
 
   useEffect(() => {
-    if (!token) {
-      router.push("/login");
-    }
+      if (!token) {
+          router.push("/login");
+      }
   }, [token, router]);
 
   return (
@@ -23,10 +23,10 @@ const AddressPage = () => {
           <p className='text-sm font-normal py-2'><Link href="/" >Home</Link> &#x2022; <span>Address</span></p>
         </div>
         <h1 className=' text-left text-2xl md:text-5xl font-semibold py-2'>Your Address</h1>
-
-        <AddressAllActions />
+      
+        <AddressAllActions/>
       </div>
-
+ 
     </>
   )
 }

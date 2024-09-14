@@ -1,21 +1,21 @@
 "use client"
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import OrderList from '@/components/account/OrderList';
 import AccountInfo from '@/components/account/AccountInfo';
 import AccountGroupButton from '@/components/account/AccountGroupButton';
-import { useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 import Cookies from "js-cookie";
 const AccountPage: React.FC = () => {
 
     const router = useRouter();
-    const token = Cookies.get("accessKey");
+    const token = Cookies.get("accessKey") ;
 
     useEffect(() => {
         if (!token) {
             router.push("/login");
         }
-    }, [token, router]);
+      }, [token,router]);
 
     return (
         <div className='container'>
