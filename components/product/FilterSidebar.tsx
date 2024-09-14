@@ -92,14 +92,12 @@ const FilterSidebar = () => {
   };
   return (
     <>
-      {isFilterSidebarOpen && (
-        <CustomBackDrop onClose={handleClose} />
-      )}
+      {isFilterSidebarOpen && <CustomBackDrop onClose={handleClose} />}
 
       {/* Sidebar */}
 
       <div
-        className={`fixed inset-0  min-h-screen z-layer-5 overflow-y-auto lg:min-h-max lg:relative top-0 left-0 z-layer-5 lg:z-0 bg-white h-full w-[80%] lg:w-96 py-4 px-8 shadow-lg lg:shadow-none transform transition-transform duration-500 ${
+        className={`fixed inset-0  min-h-screen z-layer-5 overflow-y-auto lg:min-h-max lg:relative top-0 left-0 z-layer-5 lg:z-0 bg-white h-full w-[80%] sm:w-96 py-4 px-8 shadow-lg lg:shadow-none transform transition-transform duration-500 ${
           isFilterSidebarOpen
             ? "translate-x-0 "
             : "-translate-x-full lg:translate-x-0"

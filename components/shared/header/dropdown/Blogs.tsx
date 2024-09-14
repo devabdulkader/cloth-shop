@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 
 const blogsSections = [
@@ -23,12 +24,12 @@ const Blogs = () => {
         {blogsSections.map((section, index) => (
           <div key={index} className="flex flex-col space-y-6">
             <div className="p-4 ">
-              <a
+              <Link
                 href={section.href}
                 className="text-lg font-semibold hover:underline"
               >
                 {section.title}
-              </a>
+              </Link>
             </div>
           </div>
         ))}

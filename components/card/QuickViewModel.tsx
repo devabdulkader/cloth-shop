@@ -91,8 +91,6 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
     sellingPrice: product.sellingPrice,
     productVariants: product.productVariants, // Assuming it's an array of variants
     quantity: 1, // Default to 1
-    // uuid: "",
-    // date: "",
   });
 
   useEffect(() => {
