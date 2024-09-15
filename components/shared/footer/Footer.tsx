@@ -1,4 +1,3 @@
-'use client'
 import Image, { StaticImageData } from "next/image";
 import React from "react";
 import Logo2 from "@/public/common/Logo_2.webp";
@@ -8,8 +7,6 @@ import Discover from "@/public/common/discover.png";
 import Mastercard from "@/public/common/mastercardpng.png";
 import Paypal from "@/public/common/paypal.png";
 import Visa from "@/public/common/visa.png";
-import FormInput from "@/components/forms/FormInput";
-import Form from "@/components/forms/Form";
 import Link from "next/link";
 import {
   FaFacebookF,
@@ -18,6 +15,8 @@ import {
   FaTiktok,
 } from "react-icons/fa6";
 import MobileFooter from "./MobileFooter";
+import MotionTransition from "@/components/motion/MotionTransition";
+import SubscribeForm from "@/components/forms/SubscribeForm";
 
 // Define the type for CardImage items
 interface CardImageItem {
@@ -81,37 +80,26 @@ const Icons: IconItem[] = [
 
 const Footer = () => {
 
-  
-  const submitHandler = async (data: any) => {
-    console.log("hello");
-};
+
   return (
     <>
       <div className="bg-[#132842] text-white">
         <div className="container">
           <div className="hidden md:flex md:flex-col">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-between items-center pt-20">
-              <Image src={Logo2} className="w-44" alt="Logo 2" />
+            <MotionTransition initialY={50} duration={1}>
+              <Link href="/"><Image src={Logo2} className="w-44" alt="Logo 2" /></Link>
+              </MotionTransition>
               <p className="text-lg font-bold">
                 Get exclusive our offers and updates
               </p>
-              <Form submitHandler={ submitHandler} className="relative">
-                <FormInput
-                  name="email"
-                  id="email"
-                  placeholder="Enter your email"
-                  type="email"
-                  className="rounded-full px-4 h-14 text-sm outline-none text-black"
-                />
-                <div className="absolute top-2 right-1 bg-[#132842] hover:bg-[#263d5c] rounded-full h-12 w-40 flex justify-center items-center">
-                  Submit
-                </div>
-              </Form>
+              <SubscribeForm/>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-4 justify-between text-sm md:text-base font-normal py-14">
-              <ul className="flex flex-col gap-5">
-                <li className="text-lg md:text-xl font-semibold">Contact us</li>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-10  justify-between text-sm md:text-base font-normal py-14">
+              <ul >
+                <li className="text-lg md:text-xl font-semibold py-4">Contact us</li>
+                <MotionTransition initialY={50} duration={1} className="flex flex-col gap-5" >
                 <li>2357 Gordon Street, CA</li>
                 <li>+ (909) - 478-2742</li>
                 <li>Minastore@Vinovathemes.com</li>
@@ -127,11 +115,13 @@ const Footer = () => {
                     </Link>
                   ))}
                 </li>
+                </MotionTransition>
               </ul>
-              <ul className="flex flex-col gap-5">
-                <li className="text-lg md:text-xl font-semibold">
+              <ul>
+                <li className="text-lg md:text-xl font-semibold py-4">
                   <Link href="/">Let us help</Link>
                 </li>
+                <MotionTransition initialY={50} duration={1} className="flex flex-col gap-5" >
                 <li>
                   <Link href="/">Help Center</Link>
                 </li>
@@ -144,11 +134,13 @@ const Footer = () => {
                 <li>
                   <Link href="/">Return My Order</Link>
                 </li>
+                </MotionTransition>
               </ul>
-              <ul className="flex flex-col gap-5">
-                <li className="text-lg md:text-xl font-semibold">
+              <ul>
+                <li className="text-lg md:text-xl font-semibold py-4">
                   <Link href="/">Categories</Link>
                 </li>
+                <MotionTransition initialY={50} duration={1} className="flex flex-col gap-5" >
                 <li>
                   <Link href="/">Jacket</Link>
                 </li>
@@ -161,11 +153,13 @@ const Footer = () => {
                 <li>
                   <Link href="/">Bag & Shoes</Link>
                 </li>
+                </MotionTransition>
               </ul>
-              <ul className="flex flex-col gap-5">
-                <li className="text-lg md:text-xl font-semibold">
+              <ul >
+                <li className="text-lg md:text-xl font-semibold py-4">
                   <Link href="/">Our policies</Link>
                 </li>
+                <MotionTransition initialY={50} duration={1} className="flex flex-col gap-5" >
                 <li>
                   <Link href="/">Shipping & Delivery</Link>
                 </li>
@@ -178,6 +172,7 @@ const Footer = () => {
                 <li>
                   <Link href="/">Privacy Policy</Link>
                 </li>
+                </MotionTransition>
               </ul>
             </div>
           </div>

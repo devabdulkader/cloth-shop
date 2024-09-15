@@ -6,8 +6,8 @@ const LoginPage = () => {
     return (
         <div className='container'>
             <div className=' text-center py-20 md:py-40'>
-                <h1 className=' text-2xl md:text-4xl font-semibold md:font-medium'>ACCOUNT</h1>
-                <p className='text-sm font-normal py-2'><Link href="/" >Home</Link> &#x2022; <span>Account</span></p>
+                <h1 className=' text-2xl md:text-4xl font-semibold uppercase'>login</h1>
+                <p className='text-sm font-normal py-2'><Link href="/" >Home</Link> &#x2022; <span>Login</span></p>
             </div>
             <div className=' flex  justify-center pb-10 md:pb-20'>
                 <div className=' min-w-full md:min-w-[50%]'>

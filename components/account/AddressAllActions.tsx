@@ -168,7 +168,6 @@ const AddressAllActions = () => {
                     }
                 },
             });
-            // console.log(response, "..................")
 
         } catch (error) {
             console.log(error);
@@ -222,7 +221,6 @@ const AddressAllActions = () => {
                                 <div className=' flex flex-row gap-4'>
                                     <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                         {loading ? <LoadingSpinner /> : "Add Address"}
-                                        {/* Add Address */}
                                     </button>
                                     <button onClick={() => setCreated(!created)} className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                         Cancel
@@ -253,15 +251,15 @@ const AddressAllActions = () => {
                                         Edit
                                     </button>
                                     <button onClick={() => handleDeletedAddress(item.id)} className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
-                                    {loading ? <LoadingSpinner /> : "Delete"}
-                                    {/* Delete */}
+                               
+                                    Delete
                                     </button>
                                 </div>
                             </div>
                             {/* SHOW UPDATED ADDRESS FIELDS */}
                             {
                                 edit && matchId === index && (
-                                    <Form submitHandler={()=>handleUpdatedAddress} defaultValues={defaultValues} className=' min-w-full flex flex-col gap-4'>
+                                    <Form submitHandler={handleUpdatedAddress} defaultValues={defaultValues} className=' min-w-full flex flex-col gap-4'>
                                         <FormInput name='fullName' id='fullName' label='Full Name' type='text' className='min-w-full border hover:border-black rounded-md px-4 py-3 text-sm' />
 
                                         <FormInput name='addressEmail' id='addressEmail' label='Address Email' type='email' className='min-w-full border hover:border-black rounded-md px-4 py-3  text-sm' />
@@ -273,7 +271,7 @@ const AddressAllActions = () => {
                                             <div className='flex items-center gap-1 text-sm'> <FormInput id='isDefault' name="isDefault" type="checkbox" /><p> Set as default address</p></div>
                                             <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                                 {loading ? <LoadingSpinner /> : "Updated"}
-                                                {/* Updated */}
+                                                Updated
                                             </button>
                                             <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                                 Cancel

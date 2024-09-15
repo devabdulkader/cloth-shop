@@ -113,9 +113,13 @@
 // };
 
 // export default MobileFooter;
-
+"use client"
+import Logo2 from "@/public/common/Logo_2.webp";
+import MotionTransition from "@/components/motion/MotionTransition";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import SubscribeForm from "@/components/forms/SubscribeForm";
 interface SubItem {
   title: string; // Assuming "title" is correct; adjust if necessary.
   path: string;
@@ -157,7 +161,7 @@ const MobileFooter = () => {
         { title: "Terms & Conditions", path: "/" },
         { title: "Privacy Policy", path: "/" },
       ],
-    },
+    }
   ];
 
   const [isOpen, setIsOpen] = useState<number | null>(null);
@@ -167,7 +171,11 @@ const MobileFooter = () => {
   };
 
   return (
-    <div className="w-full rounded-lg text-white p-3 mix-blend-difference">
+    <div className="w-full rounded-lg text-white  p-3 ">
+      <MotionTransition initialY={50} duration={1}>
+        <Link href="/"><Image src={Logo2} className="w-44 py-4" alt="Logo 2" /></Link>
+      </MotionTransition>
+      <SubscribeForm/>
       {linkItems.map((item, idx) => (
         <div key={item.id} className="py-3">
           <button
@@ -185,36 +193,33 @@ const MobileFooter = () => {
                   width="12"
                   height="2"
                   rx="1"
-                  className={`origin-center transform transition duration-200 ease-out ${
-                    isOpen === idx && "!rotate-180"
-                  }`}
+                  className={`origin-center transform transition duration-200 ease-out ${isOpen === idx && "!rotate-180"
+                    }`}
                 />
                 <rect
                   y="5"
                   width="12"
                   height="2"
                   rx="1"
-                  className={`origin-center rotate-90 transform transition duration-200 ease-out ${
-                    isOpen === idx && "!rotate-180"
-                  }`}
+                  className={`origin-center rotate-90 transform transition duration-200 ease-out ${isOpen === idx && "!rotate-180"
+                    }`}
                 />
               </svg>
             </span>
           </button>
           <div
-            className={`grid overflow-hidden text-zinc-400 transition-all duration-300 ease-in-out ${
-              isOpen === idx
+            className={`grid overflow-hidden text-white transition-all duration-300 ease-in-out ${isOpen === idx
                 ? "grid-rows-[1fr] pb-1 pt-3 opacity-100"
                 : "grid-rows-[0fr] opacity-0"
-            }`}
+              }`}
           >
-            <div className="overflow-hidden pr-4 text-sm">
+            <ul className="overflow-hidden pr-4 text-sm text-white">
               {item.items.map((subItem, subIndex) => (
-                <li key={subIndex}>
+                <li key={subIndex} className=" py-2">
                   <Link href={subItem.path}>{subItem.title}</Link>
                 </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       ))}
