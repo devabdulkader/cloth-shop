@@ -32,9 +32,9 @@ const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
 
   return (
     <div className="relative">
-      <div className="px-5 md:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10 ">
+      <div className="px-5 md:px-5 lg:px-10 xl:px-0 xl:max-w-[80%] mx-auto w-full py-10 ">
         <Breadcrumb items={breadcrumbItems} />
-        <section className="md:grid grid-cols-2 md:gap-10 my-10 relative">
+        <section className="md:grid grid-cols-2 md:gap-5 lg:gap-10 my-10 relative">
             <ImageSlider product={product} currentSlide={currentSlide} />
           <div>
             <ProductDetails product={product} onColorClick={handleColorClick} />

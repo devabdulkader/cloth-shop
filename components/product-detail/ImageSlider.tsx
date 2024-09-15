@@ -102,7 +102,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
 
   return (
     <div
-      className={`flex flex-col-reverse sm:flex-row w-full sm:h-[700px] gap-5 lg:sticky top-0 ${
+      className={`flex flex-col-reverse sm:flex-row w-full h-[500px] sm:h-[700px] gap-5 lg:sticky top-0 ${
         isFullscreen ? "z-layer-4" : "z-auto"
       }`}
     >
@@ -110,14 +110,26 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
         <Swiper
           direction={isVertical ? "vertical" : "horizontal"} // Conditionally change direction
           spaceBetween={20}
-          slidesPerView={4}
+          slidesPerView={3}
           pagination={{ clickable: true }}
           onSwiper={setThumbsSwiper}
           loop={true}
           freeMode={true}
           watchSlidesProgress={true}
           modules={[FreeMode, Navigation, Thumbs]}
-          className="mySwiper w-full h-40 sm:h-full relative overflow-hidden "
+          breakpoints={{
+            // Tailwind sm: ≥ 640px
+            640: {
+              slidesPerView: 4, // Show 2 slides on small screens
+            },
+            // Tailwind md: ≥ 768px
+            // 768: {
+            //   slidesPerView: 3, // Show 3 slides on medium screens
+            // },
+            // Tailwind lg: ≥ 1024px
+          }}
+
+          className="mySwiper w-full h-36 sm:h-full relative overflow-hidden "
         >
           {productItems.map((image, index) => (
             <SwiperSlide
@@ -137,13 +149,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
             className="absolute z-10  bottom-16 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slideNext()}
           >
-            <ArrowButton direction="top" />
+            <ArrowButton direction={isVertical ? "top" : "right"} />
           </div>
           <div
             className="absolute z-10  bottom-0 left-1/2 transform -translate-x-1/2"
             onClick={() => thumbsSwiper?.slidePrev()}
           >
-            <ArrowButton direction="bottom" />
+            <ArrowButton direction={isVertical ? "bottom" : "left"} />
           </div>
         </Swiper>
       </div>

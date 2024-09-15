@@ -201,7 +201,7 @@ const ProductDetails = ({ product, onColorClick }: ProductDetailsProps) => {
 
       <div className="flex flex-col justify-start gap-5">
         {/* Header section with product name and review link */}
-        <h1 className="text-2xl font-bold">{product.title}</h1>
+        <h1 className="text-2xl font-bold pt-5 md:pt-0">{product.title}</h1>
         {/* Star rating for reviews */}
         <div className=" flex items-center justify-start  gap-3">
           <div className="flex justify-center items-center">

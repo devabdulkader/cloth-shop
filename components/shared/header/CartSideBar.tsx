@@ -30,20 +30,26 @@ const tags: Tag[] = [
 
 const CartSideBar: React.FC = () => {
   const dispatch = useDispatch();
+
+  const { cartCount, cartItems, isCartSidebarOpen } = useSelector(
+    (state: RootState) => ({
+      cartCount: state.cart.cartCount,
+      cartItems: state.cart.cartItems,
+      isCartSidebarOpen: state.cartSidebar.isCartSidebarOpen,
+    })
+  ) as {
+    cartCount: number;
+    cartItems: IStoreItem[];
+    isCartSidebarOpen: boolean;
+  };
+
   const [isMounted, setIsMounted] = useState(false);
 
   // Fix hydration issue by checking if mounted
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  const cartCount = useSelector((state: RootState) => state.cart.cartCount);
-  const cartItems = useSelector(
-    (state: RootState) => state.cart.cartItems
-  ) as IStoreItem[];
-  const isCartSidebarOpen = useSelector(
-    (state: RootState) => state.cartSidebar.isCartSidebarOpen
-  );
+  if (!isMounted) return null; // Wait until mounted to render
 
   const handleIncreaseQuantity = (id: string) => {
     dispatch(incrementQuantity(id));
@@ -61,8 +67,6 @@ const CartSideBar: React.FC = () => {
     dispatch(closeCartSidebar());
   };
 
-  if (!isMounted) return null; // Wait until mounted to render
-
   return (
     <>
       {/* Background Overlay */}
@@ -70,7 +74,7 @@ const CartSideBar: React.FC = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-layer-5 bg-white h-full w-[80%] sm:w-96 px-8 shadow-lg transform transition-transform duration-500 ${
+        className={`fixed top-0 right-0 z-layer-5 bg-white h-full w-full sm:w-96 px-4 sm:px-8 shadow-lg transform transition-transform duration-500 ${
           isCartSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -122,9 +126,9 @@ const CartSideBar: React.FC = () => {
                 {cartItems?.map((item) => (
                   <div
                     key={item._id}
-                    className="relative flex items-center border rounded-md shadow-xl gap-3"
+                    className="relative flex items-center sm:border sm:rounded-md sm:shadow-xl gap-3"
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="">
                       <Image
                         src={item.selectedProductUrl}
                         width={70}
@@ -134,10 +138,10 @@ const CartSideBar: React.FC = () => {
                       />
                     </div>
                     <div className="flex flex-col h-full p-2 gap-4 items-center">
-                      <div className="flex flex-col justify-start">
-                        <span>{item.title}</span>
-                        <span>{item.selectedProductSize}</span>
-                        <span className="text-md font-semibold">
+                      <div className="flex flex-col justify-start gap-2">
+                        <span className="text-xs">{item.title}</span>
+                        <span className="text-xs">{item.selectedProductSize} / {item.selectedProductColor}</span>
+                        <span className="text-xs font-semibold">
                           ${item.basePrice}
                         </span>
                       </div>
@@ -154,7 +158,7 @@ const CartSideBar: React.FC = () => {
                           value={item.quantity}
                           min="1"
                           readOnly
-                          className="w-12 text-center mx-2"
+                          className="w-12 text-center mx-2 text-xs"
                         />
                         <button
                           onClick={() => handleIncreaseQuantity(item.uuid)}

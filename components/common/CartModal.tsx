@@ -101,8 +101,8 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                   >
                     <button
                       onClick={() => handleRemoveItem(item.uuid)}
-                      className="absolute -top-2 md:top-1/2 md:-left-3 bg-gray-200 rounded-full p-1"
-                    >
+                      className="absolute top-1/2 -left-3 bg-gray-200 rounded-full p-1 transform -translate-y-1/2"
+                      >
                       <RiDeleteBin5Fill size={16} className="text-gray-500" />
                     </button>
                     <div className="flex flex-row items-center gap-4">

@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { AnimatedSectionProps } from "@/types";
+import Link from "next/link";
 
 const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   title,
@@ -16,6 +17,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   descriptionClassName = "", // Custom class for description
   buttonClassName = "", // Custom class for button
   imageContainerClassName = "", // Custom class for image container
+  href,
 }) => {
   const titleVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -76,13 +78,15 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
         >
           {description}
         </motion.p>
-        <motion.div
-          variants={buttonVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <button className={`${buttonClassName}`}>{buttonText}</button>
-        </motion.div>
+        <Link href={href}>
+          <motion.div
+            variants={buttonVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <button className={`${buttonClassName}`}>{buttonText}</button>
+          </motion.div>
+        </Link>
       </div>
     </div>
   );

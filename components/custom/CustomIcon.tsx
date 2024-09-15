@@ -1,5 +1,6 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IconType } from "react-icons";
 
 interface CustomIconProps {
@@ -8,6 +9,7 @@ interface CustomIconProps {
   quantity?: string | number; // Value to display inside the span (optional)
   onClick?: () => void; // Optional click event handler
   href?: string; // Optional href for linking
+  title?: string;
 }
 
 const CustomIcon: React.FC<CustomIconProps> = ({
@@ -16,10 +18,19 @@ const CustomIcon: React.FC<CustomIconProps> = ({
   quantity,
   onClick,
   href,
+  title,
 }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Fix hydration issue by checking if mounted
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if (!isMounted) return null; // Wait until mounted to render
+
   const content = (
     <div
-      className="relative cursor-pointer"
+      className="relative cursor-pointer flex flex-col justify-center items-center"
       onClick={onClick} // Assign onClick event if provided
     >
       <Icon className={` ${iconClassName}`} />
@@ -28,12 +39,17 @@ const CustomIcon: React.FC<CustomIconProps> = ({
           {quantity}
         </span>
       )}
+      {title && <span className="text-xs block">{title}</span>}{" "}
     </div>
   );
 
   return href ? (
-    <Link href={href} className="block">
+    <Link
+      href={href}
+      className="flex flex-col items-center justify-center relative"
+    >
       {content}
+      {/* Title is displayed here */}
     </Link>
   ) : (
     content
