@@ -104,7 +104,6 @@ const AddressAllActions = () => {
         }
     }
 
-
     // handle updated fields address actions
     const handleUpdatedFieldsAddress = async (Id: any, index: number) => {
         setLoading(true);
@@ -193,7 +192,6 @@ const AddressAllActions = () => {
 
     const reorderedAddresses = [...address].sort((a, b) => b.isDefault - a.isDefault);
 
-
     return (
         <>
             <div className=' flex flex-row gap-4 py-4 text-center'>
@@ -263,7 +261,7 @@ const AddressAllActions = () => {
                             {/* SHOW UPDATED ADDRESS FIELDS */}
                             {
                                 edit && matchId === index && (
-                                    <Form submitHandler={handleUpdatedAddress} defaultValues={defaultValues} className=' min-w-full flex flex-col gap-4'>
+                                    <Form submitHandler={()=>handleUpdatedAddress} defaultValues={defaultValues} className=' min-w-full flex flex-col gap-4'>
                                         <FormInput name='fullName' id='fullName' label='Full Name' type='text' className='min-w-full border hover:border-black rounded-md px-4 py-3 text-sm' />
 
                                         <FormInput name='addressEmail' id='addressEmail' label='Address Email' type='email' className='min-w-full border hover:border-black rounded-md px-4 py-3  text-sm' />
