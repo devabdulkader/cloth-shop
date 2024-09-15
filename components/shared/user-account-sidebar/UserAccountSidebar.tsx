@@ -28,11 +28,7 @@ interface SidebarCategory {
 const sidebarItems: SidebarCategory[] = [
   {
     category: "Customer Account",
-    items: [
-      { title: "Account", link: "account" },
-      { title: "Wishlist", link: "wishlist" },
-      { title: "Check out", link: "checkouts" },
-    ],
+    items: [{ title: "Wishlist", link: "wishlist" }],
   },
   {
     category: "Customer Care",
@@ -145,24 +141,36 @@ const UserAccountSidebar: React.FC = () => {
                   )}
                   {/* Show Log Out if the user is logged in */}
                   {category.category === "Customer Account" && isLoggedIn && (
-                    <li className="mb-3 font-medium">
-                      <button onClick={() => handleLogout()}>Log Out</button>
-                    </li>
+                    <>
+                      <li className="mb-3 font-medium">
+                        <CustomLink onClose={handleClose} href="" className="">
+                          Account
+                        </CustomLink>
+                      </li>
+                      <li className="mb-3 font-medium">
+                        <CustomLink
+                          onClose={handleClose}
+                          href="checkouts"
+                          className=""
+                        >
+                          Checkout
+                        </CustomLink>
+                      </li>
+                      <li className="mb-3 font-medium">
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            handleClose();
+                          }}
+                        >
+                          Log Out
+                        </button>
+                      </li>
+                    </>
                   )}
                 </ul>
               </div>
             ))}
-            {isLoggedIn && (
-              <button
-                className="mb-3 font-medium"
-                onClick={() =>{
-                  handleLogout()
-                  handleClose()
-                }}
-              >
-                Log Out
-              </button>
-            )}
           </div>
 
           <div className="py-8">
