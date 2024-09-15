@@ -4,29 +4,42 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { BsTwitterX } from "react-icons/bs";
-import { FaFacebookF, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
-import { GiWorld } from "react-icons/gi"; // For country flag
-import { MdLanguage } from "react-icons/md"; // For language flag
+import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 
 // Define the type for social media links with icon component and className
 type IconType = {
   href: string;
-  icon: React.ElementType; // Change to React.ElementType to hold the icon component
+  icon: React.ElementType;
   className?: string;
+};
+
+// Type for currency and language
+type ItemType = {
+  label: string;
+  flagImg: string;
 };
 
 const TopNav = () => {
   const [openDropdown, setOpenDropdown] = useState<
-    "country" | "language" | null
+    "currency" | "language" | null
   >(null);
-  const [selectedCountry, setSelectedCountry] = useState(
-    "USD $ | United States"
-  );
-  const [selectedCountryImg, setSelectedCountryImg] =
-    useState("/flags/usa.svg");
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const [selectedLanguageImg, setSelectedLanguageImg] =
-    useState("/flags/uk.svg"); // Corrected the path with leading slash
+
+  // Data for currencies and languages
+  const currencies: ItemType[] = [
+    { flagImg: "/flags/usa.svg", label: "USD $ | United States" },
+    { flagImg: "/flags/france.svg", label: "EUR € | France" },
+    { flagImg: "/flags/germany.svg", label: "EUR € | Germany" },
+  ];
+
+  const languages: ItemType[] = [
+    { flagImg: "/flags/uk.svg", label: "English" },
+    { flagImg: "/flags/germany.svg", label: "Deutsch" },
+    { flagImg: "/flags/france.svg", label: "Français" },
+  ];
+
+  // Separate states for selected currency and language
+  const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
+  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
 
   // Social media links with icon component and className
   const socialLinks: IconType[] = [
@@ -36,20 +49,8 @@ const TopNav = () => {
     { href: "#", icon: FaTiktok },
   ];
 
-  const countries = [
-    { flagImg: "/flags/usa.svg", label: "USD $ | United States" },
-    { flagImg: "/flags/france.svg", label: "EUR € | France" },
-    { flagImg: "/flags/germany.svg", label: "EUR € | Germany" },
-  ];
-
-  const languages = [
-    { flagImg: "/flags/uk.svg", label: "English" },
-    { flagImg: "/flags/germany.svg", label: "Deutsch" },
-    { flagImg: "/flags/france.svg", label: "Français" },
-  ];
-
   return (
-    <div className="bg-gray-800 text-white py-3 px-5 xl:px-10 2xl:px-20 flex justify-between items-center relative ">
+    <div className="bg-gray-800 text-white py-3 px-5 xl:px-10 2xl:px-20 flex justify-between items-center relative">
       {/* Left: Social Icons */}
       <div className="flex space-x-4">
         {socialLinks.map((item, index) => (
@@ -58,7 +59,7 @@ const TopNav = () => {
             href={item.href}
             className="text-gray-100 hover:text-blue-600"
           >
-            <item.icon className="text-sm" />{" "}
+            <item.icon className="text-sm" />
           </Link>
         ))}
       </div>
@@ -69,71 +70,74 @@ const TopNav = () => {
       </div>
 
       {/* Right: Dropdown Items */}
-      <div className="flex space-x-6 justify-end items-center relative ">
-        {/* Country Select */}
-        <div className="relative ">
+      <div className="flex space-x-6 justify-end items-center relative">
+        {/* Currency Select */}
+        <div className="relative">
           <button
             className="flex items-center text-white px-3 py-1 gap-3"
             onClick={() =>
-              setOpenDropdown(openDropdown === "country" ? null : "country")
+              setOpenDropdown(openDropdown === "currency" ? null : "currency")
             }
           >
             <Image
-              src={selectedCountryImg}
-              alt="Selected Country Flag"
+              src={selectedCurrency.flagImg}
+              alt="Selected Currency Flag"
               height={300}
               width={300}
               className="w-[14px] h-[11px]"
             />
-            <span className="uppercase text-[10px]">{selectedCountry}</span>
+            <span className="uppercase text-[10px]">
+              {selectedCurrency.label}
+            </span>
           </button>
-          <div className="absolute z-50  top-8 mt-1 bg-white  text-black shadow-sm border-t border-r border-l border-[#e5e5e5] ">
+          <div className="absolute z-50 top-8 mt-1 bg-white text-black shadow-sm border-t border-r border-l border-[#e5e5e5]">
             <MotionHeight
-              isVisible={openDropdown === "country"}
+              isVisible={openDropdown === "currency"}
               className="w-52"
             >
-              {countries.map((country, idx) => (
-                <div
+              {currencies.map((currency, idx) => (
+                <button
                   key={idx}
-                  className="w-full text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center"
+                  className="w-full cursor-pointer text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center"
                   onClick={() => {
-                    setSelectedCountry(country.label);
-                    setSelectedCountryImg(country.flagImg); // Update country flag image
+                    setSelectedCurrency(currency);
                     setOpenDropdown(null); // Close dropdown after selection
                   }}
                 >
                   <Image
-                    src={country.flagImg}
-                    alt=""
+                    src={currency.flagImg}
+                    alt="Currency Flag"
                     height={300}
                     width={300}
                     className="w-[15px] h-[11px]"
                   />
                   <span className="uppercase text-[10px] w-full">
-                    {country.label}
+                    {currency.label}
                   </span>
-                </div>
+                </button>
               ))}
             </MotionHeight>
           </div>
         </div>
 
         {/* Language Select */}
-        <div className="relative ">
+        <div className="relative">
           <button
-            className="flex items-center text-white px-3 py-1 gap-3"
+            className="flex items-center cursor-pointer text-white px-3 py-1 gap-3"
             onClick={() =>
               setOpenDropdown(openDropdown === "language" ? null : "language")
             }
           >
             <Image
-              src={selectedLanguageImg}
+              src={selectedLanguage.flagImg}
               alt="Selected Language Flag"
               height={300}
               width={300}
               className="w-[14px] h-[11px]"
             />
-            <span className="uppercase text-[10px]">{selectedLanguage}</span>
+            <span className="uppercase text-[10px]">
+              {selectedLanguage.label}
+            </span>
           </button>
 
           <div className="absolute top-8 mt-1 right-0 bg-white text-black shadow-sm z-50 border-t border-r border-l border-[#e5e5e5]">
@@ -144,16 +148,15 @@ const TopNav = () => {
               {languages.map((language, idx) => (
                 <button
                   key={idx}
-                  className="w-full text-left py-3 px-4 pr-10 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center"
+                  className="w-full cursor-pointer text-left py-3 px-4 pr-10 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center"
                   onClick={() => {
-                    setSelectedLanguage(language.label);
-                    setSelectedLanguageImg(language.flagImg); // Update language flag image
+                    setSelectedLanguage(language);
                     setOpenDropdown(null); // Close dropdown after selection
                   }}
                 >
                   <Image
                     src={language.flagImg}
-                    alt=""
+                    alt="Language Flag"
                     height={300}
                     width={300}
                     className="w-[14px] h-[11px]"

@@ -1,35 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { FaCaretDown } from "react-icons/fa6";
+
+// Define the structure of items with flagImg and label
+interface DropdownItem {
+  flagImg: string;
+  label: string;
+}
 
 interface DropdownProps {
-  isOpen: boolean;
-  toggleDropdown: () => void;
-  items: string[];
-  title: string;
-  defaultItem: string;
+  items: DropdownItem[]; // List of dropdown items
+  defaultItem: DropdownItem; // The default selected item
+  isOpen: boolean; // Control dropdown visibility
+  onToggle: () => void; // Handle dropdown toggle
 }
 
 const UserDropdown: React.FC<DropdownProps> = ({
-  isOpen,
-  toggleDropdown,
   items,
-  title,
   defaultItem,
+  isOpen,
+  onToggle,
 }) => {
-  const [selectedItem, setSelectedItem] = useState(defaultItem);
+  const [selectedItem, setSelectedItem] =
+    React.useState<DropdownItem>(defaultItem);
 
-  const handleItemClick = (item: string) => {
-    setSelectedItem(item);
-    toggleDropdown(); // Close the dropdown after selecting an item
+  // Handle item selection
+  const handleItemClick = (item: DropdownItem) => {
+    setSelectedItem(item); // Update the selected item
+    onToggle(); // Close the dropdown after selecting
   };
 
   return (
     <div className="relative flex flex-col gap-5 mb-5">
-      <div>
-        <span>{title}</span>
-      </div>
-
       <main className="relative">
         <AnimatePresence>
           {isOpen && (
@@ -41,24 +45,47 @@ const UserDropdown: React.FC<DropdownProps> = ({
               className="absolute bottom-full bg-white w-full left-0 z-10 overflow-hidden"
             >
               <ul className="bg-white border shadow-sm">
-                {items.map((item, index) => (
-                  <li
-                    key={index}
-                    className=" border-b hover:bg-gray-200 p-2 bg-white shadow-sm cursor-pointer"
-                    onClick={() => handleItemClick(item)}
+                {items.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="w-full text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center cursor-pointer"
+                    onClick={() => handleItemClick(item)} // Handle item click
                   >
-                    {item}
-                  </li>
+                    <Image
+                      src={item.flagImg}
+                      alt={item.label}
+                      height={300}
+                      width={300}
+                      className="w-[15px] h-[11px]"
+                    />
+                    <span className="uppercase text-[10px] w-full">
+                      {item.label}
+                    </span>
+                  </div>
                 ))}
               </ul>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Display the selected item and toggle the dropdown on click */}
         <div
-          onClick={toggleDropdown}
-          className="cursor-pointer flex justify-between items-center py-2 px-4 border rounded bg-gray-200 relative"
+          onClick={onToggle} // Toggle dropdown on click
+          className="w-full text-left py-3 px-4 shadow-sm flex gap-2 border-b border-[#e5e5e5] bg-gray-50 hover:bg-white items-center cursor-pointer"
         >
-          <span>{selectedItem}</span>
+          <Image
+            src={selectedItem.flagImg}
+            alt={selectedItem.label}
+            height={300}
+            width={300}
+            className="w-[15px] h-[11px]"
+          />
+          <span className="uppercase text-[10px] w-full">
+            {selectedItem.label}
+          </span>
+
+          <FaCaretDown/>
+
         </div>
       </main>
     </div>

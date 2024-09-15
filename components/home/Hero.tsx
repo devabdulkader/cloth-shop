@@ -64,6 +64,7 @@ const Hero = () => {
               titleClassName="text-slate-800 text-3xl sm:text-4xl sm:max-w-sm md:max-w-full md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl 2xl:max-w-full font-bold"
               descriptionClassName="text-black lg:mb-4"
               buttonClassName="bg-black text-white text-sm font-semibold py-2 md:py-3 lg:py-4 px-4 md:px-6 md:px-8 rounded-full transition-colors duration-300 hover:bg-white hover:text-black"
+              href="/products"
             />
           </div>
 
@@ -144,7 +145,7 @@ const Hero = () => {
           >
             {" "}
             <iframe
-              className="w-full h-full bg-cover"
+              className="w-full h-full object-cover"
               src="https://www.youtube.com/embed/yycVNcishrE?autoplay=1"
               title="YouTube video"
               frameBorder="0"

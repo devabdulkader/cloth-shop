@@ -11,6 +11,7 @@ import CustomCrossBar from "@/components/custom/CustomCrossBar";
 import CustomBackDrop from "@/components/custom/CustomBackDrop";
 import { AuthContext } from "@/app/authProvider";
 import Link from "next/link";
+import CustomLink from "@/components/custom/CustomLink";
 
 // Define the interface for a single sidebar item
 interface SidebarItem {
@@ -28,27 +29,34 @@ const sidebarItems: SidebarCategory[] = [
   {
     category: "Customer Account",
     items: [
-      { title: "Account", link: "/account" },
-      { title: "Login", link: "/login" },
-      { title: "Register", link: "/register" },
-      { title: "Wishlist", link: "#" },
-      { title: "Check out", link: "/checkouts" },
+      { title: "Account", link: "account" },
+      { title: "Wishlist", link: "wishlist" },
+      { title: "Check out", link: "checkouts" },
     ],
   },
   {
     category: "Customer Care",
     items: [
-      { title: "FAQs", link: "#" },
-      { title: "Terms of Service", link: "#" },
-      { title: "Privacy Policy", link: "#" },
-      { title: "Contact Us", link: "#" },
-      { title: "Gift Card", link: "#" },
+      { title: "FAQs", link: "frequently-asked-questions" },
+      { title: "Terms of Service", link: "terms-and-condition" },
+      { title: "Privacy Policy", link: "privacy-policy" },
+      { title: "Contact Us", link: "contact-us" },
+      { title: "Gift Card", link: "" },
     ],
   },
 ];
 
-const currencies = ["EUR €", "USD $", "GBP £"];
-const languages = ["English", "German", "French"];
+const currencies = [
+  { flagImg: "/flags/usa.svg", label: "USD $ | United States" },
+  { flagImg: "/flags/france.svg", label: "EUR € | France" },
+  { flagImg: "/flags/germany.svg", label: "EUR € | Germany" },
+];
+
+const languages = [
+  { flagImg: "/flags/uk.svg", label: "English" },
+  { flagImg: "/flags/germany.svg", label: "Deutsch" },
+  { flagImg: "/flags/france.svg", label: "Français" },
+];
 
 const UserAccountSidebar: React.FC = () => {
   const { isLoggedIn, handleLogout } = useContext(AuthContext);
@@ -59,17 +67,15 @@ const UserAccountSidebar: React.FC = () => {
   const handleClose = () => {
     dispatch(closeUserSidebar());
   };
-  const [showCurrencyOptions, setShowCurrencyOptions] = useState(false);
-  const [showLanguageOptions, setShowLanguageOptions] = useState(false);
 
-  const handleCurrencyClick = () => {
-    setShowCurrencyOptions(!showCurrencyOptions);
-    if (showLanguageOptions) setShowLanguageOptions(false);
-  };
+  // Manage which dropdown is open (null means no dropdown is open)
+  const [openDropdown, setOpenDropdown] = useState<
+    "currency" | "language" | null
+  >(null);
 
-  const handleLanguageClick = () => {
-    setShowLanguageOptions(!showLanguageOptions);
-    if (showCurrencyOptions) setShowCurrencyOptions(false);
+  // Handle dropdown open/close
+  const toggleDropdown = (dropdown: "currency" | "language") => {
+    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
 
   return (
@@ -105,18 +111,54 @@ const UserAccountSidebar: React.FC = () => {
                 <ul>
                   {category.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="mb-3 font-medium">
-                      <Link href={item.link} className="">
+                      <CustomLink
+                        onClose={handleClose}
+                        href={item.link}
+                        className=""
+                      >
                         {item.title}
-                      </Link>
+                      </CustomLink>
                     </li>
                   ))}
+                  {/* Show Log In if the user is NOT logged in */}
+                  {category.category === "Customer Account" && !isLoggedIn && (
+                    <>
+                      <li className="mb-3 font-medium">
+                        <CustomLink
+                          onClose={handleClose}
+                          href="register"
+                          className=""
+                        >
+                          Register
+                        </CustomLink>
+                      </li>
+                      <li className="mb-3 font-medium">
+                        <CustomLink
+                          onClose={handleClose}
+                          href="login"
+                          className=""
+                        >
+                          Login
+                        </CustomLink>
+                      </li>
+                    </>
+                  )}
+                  {/* Show Log Out if the user is logged in */}
+                  {category.category === "Customer Account" && isLoggedIn && (
+                    <li className="mb-3 font-medium">
+                      <button onClick={() => handleLogout()}>Log Out</button>
+                    </li>
+                  )}
                 </ul>
               </div>
             ))}
             {isLoggedIn && (
               <button
                 className="mb-3 font-medium"
-                onClick={() => handleLogout()}
+                onClick={() =>{
+                  handleLogout()
+                  handleClose()
+                }}
               >
                 Log Out
               </button>
@@ -124,26 +166,23 @@ const UserAccountSidebar: React.FC = () => {
           </div>
 
           <div className="py-8">
+            <p className="mb-3 text-gray-400 uppercase text-sm">Currency</p>
+            {/* Currency Dropdown */}
             <UserDropdown
-              isOpen={showCurrencyOptions}
-              toggleDropdown={() => {
-                setShowCurrencyOptions(!showCurrencyOptions);
-                if (showLanguageOptions) setShowLanguageOptions(false);
-              }}
               items={currencies}
-              title="Currency"
-              defaultItem="EUR €"
+              defaultItem={currencies[0]}
+              isOpen={openDropdown === "currency"}
+              onToggle={() => toggleDropdown("currency")}
             />
 
+            <p className="mb-3 text-gray-400 uppercase text-sm">Country</p>
+
+            {/* Language Dropdown */}
             <UserDropdown
-              isOpen={showLanguageOptions}
-              toggleDropdown={() => {
-                setShowLanguageOptions(!showLanguageOptions);
-                if (showCurrencyOptions) setShowCurrencyOptions(false);
-              }}
               items={languages}
-              title="Language"
-              defaultItem="English"
+              defaultItem={languages[0]}
+              isOpen={openDropdown === "language"}
+              onToggle={() => toggleDropdown("language")}
             />
           </div>
         </main>

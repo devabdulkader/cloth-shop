@@ -1,7 +1,6 @@
 // components/NavIcons.tsx
 "use client";
 import React, { useState, useEffect } from "react";
-import { IoMdSearch } from "react-icons/io";
 import { IoStarOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDesktopSearchBar } from "@/lib/store/features/searchBar/desktopSearchBarSlice";
@@ -15,13 +14,15 @@ import { RootState } from "@/lib/store/store";
 
 const NavIcons: React.FC = () => {
   const dispatch = useDispatch();
-  const [cartItemCount, setCartItemCount] = useState<number>(0);
-  const [wishlistItemCount, setWishlistItemCount] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState(false); // State to track if the component is mounted
   const cartCount = useSelector((state: RootState) => state.cart.cartCount);
-
   const wishlistCount = useSelector(
     (state: RootState) => state.wishlist.wishlistCount
   );
+
+  useEffect(() => {
+    setIsMounted(true); // Set to true after component is mounted
+  }, []);
 
   const handleCartClick = () => {
     dispatch(toggleCartSidebar());
@@ -30,6 +31,8 @@ const NavIcons: React.FC = () => {
   const handleUserClick = () => {
     dispatch(toggleUserSidebar());
   };
+
+  if (!isMounted) return null; // Avoid rendering until component has mounted
 
   return (
     <div className="space-x-8 flex justify-center items-center">
