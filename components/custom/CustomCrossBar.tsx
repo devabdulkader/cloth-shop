@@ -1,4 +1,4 @@
-"use client"; // Enable React server components for Next.js if applicable
+"use client";
 
 import React from "react";
 import { motion } from "framer-motion";
