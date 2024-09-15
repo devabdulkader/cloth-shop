@@ -9,7 +9,7 @@ export interface AnimatedSectionProps {
   descriptionClassName?: string; // Optional class for the description
   buttonClassName?: string; // Optional class for the button
   imageContainerClassName?: string; // Optional class for the image container
-  href?:string;
+  href?: string;
 }
 
 // PRODUCTS INTERFACE

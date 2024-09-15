@@ -78,7 +78,17 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
         >
           {description}
         </motion.p>
-        <Link href={href}>
+        {href ? (
+          <Link href={href}>
+            <motion.div
+              variants={buttonVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <button className={`${buttonClassName}`}>{buttonText}</button>
+            </motion.div>
+          </Link>
+        ) : (
           <motion.div
             variants={buttonVariants}
             initial="hidden"
@@ -86,7 +96,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
           >
             <button className={`${buttonClassName}`}>{buttonText}</button>
           </motion.div>
-        </Link>
+        )}
       </div>
     </div>
   );

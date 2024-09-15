@@ -102,7 +102,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
 
   return (
     <div
-      className={`flex flex-col-reverse sm:flex-row w-full h-[500px] sm:h-[700px] gap-5 lg:sticky top-0 ${
+      className={`flex flex-col-reverse sm:flex-row w-full h-[600px] sm:h-[700px] gap-5 lg:sticky top-0 ${
         isFullscreen ? "z-layer-4" : "z-auto"
       }`}
     >
@@ -128,7 +128,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ product, currentSlide }) => {
             // },
             // Tailwind lg: ≥ 1024px
           }}
-
           className="mySwiper w-full h-36 sm:h-full relative overflow-hidden "
         >
           {productItems.map((image, index) => (
