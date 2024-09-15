@@ -46,7 +46,7 @@ const BlogRelatedFashionSlider:React.FC < BlogsProps> =  ({blogs}) => {
                     blogs?.map((item, index) => (
                         <SwiperSlide key={index}>
                             <Link href={`/blogs/${item.id}`} >
-                                <Image src={item.image} alt={item.title} width={300} height={200} />
+                                <Image src={item.image} alt={item.title} width={400} height={200} />
                                 <p className='text-md font-semibold py-3'>{item.title}</p>
                                 <p className=' text-base font-normal'>{item.description.map((item, index) => (<span key={index}>{item.para.slice(0, 25)}</span>))}...</p>
                             </Link>

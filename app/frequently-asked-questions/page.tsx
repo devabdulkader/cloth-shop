@@ -50,7 +50,7 @@ const FrequentlyAskedQuestionsPage: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <div className="p-6 md:p-12 max-w-6xl mx-auto">
       <div className=" text-center py-20 md:py-40">
         <h1 className=" text-xl md:text-3xl font-semibold md:font-medium">
           FREQUENTLY ASKED QUESTIONS
