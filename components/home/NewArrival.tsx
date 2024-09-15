@@ -68,7 +68,7 @@ const NewArrival = () => {
 
             {/* Bottom Card */}
             <div className="relative rounded-2xl overflow-hidden h-[500px] md:h-[40%] bg-gray-200">
-              <div className="absolute inset-0 flex flex-col items-center justify-start px-4 py-5 text-black  gap-4 md:pb-2 lg:pb-0 ">
+              <div className="absolute inset-0 flex flex-col items-center justify-center md:justify-start px-4 py-5 text-black  gap-4 md:pb-2 lg:pb-0 ">
                 <h2 className="text-xl lg:text-xl font-bold mb-2 md:mb-0 uppercase md:text-xs">
                   story
                 </h2>

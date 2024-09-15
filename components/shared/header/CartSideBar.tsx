@@ -123,9 +123,9 @@ const CartSideBar: React.FC = () => {
           ) : (
             <div>
               <div className="flex flex-col gap-4 w-full h-[500px] overflow-auto py-4">
-                {cartItems?.map((item) => (
+                {cartItems?.map((item, index) => (
                   <div
-                    key={item._id}
+                    key={index}
                     className="relative flex items-center sm:border sm:rounded-md sm:shadow-xl gap-3"
                   >
                     <div className="">
@@ -140,7 +140,10 @@ const CartSideBar: React.FC = () => {
                     <div className="flex flex-col h-full p-2 gap-4 items-center">
                       <div className="flex flex-col justify-start gap-2">
                         <span className="text-xs">{item.title}</span>
-                        <span className="text-xs">{item.selectedProductSize} / {item.selectedProductColor}</span>
+                        <span className="text-xs">
+                          {item.selectedProductSize} /{" "}
+                          {item.selectedProductColor}
+                        </span>
                         <span className="text-xs font-semibold">
                           ${item.basePrice}
                         </span>
