@@ -220,7 +220,7 @@ const AddressAllActions = () => {
                                 <div className='flex items-left gap-1 text-sm'> <FormInput id='isDefault' name="isDefault" type="checkbox" /><p> Set as default address</p></div>
                                 <div className=' flex flex-row gap-4'>
                                     <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
-                                        {loading ? <LoadingSpinner /> : "Add Address"}
+                                    Add Address
                                     </button>
                                     <button onClick={() => setCreated(!created)} className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                         Cancel
@@ -270,7 +270,7 @@ const AddressAllActions = () => {
                                         <div className=' flex flex-col gap-4 py-4 justify-center items-center text-center'>
                                             <div className='flex items-center gap-1 text-sm'> <FormInput id='isDefault' name="isDefault" type="checkbox" /><p> Set as default address</p></div>
                                             <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
-                                                {loading ? <LoadingSpinner /> : "Updated"}
+                                            Updated
                                             </button>
                                             <button className='w-52  py-4 hover:bg-opacity-95 bg-[#132842] text-white rounded-full text-sm font-semibold'>
                                                 Cancel
