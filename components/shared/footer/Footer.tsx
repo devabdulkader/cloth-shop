@@ -185,7 +185,7 @@ const Footer = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center md:justify-between items-center py-8">
             <p className="text-md font-medium text-center md:text-left">
-              Copyright &copy; 2024 Nova Creative. All Rights Reserved.
+              Copyright &copy; 2024 Zorg IT Group. All Rights Reserved.
             </p>
             <div className="flex flex-row gap-2 justify-center md:justify-end">
               {CardImag.map((item, index) => (
