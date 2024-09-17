@@ -20,8 +20,9 @@ const NotFoundPage: React.FC = () => {
         Page Not Found
       </h1>
       <p className="mt-4 text-lg text-gray-600">
-        We’re sorry — something has gone wrong on our end.
+        We&rsquo;re sorry — something has gone wrong on our end.
       </p>
+
       <div className="mt-8 flex flex-col sm:flex-row gap-4">
         <CustomButton
           href="/"
