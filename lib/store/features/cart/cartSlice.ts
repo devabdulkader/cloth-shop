@@ -100,23 +100,45 @@ export const cartSlice = createSlice({
         saveCartToLocalStorage(state);
       }
     },
+    // decrementQuantity: (state, action: PayloadAction<string>) => {
+    //   const itemIndex = state.cartItems.findIndex(
+    //     (item) => item.uuid === action.payload
+    //   );
+
+    //   if (itemIndex !== -1) {
+    //     if (state.cartItems[itemIndex].quantity > 1) {
+    //       state.cartItems[itemIndex].quantity -= 1;
+    //     } else {
+    //       state.cartItems = state.cartItems.filter(
+    //         (item) => item.uuid !== action.payload
+    //       );
+    //     }
+    //     state.cartCount = state.cartItems.length;
+    //     saveCartToLocalStorage(state);
+    //   }
+    // },
+
     decrementQuantity: (state, action: PayloadAction<string>) => {
       const itemIndex = state.cartItems.findIndex(
         (item) => item.uuid === action.payload
       );
-
       if (itemIndex !== -1) {
-        if (state.cartItems[itemIndex].quantity > 1) {
-          state.cartItems[itemIndex].quantity -= 1;
-        } else {
-          state.cartItems = state.cartItems.filter(
-            (item) => item.uuid !== action.payload
+        const item = state.cartItems[itemIndex];
+        if (item.quantity > 1) {
+          state.cartItems = state.cartItems.map((cartItem, index) =>
+            index === itemIndex
+              ? { ...cartItem, quantity: cartItem.quantity - 1 }
+              : cartItem
           );
         }
-        state.cartCount = state.cartItems.length;
+        state.cartCount = state.cartItems.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
         saveCartToLocalStorage(state);
       }
     },
+
     addCouponCode: (state, action: PayloadAction<string>) => {
       state.couponCode = action.payload;
       saveCartToLocalStorage(state);
