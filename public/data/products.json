@@ -21,13 +21,13 @@
         "_id": "64d89b2c4f5e0c5a91e1a1bd",
         "url": "/products/red-shirt.webp",
         "alt": "Classic Cotton T-Shirt Back View",
-        "color": "red"
+        "color": "LightCoral"
       },
       {
         "_id": "64d89b2c4f5e0c5a91e1a1be",
         "url": "/products/green-shirt.webp",
         "alt": "Classic Cotton T-Shirt Side View",
-        "color": "green"
+        "color": "PaleGreen"
       },
       {
         "_id": "64d89b2c4f5e0c5a91e1a1bf",
@@ -39,7 +39,7 @@
         "_id": "64d89b2c4f5e0c5a91e1a1c0",
         "url": "/products/blue-shirt.webp",
         "alt": "Classic Cotton T-Shirt Label Close-up",
-        "color": "blue"
+        "color": "LightSkyBlue"
       }
     ],
     "deliveryMethods": "bkash",
@@ -156,7 +156,7 @@
     "shippingReturnPolicy": "Details about the return policy...",
     "url": "/products/blue-tshirt.webp",
     "alt": "Eco-Friendly Yoga Pants Main Image",
-    "color": "blue",
+    "color": "LightSkyBlue",
     "productVariants": [
       {
         "_id": "64d89b2c4f5e0c5a91e1a1c0",

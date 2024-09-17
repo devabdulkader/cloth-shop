@@ -15,7 +15,7 @@ const FashionFusion: React.FC = () => {
     <MotionTransition initialY={50} duration={3}>
       <div className="flex flex-col sm:flex-row gap-5">
         {/* First Div - 2/5 Width */}
-        <div className="w-full h-[400px] sm:h-auto sm:w-2/5 p-6 bg-gray-100 rounded-2xl flex flex-col justify-center">
+        <div className="w-full h-[400px] sm:h-auto sm:w-2/5 o-6 sm:p-10 bg-gray-100 rounded-2xl flex flex-col justify-center">
           <p className="text-lg">Fashion Fusion</p>
           <h2 className="text-3xl xl:text-4xl font-bold max-w-80 capitalize leading-normal xl:leading-relaxed">
             Where creativity meets style

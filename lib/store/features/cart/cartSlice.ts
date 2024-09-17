@@ -108,15 +108,12 @@ export const cartSlice = createSlice({
       if (itemIndex !== -1) {
         if (state.cartItems[itemIndex].quantity > 1) {
           state.cartItems[itemIndex].quantity -= 1;
-        } else {
-          state.cartItems = state.cartItems.filter(
-            (item) => item.uuid !== action.payload
-          );
         }
         state.cartCount = state.cartItems.length;
         saveCartToLocalStorage(state);
       }
     },
+
     addCouponCode: (state, action: PayloadAction<string>) => {
       state.couponCode = action.payload;
       saveCartToLocalStorage(state);

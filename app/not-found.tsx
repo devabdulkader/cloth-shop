@@ -11,7 +11,6 @@ const NotFoundPage: React.FC = () => {
         <Image
           src="/common/404-sleep-cat.webp"
           alt="Page Not Found"
-          layout="responsive"
           width={600}
           height={400}
           className="h-full w-full object-cover"
