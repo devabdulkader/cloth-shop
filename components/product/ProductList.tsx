@@ -1,7 +1,6 @@
 import ProductCard from "../product/ProductCard";
 import { IProduct } from "../../types/product";
 
-// Define the prop type for the ProductList component
 interface ProductListProps {
   products: IProduct[];
 }
