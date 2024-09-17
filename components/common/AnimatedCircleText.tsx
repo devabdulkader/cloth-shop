@@ -6,7 +6,6 @@ const AnimatedCircleText = () => {
 
   return (
     <div className="relative w-[100px] hover:cursor-pointer h-[100px] rounded-full flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm group">
-      {/* Inner group element */}
       <div className="absolute w-[60px] h-[60px] flex items-center justify-center bg-white group-hover:bg-black rounded-full transition-colors duration-500">
         <MdPlayArrow className="text-5xl group-hover:text-white transition-colors duration-500" />
       </div>
