@@ -1,8 +1,16 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
 import MotionTransition from "../motion/MotionTransition";
 
 const FashionFusion: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure the video component only renders on the client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <MotionTransition initialY={50} duration={3}>
       <div className="flex flex-col sm:flex-row gap-5">
@@ -23,16 +31,18 @@ const FashionFusion: React.FC = () => {
 
         {/* Second Div - 3/5 Width */}
         <div className="w-full sm:h-auto sm:w-3/5 relative rounded-2xl overflow-hidden group h-[300px]">
-          <video
-            className="w-full h-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-          >
-            <source src="/fashion-fusion/fashion.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          {isClient && (
+            <video
+              className="w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline // Updated from camel-case
+            >
+              <source src="/fashion-fusion/fashion.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
           <div className="absolute inset-0 text-center p-4 text-white flex flex-col justify-center items-center">
             <p className="text-lg">Pro Style</p>
             <h2 className="text-2xl font-bold">Super Modern Fashion</h2>

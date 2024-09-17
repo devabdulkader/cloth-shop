@@ -18,7 +18,6 @@ const IconButton: React.FC<IconButtonProps> = ({
   icon,
   tooltip,
   className,
-
   onClick,
 }) => {
   return (

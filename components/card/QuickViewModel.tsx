@@ -75,7 +75,6 @@ const QuickViewModel: React.FC<QuickViewModelProps> = ({
     sku: product.sku,
     productCategory: product.productCategory,
     tags: product.tags,
-
     productBrand: product.productBrand,
     selectedProductId: selectedId || product._id,
     selectedProductUrl: selectedImage || product.url, // If selectedImage is the specific variant

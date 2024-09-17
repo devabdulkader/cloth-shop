@@ -211,7 +211,7 @@ const MobileNav: React.FC = () => {
         <BottomNav />
         {/* Conditionally rendered search input */}
         <MobileSearchBar />
-        <div className="flex justify-between items-center space-x-5 w-full z-50 bg-white px-5 xl:px-10 2xl:px-20">
+        <div className="flex justify-between items-center space-x-5 w-full  bg-white px-5 xl:px-10 2xl:px-20">
           <div className="flex  items-center sm:space-x-2 w-1/3">
             <div
               onClick={() => {
