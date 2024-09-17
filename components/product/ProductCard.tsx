@@ -25,6 +25,7 @@ import {
 
 interface ProductCardProps {
   product: IProduct;
+  key: number;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
@@ -47,11 +48,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, key }) => {
 
   const [mounted, setMounted] = useState(false);
 
-useEffect(() => {
-  setMounted(true);
-}, []);
-
-
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const [selectedSize, setSelectedSize] = useState<string | null>(
     product.sizes.length > 0 ? product.sizes[0].size : null
@@ -298,11 +297,17 @@ useEffect(() => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="absolute top-3 right-3 flex flex-col gap-2"
         >
-        <IconButton
-  icon={<FaHeart />}
-  tooltip={mounted ? (isInWishlist ? "Remove from Wishlist" : "Add to Wishlist") : "Add to Wishlist"}
-  onClick={handleWishlistToggle}
-/>
+          <IconButton
+            icon={<FaHeart />}
+            tooltip={
+              mounted
+                ? isInWishlist
+                  ? "Remove from Wishlist"
+                  : "Add to Wishlist"
+                : "Add to Wishlist"
+            }
+            onClick={handleWishlistToggle}
+          />
 
           <IconButton
             icon={Icons[1].icon}
