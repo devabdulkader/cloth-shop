@@ -11,7 +11,7 @@ import Link from "next/link";
 import { BiStar } from "react-icons/bi";
 import QuickViewModal from "../card/QuickViewModel";
 import { VscClose } from "react-icons/vsc";
-import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
+// import { BUTTON_ANIMATION_CLASSES, ONHOVER_DARK_BG } from "@/lib/constant";
 import CartModal from "../common/CartModal";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
